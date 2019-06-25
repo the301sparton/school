@@ -1,0 +1,375 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>School | Home</title>
+
+
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+  <!-- Favicons -->
+  <link href="../img/favicon.png" rel="icon">
+  <link href="../img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+    rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+
+  <link href="../lib/animate/animate.min.css" rel="stylesheet">
+  <link href="../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <link href="./home.css" rel="stylesheet">
+
+
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+   
+  
+
+  <!-- =======================================================
+    Theme Name: Rapid
+    Theme URL: https://bootstrapmade.com/rapid-multipurpose-bootstrap-business-template/
+    Author: BootstrapMade.com
+    License: https://bootstrapmade.com/license/
+  ======================================================= -->
+
+
+
+</head>
+
+<body>
+  <div class="preloader" id="loader"></div>
+  <!--==========================
+  Header
+  ============================-->
+  <header id="header">
+
+    <div id="topbar">
+      <div class="container">
+        <div class="social-links">
+          <a href="#" class="twitter" id="header_twitterLink"><i class="fa fa-twitter"></i></a>
+          <a href="#" class="facebook" id="header_facebookLink"><i class="fa fa-facebook"></i></a>
+          <a href="#" class="linkedin" id="header_linkedinLink"><i class="fa fa-linkedin"></i></a>
+          <a href="#" class="instagram" id="header_instagramLink"><i class="fa fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="logo float-left">
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <h1 class="text-light"><a href="#intro" class="scrollto"><span id="about_websiteTitle"></span></a></h1>
+        <!-- <a href="#header" class="scrollto"><img src="img/logo.png" alt="" class="img-fluid"></a> -->
+      </div>
+
+      <nav class="main-nav float-right d-none d-lg-block">
+        <ul>
+          <li class="active"><a href="#intro">Home</a></li>
+          <li><a href="#footer">Contact Us</a></li>
+          <li><a href="#studentHTML" onclick="studentOptionsView()">Student</a></li>
+          <li><a href="#feesHTML" onclick="feesOptionView()">Fees</a></li>
+          <li><a href="#" onclick="Logout()" id="nav_login">Logout</a></li>
+        </ul>
+      </nav><!-- .main-nav -->
+    </div>
+  </header><!-- #header -->
+
+
+  <section id="intro" class="clearfix">
+    <div class="container d-flex h-100">
+      <div class="row justify-content-center align-self-center">
+        <div class="col-md-5 intro-info order-md-first order-last">
+          <h3 id="home_msg"></h3>
+        </div>
+
+        <div class="col-md-6 intro-img order-md-last order-first">
+          <img src="../img/features-1.svg" alt="" class="img-fluid">
+        </div>
+      </div>
+
+    </div>
+  </section><!-- #intro -->
+
+
+  <section id="section_main">
+    
+  </section>
+
+
+  <!-- The Modal -->
+  <div class="modal fade" id="newReceiptModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">New Receipt</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form id="newReceiptForm">
+            <div class="row">
+
+              <div class="col-md-6">
+                <input class="form-control" id="receiptDate" type="date" required>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control" id="receiptRemark" placeholder="Remark" type="text">
+              </div>
+
+            </div>
+
+            <div class="row" style="margin-top: 2%">
+              <div class="col-md-10">
+                <hr>
+              </div>
+            </div>
+
+            <div id="headHolder">
+
+            </div>
+
+            <div class="row" style="margin-top: 2%">
+              <div class="col-md-10">
+                <hr>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 2%; margin-bottom: 2%">
+              <div class="col-md-6">
+                <label>Total Fee </label>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control" type="number" id="totalFees">
+              </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button class="btn btn-primary" type="submit">Save & Print</button>
+              <button class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal Filter -->
+  <div class="modal" id="filterModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Set Filters</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="container">
+            
+            <div class="row" style="margin-top: 3%">
+              <div class="col-md-4">
+                <label for="filterClass">Class of student</label>
+              </div>
+              <div class="col-md-8">
+                <Select id="filterClass" class="form-control">
+
+                </Select>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3%">
+              <div class="col-md-4">
+                <label for="filterSection">Section of student</label>
+              </div>
+              <div class="col-md-8">
+                <Select id="filterSection" class="form-control">
+
+                </Select>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" onclick="clearFilter()">CLEAR</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="UpdateFilter()">UPDATE</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!--==========================
+    Footer
+  ============================-->
+  <footer id="footer" class="section-bg">
+    <div class="footer-top">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-lg-6">
+
+            <div class="row">
+
+              <div class="col-sm-6">
+
+                <div class="footer-info">
+                  <h3 id="fotter_WebsiteTitle"></h3>
+                  <h6 id="fotter_WebsiteDesc"></h6>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="footer-links">
+                  <h4>Useful Links</h4>
+                  <ul>
+                    <li><a id="footer_tosLink">Terms of service</a></li>
+                    <li><a id="footer_ppLink">Privacy policy</a></li>
+                  </ul>
+                </div>
+
+                <div class="footer-links">
+                  <h4>Contact Us</h4>
+                  <p id="footer_address">
+
+                  </p>
+
+                </div>
+
+                <div class="social-links">
+                  <a href="#" class="twitter" id="footer_twitterLink"><i class="fa fa-twitter"></i></a>
+                  <a href="#" class="facebook" id="footer_facebookLink"><i class="fa fa-facebook"></i></a>
+                  <a href="#" class="instagram" id="footer_instagramLink"><i class="fa fa-instagram"></i></a>
+                  <a href="#" class="linkedin" id="footer_linkedinLink"><i class="fa fa-linkedin"></i></a>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="form">
+
+              <h4>Send us a message</h4>
+              <p>We would be glad to hear your thoughts and suggestions<br>Connect with us and we will get back to you
+                as soon as possible.</p>
+              <form class="contactForm" id="contactForm">
+                <div class="form-group">
+                  <input type="text" name="name" class="form-control" id="feedbackName" placeholder="Your Name"
+                    data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control" name="email" id="feedbackEmail" placeholder="Your Email"
+                    data-rule="email" data-msg="Please enter a valid email" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="subject" id="feedbackSubject" placeholder="Subject"
+                    data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name="message" id="feedbackMessgae" rows="5" data-rule="required"
+                    data-msg="Please write something for us" placeholder="Message"></textarea>
+                  <div class="validation"></div>
+                </div>
+
+                <div id="sendmessage">Your message has been sent. Thank you!</div>
+                <div id="errormessage"></div>
+
+                <div class="text-center"><button type="submit" title="Send Message">Send Message</button></div>
+              </form>
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>Vaikuntha Computers</strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!--
+            All the links in the footer should remain intact.
+            You can delete the links only if you purchased the pro version.
+            Licensing information: https://bootstrapmade.com/license/
+            Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Rapid
+          -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- #footer -->
+  <script src="../lib/jquery/jquery.min.js"></script>
+
+  <script src="../lib/jquery/jquery-migrate.min.js"></script>
+  <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../lib/easing/easing.min.js"></script>
+  <script src="../lib/mobile-nav/mobile-nav.js"></script>
+  <script src="../lib/wow/wow.min.js"></script>
+  <script src="../lib/waypoints/waypoints.min.js"></script>
+  <script src="../lib/counterup/counterup.min.js"></script>
+  <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="../lib/isotope/isotope.pkgd.min.js"></script>
+  <script src="../lib/lightbox/js/lightbox.min.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+
+  <!-- My JS Libraries -->
+  <script src="../js/config.js"></script>
+  <script src="../js/setAll.js"></script>
+  <script src="../js/firebaseAuth.js"></script>
+  <script src="../js/home_main.js"></script>
+
+  <script src="./registerStudent/registerStudent.js"></script>
+  <script src="./registerStudent/stepOne.js"></script>
+  <script src="./registerStudent/stepTwo.js"></script>
+  <script src="./registerStudent/stepThree.js"></script>
+
+  <script src="./searchNEdit/searchNEdit.js"></script>
+  <script src="./studentAttendence/studentAttendence.js"></script>
+  <script src="./studentReport/studentReport.js"></script>
+
+  <!-- fees js -->
+  <script src="./generateReceipt/generateReceipt.js"></script>
+  <script src="./feesReport/feesReport.js"></script>
+
+
+
+</body>
+
+</html>

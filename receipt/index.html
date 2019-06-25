@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<script src="../lib/jquery/jquery.min.js"></script>
+	<script src="../lib/jquery/jquery-migrate.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+
+
+	<script src="../js/firebaseAuth.js"></script>
+	<script src="../js/config.js"></script>
+	<script src="./viewReceipt.js"></script>
+</head>
+
+<body style="margin: 0;">
+
+	<div id="p1" style="overflow: hidden; position: relative; background-color: white; width: 641px; height: 909px;">
+
+		<!-- Begin shared CSS values -->
+		<style class="shared-css" type="text/css">
+			.t {
+				-webkit-transform-origin: bottom left;
+				-ms-transform-origin: bottom left;
+				transform-origin: bottom left;
+				-webkit-transform: scale(0.25);
+				-ms-transform: scale(0.25);
+				transform: scale(0.25);
+				z-index: 2;
+				position: absolute;
+				white-space: pre;
+				overflow: visible;
+			}
+		</style>
+		<!-- End shared CSS values -->
+
+
+		<!-- Begin inline CSS -->
+		<style type="text/css">
+			@media print {
+
+				body,
+				page {
+					margin: 1cm;
+					box-shadow: 0;
+				}
+
+				@page {
+					size: auto;
+					margin: 0mm;
+				}
+			}
+
+			#t1_1 {
+				left: 64px;
+				bottom: 708px;
+				word-spacing: -1.6px;
+			}
+
+			#t2_1 {
+				left: 178px;
+				bottom: 708px;
+			}
+
+			#t3_1 {
+				left: 334px;
+				bottom: 708px;
+			}
+
+			#t4_1 {
+				left: 411px;
+				bottom: 708px;
+			}
+
+			#t5_1 {
+				left: 64px;
+				bottom: 680px;
+			}
+
+			#t6_1 {
+				left: 178px;
+				bottom: 680px;
+			}
+
+			#t7_1 {
+				left: 64px;
+				bottom: 651px;
+			}
+
+			#t8_1 {
+				left: 178px;
+				bottom: 651px;
+			}
+
+			#t9_1 {
+				left: 107px;
+				bottom: 620px;
+			}
+
+			#ta_1 {
+				left: 208px;
+				bottom: 620px;
+			}
+
+			#tb_1 {
+				left: 395px;
+				bottom: 620px;
+			}
+
+			#tc_1 {
+				left: 116px;
+				bottom: 578px;
+			}
+
+			#td_1 {
+				left: 196px;
+				bottom: 578px;
+				word-spacing: -1.6px;
+			}
+
+			#te_1 {
+				left: 418px;
+				bottom: 578px;
+			}
+
+			#tf_1 {
+				left: 116px;
+				bottom: 544px;
+			}
+
+			#tg_1 {
+				left: 186px;
+				bottom: 544px;
+				word-spacing: -1.6px;
+			}
+
+			#th_1 {
+				left: 418px;
+				bottom: 544px;
+			}
+
+			#ti_1 {
+				left: 116px;
+				bottom: 510px;
+			}
+
+			#tj_1 {
+				left: 199px;
+				bottom: 510px;
+				word-spacing: -1.6px;
+			}
+
+			#tk_1 {
+				left: 418px;
+				bottom: 510px;
+			}
+
+			#tl_1 {
+				left: 116px;
+				bottom: 475px;
+			}
+
+			#tm_1 {
+				left: 186px;
+				bottom: 475px;
+				word-spacing: -1.6px;
+			}
+
+			#tn_1 {
+				left: 418px;
+				bottom: 475px;
+			}
+
+			#to_1 {
+				left: 116px;
+				bottom: 441px;
+			}
+
+			#tp_1 {
+				left: 194px;
+				bottom: 441px;
+				word-spacing: -1.6px;
+			}
+
+			#tq_1 {
+				left: 418px;
+				bottom: 441px;
+			}
+
+			#tr_1 {
+				left: 116px;
+				bottom: 406px;
+			}
+
+			#ts_1 {
+				left: 207px;
+				bottom: 406px;
+				word-spacing: -1.6px;
+			}
+
+			#tt_1 {
+				left: 418px;
+				bottom: 406px;
+			}
+
+			#tu_1 {
+				left: 116px;
+				bottom: 372px;
+			}
+
+			#tv_1 {
+				left: 190px;
+				bottom: 372px;
+				word-spacing: -1.6px;
+			}
+
+			#tw_1 {
+				left: 418px;
+				bottom: 372px;
+			}
+
+			#tx_1 {
+				left: 116px;
+				bottom: 338px;
+			}
+
+			#ty_1 {
+				left: 208px;
+				bottom: 338px;
+				word-spacing: -1.6px;
+			}
+
+			#tz_1 {
+				left: 418px;
+				bottom: 338px;
+			}
+
+			#t10_1 {
+				left: 116px;
+				bottom: 303px;
+			}
+
+			#t11_1 {
+				left: 230px;
+				bottom: 303px;
+			}
+
+			#t12_1 {
+				left: 418px;
+				bottom: 303px;
+			}
+
+			#t13_1 {
+				left: 209px;
+				bottom: 276px;
+			}
+
+			#t14_1 {
+				left: 418px;
+				bottom: 276px;
+			}
+
+			#t15_1 {
+				left: 64px;
+				bottom: 218px;
+				word-spacing: 4.4px;
+			}
+
+			#t16_1 {
+				left: 64px;
+				bottom: 168px;
+			}
+
+			#t17_1 {
+				left: 178px;
+				bottom: 168px;
+			}
+
+			#t18_1 {
+				left: 390px;
+				bottom: 72px;
+			}
+
+			.s1_1 {
+				FONT-SIZE: 65.5px;
+				FONT-FAMILY: Calibri_i;
+				color: rgb(0, 0, 0);
+			}
+
+			.s2_1 {
+				FONT-SIZE: 65.5px;
+				FONT-FAMILY: Calibri-Bold_m;
+				color: rgb(0, 0, 0);
+			}
+		</style>
+		<!-- End inline CSS -->
+
+		<!-- Begin embedded font definitions -->
+
+		<!-- End embedded font definitions -->
+
+		<!-- Begin page background -->
+		<div id="pg1Overlay"
+			style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;">
+		</div>
+		<div id="pg1" style="-webkit-user-select: none;"></div>
+		<!-- End page background -->
+
+
+		<!-- Begin text definitions (Positioned/styled in CSS) -->
+		<div id="t1_1" class="t s1_1">Receipt no: </div>
+		<div id="t2_1" class="t s1_1">·ϱϱϱ¸¹</div>
+
+		<div id="t3_1" class="t s1_1">Date: </div>
+		<div id="t4_1" class="t s1_1">ϭϮͬϮϵͬϮϬϭϵ</div>
+
+		<div id="t5_1" class="t s1_1">Name: </div>
+		<div id="t6_1" class="t s1_1">½¾</div>
+
+		<div id="t7_1" class="t s1_1">Class: </div>
+		<div id="t8_1" class="t s1_1">ϱ´¾</div>
+
+		<div id="t9_1" class="t s2_1"><strong>S.N.</strong></div>
+		<div id="ta_1" class="t s2_1"><strong>PARTICULARS</strong></div>
+		<div id="tb_1" class="t s2_1"><strong>AMOUNT</strong></div>
+		<div id="tc_1" class="t s1_1">1</div>
+		<div id="td_1" class="t s1_1">½»À´²¶Á Â¶Á°Ž</div>
+		<div id="te_1" class="t s1_1"></div>
+
+		<div id="tf_1" class="t s1_1">2</div>
+		<div id="tg_1" class="t s1_1">·ÁÁÀ»¸ +»´¾°Ã²ÁÄ</div>
+		<div id="th_1" class="t s1_1"></div>
+
+		<div id="ti_1" class="t s1_1">3</div>
+		<div id="tj_1" class="t s1_1">ÅÃ¶Æ°±´¶Ã *°°¿</div>
+		<div id="tk_1" class="t s1_1"></div>
+
+		<div id="tl_1" class="t s1_1">4</div>
+		<div id="tm_1" class="t s1_1">ÇÈ»¼²Á»´²¶Á *°°¿</div>
+		<div id="tn_1" class="t s1_1"></div>
+
+		<div id="to_1" class="t s1_1">5</div>
+		<div id="tp_1" class="t s1_1">½¶¼³À´°Ã *°°¿</div>
+		<div id="tq_1" class="t s1_1"></div>
+
+		<div id="tr_1" class="t s1_1">6</div>
+		<div id="ts_1" class="t s1_1">=̎ º̎ *̎ *°°¿</div>
+		<div id="tt_1" class="t s1_1"></div>
+
+		<div id="tu_1" class="t s1_1">7</div>
+		<div id="tv_1" class="t s1_1">½Ž±¸° b´»ÁÉ *°°¿</div>
+		<div id="tw_1" class="t s1_1"></div>
+
+		<div id="tx_1" class="t s1_1">8</div>
+		<div id="ty_1" class="t s1_1">Q´¾°Ã *°°¿</div>
+		<div id="tz_1" class="t s1_1"></div>
+
+		<div id="t10_1" class="t s1_1">9</div>
+		<div id="t11_1" class="t s1_1">Ê¸»¾</div>
+		<div id="t12_1" class="t s1_1"></div>
+
+		<div id="t13_1" class="t s2_1"><strong>TOTAL</strong></div>
+		<div id="t14_1" class="t s1_1"><strong id="total_Amount"></strong></div>
+
+
+		<div id="t15_1" class="t s1_1">Amount in words: Zero Only</div>
+
+		<div id="t16_1" class="t s1_1">Remark: </div>
+		<div id="t17_1" class="t s1_1"> </div>
+
+		<div id="t18_1" class="t s1_1">Signature</div>
+
+		<!-- End text definitions -->
+
+
+	</div>
+</body>
+
+</html>
