@@ -123,51 +123,31 @@ else{
     else if($type == "reportByDate"){
         $dateFrom = $_POST['dateFrom'];
         $dateTo = $_POST["dateTo"];
-        $studentClass = $_POST['studentClass'];
-        $studentSection = $_POST['studentSection'];
         $sessionName = $_POST['sessionName'];
-
-        $tblName = "studentDetails";
-
-        $studentClass1 = $studentClass . "%";
-        $studentSection1 = $studentSection . "%";
-
         $dateFrom = date('Y-m-d', strtotime($dateFrom)); 
         $dateTo = date('Y-m-d', strtotime($dateTo)); 
+
+        $sqlHeadNames = "SELECT headId, headName FROM feesHeads";
+        $headArray = array();     
+        $headResult=mysqli_query($conn,$sqlHeadNames);
+                  
+        while($rHead = mysqli_fetch_assoc($headResult)) {
+            $amountArr["amount"] = 0;
+            $headName["headName"] = $rHead["headName"];
+            $headArray[$rHead["headId"]] = array_merge($headName, $amountArr);
+        }
         
-
-        $sql= "SELECT studentId, photo FROM `$tblName` WHERE `class` LIKE '$studentClass1' AND `section` LIKE '$studentSection1' AND sessionName = '$sessionName'";
-        $rows = array();     
-        $result=mysqli_query($conn,$sql);
-           
-        $rowFinal = array();
-
-        while($stud = mysqli_fetch_assoc($result)) {
-            $studId = $stud['studentId'];
-
-            $sqlName = "SELECT firstName, middleName, lastName FROM studentInfo WHERE studentId = '$studId'"; 
-            $resultName=mysqli_query($conn,$sqlName);
-            $studName = mysqli_fetch_assoc($resultName);
-
-            $sqlFinal = "SELECT * FROM receiptsList WHERE receiptDate BETWEEN '$dateFrom' AND '$dateTo' AND sessionName = '$sessionName' AND `studentId` = '$studId'";
-            $resultFinal=mysqli_query($conn,$sqlFinal);
-            while($r = mysqli_fetch_assoc($resultFinal)) {
-                $receiptId = $r['receiptId'];
-                $sqlTotal = "SELECT amount FROM feesDetails WHERE receiptId = '$receiptId'";
-                $resultTotal=mysqli_query($conn,$sqlTotal);
-                $totalAmount = 0;
-                while($rTotal = mysqli_fetch_assoc($resultTotal)) {
-                    $totalAmount += $rTotal['amount']; 
-                }
-                $photo = $stud['photo'];
-                $r = array_merge($r,array($totalAmount));
-                $r = array_merge($r,array($studName));
-                $r = array_merge($r,array($photo));
-                
-                $rowFinal[] = $r;
+        $sqlReceiptId = "SELECT receiptId FROM receiptsList WHERE sessionName = '$sessionName' AND receiptDate BETWEEN '$dateFrom' AND '$dateTo'";
+        $receiptResult = mysqli_query($conn, $sqlReceiptId);
+        while($rReceipt = mysqli_fetch_assoc($receiptResult)) {
+            $thisReceiptId = $rReceipt["receiptId"];
+            $sqlfeeDetails = "SELECT headId, amount FROM feesDetails WHERE receiptId = '$thisReceiptId'";
+            $feeDetailsResult = mysqli_query($conn, $sqlfeeDetails);
+            while($rFeesDetails = mysqli_fetch_assoc($feeDetailsResult)){
+                $headArray[$rFeesDetails["headId"]]["amount"] += $rFeesDetails["amount"];
             }
         }
-        echo json_encode($rowFinal);
+        echo json_encode($headArray);
     }
 
     else if($type  == "classSummeryReport"){
