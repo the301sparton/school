@@ -135,41 +135,30 @@ stepOneHTML = `<div class="row">
           <div class="col-md-6">
             <select id="religion" class="form-control" type="text" placeholder="Religion" required>
                 <option value="" selected="selected" disabled="disabled">Select Religion</option>
-                <option value="African Traditional &amp; Diasporic">African Traditional &amp; Diasporic</option>
-                <option value="Agnostic">Agnostic</option>
                 <option value="Atheist">Atheist</option>
-                <option value="Baha'i">Baha'i</option>
                 <option value="Buddhism">Buddhism</option>
-                <option value="Cao Dai">Cao Dai</option>
-                <option value="Chinese traditional religion">Chinese traditional religion</option>
-                <option value="Christianity">Christianity</option>
-                <option value="Hinduism">Hinduism</option>
+                <option value="Christian">Christian</option>
+                <option value="Hindu">Hindu</option>
                 <option value="Islam">Islam</option>
-                <option value="Jainism">Jainism</option>
-                <option value="Juche">Juche</option>
-                <option value="Judaism">Judaism</option>
-                <option value="Neo-Paganism">Neo-Paganism</option>
-                <option value="Nonreligious">Nonreligious</option>
-                <option value="Rastafarianism">Rastafarianism</option>
-                <option value="Secular">Secular</option>
-                <option value="Shinto">Shinto</option>
-                <option value="Sikhism">Sikhism</option>
-                <option value="Spiritism">Spiritism</option>
-                <option value="Tenrikyo">Tenrikyo</option>
-                <option value="Unitarian-Universalism">Unitarian-Universalism</option>
-                <option value="Zoroastrianism">Zoroastrianism</option>
-                <option value="primal-indigenous">primal-indigenous</option>
+                <option value="Muslim">Muslim</option>
+                <option value="Jain">Jain</option>
+                <option value="Sikh">Sikh</option>
                 <option value="Other">Other</option>
             </select>
           </div>
           <div class="col-md-6">
             <select id="casteNRace" class="form-control" type="text" placeholder="Caste & Race" required>
               <option value="" selected disabled>Select Caste / Race</option>
-              <option value="open">open</option>
-              <option value="obc">obc</option>
-              <option value="sc">sc</option>
-              <option value="st">st</option>
-              <option value="nt">nt</option>
+              <option value="OPEN">OPEN</option>
+              <option value="OBC">OBC</option>
+              <option value="SC">SC</option>
+              <option value="ST">ST</option>
+              <option value="SBC">SBC</option>
+              <option value="VJ">VJ</option>
+              <option value="NT-A">NT-A</option>
+              <option value="NT-B">NT-B</option>
+              <option value="NT-C">NT-C</option>
+              <option value="NT-D">NT-D</option>
             </select>
           </div>
         </div>
