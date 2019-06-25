@@ -2,6 +2,7 @@ let FeeRepostType;
 let FeeSessionSelect;
 let isFirstDateReportView = true;
 let isClassAndSectionFirst = true;
+let dateFrom, dateTo;
 function feesReport() {
 
   clearFilter()
@@ -24,7 +25,6 @@ function feesReport() {
           <option selected disabled value="">Select Report Type</option>
           <option value="byDate">By Date</option>
           <option value="classSummeryReport">Class Summery Report</option>
-          <option value="headWiseSumm">Head Summery</option>
         </select>
       </div>
       <div class="col-md-4">
@@ -32,7 +32,7 @@ function feesReport() {
           <option selected disabled value="">Select Accedamic Year</option>
         </select>
       </div>
-      <div class="col-md-1">
+      <div class="col-md-1" id="filterImg">
       <img src="../img/filter.png" style="width:25px; height:25px;cursor: pointer;" onclick="showFilters()"></img>
       </div>
     </div>
@@ -90,6 +90,9 @@ function loadAllSessionsAndSetListeners() {
           ));
     }
 
+    FeeSessionSelect = currentSession;
+    document.getElementById("FeeSessionSelect").value = currentSession;
+
     $(document).on('change', '#FeeRepostType', function () {
       FeeRepostType = document.getElementById('FeeRepostType').value;
       checkReportType();
@@ -114,6 +117,7 @@ function checkReportType() {
   else {
 
     if (FeeRepostType == "byDate") {
+      document.getElementById('filterImg').style.display = "none";
       document.getElementById('FeeReportHolder').innerHTML = ``;
       document.getElementById("errorMessage").style.display = "none";
       document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-2" style="text-align: end">
@@ -130,9 +134,11 @@ function checkReportType() {
                                                           </div>`;
       if (isFirstDateReportView) {
         $(document).on('change', '#dateFrom', function () {
+          dateFrom = document.getElementById('dateFrom').value
           ReportByDates();
         });
         $(document).on('change', '#dateTo', function () {
+          dateTo = document.getElementById('dateTo').value
           ReportByDates();
         });
       }
@@ -141,6 +147,7 @@ function checkReportType() {
     }
 
     else if (FeeRepostType == "classSummeryReport") {
+      document.getElementById('filterImg').style.display = "block";
       document.getElementById('FeeReportHolder').innerHTML = ``;
       document.getElementById("feeInfoHolder").innerHTML = ``;
       if(document.getElementById("filterClass").value == "" ||document.getElementById("filterClass").value == null|| document.getElementById("filterSection").value == ""|| document.getElementById("filterSection").value == null){
@@ -204,6 +211,34 @@ function classSummeryReport() {
   });
 }
 
+function buildDateReport(report){
+  let reportByDate = new Array(), i = 0;
+  for(itr in report){
+    reportByDate[i] = report[itr];
+    i++;
+  }
+  document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
+    $("#jsGrid").jsGrid({
+      width: "100%",
+      inserting: false,
+      editing: false,
+      sorting: true,
+      paging: true,
+
+      data: reportByDate,
+
+      fields: [
+          { name: "headName", type: "text", width: 60 },
+          { name: "amount", type: "number", width: 40 },
+      ]
+  });
+  document.getElementById('jsGrid').style.display = "block"
+  document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"><div>`;
+
+  
+  document.getElementById('typeReport').innerText = "Head summery report by date between: "+dateFrom+" and "+dateTo;
+}
+
 
 function ReportByDates() {
   
@@ -213,13 +248,11 @@ function ReportByDates() {
       sessionName: FeeSessionSelect,
       dateFrom: document.getElementById("dateFrom").value,
       dateTo: document.getElementById("dateTo").value,
-      studentClass: document.getElementById("filterClass").value,
-      studentSection: document.getElementById("filterSection").value,
     });
 
     reportByDateReq.done(function (reportRes) {
       var report = JSON.parse(reportRes);
-      buildReport(report);
+      buildDateReport(report);
     });
   }
 }
