@@ -236,6 +236,7 @@ loadContactDetailReq.done(function(loadContactDetailRes){
     
     }
 });
+//Comment
 }
 
 function setContactDetails(toReturn){
