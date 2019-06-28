@@ -27,7 +27,7 @@ function feesReport() {
           <option value="classSummeryReport">Class Summery Report</option>
         </select>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4" id="feeSessionDiv">
         <select class="form-control" id="FeeSessionSelect">
           <option selected disabled value="">Select Accedamic Year</option>
         </select>
@@ -69,8 +69,6 @@ function feesReport() {
     <div class="container" id="FeeReportHolder" style="background: #e3f1fd; border-radius: 20px; margin:1%">
     
     </div>
-
-    
   </div>`;
   document.getElementById('feesActionHolder').innerHTML = searchcNEditHTML;
   loadAllSessionsAndSetListeners();
@@ -117,6 +115,7 @@ function checkReportType() {
   else {
 
     if (FeeRepostType == "byDate") {
+      document.getElementById("feeSessionDiv").className = "col-md-5";
       document.getElementById('filterImg').style.display = "none";
       document.getElementById('FeeReportHolder').innerHTML = ``;
       document.getElementById("errorMessage").style.display = "none";
@@ -147,6 +146,7 @@ function checkReportType() {
     }
 
     else if (FeeRepostType == "classSummeryReport") {
+      document.getElementById("feeSessionDiv").className = "col-md-4";
       document.getElementById('filterImg').style.display = "block";
       document.getElementById('FeeReportHolder').innerHTML = ``;
       document.getElementById("feeInfoHolder").innerHTML = ``;
