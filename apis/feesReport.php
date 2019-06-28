@@ -19,7 +19,14 @@ else{
         print json_encode($rows);
     }
     else if($type == "byMonth"){
-    
+        $sessionName = $_POST['sessionName'];
+        $sql = "CALL get_monthwise_headwise_list('$sessionName')";
+        $result = mysqli_query($conn, $sql);
+        $rows = array();    
+        while($r = mysqli_fetch_assoc($result)) {
+        $rows[] = $r;
+        }
+        print json_encode($rows);
     }
 }
 ?>

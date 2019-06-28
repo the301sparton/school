@@ -24,6 +24,7 @@ function feesReport() {
         <select class="form-control" id="FeeRepostType">
           <option selected disabled value="">Select Report Type</option>
           <option value="byDate">By Date</option>
+          <option value="byMonth">By Month</option>
           <option value="classSummeryReport">Class Summery Report</option>
         </select>
       </div>
@@ -145,6 +146,17 @@ function checkReportType() {
       document.getElementById("botHR").style.display = "block";
     }
 
+    else if(FeeRepostType == "byMonth"){
+      document.getElementById("feeSessionDiv").className = "col-md-5";
+      document.getElementById('filterImg').style.display = "none";
+      document.getElementById('FeeReportHolder').innerHTML = ``;
+      document.getElementById("errorMessage").style.display = "none";
+
+      if(FeeSessionSelect != ""){
+        getMonthWiseReport();
+      }
+    }
+
     else if (FeeRepostType == "classSummeryReport") {
       document.getElementById("feeSessionDiv").className = "col-md-4";
       document.getElementById('filterImg').style.display = "block";
@@ -237,9 +249,8 @@ function buildDateReport(report){
   document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"><div>`;
 
   
-  document.getElementById('typeReport').innerText = "Head summery report by date between: "+dateFrom+" and "+dateTo;
+  document.getElementById('typeReport').innerText = "Head summery Report";
 }
-
 
 function ReportByDates() {
   
@@ -257,6 +268,15 @@ function ReportByDates() {
   }
 }
 
+function getMonthWiseReport(){
+  var monthWiseReportReq = $.post(baseUrl +"/apis/feesReport.php",{
+    type: "byMonth",
+    sessionName: FeeSessionSelect
+  });
+  monthWiseReportReq.done(function(reportRes){
+    buildDateReport(JSON.parse(reportRes));
+  });
+}
 
 function UpdateFilter() {
   if (FeeRepostType == "byDate") {
