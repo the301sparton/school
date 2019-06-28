@@ -1,4 +1,4 @@
-var baseUrl = "/Rapid";
+var baseUrl = "/School";
 var websiteTitle = "BES Gondia";
 var websiteDesc = "Best in class education for your children.";
 

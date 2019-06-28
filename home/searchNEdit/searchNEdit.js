@@ -168,7 +168,7 @@ function createResultView(searchResult, searchStr) {
       <div style="display: none;" id="studID`+ itr + `"></div>
       <div style="display: none;" id="studClassId`+ itr + `"></div>
          <div class="col-rmd-1">
-           <img style="width: 50; height: 50; border-radius: 50%" id="studentImg`+ itr + `">
+           <img style="width: 50px; height: 50px; border-radius: 50%" id="studentImg`+ itr + `">
          </div>
          <div class="col-rmd-11">
            <div class="row" style="font-size: 18px">
@@ -195,7 +195,7 @@ function createResultView(searchResult, searchStr) {
     <div style="display: none;" id="studID`+ itr + `"></div>
     <div style="display: none;" id="studClassId`+ itr + `"></div>
        <div class="col-rmd-1">
-         <img style="width: 50; height: 50; border-radius: 50%" id="studentImg`+ itr + `">
+         <img style="width: 50px; height: 50px; border-radius: 50%" id="studentImg`+ itr + `">
        </div>
        <div class="col-rmd-11">
          <div class="row" style="font-size: 18px">
