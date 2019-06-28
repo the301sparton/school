@@ -212,10 +212,15 @@ function classSummeryReport() {
 }
 
 function buildDateReport(report){
-  let reportByDate = new Array(), i = 0;
-  for(itr in report){
-    reportByDate[i] = report[itr];
-    i++;
+  let reportHeads = new Array();
+  let fieldsArr = new Array(), i=0;
+  if(report.length >= 1){
+    reportHeads = report[0];
+    for(key in reportHeads){
+      fieldsArr[i] = {name: key, type: "number", width: 20};
+      i++;
+    }
+   // console.log(JSON.stringify(fieldsArr));
   }
   document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
     $("#jsGrid").jsGrid({
@@ -225,12 +230,8 @@ function buildDateReport(report){
       sorting: true,
       paging: true,
 
-      data: reportByDate,
-
-      fields: [
-          { name: "headName", type: "text", width: 60 },
-          { name: "amount", type: "number", width: 40 },
-      ]
+      data: report,
+      fields: fieldsArr
   });
   document.getElementById('jsGrid').style.display = "block"
   document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"><div>`;
@@ -243,16 +244,15 @@ function buildDateReport(report){
 function ReportByDates() {
   
   if (document.getElementById("dateFrom").value != "" && document.getElementById("dateTo").value != "") {
-    var reportByDateReq = $.post(baseUrl + "/apis/receiptStuff.php", {
-      type: "reportByDate",
-      sessionName: FeeSessionSelect,
+    var reportByDateReq = $.post(baseUrl + "/apis/feesReport.php", {
+      type: "byDay",
       dateFrom: document.getElementById("dateFrom").value,
       dateTo: document.getElementById("dateTo").value,
     });
 
     reportByDateReq.done(function (reportRes) {
-      var report = JSON.parse(reportRes);
-      buildDateReport(report);
+       var report = JSON.parse(reportRes);
+       buildDateReport(report);
     });
   }
 }
