@@ -18,11 +18,12 @@ function feesReport() {
       <h4 id="searchHeading">Fees Report</h4>
       <hr>
     </div>
-    <div class="row">
+    <div class="row" id="typeHolder">
     <div class="col-md-2" style="text-align:right"><label for="FeeRepostType">Report Type: </label></div>
       <div class="col-md-4">
         <select class="form-control" id="FeeRepostType">
           <option selected disabled value="">Select Report Type</option>
+          <option value="receiptById">Get Receipt By Id</option>
           <option value="byDate">By Date</option>
           <option value="byMonth">By Month</option>
           <option value="classSummeryReport">Class Summery Report</option>
@@ -35,6 +36,15 @@ function feesReport() {
       </div>
       <div class="col-md-1" id="filterImg">
       <img src="../img/filter.png" style="width:25px; height:25px;cursor: pointer;" onclick="showFilters()"></img>
+      </div>
+
+
+
+      <div class="col-md-4" id="receiptIdBox" style = "display:none">
+        <input type = "number" placeholder = "Receipt Id" class = "form-control" id = "receiptIdToGet"> 
+      </div>
+      <div class="col-md-2" id="receiptGoBox" style = "display:none">
+        <button class= "btn btn-secondary" onclick="viewReceipt(this.parentNode.parentNode.childNodes[9].childNodes[1].value)">GO</button> 
       </div>
     </div>
 
@@ -116,8 +126,11 @@ function checkReportType() {
   else {
 
     if (FeeRepostType == "byDate") {
+      document.getElementById('feeSessionDiv').style.display = "block";
       document.getElementById("feeSessionDiv").className = "col-md-5";
       document.getElementById('filterImg').style.display = "none";
+      document.getElementById('receiptIdBox').style.display = "none";
+      document.getElementById('receiptGoBox').style.display = "none";
       document.getElementById('FeeReportHolder').innerHTML = ``;
       document.getElementById("errorMessage").style.display = "none";
       document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-2" style="text-align: end">
@@ -149,6 +162,9 @@ function checkReportType() {
     else if(FeeRepostType == "byMonth"){
       document.getElementById("feeSessionDiv").className = "col-md-5";
       document.getElementById('filterImg').style.display = "none";
+      document.getElementById('receiptIdBox').style.display = "none";
+      document.getElementById('receiptGoBox').style.display = "none";
+      document.getElementById('feeSessionDiv').style.display = "block";
       document.getElementById('FeeReportHolder').innerHTML = ``;
       document.getElementById("errorMessage").style.display = "none";
 
@@ -160,6 +176,9 @@ function checkReportType() {
     else if (FeeRepostType == "classSummeryReport") {
       document.getElementById("feeSessionDiv").className = "col-md-4";
       document.getElementById('filterImg').style.display = "block";
+      document.getElementById('feeSessionDiv').style.display = "block";
+      document.getElementById('receiptIdBox').style.display = "none";
+      document.getElementById('receiptGoBox').style.display = "none";
       document.getElementById('FeeReportHolder').innerHTML = ``;
       document.getElementById("feeInfoHolder").innerHTML = ``;
       if(document.getElementById("filterClass").value == "" ||document.getElementById("filterClass").value == null|| document.getElementById("filterSection").value == ""|| document.getElementById("filterSection").value == null){
@@ -171,10 +190,18 @@ function checkReportType() {
       }
       document.getElementById("botHR").style.display = "block";
     }
+
+    else if(FeeRepostType == "receiptById"){
+        document.getElementById('feeSessionDiv').style.display = "none";
+        document.getElementById('filterImg').style.display = "none";
+        document.getElementById('receiptIdBox').style.display = "block";
+        document.getElementById('receiptGoBox').style.display = "block";
+        document.getElementById("errorMessage").style.display = "none";
+    }
     
 
     else {
-      document.getElementById("feeInfoHolder").innerHTML = ``;
+      
     }
 
 
@@ -182,7 +209,9 @@ function checkReportType() {
 }
 
 
-
+function getReceipt(div){
+  console.log(div);
+}
 
 function classSummeryReport() {
   var classSummeryReportReq = $.post(baseUrl + "/apis/receiptStuff.php",{
@@ -241,7 +270,6 @@ function buildDateReport(report){
       editing: false,
       sorting: true,
       paging: true,
-
       data: report,
       fields: fieldsArr
   });
