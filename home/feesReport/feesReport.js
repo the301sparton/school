@@ -252,7 +252,7 @@ function classSummeryReport() {
   });
 }
 
-function buildDateReport(report){
+function buildDateReport(report,byDate){
   let reportHeads = new Array();
   let fieldsArr = new Array(), i=0;
   if(report.length >= 1){
@@ -260,6 +260,14 @@ function buildDateReport(report){
     for(key in reportHeads){
       fieldsArr[i] = {name: key, type: "number", width: 20};
       i++;
+    }
+    if(byDate){
+      for(itr in report){
+        let finalDateArr = report[itr]["receiptDate"].split("-");
+        if(itr != report.length - 1)
+        report[itr]["receiptDate"] = finalDateArr[2]+"-"+finalDateArr[1]+"-"+finalDateArr[0];
+        
+      }
     }
    // console.log(JSON.stringify(fieldsArr));
   }
@@ -291,7 +299,7 @@ function ReportByDates() {
 
     reportByDateReq.done(function (reportRes) {
        var report = JSON.parse(reportRes);
-       buildDateReport(report);
+       buildDateReport(report, true);
     });
   }
 }

@@ -47,13 +47,15 @@ $(document).ready(function () {
                     function (studentDataStr) {
                         let totalAmount = 0;
                         stuentData = JSON.parse(studentDataStr);
+
+                        let finalDateArr = thisReceipt.receiptDate.split("-");
+                        let finalDate = finalDateArr[2]+"-"+finalDateArr[1]+"-"+finalDateArr[0];
+
                         document.getElementById('t2_1').innerText = thisReceipt.receiptId;
-                        document.getElementById('t4_1').innerText = thisReceipt.receiptDate;
+                        document.getElementById('t4_1').innerText = finalDate;
                         document.getElementById('t6_1').innerText = stuentData.firstName + " " + stuentData.middleName + " " + stuentData.lastName;
                         document.getElementById('t8_1').innerText = stuentData.class+" "+stuentData.section;
 
-
-                       console.log(feeHeadVal);
                         for (itr in feeHeadVal) {
                              totalAmount = parseInt(totalAmount, 10) + parseInt(feeHeadVal[itr].amount, 10);
                              console.log(totalAmount);
