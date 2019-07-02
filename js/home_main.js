@@ -114,6 +114,19 @@ function setPermissions(currentRole) {
   else if (canStudentReport == null) {
     canStudentReport = 0;
   }
+
+  if(currentRole.userModification == 1){
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    a.href = "#";
+    a.onclick = adminTasks();
+    a.innerText = "Admin Taks";
+    li.appendChild(a);
+    document.getElementById("nav_ul").appendChild(li); 
+  }
+  else {
+
+  }
 }
 
 function setActiveColorsStudent(toSet) {
