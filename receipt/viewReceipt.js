@@ -6,6 +6,20 @@ let feeHeadVal;
 let stuentData;
 
 $(document).ready(function () {
+    $.when(pg_main()).then(function(){
+        $('#pg_print').removeAttr('disabled');
+    });
+});
+
+function pg_print(){
+    window.print(document.getElementById("p1"));
+}
+
+function pg_back(){
+    document.location = baseUrl + "/home"
+}
+
+function pg_main(){
     var url = new URL(document.location.href);
     receiptId = url.searchParams.get("receiptId");
     if (receiptId == null) {
@@ -75,8 +89,7 @@ $(document).ready(function () {
         }
 
     });
-});
-
+}
 
 function performClassAnalysis(className){
     if(className == "Nursery" || className == "KG1" ||className == "KG2"){
