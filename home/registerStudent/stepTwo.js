@@ -165,10 +165,10 @@
       <div class="row" style="margin-top: 2%">
         <div class="col-md-8"></div>
         <div class="col-md-2">
-            <button class="btn btn-secondary" type="button" onclick="contactDetailBack()">Back</button>
+            <button class="btn btn-secondary" type="button" onclick="contactDetailBack()" id="step_two_back" disabled>Back</button>
         </div>
         <div class="col-md-2">
-          <button type="submit" class="btn btn-secondary">Next</button>
+          <button type="submit" class="btn btn-primary" disabled id="step_two_next">Next</button>
         </div>
       </div>
 
@@ -181,7 +181,8 @@
 
 //StepTwo START
 function stepTwo(){
-    loadContactDetails();
+  document.getElementById('loader').style.display = "block";
+loadContactDetails();
 document.getElementById('step_container').innerHTML = stepTwoHTML;
 $("#contactDetails").submit(function(event) {         
     event.preventDefault();
@@ -235,6 +236,10 @@ loadContactDetailReq.done(function(loadContactDetailRes){
     }
     
     }
+    $("#step_two_back").removeAttr('disabled');
+    
+    $("#step_two_next").removeAttr('disabled');
+    document.getElementById('loader').style.display = "none";
 });
 //Comment
 }

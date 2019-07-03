@@ -50,10 +50,10 @@ stepThreeHTML = ` <div class="row">
     </div>
     <div class="row" style="margin-top: 2%">
         <div class="col-md-2">
-        <button class="btn btn-secondary" type="button" onclick="sessionDetailBack()">Back</button>
+        <button class="btn btn-secondary" type="button" onclick="sessionDetailBack()" disabled id="step_three_back">Back</button>
         </div>
       <div class="col-md-4">
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary" disabled id="step_three_save">Save</button>
       </div>
 
     </div>
@@ -66,6 +66,7 @@ let imgBase;
 
 //StepThree Start
 function stepThree() {
+  document.getElementById('loader').style.display = "block";
   document.getElementById('step_container').innerHTML = stepThreeHTML;
   var getClassListReq = $.post(baseUrl + "/apis/classList.php", {
     type: "getClassList"
@@ -96,12 +97,7 @@ function stepThree() {
 
   $("#sessionDetails").submit(function (event) {
     event.preventDefault();
-    if (document.getElementById('detId').innerText == "") {
-      newSessionEntry(true)
-    }
-    else {
-      updateSessionEntry(true)
-    }
+      updateSessionEntry(false)
   });
 }
 
@@ -127,46 +123,14 @@ function setSessionEntry() {
       document.getElementById("studentImg").src = "data:image/png;base64, " + responce.photo;
       imgBase = responce.photo;
     }
-  });
-}
-
-function newSessionEntry(toReturn) {
-  let imgBaseEncode
-  if (imgBase == null) {
-    imgBaseEncode = ""
-  }
-  else {
-    imgBaseEncode = imgBase;
-  }
-  document.getElementById('loader').style.display = "block";
-  var newSessionEntryReq = $.post(baseUrl + "/apis/studentSessionDetail.php", {
-    type: "newRecordBySessionName",
-    studentId: document.getElementById("studID").innerText,
-    sessionName: currentSession,
-    class: document.getElementById("sessionClass").value,
-    section: document.getElementById("sessionSection").value,
-    medium: document.getElementById("sessionMedium").value,
-    totalFees: document.getElementById("sessionTotalFees").value,
-    photo: imgBaseEncode
-  });
-  newSessionEntryReq.done(function (newSessionEntryRes) {
-    console.log(newSessionEntryRes);
+    $("#step_three_back").removeAttr('disabled');
+    $("#step_three_save").removeAttr('disabled');
     document.getElementById('loader').style.display = "none";
-    if (newSessionEntryRes == 200) {
-      if (toReturn) {
-        alert("Student Record Saved Successfully..!");
-        studentOptionsView();
-      }
-    }
-    else {
-      alert("Failed to save student record :(");
-    }
-
   });
-
 }
 
 function updateSessionEntry(toReturn){
+  console.log(toReturn);
   let imgBaseEncode
   if (imgBase == null) {
     imgBaseEncode = ""
@@ -185,29 +149,21 @@ function updateSessionEntry(toReturn){
     photo: imgBaseEncode
   });
   newSessionEntryReq.done(function (newSessionEntryRes) {
-    console.log(newSessionEntryRes);
-    document.getElementById('loader').style.display = "none";
     if (newSessionEntryRes == 200) {
-      if (toReturn) {
-        alert("Student Record Saved Successfully..!");
-        studentOptionsView();
+      if (!toReturn) {
+        alert("Student record saved successfully..!");
       }
     }
     else {
       alert("Failed to save student record :(");
     }
-
+    document.getElementById('loader').style.display = "none";
   });
 }
 
 
 function sessionDetailBack() {
-  if (document.getElementById('detId').innerText == "") {
-    newSessionEntry(true)
-  }
-  else {
-    updateSessionEntry(true)
-  }
+  updateSessionEntry(true)
   stepTwo();
 
 }

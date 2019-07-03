@@ -201,7 +201,7 @@ stepOneHTML = `<div class="row">
         <div class="row" style="margin-top: 2%">
           <div class="col-md-10"></div>
           <div class="col-md-2">
-            <button class="btn btn-secondary" type="submit">Next</button>
+            <button class="btn btn-primary" type="submit" id="step_one_next" disabled>Next</button>
           </div>
         </div>
       </form>
@@ -211,11 +211,11 @@ stepOneHTML = `<div class="row">
 
 //stepOne START
 function stepOne(){
-
+  document.getElementById('loader').style.display = "block";
     document.getElementById('step_container').innerHTML = stepOneHTML;
     //Read from db
     if(document.getElementById('studID').innerText != ""){
-        setStudentDetails();
+     setStudentDetails();
     }
     
     
@@ -273,6 +273,8 @@ function setStudentDetails(){
       else{
           document.getElementById("rte").checked = false;
       }
+      $('#step_one_next').removeAttr('disabled');
+      document.getElementById('loader').style.display = "none";
     });
 }
 
