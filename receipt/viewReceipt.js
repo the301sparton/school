@@ -12,7 +12,7 @@ $(document).ready(function () {
 });
 
 function pg_print(){
-    window.print(document.getElementById("p1"));
+    window.print();
 }
 
 function pg_back(){

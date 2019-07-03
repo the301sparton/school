@@ -217,6 +217,10 @@ function stepOne() {
   if (document.getElementById('studID').innerText != "") {
     setStudentDetails();
   }
+  else{
+    $('#step_one_next').removeAttr('disabled');
+    document.getElementById('loader').style.display = "none";
+  }
 
 
   $("#studentDetails").submit(function (event) {
