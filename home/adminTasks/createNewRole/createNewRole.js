@@ -1,0 +1,3 @@
+function createNewRole(){
+    setActiveColorsAdminTasks("createNewRole");
+}

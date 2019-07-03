@@ -1,0 +1,3 @@
+function modifyUser(){
+    setActiveColorsAdminTasks("modifyUser");
+}
