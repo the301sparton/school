@@ -49,6 +49,21 @@ else{
         }
         print json_encode($rows);
     }
+
+    else if($type == "updateUser"){
+        $uid = $_POST["uid"];
+        $displayName = $_POST['displayName'];
+        $eid = $_POST['eid'];
+        $mobileNumber = $_POST['mobileNumber'];
+
+        $sql = "UPDATE users SET `displayName` = '$displayName', `eid` = '$eid', `mobileNumber` = '$mobileNumber' WHERE `uid` = '$uid'";
+        if($conn->query($sql) == TRUE) {
+            echo 200;
+        }
+        else{
+            echo 500;
+        }
+    }
 }
 
 ?>
