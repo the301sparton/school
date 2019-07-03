@@ -97,7 +97,7 @@ function stepThree() {
 
   $("#sessionDetails").submit(function (event) {
     event.preventDefault();
-      updateSessionEntry(false)
+    updateSessionEntry(false)
   });
 }
 
@@ -129,7 +129,7 @@ function setSessionEntry() {
   });
 }
 
-function updateSessionEntry(toReturn){
+function updateSessionEntry(toReturn) {
   console.log(toReturn);
   let imgBaseEncode
   if (imgBase == null) {

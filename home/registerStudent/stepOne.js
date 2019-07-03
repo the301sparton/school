@@ -210,159 +210,159 @@ stepOneHTML = `<div class="row">
 
 
 //stepOne START
-function stepOne(){
+function stepOne() {
   document.getElementById('loader').style.display = "block";
-    document.getElementById('step_container').innerHTML = stepOneHTML;
-    //Read from db
-    if(document.getElementById('studID').innerText != ""){
-     setStudentDetails();
+  document.getElementById('step_container').innerHTML = stepOneHTML;
+  //Read from db
+  if (document.getElementById('studID').innerText != "") {
+    setStudentDetails();
+  }
+
+
+  $("#studentDetails").submit(function (event) {
+    event.preventDefault();
+    if (document.getElementById('studID').innerText == "") {
+      CreateNewStudent();
     }
-    
-    
-    $("#studentDetails").submit(function(event) {         
-        event.preventDefault();
-        if(document.getElementById('studID').innerText == ""){
-            CreateNewStudent();
-        }
-        else{
-            updateStudentDetails();
-        }
-    });
+    else {
+      updateStudentDetails();
+    }
+  });
 }
 
-function setStudentDetails(){
-    var setStudentDetailsReq = $.post(baseUrl + "/apis/studentInfo.php",{
-        type: "getStudentDetailsById",
-        studentId: document.getElementById('studID').innerText
-    });
+function setStudentDetails() {
+  var setStudentDetailsReq = $.post(baseUrl + "/apis/studentInfo.php", {
+    type: "getStudentDetailsById",
+    studentId: document.getElementById('studID').innerText
+  });
 
-    setStudentDetailsReq.done(function(setStudentDetailsRes){
-        studentDetail = JSON.parse(setStudentDetailsRes);
-        document.getElementById('formNumber').value = studentDetail.formNumber;
-        document.getElementById('admissionNumber').value = studentDetail.admissionNumber;
-        document.getElementById('govermentId').value = studentDetail.govermentId;
-        document.getElementById('firstName').value = studentDetail.firstName;
-        document.getElementById('middleName').value = studentDetail.middleName;
-        document.getElementById('lastName').value = studentDetail.lastName;
-        document.getElementById('motherName').value = studentDetail.motherName;
-        document.getElementById('fatherName').value = studentDetail.fatherName;
-        document.getElementById('gender').value = studentDetail.gender;
-        document.getElementById('aadharNumber').value = studentDetail.aadharNumber;
-        document.getElementById('stud_DOB').value = studentDetail.dob;
-        document.getElementById('pob_city').value = studentDetail.pob_city;
-        document.getElementById('pob_dist').value = studentDetail.pob_dist;
-        document.getElementById('pob_state').value = studentDetail.pob_state;
-        document.getElementById('religion').value = studentDetail.religion;
-        document.getElementById('casteNRace').value = studentDetail.casteNRace;
-        document.getElementById('nationality').value = studentDetail.nationality;
-        document.getElementById('motherTounge').value = studentDetail.motherTounge;
-        document.getElementById('lastSchool').value = studentDetail.lastSchool;
-        document.getElementById('lastClass').value = studentDetail.lastClass;
-        document.getElementById('stud_DOA').value = studentDetail.doa;
+  setStudentDetailsReq.done(function (setStudentDetailsRes) {
+    studentDetail = JSON.parse(setStudentDetailsRes);
+    document.getElementById('formNumber').value = studentDetail.formNumber;
+    document.getElementById('admissionNumber').value = studentDetail.admissionNumber;
+    document.getElementById('govermentId').value = studentDetail.govermentId;
+    document.getElementById('firstName').value = studentDetail.firstName;
+    document.getElementById('middleName').value = studentDetail.middleName;
+    document.getElementById('lastName').value = studentDetail.lastName;
+    document.getElementById('motherName').value = studentDetail.motherName;
+    document.getElementById('fatherName').value = studentDetail.fatherName;
+    document.getElementById('gender').value = studentDetail.gender;
+    document.getElementById('aadharNumber').value = studentDetail.aadharNumber;
+    document.getElementById('stud_DOB').value = studentDetail.dob;
+    document.getElementById('pob_city').value = studentDetail.pob_city;
+    document.getElementById('pob_dist').value = studentDetail.pob_dist;
+    document.getElementById('pob_state').value = studentDetail.pob_state;
+    document.getElementById('religion').value = studentDetail.religion;
+    document.getElementById('casteNRace').value = studentDetail.casteNRace;
+    document.getElementById('nationality').value = studentDetail.nationality;
+    document.getElementById('motherTounge').value = studentDetail.motherTounge;
+    document.getElementById('lastSchool').value = studentDetail.lastSchool;
+    document.getElementById('lastClass').value = studentDetail.lastClass;
+    document.getElementById('stud_DOA').value = studentDetail.doa;
 
-        if(studentDetail.submittedTC == 1){
-            document.getElementById("submittedTC").checked = true;
-        }
-        else{
-            document.getElementById("submittedTC").checked = false;
-        }
+    if (studentDetail.submittedTC == 1) {
+      document.getElementById("submittedTC").checked = true;
+    }
+    else {
+      document.getElementById("submittedTC").checked = false;
+    }
 
-      if(studentDetail.rte == 1){
-          document.getElementById("rte").checked = true;
-      }
-      else{
-          document.getElementById("rte").checked = false;
-      }
-      $('#step_one_next').removeAttr('disabled');
-      document.getElementById('loader').style.display = "none";
-    });
+    if (studentDetail.rte == 1) {
+      document.getElementById("rte").checked = true;
+    }
+    else {
+      document.getElementById("rte").checked = false;
+    }
+    $('#step_one_next').removeAttr('disabled');
+    document.getElementById('loader').style.display = "none";
+  });
 }
 
-function CreateNewStudent(){
+function CreateNewStudent() {
   console.log(baseUrl + "/apis/studentInfo.php")
-    var submittedTC = getCheckBoxValue("submittedTC");
-    var rte = getCheckBoxValue("rte");
-    var newStudentDetailReq = $.post(baseUrl + "/apis/studentInfo.php",{
-        type: "newStudentDetails",
-        formNumber: document.getElementById('formNumber').value,
-        admissionNumber: document.getElementById('admissionNumber').value,
-        govermentId: document.getElementById('govermentId').value,
-        firstName: document.getElementById('firstName').value,
-        middleName: document.getElementById('middleName').value,
-        lastName: document.getElementById('lastName').value,
-        motherName: document.getElementById('motherName').value,
-        fatherName: document.getElementById('fatherName').value,
-        gender: document.getElementById('gender').value,
-        aadharNumber: document.getElementById('aadharNumber').value,
-        dob: document.getElementById('stud_DOB').value,
-        pob_city: document.getElementById('pob_city').value,
-        pob_dist: document.getElementById('pob_dist').value,
-        pob_state: document.getElementById('pob_state').value,
-        religion: document.getElementById('religion').value,
-        casteNRace: document.getElementById('casteNRace').value,
-        nationality: document.getElementById('nationality').value,
-        motherTounge: document.getElementById('motherTounge').value,
-        lastSchool: document.getElementById('lastSchool').value,
-        lastClass: document.getElementById('lastClass').value,
-        doa: document.getElementById('stud_DOA').value,
-        submittedTC: submittedTC,
-        sessionName : currentSession,
-        rte: rte,
-    });
+  var submittedTC = getCheckBoxValue("submittedTC");
+  var rte = getCheckBoxValue("rte");
+  var newStudentDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
+    type: "newStudentDetails",
+    formNumber: document.getElementById('formNumber').value,
+    admissionNumber: document.getElementById('admissionNumber').value,
+    govermentId: document.getElementById('govermentId').value,
+    firstName: document.getElementById('firstName').value,
+    middleName: document.getElementById('middleName').value,
+    lastName: document.getElementById('lastName').value,
+    motherName: document.getElementById('motherName').value,
+    fatherName: document.getElementById('fatherName').value,
+    gender: document.getElementById('gender').value,
+    aadharNumber: document.getElementById('aadharNumber').value,
+    dob: document.getElementById('stud_DOB').value,
+    pob_city: document.getElementById('pob_city').value,
+    pob_dist: document.getElementById('pob_dist').value,
+    pob_state: document.getElementById('pob_state').value,
+    religion: document.getElementById('religion').value,
+    casteNRace: document.getElementById('casteNRace').value,
+    nationality: document.getElementById('nationality').value,
+    motherTounge: document.getElementById('motherTounge').value,
+    lastSchool: document.getElementById('lastSchool').value,
+    lastClass: document.getElementById('lastClass').value,
+    doa: document.getElementById('stud_DOA').value,
+    submittedTC: submittedTC,
+    sessionName: currentSession,
+    rte: rte,
+  });
 
-    newStudentDetailReq.done(function(newStudentDetailRes){
-      console.log(newStudentDetailRes);
-        var responce = JSON.parse(newStudentDetailRes);
-        console.log(responce);
-        if(responce.resCode == 200){
-            document.getElementById('studID').innerText = responce.id;
-            stepTwo();
-        }
-        else{
-            alert("Failed to sync data. Check your Internet");
-        }
-    });
+  newStudentDetailReq.done(function (newStudentDetailRes) {
+    console.log(newStudentDetailRes);
+    var responce = JSON.parse(newStudentDetailRes);
+    console.log(responce);
+    if (responce.resCode == 200) {
+      document.getElementById('studID').innerText = responce.id;
+      stepTwo();
+    }
+    else {
+      alert("Failed to sync data. Check your Internet");
+    }
+  });
 }
 
-function updateStudentDetails(){
-    var submittedTC = getCheckBoxValue("submittedTC");
-    var rte = getCheckBoxValue("rte");
-    var newStudentDetailReq = $.post(baseUrl + "/apis/studentInfo.php",{
-        type: "updateStudentId",
-        studentId: document.getElementById('studID').innerText,
-        formNumber: document.getElementById('formNumber').value,
-        admissionNumber: document.getElementById('admissionNumber').value,
-        govermentId: document.getElementById('govermentId').value,
-        firstName: document.getElementById('firstName').value,
-        middleName: document.getElementById('middleName').value,
-        lastName: document.getElementById('lastName').value,
-        motherName: document.getElementById('motherName').value,
-        fatherName: document.getElementById('fatherName').value,
-        gender: document.getElementById('gender').value,
-        aadharNumber: document.getElementById('aadharNumber').value,
-        dob: document.getElementById('stud_DOB').value,
-        pob_city: document.getElementById('pob_city').value,
-        pob_dist: document.getElementById('pob_dist').value,
-        pob_state: document.getElementById('pob_state').value,
-        religion: document.getElementById('religion').value,
-        casteNRace: document.getElementById('casteNRace').value,
-        nationality: document.getElementById('nationality').value,
-        motherTounge: document.getElementById('motherTounge').value,
-        lastSchool: document.getElementById('lastSchool').value,
-        lastClass: document.getElementById('lastClass').value,
-        doa: document.getElementById('stud_DOA').value,
-        submittedTC: submittedTC,
-        rte: rte,
-    });
+function updateStudentDetails() {
+  var submittedTC = getCheckBoxValue("submittedTC");
+  var rte = getCheckBoxValue("rte");
+  var newStudentDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
+    type: "updateStudentId",
+    studentId: document.getElementById('studID').innerText,
+    formNumber: document.getElementById('formNumber').value,
+    admissionNumber: document.getElementById('admissionNumber').value,
+    govermentId: document.getElementById('govermentId').value,
+    firstName: document.getElementById('firstName').value,
+    middleName: document.getElementById('middleName').value,
+    lastName: document.getElementById('lastName').value,
+    motherName: document.getElementById('motherName').value,
+    fatherName: document.getElementById('fatherName').value,
+    gender: document.getElementById('gender').value,
+    aadharNumber: document.getElementById('aadharNumber').value,
+    dob: document.getElementById('stud_DOB').value,
+    pob_city: document.getElementById('pob_city').value,
+    pob_dist: document.getElementById('pob_dist').value,
+    pob_state: document.getElementById('pob_state').value,
+    religion: document.getElementById('religion').value,
+    casteNRace: document.getElementById('casteNRace').value,
+    nationality: document.getElementById('nationality').value,
+    motherTounge: document.getElementById('motherTounge').value,
+    lastSchool: document.getElementById('lastSchool').value,
+    lastClass: document.getElementById('lastClass').value,
+    doa: document.getElementById('stud_DOA').value,
+    submittedTC: submittedTC,
+    rte: rte,
+  });
 
-    newStudentDetailReq.done(function(newStudentDetailRes){
-      console.log(newStudentDetailRes)
-        if(newStudentDetailRes == 200){
-            stepTwo(false);
-        }
-        else{
-            alert("Failed to Update data. Check your Internet");
-        }
-    });
+  newStudentDetailReq.done(function (newStudentDetailRes) {
+    console.log(newStudentDetailRes)
+    if (newStudentDetailRes == 200) {
+      stepTwo(false);
+    }
+    else {
+      alert("Failed to Update data. Check your Internet");
+    }
+  });
 }
 //StepOne End

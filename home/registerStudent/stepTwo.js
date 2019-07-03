@@ -239,7 +239,7 @@ loadContactDetailReq.done(function(loadContactDetailRes){
     $("#step_two_back").removeAttr('disabled');
     
     $("#step_two_next").removeAttr('disabled');
-    document.getElementById('loader').style.display = "none";
+  document.getElementById('loader').style.display = "none";
 });
 //Comment
 }
@@ -260,17 +260,17 @@ var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php",{
     guardianEmail: document.getElementById('guardianEmail').value,
     studentId: document.getElementById('studID').innerText 
 });
-setContactDetailsreq.done(function(setContactDetailsres){
-    if(setContactDetailsres == 200){
-      if(toReturn){
+  setContactDetailsreq.done(function (setContactDetailsres) {
+    if (setContactDetailsres == 200) {
+      if (toReturn) {
         stepThree();
       }
-        
+
     }
-    else{
-        alert("Failed to update data :(");
+    else {
+      alert("Failed to update data :(");
     }
-});
+  });
 }
 
 function contactDetailBack(){
