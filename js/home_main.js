@@ -2,9 +2,10 @@ let user;
 let me_data;
 let myRoleList;
 let currentSession;
-let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canDeleteStudent; let canGenerateReceipt; let canStudentAttendence; let canStudentReport; let canFeesReport;
+let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canDeleteStudent; let canGenerateReceipt; let canStudentAttendence; let canStudentReport; let canFeesReport; let canModifyUser; let canCreateNewRole; let canModifyRole;
 let currentStudentOption = '';
 let optionColors = ["D6E2E7", "E0E3EB", "B0CBD4", "C7D4F3"];
+let currentUprMenu = "top";
 
 $(document).ready(function () {
   firebase.auth().onAuthStateChanged(function (usr) {
@@ -115,19 +116,25 @@ function setPermissions(currentRole) {
     canStudentReport = 0;
   }
 
-  if(currentRole.userModification == 1){
-    var li = document.createElement("li");
-    var a = document.createElement("a");
-    a.href = "#";
-    a.onclick = function(){
-      adminTasks();
-    }
-    a.innerText = "Admin Taks";
-    li.appendChild(a);
-    document.getElementById("nav_ul").appendChild(li); 
+  if (currentRole.userModification == 1) {
+    canModifyUser = 1;
   }
-  else {
+  else if (canModifyUser == null) {
+    canModifyUser = 0;
+  }
 
+  if (currentRole.createNewRole == 1) {
+    canCreateNewRole = 1;
+  }
+  else if (canCreateNewRole == null) {
+    canCreateNewRole = 0;
+  }
+
+  if (currentRole.modifyRole == 1) {
+    canModifyRole = 1;
+  }
+  else if (canModifyRole == null) {
+    canModifyRole = 0;
   }
 }
 
@@ -159,6 +166,22 @@ function setActiveColorsfees(toSet) {
   }
 }
 
+function setActiveColorsAdminTasks(toSet) {
+  limit = getlimitAdminTasks();
+  for (i = 0; i < limit.length; i++) {
+    temp = limit[i];
+    itr = document.getElementById(temp);
+    if (temp == toSet) {
+      itr.style.background = "WHITE";
+    }
+    else {
+      itr.style.background = "#" + optionColors[i];
+    }
+  }
+}
+
+
+
 function getlimitStudent() {
   let limit = new Array();
   if (canRegisterStudent == 1) {
@@ -187,6 +210,20 @@ function getlimitFees() {
   return limit;
 }
 
+function getlimitAdminTasks() {
+  let limit = new Array();
+  if (canModifyUser == 1) {
+    limit.push("createUser");
+    limit.push("modifyUser");
+  }
+  if(canCreateNewRole == 1){
+    limit.push("createNewRole");
+  }
+  if(canModifyRole == 1){
+    limit.push("modifyRole");
+  }
+  return limit;
+}
 
 
 
@@ -264,16 +301,16 @@ function studentOptionsView() {
   }
 
   StudentOptionHTML += `<div class="row" style="margin-top:3%;margin-bottom:3%">
-                              <div class="col" id="studentActionHolder" style="background: #EFF3FC; border-radius:10px; padding-top:2%; padding-bottom: 2%">
-                                  <h5 id="StudentSelectionHeading">Select one of above operations</h5>
-                              </div>                  
-                        </div>
-                      </div>  
-                    <div>`;
+  <div class="col" id="studentActionHolder" style="background: #EFF3FC; border-radius:10px; padding-top:2%">
+      <h5 id="StudentSelectionHeading">Select one of above operations</h5>
+  </div>                  
+  </div>
+  </div>  
+  <div>`;
+  document.getElementById(currentUprMenu).className = "";
+  document.getElementById("student").className = "active";
   document.getElementById("section_main").innerHTML = StudentOptionHTML;
 }
-
-
 
 function feesOptionView() {
   FeesOptionHTML = ``;
@@ -321,5 +358,74 @@ function feesOptionView() {
                     </div>
                     </div>  
                     <div>`;
+  document.getElementById(currentUprMenu).className = "";
+  document.getElementById("fees").className = "active";
   document.getElementById("section_main").innerHTML = FeesOptionHTML;
+}
+
+function adminTasksView() {
+  if (canModifyUser == 1) {
+    adminTasksHTML = `<div class="container" id="adminHTML" style="padding-top:5%">
+    <div class="text-center">
+      <div class="row" id="studentOptionsRow1"style="margin-top:3%">
+          <div class="col-rmd-5 button button1" id="createUser" onclick="createUser()">Create User</div>
+          <div class="col-rmd-2">
+              
+          </div>
+          <div class="col-rmd-5 button button2" id="modifyUser" onclick="modifyUser()">Modify User</div>
+      </div>`;
+  }
+  else{
+    adminTasksHTML = `<div class="container" id="adminHTML" style="padding-top:5%">
+    <div class="text-center">`;
+  }
+
+
+
+  if (canCreateNewRole == 0 && canModifyRole == 0) {
+    adminTasksHTML += ``;
+  }
+  else if (canCreateNewRole == 1 && canModifyRole == 0) {
+    adminTasksHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
+        <div class="col-rmd-4">
+              
+        </div>
+          <div class="col-rmd-4 button button3" id="createNewRole" onclick="createNewRole()">Create New Role Group</div>             
+      </div>`;
+  }
+  else if (canCreateNewRole == 0 && canModifyRole == 1) {
+    adminTasksHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
+              
+        <div class="col-rmd-4">
+            
+        </div>
+        <div class="col-rmd-4 button button4" id="modifyRole" onclick="modifyRole()">Modify Role Groups</div>
+    </div>`;
+  }
+  else if (canCreateNewRole == 1 && canModifyRole == 1) {
+    adminTasksHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
+        <div class="col-rmd-5 button button3" id="createNewRole" onclick="createNewRole()">Create New Role Group</div>
+        <div class="col-rmd-2">
+            
+        </div>
+        <div class="col-rmd-5 button button4" id="modifyRole" onclick="modifyRole()">Modify Role Groups</div>
+      </div>`;
+  }
+
+
+
+
+  adminTasksHTML += ` <div class="row" style="margin-top:3%;margin-bottom:3%">
+  <div class="col" id="feesActionHolder" style="background: #EFF3FC; border-radius:10px; padding-top:2%">
+      <h5 id="StudentSelectionHeading">Select one of above operations</h5>
+  </div>                  
+  </div>
+  </div>  
+  <div>`;
+  document.getElementById(currentUprMenu).className = "";
+  document.getElementById("admin").className = "active";
+  document.getElementById("section_main").innerHTML = adminTasksHTML;
+  
+ 
+
 }
