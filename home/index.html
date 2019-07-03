@@ -82,7 +82,13 @@
           <li id="student"><a href="#studentHTML" onclick="studentOptionsView()">Student</a></li>
           <li id="fees"><a href="#feesHTML" onclick="feesOptionView()">Fees</a></li>
           <li id="admin"><a href="#adminHTML" onclick="adminTasksView()">Admin Tasks</a></li>
-          <li><a href="#" onclick="Logout()" id="nav_login">Logout</a></li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img id="me_img" style="all:unset; border-radius: 50%; height: 40px; width: 40px" src="../img/me.png">
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#" style="color:  #413e66 ">Profile Settings</a></li>
+              <li><a href="#" onclick="Logout()" style="color:  #413e66 ">Logout</a></li>
+            </ul>
+          </li>
         </ul>
       </nav><!-- .main-nav -->
     </div>
