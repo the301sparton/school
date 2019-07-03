@@ -82,10 +82,11 @@
           <li id="student"><a href="#studentHTML" onclick="studentOptionsView()">Student</a></li>
           <li id="fees"><a href="#feesHTML" onclick="feesOptionView()">Fees</a></li>
           <li id="admin"><a href="#adminHTML" onclick="adminTasksView()">Admin Tasks</a></li>
-          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img id="me_img" style="all:unset; border-radius: 50%; height: 40px; width: 40px" src="../img/me.png">
-            <span class="caret"></span></a>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img id="me_img"
+                style="all:unset; border-radius: 50%; height: 40px; width: 40px" src="../img/me.png">
+              <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#" style="color:  #413e66 ">Profile Settings</a></li>
+              <li><a href="#profileSettingsHTML" style="color:  #413e66 " onclick="profileSettings()">Profile Settings</a></li>
               <li><a href="#" onclick="Logout()" style="color:  #413e66 ">Logout</a></li>
             </ul>
           </li>
@@ -112,7 +113,7 @@
 
 
   <section id="section_main">
-
+    
   </section>
 
 
@@ -367,7 +368,7 @@
   <script src="./studentStuff/searchNEdit/searchNEdit.js"></script>
   <script src="./studentStuff/studentReport/studentReport.js"></script>
   <script src="./studentStuff/studentAttendence/studentAttendence.js"></script>
-  
+
   <!-- fees js -->
   <script src="./receiptStuff/generateReceipt/generateReceipt.js"></script>
   <script src="./receiptStuff/feesReport/feesReport.js"></script>
@@ -377,6 +378,8 @@
   <script src="./adminTasks/modifyUser/modifyUser.js"></script>
   <script src="./adminTasks/createNewRole/createNewRole.js"></script>
   <script src="./adminTasks/modifyRole/modifyRole.js"></script>
+
+  <script src="./profileStuff/profileStuff.js"></script>
 </body>
 
 </html>
