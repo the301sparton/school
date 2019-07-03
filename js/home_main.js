@@ -119,7 +119,9 @@ function setPermissions(currentRole) {
     var li = document.createElement("li");
     var a = document.createElement("a");
     a.href = "#";
-    a.onclick = adminTasks();
+    a.onclick = function(){
+      adminTasks();
+    }
     a.innerText = "Admin Taks";
     li.appendChild(a);
     document.getElementById("nav_ul").appendChild(li); 
