@@ -12,3 +12,7 @@ $(document).ready(function () {
     stepOne();
     document.getElementById('loader').style.display = "none";  //HIDE LOADER
 });
+
+function pg_back(){
+    document.location = baseUrl + "/home";
+}
