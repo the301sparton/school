@@ -16,7 +16,7 @@ function pg_print(){
 }
 
 function pg_back(){
-    document.location = baseUrl + "/home"
+    window.history.back();
 }
 
 function pg_main(){

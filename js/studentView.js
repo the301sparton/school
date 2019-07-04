@@ -14,5 +14,5 @@ $(document).ready(function () {
 });
 
 function pg_back(){
-    document.location = baseUrl + "/home";
+    window.history.back();
 }
