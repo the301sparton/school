@@ -8,7 +8,7 @@ if ($conn->connect_error) {
 }
 else{
     if($type=="getClassList"){
-        $sql = "SELECT className FROM `classList` ORDER BY `id`";
+        $sql = "SELECT className FROM `classlist` ORDER BY `id`";
         $result=mysqli_query($conn,$sql);
         $rows = array();    
         while($r = mysqli_fetch_assoc($result)) {

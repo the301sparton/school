@@ -13,7 +13,7 @@ else{
         $sessionName = $_POST['sessionName'];
 
         $class = "amount_".$classId;
-        $sql = "SELECT  headId, headName, `$class` FROM feesHeads WHERE `$class` > 0 ORDER BY headId";
+        $sql = "SELECT  headId, headName, `$class` FROM feesheads WHERE `$class` > 0 ORDER BY headId";
         $result=mysqli_query($conn,$sql);
         $rows = array();    
         while($r = mysqli_fetch_assoc($result)) {
@@ -21,7 +21,7 @@ else{
         $headId = $r["headId"];
         $headAmount = 0;
 
-        $sqlReceipt = "SELECT receiptId FROM receiptsList WHERE studentId = '$studentId' AND sessionName = '$sessionName'";
+        $sqlReceipt = "SELECT receiptId FROM receiptslist WHERE studentId = '$studentId' AND sessionName = '$sessionName'";
         $resultReceipt=mysqli_query($conn,$sqlReceipt);
             while($rReceipt = mysqli_fetch_assoc($resultReceipt)){
                 $receiptId = $rReceipt["receiptId"]; 

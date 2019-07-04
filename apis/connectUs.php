@@ -15,7 +15,7 @@ else{
         $subject = $_POST['subject'];
         $message = $_POST['message'];
 
-        $sql = "INSERT INTO `clientMessage`(`name`, `email`, `subject`, `message`) VALUES ('$name', '$email', '$subject', '$message')";
+        $sql = "INSERT INTO `clientmessage`(`name`, `email`, `subject`, `message`) VALUES ('$name', '$email', '$subject', '$message')";
         if($conn->query($sql) == TRUE) {
             echo "200";
         }

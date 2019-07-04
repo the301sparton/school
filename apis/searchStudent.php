@@ -10,11 +10,11 @@ if ($conn->connect_error) {
         $nameIP = $_POST['inputKeyWord'];
         $limit = $_POST['limit'];
         $tbl = $_POST['sessionName'];
-        $tbl_name = "studentDetails";
+        $tbl_name = "studentdetails";
 
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentInfo WHERE firstName LIKE '$name' OR lastName LIKE '$name' LIMIT $limit";
+        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentinfo WHERE firstName LIKE '$name' OR lastName LIKE '$name' LIMIT $limit";
         $result = mysqli_query($conn, $sql1);
         $rows = array();
         while ($r = mysqli_fetch_assoc($result)) {
@@ -33,11 +33,11 @@ if ($conn->connect_error) {
         $nameIP = $_POST['inputKeyWord'];
         $limit = $_POST['limit'];
         $tbl = $_POST['sessionName'];
-        $tbl_name = "studentDetails";
+        $tbl_name = "studentdetails";
 
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentInfo WHERE `admissionNumber` LIKE '$name' LIMIT $limit";
+        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentinfo WHERE `admissionNumber` LIKE '$name' LIMIT $limit";
         $result = mysqli_query($conn, $sql1);
         $rows = array();
         while ($r = mysqli_fetch_assoc($result)) {
@@ -56,11 +56,11 @@ if ($conn->connect_error) {
         $nameIP = $_POST['inputKeyWord'];
         $limit = $_POST['limit'];
         $tbl = $_POST['sessionName'];
-        $tbl_name = "studentDetails";
+        $tbl_name = "studentdetails";
 
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentInfo WHERE `aadharNumber` LIKE '$name' LIMIT $limit";
+        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentinfo WHERE `aadharNumber` LIKE '$name' LIMIT $limit";
         $result = mysqli_query($conn, $sql1);
         $rows = array();
         while ($r = mysqli_fetch_assoc($result)) {
@@ -79,11 +79,11 @@ if ($conn->connect_error) {
         $nameIP = $_POST['inputKeyWord'];
         $limit = $_POST['limit'];
         $tbl = $_POST['sessionName'];
-        $tbl_name = "studentDetails";
+        $tbl_name = "studentdetails";
 
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentInfo WHERE `formNumber` LIKE '$name' LIMIT $limit";
+        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentinfo WHERE `formNumber` LIKE '$name' LIMIT $limit";
         $result = mysqli_query($conn, $sql1);
         $rows = array();
         while ($r = mysqli_fetch_assoc($result)) {
@@ -102,11 +102,11 @@ if ($conn->connect_error) {
         $nameIP = $_POST['inputKeyWord'];
         $limit = $_POST['limit'];
         $tbl = $_POST['sessionName'];
-        $tbl_name = "studentDetails";
+        $tbl_name = "studentdetails";
 
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentInfo WHERE `guardianPhone` LIKE '$name' LIMIT $limit";
+        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentinfo WHERE `guardianPhone` LIKE '$name' LIMIT $limit";
         $result = mysqli_query($conn, $sql1);
         $rows = array();
         while ($r = mysqli_fetch_assoc($result)) {

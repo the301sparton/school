@@ -15,7 +15,7 @@ else{
     if($type == "newRecordBySessionName"){
 
         $sessionName = $_POST['sessionName'];
-        $tbl_name = "studentDetails";
+        $tbl_name = "studentdetails";
 
         $studentId = $_POST['studentId'];
         $class = $_POST['class'];
@@ -35,7 +35,7 @@ else{
     }
 
     else if($type == "updateSessionDetailsById"){
-        $tbl_name = "studentDetails";
+        $tbl_name = "studentdetails";
         $class = $_POST['class'];
         $section = $_POST['section'];
         $medium = $_POST['medium'];
@@ -55,7 +55,7 @@ else{
     else if($type == "getByStudentId"){
 
         $tbl = $_POST['sessionName'];
-        $tbl_name = "studentDetails";
+        $tbl_name = "studentdetails";
         $studentId = $_POST['studentId'];
 
         $sql = "SELECT * FROM `$tbl_name` WHERE studentId = $studentId AND sessionName = '$tbl'";

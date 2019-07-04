@@ -8,7 +8,7 @@ if ($conn->connect_error) {
 }
 else{
     if($type=="getSectionList"){
-        $sql = "SELECT `sectionName` FROM sectionList ORDER BY `id`";
+        $sql = "SELECT `sectionName` FROM sectionlist ORDER BY `id`";
         $result=mysqli_query($conn,$sql);
         $rows = array();    
         while($r = mysqli_fetch_assoc($result)) {

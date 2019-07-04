@@ -37,11 +37,11 @@ else{
         $dob = date('Y-m-d', strtotime($dob_temp)); 
         $doa = date('Y-m-d', strtotime($doa_temp));
 
-        $sql = "INSERT INTO `studentInfo` (`formNumber`, `admissionNumber`, `govermentId`, `firstName`, `middleName`, `lastName`, `motherName`, `fatherName`,`gender`, `aadharNumber`, `dob`,`pob_city`, `pob_dist`, `pob_state`, `religion`, `caste`, `category`, `nationality`, `motherTounge`, `lastSchool`, `lastClass`, `doa`, `submittedTC`,`rte`) VALUES ('$formNumber','$admissionNumber','$govermentId','$firstName','$middleName','$lastName','$motherName','$fatherName','$gender','$aadharNumber','$dob','$pob_city','$pob_dist','$pob_state','$religion', '$caste','$category','$nationality','$motherTounge','$lastSchool','$lastClass','$doa','$submittedTC','$rte')";
+        $sql = "INSERT INTO `studentinfo` (`formNumber`, `admissionNumber`, `govermentId`, `firstName`, `middleName`, `lastName`, `motherName`, `fatherName`,`gender`, `aadharNumber`, `dob`,`pob_city`, `pob_dist`, `pob_state`, `religion`, `caste`, `category`, `nationality`, `motherTounge`, `lastSchool`, `lastClass`, `doa`, `submittedTC`,`rte`) VALUES ('$formNumber','$admissionNumber','$govermentId','$firstName','$middleName','$lastName','$motherName','$fatherName','$gender','$aadharNumber','$dob','$pob_city','$pob_dist','$pob_state','$religion', '$caste','$category','$nationality','$motherTounge','$lastSchool','$lastClass','$doa','$submittedTC','$rte')";
         if($conn->query($sql) == TRUE) {
             $res = '{"resCode":200,"id":'.$conn->insert_id.'}';
             $studentId = $conn->insert_id;
-            $sqlforSession = "INSERT INTO studentDetails (studentId, sessionName) VALUES ('$studentId', '$sessionName')";
+            $sqlforSession = "INSERT INTO studentdetails (studentId, sessionName) VALUES ('$studentId', '$sessionName')";
             if($conn->query($sqlforSession) == TRUE){
                 echo $res;
             }
@@ -53,7 +53,7 @@ else{
 
     else if($type=="getStudentDetailsById"){
         $studentId = $_POST['studentId'];
-        $sql = "SELECT `formNumber`, `admissionNumber`, `govermentId`, `firstName`, `middleName`, `lastName`, `motherName`, `fatherName`, `gender`, `aadharNumber`, `dob`, `pob_city`, `pob_dist`,`pob_state`, `religion`, `category`, `caste`, `nationality`, `motherTounge`, `lastSchool`, `lastClass`, `doa`, `submittedTC`, `rte` FROM `studentInfo` WHERE studentId = $studentId";
+        $sql = "SELECT `formNumber`, `admissionNumber`, `govermentId`, `firstName`, `middleName`, `lastName`, `motherName`, `fatherName`, `gender`, `aadharNumber`, `dob`, `pob_city`, `pob_dist`,`pob_state`, `religion`, `category`, `caste`, `nationality`, `motherTounge`, `lastSchool`, `lastClass`, `doa`, `submittedTC`, `rte` FROM `studentinfo` WHERE studentId = $studentId";
         $result=mysqli_query($conn,$sql);
         $rows = array();    
         $r = mysqli_fetch_assoc($result);
@@ -89,7 +89,7 @@ else{
         $dob = date('Y-m-d', strtotime($dob_temp)); 
         $doa = date('Y-m-d', strtotime($doa_temp));
 
-        $sql = "UPDATE studentInfo SET formNumber = '$formNumber',admissionNumber = '$admissionNumber', govermentId = '$govermentId', firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', motherName = '$motherName', fatherName = '$fatherName', gender='$gender', aadharNumber = '$aadharNumber', dob = '$dob', pob_city='$pob_city', pob_dist='$pob_dist', pob_state='$pob_state', religion = '$religion', caste = '$caste', category = '$category', nationality = '$nationality', motherTounge = '$motherTounge', lastSchool = '$lastSchool', lastClass = '$lastClass', doa = '$doa', submittedTC = '$submittedTC', rte='$rte' WHERE studentId = $studentId"; 
+        $sql = "UPDATE studentinfo SET formNumber = '$formNumber',admissionNumber = '$admissionNumber', govermentId = '$govermentId', firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', motherName = '$motherName', fatherName = '$fatherName', gender='$gender', aadharNumber = '$aadharNumber', dob = '$dob', pob_city='$pob_city', pob_dist='$pob_dist', pob_state='$pob_state', religion = '$religion', caste = '$caste', category = '$category', nationality = '$nationality', motherTounge = '$motherTounge', lastSchool = '$lastSchool', lastClass = '$lastClass', doa = '$doa', submittedTC = '$submittedTC', rte='$rte' WHERE studentId = $studentId"; 
         if($conn->query($sql) == TRUE) {
             echo 200;
         }
@@ -100,7 +100,7 @@ else{
 
     else if($type == "getContactDetailsById"){
         $studentId = $_POST["studentId"];
-        $sql = "SELECT `localAddress`, `localState`, `localCity`, `localPincode`, `permanentAddress`, `permanentState`, `permanentCity`, `permanentPincode`, `guardianName`, `guardianPhone`, `guardianEmail` FROM studentInfo WHERE studentId = $studentId";
+        $sql = "SELECT `localAddress`, `localState`, `localCity`, `localPincode`, `permanentAddress`, `permanentState`, `permanentCity`, `permanentPincode`, `guardianName`, `guardianPhone`, `guardianEmail` FROM studentinfo WHERE studentId = $studentId";
         $result=mysqli_query($conn,$sql);
         $rows = array();    
         $r = mysqli_fetch_assoc($result);
@@ -121,7 +121,7 @@ else{
         $guardianEmail = $_POST['guardianEmail'];
         $studentId = $_POST["studentId"];
 
-        $sql = "UPDATE `studentInfo` SET `localAddress`='$localAddress',`localState`='$localState',`localCity`='$localCity',`localPincode`='$localPincode',`permanentAddress`='$permanentAddress',`permanentState`='$permanentState',`permanentCity`='$permanentCity',`permanentPincode`='$permanentPincode',`guardianName`='$guardianName',`guardianPhone`='$guardianPhone', `guardianEmail` = '$guardianEmail' WHERE studentId = $studentId";
+        $sql = "UPDATE `studentinfo` SET `localAddress`='$localAddress',`localState`='$localState',`localCity`='$localCity',`localPincode`='$localPincode',`permanentAddress`='$permanentAddress',`permanentState`='$permanentState',`permanentCity`='$permanentCity',`permanentPincode`='$permanentPincode',`guardianName`='$guardianName',`guardianPhone`='$guardianPhone', `guardianEmail` = '$guardianEmail' WHERE studentId = $studentId";
         if($conn->query($sql) == TRUE) {
             echo 200;
         }
@@ -134,11 +134,11 @@ else{
         $studentId = $_POST["studentId"];
         $sessionName = $_POST['sessionName'];
         
-        $sql = "SELECT firstName, middleName, lastName FROM studentInfo WHERE studentId = $studentId";
+        $sql = "SELECT firstName, middleName, lastName FROM studentinfo WHERE studentId = $studentId";
         $result=mysqli_query($conn,$sql);
         $r = mysqli_fetch_assoc($result);
 
-        $tbl_name = "studentDetails";
+        $tbl_name = "studentdetails";
         $sql1 = "SELECT class, section FROM `$tbl_name` WHERE studentId = $studentId AND sessionName = '$sessionName'";
         $result1=mysqli_query($conn,$sql1);
         $r1 = mysqli_fetch_assoc($result1);

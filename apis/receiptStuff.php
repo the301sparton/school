@@ -12,13 +12,13 @@ else{
         $studentId = $_POST['studentId'];
         $sessionName = $_POST['sessionName'];
 
-        $sql1 = "SELECT receiptId FROM receiptsList WHERE studentId = '$studentId' AND sessionName = '$sessionName'";
+        $sql1 = "SELECT receiptId FROM receiptslist WHERE studentId = '$studentId' AND sessionName = '$sessionName'";
 
         $result1 = mysqli_query($conn, $sql1);
         if($result1 != null){
             while ($r1 = mysqli_fetch_assoc($result1)) {
                 $receiptId = $r1['receiptId'];
-                $sql2 = "SELECT amount FROM feesDetails WHERE receiptId = $receiptId";
+                $sql2 = "SELECT amount FROM feesdetails WHERE receiptId = $receiptId";
                 $result2 = mysqli_query($conn, $sql2);
                 while ($r2 = mysqli_fetch_assoc($result2)) {
                     $tempAmount = $r2['amount'];
@@ -35,7 +35,7 @@ else{
    else if($type == "getTotalFees"){
         $studentId = $_POST['studentId'];
         $sessionName = $_POST['sessionName'];
-        $tblName = "studentDetails";
+        $tblName = "studentdetails";
         $sql = "SELECT totalFees FROM `$tblName` WHERE studentId = $studentId AND sessionName = '$sessionName'";
         $result = mysqli_query($conn, $sql);
         $r = mysqli_fetch_assoc($result);
@@ -44,7 +44,7 @@ else{
 
     else if($type == "getReceipt"){
         $receiptId = $_POST['receiptId'];
-        $sql = "SELECT receiptId, sessionName, studentId, receiptDate, remark, userId FROM receiptsList WHERE receiptId = $receiptId";
+        $sql = "SELECT receiptId, sessionName, studentId, receiptDate, remark, userId FROM receiptslist WHERE receiptId = $receiptId";
         $result=mysqli_query($conn,$sql);
             
         $r = mysqli_fetch_assoc($result);
@@ -53,7 +53,7 @@ else{
 
     else if($type == "getReceiptDetails"){
         $receiptId = $_POST['receiptId'];
-        $sql = "SELECT `headId`, `amount` FROM `feesDetails` WHERE receiptid = '$receiptId'";
+        $sql = "SELECT `headId`, `amount` FROM `feesdetails` WHERE receiptid = '$receiptId'";
         $rows = array();    
         $result=mysqli_query($conn,$sql);
             
@@ -75,15 +75,15 @@ else{
         $rDate = date('Y-m-d', strtotime($receiptDate));
         $class = "amount_".$classId;
 
-        $sqlNewReceipt = "INSERT INTO `receiptsList`(`sessionName`, `studentId`, `receiptDate`, `remark`, `userId`) VALUES ('$sessionName', '$studentId', '$rDate', '$remark', '$userId')";
+        $sqlNewReceipt = "INSERT INTO `receiptslist`(`sessionName`, `studentId`, `receiptDate`, `remark`, `userId`) VALUES ('$sessionName', '$studentId', '$rDate', '$remark', '$userId')";
         if($conn->query($sqlNewReceipt) == TRUE) {
             $receiptId = $conn->insert_id;
 
-            $sqlForHeads = "SELECT  headId, headName, `$class` FROM feesHeads WHERE `$class` > 0 ORDER BY headId";
+            $sqlForHeads = "SELECT  headId, headName, `$class` FROM feesheads WHERE `$class` > 0 ORDER BY headId";
             $result=mysqli_query($conn,$sqlForHeads);
             
             $itr = 0;
-            $sqlHead = "INSERT INTO `feesDetails` (`receiptId`, `headId`, `amount`) VALUES ";
+            $sqlHead = "INSERT INTO `feesdetails` (`receiptId`, `headId`, `amount`) VALUES ";
             $lengthHeads = count($headValues);
             while($r = mysqli_fetch_assoc($result)) {
                 $tempHeadId = $r['headId'];
@@ -127,7 +127,7 @@ else{
         $dateFrom = date('Y-m-d', strtotime($dateFrom)); 
         $dateTo = date('Y-m-d', strtotime($dateTo)); 
 
-        $sqlHeadNames = "SELECT headId, headName FROM feesHeads";
+        $sqlHeadNames = "SELECT headId, headName FROM feesheads";
         $headArray = array();     
         $headResult=mysqli_query($conn,$sqlHeadNames);
                   
@@ -137,7 +137,7 @@ else{
             $headArray[$rHead["headId"]] = array_merge($headName, $amountArr);
         }
         
-        $sqlReceiptId = "SELECT receiptId FROM receiptsList WHERE sessionName = '$sessionName' AND receiptDate BETWEEN '$dateFrom' AND '$dateTo'";
+        $sqlReceiptId = "SELECT receiptId FROM receiptslist WHERE sessionName = '$sessionName' AND receiptDate BETWEEN '$dateFrom' AND '$dateTo'";
         $receiptResult = mysqli_query($conn, $sqlReceiptId);
         while($rReceipt = mysqli_fetch_assoc($receiptResult)) {
             $thisReceiptId = $rReceipt["receiptId"];
@@ -155,7 +155,7 @@ else{
         $section = $_POST['section'];
         $sessionName = $_POST['sessionName'];
 
-        $sql = "SELECT studentId, fullname, totalFees, paidFees FROM studentFees WHERE class = '$class' AND section = '$section'";
+        $sql = "SELECT studentId, fullname, totalFees, paidFees FROM studentfees WHERE class = '$class' AND section = '$section'";
         $rows = array();     
         $result=mysqli_query($conn,$sql);
                   
@@ -165,7 +165,7 @@ else{
         echo json_encode($rows);
     }
     else if($type=="headWiseSumm"){ 
-        $sql = "SELECT * from headWiseSumm";
+        $sql = "SELECT * from headwisesumm";
         $rows = array();     
         $result=mysqli_query($conn,$sql);
                   

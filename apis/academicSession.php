@@ -8,7 +8,7 @@ if ($conn->connect_error) {
 }
 else{
     if($type == "getCurrentSession"){
-        $sql = "SELECT sessionName FROM sessionList  
+        $sql = "SELECT sessionName FROM sessionlist  
         ORDER BY sessionId DESC  
         LIMIT 1";
 
@@ -17,7 +17,7 @@ else{
         print json_encode($r);
     }
     else if($type == "getAllSessions"){
-        $sql = "SELECT sessionName FROM sessionList";
+        $sql = "SELECT sessionName FROM sessionlist";
         $result=mysqli_query($conn,$sql);
         $rows = array();    
         while($r = mysqli_fetch_assoc($result)) {

@@ -14,11 +14,11 @@ else{
     if($type == "getRoleList"){
         $uid = $_POST['uid'];
         $rows = array();
-        $sql = "SELECT userType FROM userGroupList WHERE uid='$uid'";
+        $sql = "SELECT userType FROM usergrouplist WHERE uid='$uid'";
         $result=mysqli_query($conn,$sql);         
         while($r = mysqli_fetch_assoc($result)) {
         $userType = $r["userType"];
-        $sql = "SELECT * FROM userGroup WHERE userType = '$userType'";
+        $sql = "SELECT * FROM usergroup WHERE userType = '$userType'";
             $result2=mysqli_query($conn,$sql);                
                 while($r2 = mysqli_fetch_assoc($result2)) {
                 $rows[] = $r2;
