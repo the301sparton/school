@@ -12,6 +12,6 @@ firebase.initializeApp(firebaseConfig);
 
 function Logout(){
   firebase.auth().signOut().then(function(){
-    window.location = baseUrl;
+    window.location = logOutUrl;
   });
 }

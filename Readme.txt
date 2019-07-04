@@ -22,4 +22,5 @@ $dbname = "u353330278_bes";
 
 --- Changes to js/config.js ---
 var baseUrl = "";
+var logOutUrl = "https://besgondia.org";
 --- end ---

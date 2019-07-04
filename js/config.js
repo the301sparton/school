@@ -1,4 +1,5 @@
 var baseUrl = "/School";
+var logOutUrl = "/School"
 var websiteTitle = "BES Gondia";
 var websiteDesc = "Best in class education for your children.";
 
