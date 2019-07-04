@@ -146,6 +146,11 @@ stepOneHTML = `<div class="row">
                 <option value="Other">Other</option>
             </select>
           </div>
+
+        <div class="col-md-4">
+          <input class = "form-control" id="caste" type="text" placeholder="Caste">
+         </div>
+
           <div class="col-md-4">
             <select id="category" class="form-control" type="text" placeholder="Select Category" required>
               <option value="" selected disabled>Select Category / Race</option>
@@ -161,10 +166,7 @@ stepOneHTML = `<div class="row">
               <option value="NT-D">NT-D</option>
             </select>
           </div>
-
-          <div class="col-md-4">
-              <input class = "form-control" id="caste" type="text" placeholder="Caste">
-          </div>
+          
         </div>
 
         <div class="row" style="margin-top:2%">
