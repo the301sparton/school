@@ -75,21 +75,26 @@ function setProfileDetails() {
 function updateProfileListener() {
   $('#profileUpdateForm').submit(function (event) {
     event.preventDefault();
-    $.post(baseUrl + "/apis/User.php", {
-      type: "updateUser",
-      uid: me_data.uid,
-      displayName: document.getElementById("up_displayName").value,
-      eid: document.getElementById("up_emailId").value,
-      mobileNumber: document.getElementById("up_mobileNumber").value
-    }).done(function (updateMeRes) {
-      if (updateMeRes == 200) {
-        alert("Updated Successfully, Press Ok to refresh.");
-        location.reload();
-      }
-      else {
-        alert("Failed to update :(");
-      }
-    });
-  });
+    if (document.getElementById("up_displayName").value != me_data.displayName || document.getElementById("up_emailId").value != me_data.eid || document.getElementById("up_mobileNumber").value != me_data.mobileNumber) {
+      $.post(baseUrl + "/apis/User.php", {
+        type: "updateUser",
+        uid: me_data.uid,
+        displayName: document.getElementById("up_displayName").value,
+        eid: document.getElementById("up_emailId").value,
+        mobileNumber: document.getElementById("up_mobileNumber").value
+      }).done(function (updateMeRes) {
+        if (updateMeRes == 200) {
+          alert("Updated Successfully, Press Ok to refresh.");
+          location.reload();
+        }
+        else {
+          alert("Failed to update :(");
+        }
+      });
 
+    }
+    else {
+      alert("No Data Was Changed");
+    }
+  });
 }
