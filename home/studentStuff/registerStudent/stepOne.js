@@ -132,7 +132,7 @@ stepOneHTML = `<div class="row">
         </div>
 
         <div class="row" style="margin-top:2%">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <select id="religion" class="form-control" type="text" placeholder="Religion" required>
                 <option value="" selected="selected" disabled="disabled">Select Religion</option>
                 <option value="Atheist">Atheist</option>
@@ -146,9 +146,9 @@ stepOneHTML = `<div class="row">
                 <option value="Other">Other</option>
             </select>
           </div>
-          <div class="col-md-6">
-            <select id="casteNRace" class="form-control" type="text" placeholder="Caste & Race" required>
-              <option value="" selected disabled>Select Caste / Race</option>
+          <div class="col-md-4">
+            <select id="category" class="form-control" type="text" placeholder="Select Category" required>
+              <option value="" selected disabled>Select Category / Race</option>
               <option value="OPEN">OPEN</option>
               <option value="OBC">OBC</option>
               <option value="SC">SC</option>
@@ -160,6 +160,10 @@ stepOneHTML = `<div class="row">
               <option value="NT-C">NT-C</option>
               <option value="NT-D">NT-D</option>
             </select>
+          </div>
+
+          <div class="col-md-4">
+              <input class = "form-control" id="caste" type="text" placeholder="Caste">
           </div>
         </div>
 
@@ -257,7 +261,8 @@ function setStudentDetails() {
     document.getElementById('pob_dist').value = studentDetail.pob_dist;
     document.getElementById('pob_state').value = studentDetail.pob_state;
     document.getElementById('religion').value = studentDetail.religion;
-    document.getElementById('casteNRace').value = studentDetail.casteNRace;
+    document.getElementById('category').value = studentDetail.category;
+    document.getElementById('caste').value = studentDetail.caste;
     document.getElementById('nationality').value = studentDetail.nationality;
     document.getElementById('motherTounge').value = studentDetail.motherTounge;
     document.getElementById('lastSchool').value = studentDetail.lastSchool;
@@ -303,7 +308,8 @@ function CreateNewStudent() {
     pob_dist: document.getElementById('pob_dist').value,
     pob_state: document.getElementById('pob_state').value,
     religion: document.getElementById('religion').value,
-    casteNRace: document.getElementById('casteNRace').value,
+    category: document.getElementById('category').value,
+    caste: document.getElementById('caste').value,
     nationality: document.getElementById('nationality').value,
     motherTounge: document.getElementById('motherTounge').value,
     lastSchool: document.getElementById('lastSchool').value,
@@ -349,7 +355,8 @@ function updateStudentDetails() {
     pob_dist: document.getElementById('pob_dist').value,
     pob_state: document.getElementById('pob_state').value,
     religion: document.getElementById('religion').value,
-    casteNRace: document.getElementById('casteNRace').value,
+    category: document.getElementById('category').value,
+    caste: document.getElementById('caste').value,
     nationality: document.getElementById('nationality').value,
     motherTounge: document.getElementById('motherTounge').value,
     lastSchool: document.getElementById('lastSchool').value,

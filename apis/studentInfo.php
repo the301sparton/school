@@ -23,7 +23,8 @@ else{
         $pob_dist = $_POST['pob_dist'];
         $pob_state = $_POST['pob_state'];
         $religion = $_POST["religion"];
-        $castNRace = $_POST["casteNRace"];
+        $category = $_POST["category"];
+        $caste = $_POST['caste'];
         $nationality = $_POST["nationality"];
         $motherTounge = $_POST["motherTounge"];
         $lastSchool = $_POST["lastSchool"];
@@ -36,7 +37,7 @@ else{
         $dob = date('Y-m-d', strtotime($dob_temp)); 
         $doa = date('Y-m-d', strtotime($doa_temp));
 
-        $sql = "INSERT INTO `studentInfo` (`formNumber`, `admissionNumber`, `govermentId`, `firstName`, `middleName`, `lastName`, `motherName`, `fatherName`,`gender`, `aadharNumber`, `dob`,`pob_city`, `pob_dist`, `pob_state`, `religion`, `casteNRace`, `nationality`, `motherTounge`, `lastSchool`, `lastClass`, `doa`, `submittedTC`,`rte`) VALUES ('$formNumber','$admissionNumber','$govermentId','$firstName','$middleName','$lastName','$motherName','$fatherName','$gender','$aadharNumber','$dob','$pob_city','$pob_dist','$pob_state','$religion','$castNRace','$nationality','$motherTounge','$lastSchool','$lastClass','$doa','$submittedTC','$rte')";
+        $sql = "INSERT INTO `studentInfo` (`formNumber`, `admissionNumber`, `govermentId`, `firstName`, `middleName`, `lastName`, `motherName`, `fatherName`,`gender`, `aadharNumber`, `dob`,`pob_city`, `pob_dist`, `pob_state`, `religion`, `caste`, `category`, `nationality`, `motherTounge`, `lastSchool`, `lastClass`, `doa`, `submittedTC`,`rte`) VALUES ('$formNumber','$admissionNumber','$govermentId','$firstName','$middleName','$lastName','$motherName','$fatherName','$gender','$aadharNumber','$dob','$pob_city','$pob_dist','$pob_state','$religion', '$caste','$category','$nationality','$motherTounge','$lastSchool','$lastClass','$doa','$submittedTC','$rte')";
         if($conn->query($sql) == TRUE) {
             $res = '{"resCode":200,"id":'.$conn->insert_id.'}';
             $studentId = $conn->insert_id;
@@ -52,7 +53,7 @@ else{
 
     else if($type=="getStudentDetailsById"){
         $studentId = $_POST['studentId'];
-        $sql = "SELECT `formNumber`, `admissionNumber`, `govermentId`, `firstName`, `middleName`, `lastName`, `motherName`, `fatherName`, `gender`, `aadharNumber`, `dob`, `pob_city`, `pob_dist`,`pob_state`, `religion`, `casteNRace`, `nationality`, `motherTounge`, `lastSchool`, `lastClass`, `doa`, `submittedTC`, `rte` FROM `studentInfo` WHERE studentId = $studentId";
+        $sql = "SELECT `formNumber`, `admissionNumber`, `govermentId`, `firstName`, `middleName`, `lastName`, `motherName`, `fatherName`, `gender`, `aadharNumber`, `dob`, `pob_city`, `pob_dist`,`pob_state`, `religion`, `category`, `caste`, `nationality`, `motherTounge`, `lastSchool`, `lastClass`, `doa`, `submittedTC`, `rte` FROM `studentInfo` WHERE studentId = $studentId";
         $result=mysqli_query($conn,$sql);
         $rows = array();    
         $r = mysqli_fetch_assoc($result);
@@ -75,7 +76,8 @@ else{
         $pob_dist = $_POST['pob_dist'];
         $pob_state = $_POST['pob_state'];
         $religion = $_POST["religion"];
-        $castNRace = $_POST["casteNRace"];
+        $category = $_POST["category"];
+        $caste = $_POST['caste'];
         $nationality = $_POST["nationality"];
         $motherTounge = $_POST["motherTounge"];
         $lastSchool = $_POST["lastSchool"];
@@ -87,7 +89,7 @@ else{
         $dob = date('Y-m-d', strtotime($dob_temp)); 
         $doa = date('Y-m-d', strtotime($doa_temp));
 
-        $sql = "UPDATE studentInfo SET formNumber = '$formNumber',admissionNumber = '$admissionNumber', govermentId = '$govermentId', firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', motherName = '$motherName', fatherName = '$fatherName', gender='$gender', aadharNumber = '$aadharNumber', dob = '$dob', pob_city='$pob_city', pob_dist='$pob_dist', pob_state='$pob_state', religion = '$religion', casteNRace = '$castNRace', nationality = '$nationality', motherTounge = '$motherTounge', lastSchool = '$lastSchool', lastClass = '$lastClass', doa = '$doa', submittedTC = '$submittedTC', rte='$rte' WHERE studentId = $studentId"; 
+        $sql = "UPDATE studentInfo SET formNumber = '$formNumber',admissionNumber = '$admissionNumber', govermentId = '$govermentId', firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', motherName = '$motherName', fatherName = '$fatherName', gender='$gender', aadharNumber = '$aadharNumber', dob = '$dob', pob_city='$pob_city', pob_dist='$pob_dist', pob_state='$pob_state', religion = '$religion', caste = '$caste', category = '$category', nationality = '$nationality', motherTounge = '$motherTounge', lastSchool = '$lastSchool', lastClass = '$lastClass', doa = '$doa', submittedTC = '$submittedTC', rte='$rte' WHERE studentId = $studentId"; 
         if($conn->query($sql) == TRUE) {
             echo 200;
         }
