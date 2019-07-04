@@ -1,3 +1,0 @@
-function modifyRole(){
-    setActiveColorsAdminTasks("modifyRole");
-}

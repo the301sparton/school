@@ -2,7 +2,7 @@ let user;
 let me_data;
 let myRoleList;
 let currentSession;
-let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canDeleteStudent; let canGenerateReceipt; let canStudentAttendence; let canStudentReport; let canFeesReport; let canModifyUser; let canCreateNewRole; let canModifyRole;
+let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canDeleteStudent; let canGenerateReceipt; let canStudentAttendence; let canStudentReport; let canFeesReport; let canManageUsers; let canManageRoles; let canManageFeesHeads; let canNewAccadamicYear;
 let currentStudentOption = '';
 let optionColors = ["D6E2E7", "E0E3EB", "B0CBD4", "C7D4F3"];
 let currentUprMenu = "top";
@@ -121,25 +121,32 @@ function setPermissions(currentRole) {
     canStudentReport = 0;
   }
 
-  if (currentRole.userModification == 1) {
-    canModifyUser = 1;
+  if (currentRole.manageUsers == 1) {
+    canManageUsers = 1;
   }
-  else if (canModifyUser == null) {
-    canModifyUser = 0;
-  }
-
-  if (currentRole.createNewRole == 1) {
-    canCreateNewRole = 1;
-  }
-  else if (canCreateNewRole == null) {
-    canCreateNewRole = 0;
+  else if (canManageUsers == null) {
+    canManageUsers = 0;
   }
 
-  if (currentRole.modifyRole == 1) {
-    canModifyRole = 1;
+  if (currentRole.manageRoles == 1) {
+    canManageRoles = 1;
   }
-  else if (canModifyRole == null) {
-    canModifyRole = 0;
+  else if (canManageRoles == null) {
+    canManageRoles = 0;
+  }
+
+  if (currentRole.manageFeesHeads == 1) {
+    canManageFeesHeads = 1;
+  }
+  else if (canManageFeesHeads == null) {
+    canManageFeesHeads = 0;
+  }
+
+  if (currentRole.newAccadamicYear == 1) {
+    canNewAccadamicYear = 1;
+  }
+  else if (canNewAccadamicYear == null) {
+    canNewAccadamicYear = 0;
   }
 }
 
@@ -217,15 +224,17 @@ function getlimitFees() {
 
 function getlimitAdminTasks() {
   let limit = new Array();
-  if (canModifyUser == 1) {
-    limit.push("createUser");
-    limit.push("modifyUser");
+  if (canManageUsers == 1) {
+    limit.push("manageUsers");
   }
-  if(canCreateNewRole == 1){
-    limit.push("createNewRole");
+  if(canManageRoles){
+    limit.push("manageRoles");
   }
-  if(canModifyRole == 1){
-    limit.push("modifyRole");
+  if(canManageFeesHeads == 1){
+    limit.push("manageFeesHeads");
+  }
+  if(canNewAccadamicYear == 1){
+    limit.push("newAccadamicYear");
   }
   return limit;
 }
@@ -369,59 +378,81 @@ function feesOptionView() {
 }
 
 function adminTasksView() {
-  if (canModifyUser == 1) {
-    adminTasksHTML = `<div class="container" id="adminHTML" style="padding-top:5%">
-    <div class="text-center">
-      <div class="row" id="studentOptionsRow1"style="margin-top:3%">
-          <div class="col-rmd-5 button button1" id="createUser" onclick="createUser()">Create User</div>
-          <div class="col-rmd-2">
-              
-          </div>
-          <div class="col-rmd-5 button button2" id="modifyUser" onclick="modifyUser()">Modify User</div>
-      </div>`;
+  
+  var AdminOptionHTML = ``;
+  if (canManageUsers == 1 && canManageRoles == 1) {
+    AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+        <div class="text-center">
+          <div class="row" id="studentOptionsRow1"style="margin-top:3%">
+              <div class="col-rmd-5 button button1" id="manageUsers" onclick="manageUsers()">Manage Users</div>
+              <div class="col-rmd-2">
+                  
+              </div>
+              <div class="col-rmd-5 button button2" id="manageRoles" onclick="manageRoles()">Manage User Groups</div>
+          </div>`;
   }
-  else{
-    adminTasksHTML = `<div class="container" id="adminHTML" style="padding-top:5%">
+  else if (canManageUsers == 1 && canManageRoles == 0) {
+    AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+        <div class="text-center">
+          <div class="row" id="studentOptionsRow1"style="margin-top:3%">
+              
+              <div class="col-rmd-4">
+                  
+              </div>
+              <div class="col-rmd-4 button button1" id="manageUsers" onclick="manageUsers()">Manage Users</div>
+              </div> 
+          `;
+  }
+  else if (canManageUsers == 0 && canManageRoles == 1) {
+    AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+        <div class="text-center">
+          <div class="row" id="studentOptionsRow1"style="margin-top:3%">
+              
+              <div class="col-rmd-4">
+                  
+              </div>
+              <div class="col-rmd-4 button button2" id="manageRoles" onclick="manageRoles()">Manage User Groups</div>
+          </div> 
+          `;
+  }
+  else {
+    AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
     <div class="text-center">`;
   }
-
-
-
-  if (canCreateNewRole == 0 && canModifyRole == 0) {
-    adminTasksHTML += ``;
+  if (canManageFeesHeads == 0 && canNewAccadamicYear == 0) {
+    AdminOptionHTML += ``;
   }
-  else if (canCreateNewRole == 1 && canModifyRole == 0) {
-    adminTasksHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
+  else if (canManageFeesHeads == 1 && canNewAccadamicYear == 0) {
+    AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
         <div class="col-rmd-4">
               
         </div>
-          <div class="col-rmd-4 button button3" id="createNewRole" onclick="createNewRole()">Create New Role Group</div>             
+          <div class="col-rmd-4 button button3" id="manageFeesHeads" onclick="manageFeesHeads()">Manage Fees Heads</div>             
       </div>`;
   }
-  else if (canCreateNewRole == 0 && canModifyRole == 1) {
-    adminTasksHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
+  else if (canManageFeesHeads == 0 && canNewAccadamicYear == 1) {
+    AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
               
         <div class="col-rmd-4">
             
         </div>
-        <div class="col-rmd-4 button button4" id="modifyRole" onclick="modifyRole()">Modify Role Groups</div>
+        <div class="col-rmd-4 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
     </div>`;
   }
-  else if (canCreateNewRole == 1 && canModifyRole == 1) {
-    adminTasksHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
-        <div class="col-rmd-5 button button3" id="createNewRole" onclick="createNewRole()">Create New Role Group</div>
+  else if (canManageFeesHeads == 1 && canNewAccadamicYear == 1) {
+    AdminOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
+        <div class="col-rmd-5 button button3" id="manageFeesHeads" onclick="manageFeesHeads()">Manage Fees Heads</div>
         <div class="col-rmd-2">
             
         </div>
-        <div class="col-rmd-5 button button4" id="modifyRole" onclick="modifyRole()">Modify Role Groups</div>
+        <div class="col-rmd-5 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
       </div>`;
   }
 
 
 
-
-  adminTasksHTML += ` <div class="row" style="margin-top:3%;margin-bottom:3%">
-  <div class="col" id="feesActionHolder" style="background: #EFF3FC; border-radius:10px; padding-top:2%">
+  AdminOptionHTML += ` <div class="row" style="margin-top:3%;margin-bottom:3%">
+  <div class="col" id="adminActionHolder" style="background: #EFF3FC; border-radius:10px; padding-top:2%">
       <h5 id="StudentSelectionHeading">Select one of above operations</h5>
   </div>                  
   </div>
@@ -429,7 +460,7 @@ function adminTasksView() {
   <div>`;
   document.getElementById(currentUprMenu).className = "";
   document.getElementById("admin").className = "active";
-  document.getElementById("section_main").innerHTML = adminTasksHTML;
+  document.getElementById("section_main").innerHTML = AdminOptionHTML;
   
  
 

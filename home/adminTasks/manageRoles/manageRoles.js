@@ -1,0 +1,3 @@
+function manageRoles(){
+    setActiveColorsAdminTasks("manageRoles");
+}

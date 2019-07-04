@@ -1,0 +1,3 @@
+function manageUsers(){
+    setActiveColorsAdminTasks("manageUsers");
+}
