@@ -121,7 +121,7 @@ function loadAllSessionsAndSetListeners() {
 function checkReportType() {
   if (FeeSessionSelect == null || FeeSessionSelect == "") {
     document.getElementById("errorMessage").innerText = "Please select accedamic year";
-    document.getElementById("errorMessage").style.display = "block"; 
+    document.getElementById("errorMessage").style.display = "block";
   }
   else {
 
@@ -159,7 +159,7 @@ function checkReportType() {
       document.getElementById("botHR").style.display = "block";
     }
 
-    else if(FeeRepostType == "byMonth"){
+    else if (FeeRepostType == "byMonth") {
       document.getElementById("feeSessionDiv").className = "col-md-5";
       document.getElementById('filterImg').style.display = "none";
       document.getElementById('receiptIdBox').style.display = "none";
@@ -168,7 +168,7 @@ function checkReportType() {
       document.getElementById('FeeReportHolder').innerHTML = ``;
       document.getElementById("errorMessage").style.display = "none";
 
-      if(FeeSessionSelect != ""){
+      if (FeeSessionSelect != "") {
         getMonthWiseReport();
       }
     }
@@ -181,27 +181,29 @@ function checkReportType() {
       document.getElementById('receiptGoBox').style.display = "none";
       document.getElementById('FeeReportHolder').innerHTML = ``;
       document.getElementById("feeInfoHolder").innerHTML = ``;
-      if(document.getElementById("filterClass").value == "" ||document.getElementById("filterClass").value == null|| document.getElementById("filterSection").value == ""|| document.getElementById("filterSection").value == null){
+      if (document.getElementById("filterClass").value == "" || document.getElementById("filterClass").value == null || document.getElementById("filterSection").value == "" || document.getElementById("filterSection").value == null) {
         document.getElementById("errorMessage").innerText = "Set values of Class And Section from filter";
         document.getElementById("errorMessage").style.display = "block";
       }
-      else{
+      else {
         UpdateFilter();
       }
       document.getElementById("botHR").style.display = "block";
     }
 
-    else if(FeeRepostType == "receiptById"){
-        document.getElementById('feeSessionDiv').style.display = "none";
-        document.getElementById('filterImg').style.display = "none";
-        document.getElementById('receiptIdBox').style.display = "block";
-        document.getElementById('receiptGoBox').style.display = "block";
-        document.getElementById("errorMessage").style.display = "none";
+    else if (FeeRepostType == "receiptById") {
+      document.getElementById('feeInfoHolder').innerHTML = ``;
+      document.getElementById('FeeReportHolder').innerHTML = ``;
+      document.getElementById('feeSessionDiv').style.display = "none";
+      document.getElementById('filterImg').style.display = "none";
+      document.getElementById('receiptIdBox').style.display = "block";
+      document.getElementById('receiptGoBox').style.display = "block";
+      document.getElementById("errorMessage").style.display = "none";
     }
-    
+
 
     else {
-      
+
     }
 
 
@@ -209,22 +211,22 @@ function checkReportType() {
 }
 
 
-function getReceipt(div){
+function getReceipt(div) {
   console.log(div);
 }
 
 function classSummeryReport() {
-  var classSummeryReportReq = $.post(baseUrl + "/apis/receiptStuff.php",{
+  var classSummeryReportReq = $.post(baseUrl + "/apis/receiptStuff.php", {
     type: "classSummeryReport",
     class: document.getElementById("filterClass").value,
     section: document.getElementById("filterSection").value,
     sessionName: FeeSessionSelect
   });
-  classSummeryReportReq.done(function(responseReport){
+  classSummeryReportReq.done(function (responseReport) {
     var reportJSON = JSON.parse(responseReport);
 
-    for(itr in reportJSON){
-      reportJSON[itr]["balenceFees"] = parseInt(reportJSON[itr].totalFees,10) - parseInt(reportJSON[itr].paidFees,10);
+    for (itr in reportJSON) {
+      reportJSON[itr]["balenceFees"] = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
     }
 
     console.log(reportJSON);
@@ -239,57 +241,57 @@ function classSummeryReport() {
       data: reportJSON,
 
       fields: [
-          { name: "studentId", type: "number", width: 80 },
-          { name: "fullname", type: "text", width: 150, validate: "required" },
-          { name: "totalFees", type: "number", width: 80 },
-          { name: "paidFees", type: "number", width:80 },
-          { name: "balenceFees", type: "number", width:80 }
+        { name: "studentId", type: "number", width: 80 },
+        { name: "fullname", type: "text", width: 150, validate: "required" },
+        { name: "totalFees", type: "number", width: 80 },
+        { name: "paidFees", type: "number", width: 80 },
+        { name: "balenceFees", type: "number", width: 80 }
       ]
-  });
-  document.getElementById('jsGrid').style.display = "block"
-  document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"><div>`;
-  document.getElementById('typeReport').innerText = "Class Summery Report For "+document.getElementById('filterClass').value+" "+document.getElementById("filterSection").value;
+    });
+    document.getElementById('jsGrid').style.display = "block"
+    document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"><div>`;
+    document.getElementById('typeReport').innerText = "Class Summery Report For " + document.getElementById('filterClass').value + " " + document.getElementById("filterSection").value;
   });
 }
 
-function buildDateReport(report,byDate){
+function buildDateReport(report, byDate) {
   let reportHeads = new Array();
-  let fieldsArr = new Array(), i=0;
-  if(report.length >= 1){
+  let fieldsArr = new Array(), i = 0;
+  if (report.length >= 1) {
     reportHeads = report[0];
-    for(key in reportHeads){
-      fieldsArr[i] = {name: key, type: "number", width: 20};
+    for (key in reportHeads) {
+      fieldsArr[i] = { name: key, type: "number", width: 20 };
       i++;
     }
-    if(byDate){
-      for(itr in report){
+    if (byDate) {
+      for (itr in report) {
         let finalDateArr = report[itr]["receiptDate"].split("-");
-        if(itr != report.length - 1)
-        report[itr]["receiptDate"] = finalDateArr[2]+"-"+finalDateArr[1]+"-"+finalDateArr[0];
-        
+        if (itr != report.length - 1)
+          report[itr]["receiptDate"] = finalDateArr[2] + "-" + finalDateArr[1] + "-" + finalDateArr[0];
+
       }
     }
-   // console.log(JSON.stringify(fieldsArr));
+    // console.log(JSON.stringify(fieldsArr));
   }
   document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
-    $("#jsGrid").jsGrid({
-      width: "100%",
-      inserting: false,
-      editing: false,
-      sorting: true,
-      paging: true,
-      data: report,
-      fields: fieldsArr
+  $("#jsGrid").jsGrid({
+    width: "100%",
+    inserting: false,
+    editing: false,
+    sorting: true,
+    paging: true,
+    data: report,
+    fields: fieldsArr
   });
   document.getElementById('jsGrid').style.display = "block"
   document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"></div>`;
   document.getElementById('feeInfoHolder').innerHTML += `<div class="container"><div class="col-md-12"><button style="float:right" class="btn btn-secondary" onclick="printReport()">Print</button></div></div>`
-  
+
   document.getElementById('typeReport').innerText = "Head summery Report";
 }
 
 function ReportByDates() {
-  
+
   if (document.getElementById("dateFrom").value != "" && document.getElementById("dateTo").value != "") {
     var reportByDateReq = $.post(baseUrl + "/apis/feesReport.php", {
       type: "byDay",
@@ -298,18 +300,18 @@ function ReportByDates() {
     });
 
     reportByDateReq.done(function (reportRes) {
-       var report = JSON.parse(reportRes);
-       buildDateReport(report, true);
+      var report = JSON.parse(reportRes);
+      buildDateReport(report, true);
     });
   }
 }
 
-function getMonthWiseReport(){
-  var monthWiseReportReq = $.post(baseUrl +"/apis/feesReport.php",{
+function getMonthWiseReport() {
+  var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
     type: "byMonth",
     sessionName: FeeSessionSelect
   });
-  monthWiseReportReq.done(function(reportRes){
+  monthWiseReportReq.done(function (reportRes) {
     buildDateReport(JSON.parse(reportRes));
   });
 }
@@ -319,12 +321,11 @@ function UpdateFilter() {
     ReportByDates();
   }
   else if (FeeRepostType == "classSummeryReport") {
-    if(document.getElementById("filterClass").value != "" && document.getElementById("filterClass").value != null && document.getElementById("filterSection").value != "" && document.getElementById("filterSection").value != null)
-      {
-        document.getElementById("errorMessage").style.display = "none";
-        classSummeryReport()
-      }
-    
+    if (document.getElementById("filterClass").value != "" && document.getElementById("filterClass").value != null && document.getElementById("filterSection").value != "" && document.getElementById("filterSection").value != null) {
+      document.getElementById("errorMessage").style.display = "none";
+      classSummeryReport()
+    }
+
   }
   else {
 
@@ -397,7 +398,7 @@ function getClassAndSection() {
   }
 }
 
-function printReport(){
+function printReport() {
   document.body.innerHTML = document.getElementById("jsGrid").innerHTML;
   window.print();
   document.location.reload()
