@@ -152,6 +152,10 @@ function updateSessionEntry(toReturn) {
     if (newSessionEntryRes == 200) {
       if (!toReturn) {
         alert("Student record saved successfully..!");
+        if(document.location.href.includes("home")){
+          studentOptionsView();
+        }
+        
       }
     }
     else {
