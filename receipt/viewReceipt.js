@@ -70,9 +70,9 @@ function pg_main(){
                         document.getElementById('t6_1').innerText = stuentData.firstName + " " + stuentData.middleName + " " + stuentData.lastName;
                         document.getElementById('t8_1').innerText = stuentData.class+" "+stuentData.section;
 
+                        console.log(feeHeadVal);
                         for (itr in feeHeadVal) {
                              totalAmount = parseInt(totalAmount, 10) + parseInt(feeHeadVal[itr].amount, 10);
-                             console.log(totalAmount);
                         }
 
                         document.getElementById('tq_1').innerText = totalAmount;
