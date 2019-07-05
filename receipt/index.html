@@ -13,22 +13,23 @@
 
 
 <style>
-.primary_btn{
-	padding: 1%;
-	width: 85px;
-	height: 35px;
-	border-radius: 8px;
-	background: #AED6F1;
-	cursor: pointer;
-}
-.secondary_btn{
-	padding: 1%;
-	width: 85px;
-	height: 35px;
-	border-radius: 8px;
-	background: #F1948A;
-	cursor: pointer;
-}
+	.primary_btn {
+		padding: 1%;
+		width: 85px;
+		height: 35px;
+		border-radius: 8px;
+		background: #AED6F1;
+		cursor: pointer;
+	}
+
+	.secondary_btn {
+		padding: 1%;
+		width: 85px;
+		height: 35px;
+		border-radius: 8px;
+		background: #F1948A;
+		cursor: pointer;
+	}
 </style>
 
 <body style="margin: 0;">
@@ -44,7 +45,7 @@
 
 	<table class="row no-print" style="margin-left: 3%; margin-top:1%">
 		<tr>
-			<td ><button class="primary_btn" onclick="pg_back()">Back</button></td>
+			<td><button class="primary_btn" onclick="pg_back()">Back</button></td>
 			<td><button class="secondary_btn" onclick="pg_print()" id="pg_print" disabled>Print</button></td>
 		</tr>
 	</table>
@@ -83,8 +84,9 @@
 					size: auto;
 					margin: 0mm;
 				}
-				.no-print, .no-print *
-				{
+
+				.no-print,
+				.no-print * {
 					display: none !important;
 				}
 			}
@@ -156,7 +158,7 @@
 				word-spacing: -1.6px;
 			}
 
-			#te_1 {
+			#id_0 {
 				left: 418px;
 				bottom: 578px;
 			}
@@ -172,7 +174,7 @@
 				word-spacing: -1.6px;
 			}
 
-			#th_1 {
+			#id_1 {
 				left: 418px;
 				bottom: 544px;
 			}
@@ -188,7 +190,7 @@
 				word-spacing: -1.6px;
 			}
 
-			#tk_1 {
+			#id_2 {
 				left: 418px;
 				bottom: 510px;
 			}
@@ -204,7 +206,7 @@
 				word-spacing: -1.6px;
 			}
 
-			#tn_1 {
+			#id_3 {
 				left: 418px;
 				bottom: 475px;
 			}
@@ -220,7 +222,7 @@
 				word-spacing: -1.6px;
 			}
 
-			#tq_1 {
+			#id_4 {
 				left: 418px;
 				bottom: 441px;
 			}
@@ -236,7 +238,7 @@
 				word-spacing: -1.6px;
 			}
 
-			#tt_1 {
+			#id_5 {
 				left: 418px;
 				bottom: 406px;
 			}
@@ -252,7 +254,7 @@
 				word-spacing: -1.6px;
 			}
 
-			#tw_1 {
+			#id_6 {
 				left: 418px;
 				bottom: 372px;
 			}
@@ -268,7 +270,7 @@
 				word-spacing: -1.6px;
 			}
 
-			#tz_1 {
+			#id_7 {
 				left: 418px;
 				bottom: 338px;
 			}
@@ -283,7 +285,7 @@
 				bottom: 303px;
 			}
 
-			#t12_1 {
+			#id_8 {
 				left: 418px;
 				bottom: 303px;
 			}
@@ -361,41 +363,44 @@
 		<div id="t9_1" class="t s2_1"><strong>S.N.</strong></div>
 		<div id="ta_1" class="t s2_1"><strong>PARTICULARS</strong></div>
 		<div id="tb_1" class="t s2_1"><strong>AMOUNT</strong></div>
-		<div id="tc_1" class="t s1_1">1</div>
-		<div id="td_1" class="t s1_1">½»À´²¶Á Â¶Á°Ž</div>
-		<div id="te_1" class="t s1_1"></div>
 
-		<div id="tf_1" class="t s1_1">2</div>
-		<div id="tg_1" class="t s1_1">·ÁÁÀ»¸ +»´¾°Ã²ÁÄ</div>
-		<div id="th_1" class="t s1_1"></div>
+		<div id="getAllHeads">
+			<div id="tc_1" class="t s1_1">1</div>
+			<div id="td_1" class="t s1_1">½»À´²¶Á Â¶Á°Ž</div>
+			<div id="id_0" class="t s1_1" style="display: none"></div>
 
-		<div id="ti_1" class="t s1_1">3</div>
-		<div id="tj_1" class="t s1_1">ÅÃ¶Æ°±´¶Ã *°°¿</div>
-		<div id="tk_1" class="t s1_1"></div>
+			<div id="tf_1" class="t s1_1">2</div>
+			<div id="tg_1" class="t s1_1">·ÁÁÀ»¸ +»´¾°Ã²ÁÄ</div>
+			<div id="id_1" class="t s1_1" style="display: none"></div>
 
-		<div id="tl_1" class="t s1_1">4</div>
-		<div id="tm_1" class="t s1_1">ÇÈ»¼²Á»´²¶Á *°°¿</div>
-		<div id="tn_1" class="t s1_1"></div>
+			<div id="ti_1" class="t s1_1">3</div>
+			<div id="tj_1" class="t s1_1">ÅÃ¶Æ°±´¶Ã *°°¿</div>
+			<div id="id_2" class="t s1_1" style="display: none"></div>
 
-		<div id="to_1" class="t s1_1">5</div>
-		<div id="tp_1" class="t s1_1">½¶¼³À´°Ã *°°¿</div>
-		<div id="tq_1" class="t s1_1"></div>
+			<div id="tl_1" class="t s1_1">4</div>
+			<div id="tm_1" class="t s1_1">ÇÈ»¼²Á»´²¶Á *°°¿</div>
+			<div id="id_3" class="t s1_1" style="display: none"></div>
 
-		<div id="tr_1" class="t s1_1">6</div>
-		<div id="ts_1" class="t s1_1">=̎ º̎ *̎ *°°¿</div>
-		<div id="tt_1" class="t s1_1"></div>
+			<div id="to_1" class="t s1_1">5</div>
+			<div id="tp_1" class="t s1_1">½¶¼³À´°Ã *°°¿</div>
+			<div id="id_4" class="t s1_1" style="display: none"></div>
 
-		<div id="tu_1" class="t s1_1">7</div>
-		<div id="tv_1" class="t s1_1">½Ž±¸° b´»ÁÉ *°°¿</div>
-		<div id="tw_1" class="t s1_1"></div>
+			<div id="tr_1" class="t s1_1">6</div>
+			<div id="ts_1" class="t s1_1">=̎ º̎ *̎ *°°¿</div>
+			<div id="id_5" class="t s1_1" style="display: none"></div>
 
-		<div id="tx_1" class="t s1_1">8</div>
-		<div id="ty_1" class="t s1_1">Q´¾°Ã *°°¿</div>
-		<div id="tz_1" class="t s1_1"></div>
+			<div id="tu_1" class="t s1_1">7</div>
+			<div id="tv_1" class="t s1_1">½Ž±¸° b´»ÁÉ *°°¿</div>
+			<div id="id_6" class="t s1_1" style="display: none"></div>
 
-		<div id="t10_1" class="t s1_1">9</div>
-		<div id="t11_1" class="t s1_1">Ê¸»¾</div>
-		<div id="t12_1" class="t s1_1"></div>
+			<div id="tx_1" class="t s1_1">8</div>
+			<div id="ty_1" class="t s1_1">Q´¾°Ã *°°¿</div>
+			<div id="id_7" class="t s1_1" style="display: none"></div>
+
+			<div id="t10_1" class="t s1_1">9</div>
+			<div id="t11_1" class="t s1_1">Ê¸»¾</div>
+			<div id="id_8" class="t s1_1" style="display: none"></div>
+		</div>
 
 		<div id="t13_1" class="t s2_1"><strong>TOTAL</strong></div>
 		<div id="t14_1" class="t s1_1"><strong id="total_Amount"></strong></div>

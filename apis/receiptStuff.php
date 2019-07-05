@@ -58,7 +58,7 @@ else{
         $result=mysqli_query($conn,$sql);
             
         while($r = mysqli_fetch_assoc($result)) {
-        $rows[] = $r;
+        $rows[$r["headId"]] = $r;
         }
         print json_encode($rows); 
     }
