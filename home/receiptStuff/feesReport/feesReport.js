@@ -249,7 +249,9 @@ function classSummeryReport() {
       ]
     });
     document.getElementById('jsGrid').style.display = "block"
+    
     document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"><div>`;
+    document.getElementById('feeInfoHolder').innerHTML += `<div class="container"><div class="col-md-12"><button style="float:right" class="btn btn-secondary" onclick="printReport()">Print</button></div></div>`
     document.getElementById('typeReport').innerText = "Class Summery Report For " + document.getElementById('filterClass').value + " " + document.getElementById("filterSection").value;
   });
 }
