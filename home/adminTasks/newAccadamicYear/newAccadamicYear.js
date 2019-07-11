@@ -10,13 +10,13 @@ function newAccadamicYear() {
 
     <div class="row">
       <div class="col-md-12" style="padding: 2%">
-          <h5 id="nextSessionMessage">If you start a new accedamic year all the new students you register will be registered for next<br>accedamic year which is </h5>
+          <h5 id="nextSessionMessage">If you start a new accedamic year all the new students you register will be registered for next<br>accedamic year and which is </h5>
       </div>
     </div>
 
     <div class="row" style="padding-bottom: 2%">
       <div class="col-md-12">
-          <button class="btn btn-primary" id="newAccedamicYearBtn">Continue</button>
+          <button class="btn btn-primary" onclick="newAccedamicYearContinue()">Continue</button>
       </div>
     </div>
 
@@ -30,4 +30,8 @@ function setNextAccedamicYearMessage() {
     let years = currentSession.split("-");
     let nextYear = " " + (parseInt(years[0], 10) + 1) + "-" + (parseInt(years[1], 10) + 1);
     document.getElementById("nextSessionMessage").innerText += nextYear;
+}
+
+function newAccedamicYearContinue(){
+    $("#modalNewAccedamicYear").modal()
 }
