@@ -1,6 +1,6 @@
 # School
 
-A project by vaicomp.com
+A cloud based school management system by vaicomp.com
 
 ## Getting Started
 
@@ -13,25 +13,30 @@ myPhpAdmin,
 apache server,
 php 7+
 
-```
-Give examples
-```
-
-### Deploying
-
-##### Changes to apis/db.php
-$servername = "localhost";
-$username = "u353330278_bes";
-$password = "";  //Insert Password Here
-$dbname = "u353330278_bes";
-
-##### Changes to js/config.js
-var baseUrl = "";
-var logOutUrl = "https://besgondia.org";
-
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Go to myPhpAdmin and import the database.sql file from stable release
+
+
+##### Changes to apis/db.php
+
+```
+$servername = "localhost";
+
+$username = "u353330278_bes";
+
+$password = "";  //Insert Password Here
+
+$dbname = "u353330278_bes";
+```
+
+##### Changes to js/config.js
+```
+var baseUrl = "";
+
+var logOutUrl = "https://besgondia.org";
+```
+
 
 ## Built With
 
@@ -49,7 +54,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Chaitanya Deshpande** - *Initial work* - [the301sparton](https://github.com/the301sparton)
+* **Chaitanya Deshpande** - [the301sparton](https://github.com/the301sparton)
 
 See also the list of [contributors](https://github.com/the301sparton/school/contributors) who participated in this project.
 
