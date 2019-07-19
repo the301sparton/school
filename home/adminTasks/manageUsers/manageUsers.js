@@ -21,11 +21,10 @@ function getUserList() {
     });
 
     getAllUsersReq.done(function (allUserStr) {
-        console.log(allUserStr);
         let allUserArray = JSON.parse(allUserStr);
         document.getElementById('allUserHolder').innerHTML = '';
         for (itr in allUserArray) {
-            userItemHtml = `<div class="row collapsible" onclick="viewStudent(this)">
+            userItemHtml = `<div class="row collapsible" onclick="getUserDetails(this)">
             <div style="display: none;" id="userId`+ itr + `"></div>
                <div class="col-rmd-1">
                  <img style="width: 50px; height: 50px; border-radius: 50%" id="userImg`+ itr + `">
@@ -62,4 +61,13 @@ function getUserList() {
         }
 
     });
+}
+
+function getUserDetails(usersView){
+    removeOtherUserViews(usersView);
+}
+
+function removeOtherUserViews(usersView){
+   document.getElementById("allUserHolder").innerHTML = '';
+   document.getElementById("allUserHolder").appendChild(usersView)
 }
