@@ -6,17 +6,9 @@ A cloud based school management system by vaicomp.com
 
 School is an full fleaged school management system developed by vaicomp.com It includes functionalities like student data mmanagement, accounting, Online tests, Attendence and statistical analysis.
 
-### Prerequisites
-
-A sql database,
-myPhpAdmin,
-apache server,
-php 7+
-
 ## Deployment
 
 Go to myPhpAdmin and import the database.sql file from stable release
-
 
 ##### Changes to apis/db.php
 
@@ -38,11 +30,13 @@ var logOutUrl = "https://besgondia.org";
 ```
 
 
-## Built With
+## Deploy to Hostinger 
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+```
+git checkout production
+git merge master
+git commit -production
+```
 
 ## Contributing
 
