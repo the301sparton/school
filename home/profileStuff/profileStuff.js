@@ -3,7 +3,7 @@ let updatedProfileImage = '';
 let imageDataChanged = false;
 function profileSettings() {
   $('#toggleNav').dropdown('toggle');
-  profileSettingsHTML = `<div class="container" id="profileSettingsHTML" style="margin-top:3%; margin-bottom: 3%; background: #f2f3f4; width: 50%; border-radius: 15px; padding: 2%">
+  profileSettingsHTML = `<div class="container" id="profileSettingsHTML" style="margin-top:3%; margin-bottom: 3%; background: #f2f3f4; width: 50%; border-radius: 15px; padding: 1%">
   <form id="profileUpdateForm">  
   <div class="row" style="margin-top:3%">
       <div class="col-rmd-2"></div>
