@@ -13,14 +13,13 @@ and add it to getpermission() function
 
 Release Config:
 
---- Changes to apis/db.php ---
+**Changes to apis/db.php**
 $servername = "localhost";
 $username = "u353330278_bes";
 $password = "";  //Insert Password Here
 $dbname = "u353330278_bes";
---- end ---
 
---- Changes to js/config.js ---
+**Changes to js/config.js**
 var baseUrl = "";
 var logOutUrl = "https://besgondia.org";
 --- end ---
