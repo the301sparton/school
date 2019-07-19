@@ -9,12 +9,14 @@ function manageUsers() {
     
     <div class="row" id="allUserHolder">
     </div>
+
+    <div class="row" id="userDetailsHolder">
+    </div>
     `;
     document.getElementById('adminActionHolder').innerHTML = manageUsersHTML;
     getUserList();
 
 }
-//run tavis
 function getUserList() {
     var getAllUsersReq = $.post(baseUrl + "/apis/User.php", {
         type: "getAllUsers"
@@ -64,7 +66,20 @@ function getUserList() {
 }
 
 function getUserDetails(usersView){
-    removeOtherUserViews(usersView);
+    removeOtherUserViews(usersView);  //remove other users from view
+
+    let uidForThis = usersView.childNodes[1].innerText;
+    
+    //get usertypes for selected user
+    var myRolesListReq = $.post(baseUrl+ "/apis/userGroup.php",{
+      type: "getAllRolesForUser",
+      uid: uidForThis
+    });
+
+    myRolesListReq.done(function(myRoleList){
+      let myRoleListArray = JSON.parse(myRoleList);
+      //TODO: Create view for selected user's userTypes
+    });
 }
 
 function removeOtherUserViews(usersView){

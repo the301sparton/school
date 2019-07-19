@@ -26,4 +26,14 @@ else{
         }
        print json_encode($rows);
     }
+    else if($type == "getAllRolesForUser"){
+        $uid = $_POST["uid"];
+        $sql = "SELECT `userType` FROM usergrouplist WHERE `uid` = '$uid'";
+        $rows = array();
+        $result=mysqli_query($conn,$sql);         
+        while($r = mysqli_fetch_assoc($result)) {
+            $rows[] = $r;
+        }
+        print json_encode($rows);
+    }
 }
