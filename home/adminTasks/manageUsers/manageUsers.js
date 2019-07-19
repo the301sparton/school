@@ -14,7 +14,7 @@ function manageUsers() {
     getUserList();
 
 }
-
+//run tavis
 function getUserList() {
     var getAllUsersReq = $.post(baseUrl + "/apis/User.php", {
         type: "getAllUsers"
