@@ -17,13 +17,12 @@ $(document).ready(function() {
                 img.setAttribute('crossOrigin', 'anonymous');
                 img.onload = function(){
                     var canvas = document.createElement("canvas");
+                    var ctx = canvas.getContext("2d");
                     canvas.width = img.width;
                     canvas.height = img.height;
-                    var ctx = canvas.getContext("2d");
-                    ctx.drawImage(img, 0, 0);
-                    var dataURL = canvas.toDataURL("image/png");
-                    imgBase = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-                    console.log(imgBase);
+                    ctx.drawImage(img,0,0, img.width, img.height);     // source rectangle
+                    var dataURL = canvas.toDataURL();
+                    imgBase = dataURL;
                 }
             }
             document.getElementById("displayName").value = user.displayName;
@@ -72,8 +71,8 @@ function readURL(input) {
         var reader = new FileReader();
         reader.onload = function (e) {
             $('#myProfileImagePicker').attr('src', e.target.result);
-             imgBase = e.target.result.split(",")[1];
-             console.log(imgBase);
+             imgBase = e.target.result;
+             document.getElementById('profileImage').src = imgBase
         }
         reader.readAsDataURL(input.files[0]);
     }

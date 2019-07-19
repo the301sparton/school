@@ -11,11 +11,12 @@ $(document).ready(function () {
   firebase.auth().onAuthStateChanged(function (usr) {
     if (usr) {
       user = usr;
-      setMyImage(user.photoURL);
+      
       var getUserReq = $.post("../apis/User.php", { type: "getById", uid: user.uid });
       getUserReq.done(function (user_dat) {
         me_data = JSON.parse(user_dat)[0];
         if (me_data != null) {
+          setMyImage(me_data.photo);
           var myRoleListReq = $.post("../apis/userGroup.php", { type: "getRoleList", uid: me_data.uid });
           myRoleListReq.done(function (myRoleListRes) {
             var temp = "Welcome " + me_data.displayName.split(" ")[0] + "\nyou have ";
@@ -67,8 +68,8 @@ $(document).ready(function () {
 
 });
 
-function setMyImage(image){
-  document.getElementById("me_img").src = image;
+function setMyImage(myImgBase){
+  document.getElementById("me_img").src = myImgBase;
 }
 
 function setPermissions(currentRole) {

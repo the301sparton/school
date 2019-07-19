@@ -19,8 +19,8 @@ else{
         $displayName = $_POST['displayName'];
         $eid = $_POST['eid'];
         $mobileNumber = $_POST['mobileNumber'];
-    
-        $sql = "INSERT INTO `users`(`uid`, `displayName`, `eid`, `mobileNumber`) VALUES ('$uid','$displayName','$eid','$mobileNumber')";
+        $photo = $_POST['photo'];
+        $sql = "INSERT INTO `users`(`uid`, `displayName`, `eid`, `mobileNumber`, `photo`) VALUES ('$uid','$displayName','$eid','$mobileNumber', '$photo')";
         if($conn->query($sql) == TRUE) {
             echo "200";
         }
