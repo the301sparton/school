@@ -55,8 +55,8 @@ else{
         $displayName = $_POST['displayName'];
         $eid = $_POST['eid'];
         $mobileNumber = $_POST['mobileNumber'];
-
-        $sql = "UPDATE users SET `displayName` = '$displayName', `eid` = '$eid', `mobileNumber` = '$mobileNumber' WHERE `uid` = '$uid'";
+        $photo = $_POST['photo'];
+        $sql = "UPDATE users SET `displayName` = '$displayName', `eid` = '$eid', `mobileNumber` = '$mobileNumber', `photo` = '$photo' WHERE `uid` = '$uid'";
         if($conn->query($sql) == TRUE) {
             echo 200;
         }
