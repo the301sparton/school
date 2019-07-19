@@ -1,4 +1,4 @@
-let user;
+let user; let imgBase;
 $(document).ready(function() { 
      firebase.auth().onAuthStateChanged(function(usr) {
         if (usr) {
@@ -13,6 +13,18 @@ $(document).ready(function() {
             
             if(user.photoURL !=null){
                 document.getElementById("profileImage").src = user.photoURL;
+                var img = document.getElementById("profileImage");
+                img.setAttribute('crossOrigin', 'anonymous');
+                img.onload = function(){
+                    var canvas = document.createElement("canvas");
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    var ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0);
+                    var dataURL = canvas.toDataURL("image/png");
+                    imgBase = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+                    console.log(imgBase);
+                }
             }
             document.getElementById("displayName").value = user.displayName;
             document.getElementById("eid").value = user.email;
@@ -28,6 +40,10 @@ $(document).ready(function() {
         }
 
       });
+
+      $("#img_picker").change(function () {
+        readURL(this);
+      });
 });
    
 $("#newUserForm").submit(function(event) {         
@@ -37,7 +53,8 @@ $("#newUserForm").submit(function(event) {
                              uid: user.uid,
                              displayName:document.getElementById("displayName").value,
                              eid:document.getElementById("eid").value,
-                             mobileNumber:document.getElementById("mobileNumber").value
+                             mobileNumber:document.getElementById("mobileNumber").value,
+                             photo: imgBase
                         });
     newUserReq.done(function(newUserRes){
         console.log(newUserRes);
@@ -49,3 +66,16 @@ $("#newUserForm").submit(function(event) {
         }
     });
 });
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#myProfileImagePicker').attr('src', e.target.result);
+             imgBase = e.target.result.split(",")[1];
+             console.log(imgBase);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+  }
+  

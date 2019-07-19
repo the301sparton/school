@@ -47,7 +47,6 @@ function readURL(input) {
           $('#studentImg').attr('src', e.target.result);
            imgBase = e.target.result.split(",")[1];
       }
-
       reader.readAsDataURL(input.files[0]);
       
   }

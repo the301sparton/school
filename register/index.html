@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Register</title>
@@ -11,7 +12,9 @@
   <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+    rel="stylesheet">
 
   <!-- Bootstrap CSS File -->
   <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -41,183 +44,197 @@
   ============================-->
   <header id="header">
 
-      <div id="topbar">
-        <div class="container">
-          <div class="social-links">
-            <a href="#" class="twitter" id="header_twitterLink"><i class="fa fa-twitter"></i></a>
-            <a href="#" class="facebook" id="header_facebookLink"><i class="fa fa-facebook"></i></a>
-            <a href="#" class="linkedin" id="header_linkedinLink"><i class="fa fa-linkedin"></i></a>
-            <a href="#" class="instagram" id="header_instagramLink"><i class="fa fa-instagram"></i></a>
-          </div>
-        </div>
-      </div>
-  
+    <div id="topbar">
       <div class="container">
-  
-        <div class="logo float-left">
-          <!-- Uncomment below if you prefer to use an image logo -->
-          <h1 class="text-light"><a href="#intro" class="scrollto"><span id="about_websiteTitle"></span></a></h1>
-          <!-- <a href="#header" class="scrollto"><img src="img/logo.png" alt="" class="img-fluid"></a> -->
+        <div class="social-links">
+          <a href="#" class="twitter" id="header_twitterLink"><i class="fa fa-twitter"></i></a>
+          <a href="#" class="facebook" id="header_facebookLink"><i class="fa fa-facebook"></i></a>
+          <a href="#" class="linkedin" id="header_linkedinLink"><i class="fa fa-linkedin"></i></a>
+          <a href="#" class="instagram" id="header_instagramLink"><i class="fa fa-instagram"></i></a>
         </div>
-  
-        <nav class="main-nav float-right d-none d-lg-block">
-          <ul>
-            <li class="active"><a href="#intro">Home</a></li>
-            <li><a href="#footer">Contact Us</a></li>
-            <li><a href="#" onclick="Logout()" id="nav_login">Logout</a></li> 
-          </ul>
-        </nav><!-- .main-nav -->
-        
       </div>
-    </header><!-- #header -->
+    </div>
+
+    <div class="container">
+
+      <div class="logo float-left">
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <h1 class="text-light"><a href="#intro" class="scrollto"><span id="about_websiteTitle"></span></a></h1>
+        <!-- <a href="#header" class="scrollto"><img src="img/logo.png" alt="" class="img-fluid"></a> -->
+      </div>
+
+      <nav class="main-nav float-right d-none d-lg-block">
+        <ul>
+          <li class="active"><a href="#intro">Home</a></li>
+          <li><a href="#footer">Contact Us</a></li>
+          <li><a href="#" onclick="Logout()" id="nav_login">Logout</a></li>
+        </ul>
+      </nav><!-- .main-nav -->
+
+    </div>
+  </header><!-- #header -->
 
 
-    <section id="intro" class="clearfix">
-        <div class="container d-flex h-100">
-          <div class="row justify-content-center align-self-center">
-            <div class="col-md-5 intro-info order-md-first order-last">
-              <form id="newUserForm">
+  <section id="intro" class="clearfix">
+    <div class="container d-flex h-100">
+      <div class="row justify-content-center align-self-center">
+        <div class="col-md-5 intro-info order-md-first order-last">
+          <form id="newUserForm">
 
-                    <div class="row" style="margin-top:4%">  
-                            <img src="" style="border-radius: 50%; height: 100px; width: 100px" id="profileImage">
-                    </div>
+            <div class="row" style="margin-top:3%">
+              <div class="col-md-2">
+                <div style="display:none" id="detId"></div>
+                <img id="profileImage" style="border-radius: 50%; height: 100px; width: 100px">
+              </div>
 
-                    <div class="row" style="margin-top:2%">
-                        <label for="displayName">Display Name</label>
-                        <input type="text" id="displayName" class="form-control" required>
-                    </div>
-
-                    <div class="row" style="margin-top:2%">
-                            <label for="displayName">Email Id</label>
-                            <input type="email" id="eid" class="form-control" required>
-                    </div>
-
-                    <div class="row" style="margin-top:2%">
-                            <label for="displayName">Mobile Number</label>
-                            <input id="mobileNumber" class="form-control" type="text" maxlength="10" pattern="[789][0-9]{9}" required>
-                    </div>
-
-                    <div class="row" style="margin-top:4%">
-                            <button type="submit" class="btn btn-primary" id="register_submit" onclick="newUser()">Submit</button>
-                    </div>
-                    
-              </form>
             </div>
-      
-            <div class="col-md-6 intro-img order-md-last order-first">
-              <img src="../img/features-1.svg" alt="" class="img-fluid">
+            <div class="row" style="margin-top:3%">
+              <div class="col-md-3">
+                <input type="file" accept="image/*" id="img_picker">
+              </div>
             </div>
-          </div>
-    
+
+            <div class="row" style="margin-top:2%">
+              <label for="displayName">Display Name</label>
+              <input type="text" id="displayName" class="form-control" required>
+            </div>
+
+            <div class="row" style="margin-top:2%">
+              <label for="displayName">Email Id</label>
+              <input type="email" id="eid" class="form-control" required>
+            </div>
+
+            <div class="row" style="margin-top:2%">
+              <label for="displayName">Mobile Number</label>
+              <input id="mobileNumber" class="form-control" type="text" maxlength="10" pattern="[789][0-9]{9}" required>
+            </div>
+
+            <div class="row" style="margin-top:4%">
+              <button type="submit" class="btn btn-primary" id="register_submit" onclick="newUser()">Submit</button>
+            </div>
+
+          </form>
         </div>
-    </section><!-- #intro -->
 
-    <!--==========================
+        <div class="col-md-6 intro-img order-md-last order-first">
+          <img src="../img/features-1.svg" alt="" class="img-fluid">
+        </div>
+      </div>
+
+    </div>
+  </section><!-- #intro -->
+
+  <!--==========================
     Footer
   ============================-->
   <footer id="footer" class="section-bg">
-      <div class="footer-top">
-        <div class="container">
-  
-          <div class="row">
-  
-            <div class="col-lg-6">
-  
-              <div class="row">
-  
-                  <div class="col-sm-6">
-  
-                    <div class="footer-info">
-                      <h3 id="fotter_WebsiteTitle"></h3>
-                      <h6 id="fotter_WebsiteDesc"></h6>  
-                    </div>
-                  </div>
-  
-                  <div class="col-sm-6">
-                    <div class="footer-links">
-                      <h4>Useful Links</h4>
-                      <ul>
-                        <li><a id="footer_tosLink">Terms of service</a></li>
-                        <li><a id="footer_ppLink">Privacy policy</a></li>
-                      </ul>
-                    </div>
-  
-                    <div class="footer-links">
-                      <h4>Contact Us</h4>
-                      <p id="footer_address">
-                        
-                      </p>
-                      
-                    </div>
-  
-                    <div class="social-links">
-                      <a href="#" class="twitter" id="footer_twitterLink"><i class="fa fa-twitter"></i></a>
-                      <a href="#" class="facebook" id="footer_facebookLink"><i class="fa fa-facebook"></i></a>
-                      <a href="#" class="instagram" id="footer_instagramLink"><i class="fa fa-instagram"></i></a>
-                      <a href="#" class="linkedin" id="footer_linkedinLink"><i class="fa fa-linkedin"></i></a>
-                    </div>
-  
-                  </div>
-  
-              </div>
-  
-            </div>
-  
-            <div class="col-lg-6">
-  
-              <div class="form">
-                
-                <h4>Send us a message</h4>
-                <p>We would be glad to hear your thoughts and suggestions<br>Connect with us and we will get back to you as soon as possible.</p>
-                <form class="contactForm" id="contactForm">
-                  <div class="form-group">
-                    <input type="text" name="name" class="form-control" id="feedbackName" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                    <div class="validation"></div>
-                  </div>
-                  <div class="form-group">
-                    <input type="email" class="form-control" name="email" id="feedbackEmail" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
-                    <div class="validation"></div>
-                  </div>
-                  <div class="form-group">
-                    <input type="text" class="form-control" name="subject" id="feedbackSubject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                    <div class="validation"></div>
-                  </div>
-                  <div class="form-group">
-                    <textarea class="form-control" name="message" id="feedbackMessgae" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
-                    <div class="validation"></div>
-                  </div>
-  
-                  <div id="sendmessage">Your message has been sent. Thank you!</div>
-                  <div id="errormessage"></div>
-  
-                  <div class="text-center"><button type="submit" title="Send Message">Send Message</button></div>
-                </form>
-              </div>
-  
-            </div>
-  
-            
-  
-          </div>
-  
-        </div>
-      </div>
-  
+    <div class="footer-top">
       <div class="container">
-        <div class="copyright">
-          &copy; Copyright <strong>Vaikuntha Computers</strong>. All Rights Reserved
+
+        <div class="row">
+
+          <div class="col-lg-6">
+
+            <div class="row">
+
+              <div class="col-sm-6">
+
+                <div class="footer-info">
+                  <h3 id="fotter_WebsiteTitle"></h3>
+                  <h6 id="fotter_WebsiteDesc"></h6>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="footer-links">
+                  <h4>Useful Links</h4>
+                  <ul>
+                    <li><a id="footer_tosLink">Terms of service</a></li>
+                    <li><a id="footer_ppLink">Privacy policy</a></li>
+                  </ul>
+                </div>
+
+                <div class="footer-links">
+                  <h4>Contact Us</h4>
+                  <p id="footer_address">
+
+                  </p>
+
+                </div>
+
+                <div class="social-links">
+                  <a href="#" class="twitter" id="footer_twitterLink"><i class="fa fa-twitter"></i></a>
+                  <a href="#" class="facebook" id="footer_facebookLink"><i class="fa fa-facebook"></i></a>
+                  <a href="#" class="instagram" id="footer_instagramLink"><i class="fa fa-instagram"></i></a>
+                  <a href="#" class="linkedin" id="footer_linkedinLink"><i class="fa fa-linkedin"></i></a>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="form">
+
+              <h4>Send us a message</h4>
+              <p>We would be glad to hear your thoughts and suggestions<br>Connect with us and we will get back to you
+                as soon as possible.</p>
+              <form class="contactForm" id="contactForm">
+                <div class="form-group">
+                  <input type="text" name="name" class="form-control" id="feedbackName" placeholder="Your Name"
+                    data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control" name="email" id="feedbackEmail" placeholder="Your Email"
+                    data-rule="email" data-msg="Please enter a valid email" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="subject" id="feedbackSubject" placeholder="Subject"
+                    data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name="message" id="feedbackMessgae" rows="5" data-rule="required"
+                    data-msg="Please write something for us" placeholder="Message"></textarea>
+                  <div class="validation"></div>
+                </div>
+
+                <div id="sendmessage">Your message has been sent. Thank you!</div>
+                <div id="errormessage"></div>
+
+                <div class="text-center"><button type="submit" title="Send Message">Send Message</button></div>
+              </form>
+            </div>
+
+          </div>
+
+
+
         </div>
-        <div class="credits">
-          <!--
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>Vaikuntha Computers</strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!--
             All the links in the footer should remain intact.
             You can delete the links only if you purchased the pro version.
             Licensing information: https://bootstrapmade.com/license/
             Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Rapid
           -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
       </div>
-    </footer><!-- #footer -->
+    </div>
+  </footer><!-- #footer -->
 
 
   <script src="../lib/jquery/jquery.min.js"></script>
@@ -239,6 +256,7 @@
   <script src="../js/setAll.js"></script>
   <script src="../js/firebaseAuth.js"></script>
   <script src="../js/register_main.js"></script>
-  
-  </body>
-  </html>
+
+</body>
+
+</html>

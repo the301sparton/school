@@ -5,7 +5,11 @@ function manageUsers(){
     <div class="text-center">
           <h5>Manage Users</h5>
           <hr>
-    </div>`;
+    </div>
+    
+    <div class="row" id="allUserHolder">
+    </div>
+    `;
     document.getElementById('adminActionHolder').innerHTML = manageUsersHTML;
     getUserList();
 
@@ -18,5 +22,8 @@ function getUserList(){
 
     getAllUsersReq.done(function(allUserStr){
         console.log(allUserStr);
+        let allUserArray = JSON.parse(allUserStr);
+
+        
     });
 }
