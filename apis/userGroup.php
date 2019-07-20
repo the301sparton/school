@@ -36,4 +36,15 @@ else{
         }
         print json_encode($rows);
     }
+
+    else if($type == "deleteUserGroupById"){
+        $id = $_POST["id"];
+        $sql = "DELETE FROM usergrouplist WHERE `id` = '$id'";
+        if($conn->query($sql) == TRUE) {
+            echo 200;
+        }
+        else{
+            echo 500;
+        }
+    }
 }
