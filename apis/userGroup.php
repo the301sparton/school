@@ -28,7 +28,7 @@ else{
     }
     else if($type == "getAllRolesForUser"){
         $uid = $_POST["uid"];
-        $sql = "SELECT `userType` FROM usergrouplist WHERE `uid` = '$uid'";
+        $sql = "SELECT `id`, `userType` FROM usergrouplist WHERE `uid` = '$uid'";
         $rows = array();
         $result=mysqli_query($conn,$sql);         
         while($r = mysqli_fetch_assoc($result)) {

@@ -10,7 +10,7 @@ function manageUsers() {
     <div class="row" id="allUserHolder">
     </div>
 
-    <div class="row" id="userDetailsHolder">
+    <div class="container" id="userDetailsHolder">
     </div>
     `;
     document.getElementById('adminActionHolder').innerHTML = manageUsersHTML;
@@ -36,13 +36,14 @@ function getUserList() {
                    <div class="col-rmd-8" id="displayName`+ itr + `">
                      
                    </div>
-                   <div class="col-rmd-4" style="text-align: right; padding-right:1%" id="mobileNumber`+ itr + `">
-                    
+                   <div class="col-rmd-4" style="text-align: right; padding-right:1%" id="mobileNumber`+ itr + `"> 
                    </div>
                  </div>
-                 <div class="row">
-                   <div class="col-rmd-8" id="emailId`+ itr + `">
+                 <div class="row" style="margin-top:1%">
+                   <div class="col-rmd-10" id="emailId`+ itr + `">
                    </div>
+                   <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteUser(this)"></i></div>
+
                   
                  </div>
                </div> 
@@ -65,10 +66,15 @@ function getUserList() {
     });
 }
 
-function getUserDetails(usersView){
-    removeOtherUserViews(usersView);  //remove other users from view
+function deleteUser(deleteUserBtn){
+  event.stopPropagation();
+  //TODO Implement Delete user
+}
 
-    let uidForThis = usersView.childNodes[1].innerText;
+function getUserDetails(usersView){
+
+    removeOtherUserViews(usersView);  //remove other users from view
+    let uidForThis = usersView.childNodes[1].innerText; //get userId from view
     
     //get usertypes for selected user
     var myRolesListReq = $.post(baseUrl+ "/apis/userGroup.php",{
@@ -78,8 +84,30 @@ function getUserDetails(usersView){
 
     myRolesListReq.done(function(myRoleList){
       let myRoleListArray = JSON.parse(myRoleList);
-      //TODO: Create view for selected user's userTypes
+      document.getElementById('userDetailsHolder').innerHTML = `<div class="text-center">
+        <h6>Edit User Groups</h6>
+        <hr>
+      </div>`;
+
+      if(myRoleListArray.length > 0){
+        for(itr in myRoleListArray){
+          let roleItemHTML = `<div class="row collapsible" style="cursor:default">
+          <div class="col" id="roleId`+itr+`" style="display:none"></div>
+          <div class="col-md-10" id="roleName`+itr+`"></div>
+          <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
+          </div>`
+          document.getElementById('userDetailsHolder').innerHTML += roleItemHTML;
+          document.getElementById('roleId'+itr).innerText = myRoleListArray[itr].id;
+          document.getElementById('roleName'+itr).innerText = myRoleListArray[itr].userType;
+         
+        }
+      }
+      
     });
+}
+
+function deleteRoleItem(roleItemView){
+//TODO Delete User Role
 }
 
 function removeOtherUserViews(usersView){
