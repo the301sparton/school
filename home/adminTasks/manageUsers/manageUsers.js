@@ -17,6 +17,7 @@ function manageUsers() {
   getUserList();
 
 }
+
 function getUserList() {
   var getAllUsersReq = $.post(baseUrl + "/apis/User.php", {
     type: "getAllUsers"
@@ -27,7 +28,7 @@ function getUserList() {
     document.getElementById('allUserHolder').innerHTML = '';
     for (itr in allUserArray) {
       userItemHtml = `<div class="row collapsible" onclick="getUserDetails(this)">
-            <div style="display: none;" id="userId`+ itr + `"></div>
+            
                <div class="col-rmd-1">
                  <img style="width: 50px; height: 50px; border-radius: 50%" id="userImg`+ itr + `">
                </div>
@@ -42,6 +43,7 @@ function getUserList() {
                  <div class="row" style="margin-top:1%">
                    <div class="col-rmd-10" id="emailId`+ itr + `">
                    </div>
+                   <div style="display: none;" id="userId`+ itr + `"></div>
                    <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteUser(this)"></i></div>
 
                   
@@ -68,13 +70,30 @@ function getUserList() {
 
 function deleteUser(deleteUserBtn) {
   event.stopPropagation();
-  //TODO Implement Delete user
+  let uidForDelete = deleteUserBtn.parentNode.parentNode.childNodes[3].innerText;
+  let confirmDelteUser = confirm("Are you sure about deleting user account..?");
+  if (confirmDelteUser == true) {
+    let userDeleteReq = $.post(baseUrl + "/apis/User.php", {
+      type: "deleteUserByUid",
+      uid: uidForDelete
+    });
+
+    userDeleteReq.done(function (responce) {
+      if (responce == 200) {
+        document.getElementById("allUserHolder").removeChild(deleteUserBtn.parentNode.parentNode.parentNode.parentNode)
+      }
+      else {
+        alert("Failed to delete user :(");
+      }
+    });
+  }
+
 }
 
 function getUserDetails(usersView) {
 
   removeOtherUserViews(usersView);  //remove other users from view
-  let uidForThis = usersView.childNodes[1].innerText; //get userId from view
+  let uidForThis = usersView.childNodes[3].childNodes[3].childNodes[3].innerText //get userId from view
 
   //get usertypes for selected user
   var myRolesListReq = $.post(baseUrl + "/apis/userGroup.php", {
@@ -99,32 +118,30 @@ function getUserDetails(usersView) {
         document.getElementById('userDetailsHolder').innerHTML += roleItemHTML;
         document.getElementById('roleId' + itr).innerText = myRoleListArray[itr].id;
         document.getElementById('roleName' + itr).innerText = myRoleListArray[itr].userType;
-
       }
     }
-
   });
 }
 
 function deleteRoleItem(roleItemView) {
   //TODO Delete User Role
   var confirmState = confirm("Are you sure about removing this usergroup..?");
-  if(confirmState == true){
+  if (confirmState == true) {
     let roleId = roleItemView.parentNode.parentNode.childNodes[1].innerText;
     let deleteRoleReq = $.post(baseUrl + "/apis/userGroup.php", {
       type: "deleteUserGroupById",
       id: roleId
     });
-  
+
     deleteRoleReq.done(function (responce) {
       if (responce == 200) {
         roleItemView.parentNode.parentNode.parentNode.removeChild(roleItemView.parentNode.parentNode);
       }
-      else{
+      else {
         alert("Failed to delete usergroup. :(");
       }
     })
-  }  
+  }
 }
 
 function removeOtherUserViews(usersView) {

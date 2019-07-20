@@ -64,6 +64,23 @@ else{
             echo 500;
         }
     }
+
+    else if($type == "deleteUserByUid"){
+        $uid = $_POST["uid"];
+        $sql = "DELETE FROM usergrouplist WHERE `uid` = '$uid'";
+        if($conn->query($sql) == TRUE) {
+           $sql1 = "DELETE FROM users WHERE `uid` = '$uid'";
+           if($conn->query($sql1) == TRUE) {
+               echo 200;
+           }
+           else{
+               echo 400;
+           }
+        }
+        else{
+            echo 500;
+        }
+    }
 }
 
 ?>
