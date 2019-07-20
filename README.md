@@ -38,9 +38,6 @@ git merge master
 git commit -production
 ```
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
@@ -48,9 +45,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Chaitanya Deshpande** - [the301sparton](https://github.com/the301sparton)
-
-See also the list of [contributors](https://github.com/the301sparton/school/contributors) who participated in this project.
+**Chaitanya Deshpande** - [the301sparton](https://github.com/the301sparton)
 
 ## License
 
