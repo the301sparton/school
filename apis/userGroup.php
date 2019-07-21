@@ -47,4 +47,24 @@ else{
             echo 500;
         }
     }
+
+    else if($type == "getUserGroupsToAdd"){
+        $uid = $_POST['uid'];
+        $rows = array();
+        $rowsFinal = array();
+        $sql = "SELECT userType FROM usergrouplist WHERE uid='$uid'";
+        $result=mysqli_query($conn,$sql);         
+        while($r = mysqli_fetch_assoc($result)) {
+                $rows[] = $r;
+        }
+
+        $sql2 = "SELECT userType from usergroup";
+        $result2=mysqli_query($conn,$sql2);         
+        while($r2 = mysqli_fetch_assoc($result2)) {
+            if(!in_array($r2,$rows)){
+                $rowsFinal[] = $r2;
+            }   
+        }
+        print json_encode($rowsFinal);
+    }
 }

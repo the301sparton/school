@@ -119,8 +119,43 @@ function getUserDetails(usersView) {
         document.getElementById('roleId' + itr).innerText = myRoleListArray[itr].id;
         document.getElementById('roleName' + itr).innerText = myRoleListArray[itr].userType;
       }
+
+      document.getElementById('userDetailsHolder').innerHTML += `<div class="row" style="margin-top:2%; margin-bottom:2%">
+      <div class="col-md-11"></div>
+      <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="addUserGroup(this)"></i>
+      </div>
+      </div>`
     }
   });
+}
+
+function addUserGroup(addBtnView){
+  let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[3].childNodes[3].innerText;
+  
+  var getUserGroupsToAdd = $.post(baseUrl+ "/apis/userGroup.php",{
+    type: "getUserGroupsToAdd",
+    uid: uid
+  });
+
+  getUserGroupsToAdd.done(function(userGroupList){
+    let userGroupListArray = JSON.parse(userGroupList);
+    $("#addRoleModal").modal();
+    document.getElementById("addRoleBody").innerHTML = ``;
+    for(itr in userGroupListArray){
+      document.getElementById("addRoleBody").innerHTML += `<div class="row">
+      <label for="newRole`+itr+`" class="checklabel"><div id="newRoleText`+itr+`"></div>
+              <input type="checkbox" id="newRole`+itr+`">
+              <span class="checkmark"></span>
+      </label>
+      <div>`;
+      document.getElementById("newRoleText"+itr).innerText = userGroupListArray[itr].userType;
+    }
+  });
+}
+
+function addNewRoleConfirm(){
+  let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[3].childNodes[3].innerText;
+
 }
 
 function deleteRoleItem(roleItemView) {
