@@ -80,6 +80,7 @@ function deleteUser(deleteUserBtn) {
 
     userDeleteReq.done(function (responce) {
       if (responce == 200) {
+        document.getElementById("userDetailsHolder").innerHTML = "";
         document.getElementById("allUserHolder").removeChild(deleteUserBtn.parentNode.parentNode.parentNode.parentNode)
       }
       else {
