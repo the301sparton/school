@@ -155,7 +155,14 @@ function addUserGroup(addBtnView){
 
 function addNewRoleConfirm(){
   let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[3].childNodes[3].innerText;
-
+  let viewArray = document.getElementById("addRoleBody").childNodes;
+  let userTypeArray = new Array();
+  for(itr = 0; itr<viewArray.length; itr++){
+    if(getCheckBoxValue("newRole"+itr)){
+      userTypeArray.push(document.getElementById("newRoleText"+itr).innerText);
+    }
+  }
+  console.log(userTypeArray);
 }
 
 function deleteRoleItem(roleItemView) {
