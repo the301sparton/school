@@ -162,6 +162,22 @@ function addNewRoleConfirm(){
       userTypeArray.push(document.getElementById("newRoleText"+itr).innerText);
     }
   }
+
+  var addNewRolesReq = $.post(baseUrl + "/apis/userGroup.php",{
+    type: "addNewRoles",
+    uid: uid,
+    thingsToAdd: userTypeArray
+  });
+
+  addNewRolesReq.done(function(responce){
+    if(responce == 200){
+      getUserDetails(document.getElementById('allUserHolder').childNodes[0]);
+    }
+    else{
+      console.log(responce)
+      alert("Failed to update user groups :(");
+    }
+  });
   console.log(userTypeArray);
 }
 

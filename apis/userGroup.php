@@ -67,4 +67,21 @@ else{
         }
         print json_encode($rowsFinal);
     }
+
+    else if($type == "addNewRoles"){
+        $uid = $_POST['uid'];
+        $thingsToAdd = $_POST['thingsToAdd'];
+        $toReturn = 200;
+        foreach($thingsToAdd as $userType){
+            $sql = "INSERT into `usergrouplist` (`uid`, `userType`) VALUES ('$uid', '$userType')";
+            if($conn->query($sql) == TRUE) {
+                $toReturn = 200;
+            }
+            else{
+                $toReturn = 500;
+                break;
+            }
+        }
+        echo $toReturn;
+    }
 }
