@@ -84,4 +84,27 @@ else{
         }
         echo $toReturn;
     }
+
+    else if($type == "searchUser"){
+        $searchType = $_POST["searchType"];
+        $inputSearch = $_POST['inputSearch'];
+        $inputSearch = $inputSearch."%";
+        $limit = $_POST['limit'];
+
+        if($searchType == "byName"){
+            $sql = "SELECT * from users WHERE `displayName` LIKE '$inputSearch' LIMIT $limit";
+        }
+        else if($searchType == "byEmailId"){
+            $sql = "SELECT * from users WHERE `eid` LIKE '$inputSearch' LIMIT $limit";
+        }
+        else if($searchType == "byPhoneNumber"){
+            $sql = "SELECT * from users WHERE `mobileNumber` LIKE '$inputSearch' LIMIT $limit";
+        }
+        $rows = array();
+        $result=mysqli_query($conn,$sql);         
+        while($r = mysqli_fetch_assoc($result)) {
+            $rows[] = $r;
+        }
+        print json_encode($rows);
+    }
 }

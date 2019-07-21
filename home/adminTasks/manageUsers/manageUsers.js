@@ -6,6 +6,34 @@ function manageUsers() {
           <h5>Manage Users</h5>
           <hr>
     </div>
+
+    
+    <div class="row" style="margin:2%">
+      <div class="col-md-4">
+        <input class="form-control" type="text" placeholder="Search.." onkeyup="sendSearchUserRequest()" id="searchBarView">
+      </div>
+      <div class="col-md-3">
+        <select class="form-control" id="searchBy">
+          <option selected disabled value="">Search By</option>
+          <option value="byName">Name</option>
+          <option value="byEmailId">Email Id</option>
+          <option value="byPhoneNumber">Phone Number</option>
+        </select>
+      </div>
+      <div class="col-md-2" style="text-align: end">
+        <label for="maxRows">Max Rows</label>
+      </div>
+      <div class="col-md-3">
+        <input class="form-control" type="number" id="maxRows" value = "5">
+      </div>
+    </div>
+
+
+    <div class="row" style="margin-top:1.5%;" >
+      <div class="col-md-7">
+      <div class="alert" id="errorMessage" style="display: none">Please Select search methord and number of rows</div>
+      </div>
+    </div>
     
     <div class="row" id="allUserHolder">
     </div>
@@ -14,28 +42,59 @@ function manageUsers() {
     </div>
     `;
   document.getElementById('adminActionHolder').innerHTML = manageUsersHTML;
-  getUserList();
+
+
+  $(document).on('change', '#searchBy', function () {
+    sendSearchUserRequest();
+  });
+  $(document).on('change', '#maxRows', function () {
+    sendSearchUserRequest();
+  });
 
 }
 
-function getUserList() {
-  var getAllUsersReq = $.post(baseUrl + "/apis/User.php", {
-    type: "getAllUsers"
-  });
+function sendSearchUserRequest() {
+  let queryString = document.getElementById("searchBarView").value;
+  let userSearchMeathord = document.getElementById("searchBy").value;
+  let maxCols = document.getElementById("maxRows").value;
 
-  getAllUsersReq.done(function (allUserStr) {
-    let allUserArray = JSON.parse(allUserStr);
-    document.getElementById('allUserHolder').innerHTML = '';
+  if (maxCols == "" || userSearchMeathord == "" || maxCols < parseInt("0",10)) {
+    document.getElementById("errorMessage").style.display = "block";
+  }
+  else {
+    if (queryString != "") {
+      document.getElementById("errorMessage").style.display = "none";
+      let searchUserReq = $.post(baseUrl + "/apis/userGroup.php", {
+        type: "searchUser",
+        searchType: userSearchMeathord,
+        limit: maxCols,
+        inputSearch: queryString
+      });
+
+      searchUserReq.done(function (responce) {
+        makeUserView(JSON.parse(responce));
+      });
+    }
+    else {
+      document.getElementById('allUserHolder').innerHTML = `<div class="row collapsible">
+    <div class="text-center"><h5>No Result Found</h5>
+    </div>
+    </div>`;
+    }
+  }
+}
+
+function makeUserView(allUserArray) {
+  document.getElementById('allUserHolder').innerHTML ='';
+  if (allUserArray.length > 0) {
     for (itr in allUserArray) {
       userItemHtml = `<div class="row collapsible" onclick="getUserDetails(this)">
-            
                <div class="col-rmd-1">
                  <img style="width: 50px; height: 50px; border-radius: 50%" id="userImg`+ itr + `">
                </div>
                <div class="col-rmd-11">
                  <div class="row" style="font-size: 18px">
                    <div class="col-rmd-8" id="displayName`+ itr + `">
-                     
                    </div>
                    <div class="col-rmd-4" style="text-align: right; padding-right:1%" id="mobileNumber`+ itr + `"> 
                    </div>
@@ -45,8 +104,6 @@ function getUserList() {
                    </div>
                    <div style="display: none;" id="userId`+ itr + `"></div>
                    <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteUser(this)"></i></div>
-
-                  
                  </div>
                </div> 
             </div>`
@@ -64,8 +121,14 @@ function getUserList() {
       document.getElementById('mobileNumber' + itr).innerText = allUserArray[itr].mobileNumber;
       document.getElementById('emailId' + itr).innerText = allUserArray[itr].eid;
     }
+  }
+  else {
+    document.getElementById('allUserHolder').innerHTML = `<div class="row collapsible">
+    <div class="text-center"><h4>No Result Found</h4>
+    </div>
+    </div>`;
+  }
 
-  });
 }
 
 function deleteUser(deleteUserBtn) {
@@ -130,51 +193,51 @@ function getUserDetails(usersView) {
   });
 }
 
-function addUserGroup(addBtnView){
+function addUserGroup(addBtnView) {
   let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[3].childNodes[3].innerText;
-  
-  var getUserGroupsToAdd = $.post(baseUrl+ "/apis/userGroup.php",{
+
+  var getUserGroupsToAdd = $.post(baseUrl + "/apis/userGroup.php", {
     type: "getUserGroupsToAdd",
     uid: uid
   });
 
-  getUserGroupsToAdd.done(function(userGroupList){
+  getUserGroupsToAdd.done(function (userGroupList) {
     let userGroupListArray = JSON.parse(userGroupList);
     $("#addRoleModal").modal();
     document.getElementById("addRoleBody").innerHTML = ``;
-    for(itr in userGroupListArray){
+    for (itr in userGroupListArray) {
       document.getElementById("addRoleBody").innerHTML += `<div class="row">
-      <label for="newRole`+itr+`" class="checklabel"><div id="newRoleText`+itr+`"></div>
-              <input type="checkbox" id="newRole`+itr+`">
+      <label for="newRole`+ itr + `" class="checklabel"><div id="newRoleText` + itr + `"></div>
+              <input type="checkbox" id="newRole`+ itr + `">
               <span class="checkmark"></span>
       </label>
       <div>`;
-      document.getElementById("newRoleText"+itr).innerText = userGroupListArray[itr].userType;
+      document.getElementById("newRoleText" + itr).innerText = userGroupListArray[itr].userType;
     }
   });
 }
 
-function addNewRoleConfirm(){
+function addNewRoleConfirm() {
   let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[3].childNodes[3].innerText;
   let viewArray = document.getElementById("addRoleBody").childNodes;
   let userTypeArray = new Array();
-  for(itr = 0; itr<viewArray.length; itr++){
-    if(getCheckBoxValue("newRole"+itr)){
-      userTypeArray.push(document.getElementById("newRoleText"+itr).innerText);
+  for (itr = 0; itr < viewArray.length; itr++) {
+    if (getCheckBoxValue("newRole" + itr)) {
+      userTypeArray.push(document.getElementById("newRoleText" + itr).innerText);
     }
   }
 
-  var addNewRolesReq = $.post(baseUrl + "/apis/userGroup.php",{
+  var addNewRolesReq = $.post(baseUrl + "/apis/userGroup.php", {
     type: "addNewRoles",
     uid: uid,
     thingsToAdd: userTypeArray
   });
 
-  addNewRolesReq.done(function(responce){
-    if(responce == 200){
+  addNewRolesReq.done(function (responce) {
+    if (responce == 200) {
       getUserDetails(document.getElementById('allUserHolder').childNodes[0]);
     }
-    else{
+    else {
       console.log(responce)
       alert("Failed to update user groups :(");
     }
@@ -183,10 +246,11 @@ function addNewRoleConfirm(){
 }
 
 function deleteRoleItem(roleItemView) {
-  //TODO Delete User Role
+  
   var confirmState = confirm("Are you sure about removing this usergroup..?");
   if (confirmState == true) {
     let roleId = roleItemView.parentNode.parentNode.childNodes[1].innerText;
+    console.log(roleId)
     let deleteRoleReq = $.post(baseUrl + "/apis/userGroup.php", {
       type: "deleteUserGroupById",
       id: roleId
@@ -207,3 +271,6 @@ function removeOtherUserViews(usersView) {
   document.getElementById("allUserHolder").innerHTML = '';
   document.getElementById("allUserHolder").appendChild(usersView)
 }
+
+
+//TODO replace getUserList With searchUserForList
