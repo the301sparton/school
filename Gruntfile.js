@@ -2,34 +2,39 @@
 module.exports = function (grunt) {
     grunt.initConfig({
 
-    // define source files and their destinations
-    uglify: {
-        files: [{ 
-            src: 'js/*.js',  // source files mask
-            dest: 'jsm/',    // destination folder
-            expand: true,    // allow dynamic building
-            flatten: true,   // remove all unnecessary nesting
-            ext: '.min.js'   // replace .js to .min.js
+        // define source files and their destinations
+        obfuscator: {
+            options: {
+                // global options for the obfuscator
+            },
+            task1: {
+                options: {
+                    // options for each sub task
+                },
+                files: {
+                    'dest/': [ // the files and their directories will be created in this folder
+                        './home/**/*.js',
+                        './js/**/*.js',
+                        './receipt/**/*.js',
+                        './register/**/*.js',
+                        './studentView/**/*.js'
+                    ]
+                }
+            }
         },
-        {
-            src: 'home/*.js',  // source files mask
-            dest: 'jsm/',    // destination folder
-            expand: true,    // allow dynamic building
-            flatten: true,   // remove all unnecessary nesting
-            ext: '.min.js'   // replace .js to .min.js
-        }]
-    },
-    watch: {
-        js:  { files: 'js/*.js', tasks: [ 'uglify' ] },
-    }
-});
+        watch: {
+            js: {
+                files: './**/*.js', tasks: ['obfuscator'], options: {
+                    livereload: true,
+                }
+            }
+        }
+    });
 
-// load plugins
-grunt.loadNpmTasks('grunt-contrib-watch');
-grunt.loadNpmTasks('grunt-contrib-uglify');
+    // load plugins
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-obfuscator')
 
-// register at least this one task
-grunt.registerTask('default', [ 'uglify' ]);
-
-
+    // register at least this one task
+    grunt.registerTask('default', ['obfuscator']);
 };

@@ -43,14 +43,12 @@ function manageUsers() {
     `;
   document.getElementById('adminActionHolder').innerHTML = manageUsersHTML;
 
-
   $(document).on('change', '#searchBy', function () {
     sendSearchUserRequest();
   });
   $(document).on('change', '#maxRows', function () {
     sendSearchUserRequest();
   });
-
 }
 
 function sendSearchUserRequest() {
