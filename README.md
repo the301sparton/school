@@ -55,7 +55,7 @@ var logOutUrl = "https://besgondia.org";
 
 ##### Changes to .gitignore
 ```
-remoce dist/
+remove dist/
 ```
 
 Compile the js
@@ -68,7 +68,7 @@ git rm -r home/**/*.js
 git rm -r js/*.js
 git rm -r receipt/*.js
 ```
-###### push prodction
+##### push prodction
 
 ## Versioning
 
