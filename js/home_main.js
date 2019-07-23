@@ -24,13 +24,13 @@ $(document).ready(function () {
             if (myRoleList.length > 0) {
               for (var i in myRoleList) {
                 currentRole = myRoleList[i];
-                temp += currentRole.userType;
-                if (i == myRoleList.length - 2) {
-                  temp += " & ";
-                }
-                else if (i > 1 && i != myRoleList.length) {
+                if (i > 0 && i != myRoleList.length-1) {
                   temp += ", ";
                 }
+                else if (i == myRoleList.length - 1) {
+                  temp += " & ";
+                }
+                temp += currentRole.userType;
                 setPermissions(currentRole);
               }
               temp += " powers.";
