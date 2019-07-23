@@ -35,6 +35,7 @@ $(document).ready(function () {
             window.location = baseUrl + "/home";
           }
           else {
+            console.log(baseUrl);
             window.location = baseUrl + "/register";
           }
         }
@@ -42,9 +43,9 @@ $(document).ready(function () {
           window.location = baseUrl + "/register";
         }
       });
-    }else{
+    }
+    else{
       document.getElementById('loader').style.display = "none";
     }
-    
   });
 });
