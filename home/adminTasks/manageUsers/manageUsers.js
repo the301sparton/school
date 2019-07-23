@@ -13,7 +13,7 @@ function manageUsers() {
         <input class="form-control" type="text" placeholder="Search.." onkeyup="sendSearchUserRequest()" id="searchBarView">
       </div>
       <div class="col-md-3">
-        <select class="form-control" id="searchBy">
+        <select class="form-control" id="searchByForUser">
           <option selected disabled value="">Search By</option>
           <option value="byName">Name</option>
           <option value="byEmailId">Email Id</option>
@@ -21,10 +21,10 @@ function manageUsers() {
         </select>
       </div>
       <div class="col-md-2" style="text-align: end">
-        <label for="maxRows">Max Rows</label>
+        <label for="maxRowsForUser">Max Rows</label>
       </div>
       <div class="col-md-3">
-        <input class="form-control" type="number" id="maxRows" value = "5">
+        <input class="form-control" type="number" id="maxRowsForUser" value = "5">
       </div>
     </div>
 
@@ -43,25 +43,25 @@ function manageUsers() {
     `;
   document.getElementById('adminActionHolder').innerHTML = manageUsersHTML;
 
-  $(document).on('change', '#searchBy', function () {
+  $(document).on('change', '#searchByForUser', function () {
     sendSearchUserRequest();
   });
-  $(document).on('change', '#maxRows', function () {
+  $(document).on('change', '#maxRowsForUser', function () {
     sendSearchUserRequest();
   });
 }
 
 function sendSearchUserRequest() {
   let queryString = document.getElementById("searchBarView").value;
-  let userSearchMeathord = document.getElementById("searchBy").value;
-  let maxCols = document.getElementById("maxRows").value;
+  let userSearchMeathord = document.getElementById("searchByForUser").value;
+  let maxCols = document.getElementById("maxRowsForUser").value;
   document.getElementById('userDetailsHolder').innerHTML = '';
 
   if (maxCols == "" || userSearchMeathord == "" || maxCols < parseInt("0",10)) {
     document.getElementById("errorMessage").style.display = "block";
   }
   else {
-    if (queryString != "") {
+    if (queryString != "" && queryString != null) {
       document.getElementById("errorMessage").style.display = "none";
       let searchUserReq = $.post(baseUrl + "/apis/userGroup.php", {
         type: "searchUser",
