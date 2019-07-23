@@ -205,6 +205,7 @@ function addUserGroup(addBtnView) {
     $("#addRoleModal").modal();
     document.getElementById("addRoleBody").innerHTML = ``;
     if(userGroupListArray.length>0){
+      document.getElementById('addRoleBtn').style.display = "block";
       for (var itr in userGroupListArray) {
         document.getElementById("addRoleBody").innerHTML += `<div class="row">
         <label for="newRole`+ itr + `" class="checklabel"><div id="newRoleText` + itr + `"></div>
@@ -216,6 +217,7 @@ function addUserGroup(addBtnView) {
       }
     }
     else{
+      document.getElementById('addRoleBtn').style.display = "none";
       document.getElementById("addRoleBody").innerHTML = "User is already part of all user groups";
     }
     
