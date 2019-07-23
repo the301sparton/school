@@ -237,11 +237,9 @@ function addNewRoleConfirm() {
       getUserDetails(document.getElementById('allUserHolder').childNodes[0]);
     }
     else {
-      console.log(responce)
       alert("Failed to update user groups :(");
     }
   });
-  console.log(userTypeArray);
 }
 
 function deleteRoleItem(roleItemView) {
@@ -249,7 +247,6 @@ function deleteRoleItem(roleItemView) {
   var confirmState = confirm("Are you sure about removing this usergroup..?");
   if (confirmState == true) {
     let roleId = roleItemView.parentNode.parentNode.childNodes[1].innerText;
-    console.log(roleId)
     let deleteRoleReq = $.post(baseUrl + "/apis/userGroup.php", {
       type: "deleteUserGroupById",
       id: roleId

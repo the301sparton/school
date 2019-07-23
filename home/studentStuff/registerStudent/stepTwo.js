@@ -200,7 +200,6 @@ loadContactDetailReq.done(function(loadContactDetailRes){
   if(loadContactDetailRes != "null"){
     
     let cotactDetails = JSON.parse(loadContactDetailRes);
-    console.log(cotactDetails)
     if(cotactDetails.localAddress != ""){
       document.getElementById('localAddress').value = cotactDetails.localAddress;
     }

@@ -130,7 +130,6 @@ function setSessionEntry() {
 }
 
 function updateSessionEntry(toReturn) {
-  console.log(toReturn);
   let imgBaseEncode
   if (imgBase == null) {
     imgBaseEncode = ""

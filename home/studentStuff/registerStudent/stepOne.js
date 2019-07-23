@@ -290,7 +290,6 @@ function setStudentDetails() {
 }
 
 function CreateNewStudent() {
-  console.log(baseUrl + "/apis/studentInfo.php")
   var submittedTC = getCheckBoxValue("submittedTC");
   var rte = getCheckBoxValue("rte");
   var newStudentDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
@@ -323,9 +322,7 @@ function CreateNewStudent() {
   });
 
   newStudentDetailReq.done(function (newStudentDetailRes) {
-    console.log(newStudentDetailRes);
     var responce = JSON.parse(newStudentDetailRes);
-    console.log(responce);
     if (responce.resCode == 200) {
       document.getElementById('studID').innerText = responce.id;
       stepTwo();
@@ -369,7 +366,6 @@ function updateStudentDetails() {
   });
 
   newStudentDetailReq.done(function (newStudentDetailRes) {
-    console.log(newStudentDetailRes)
     if (newStudentDetailRes == 200) {
       stepTwo(false);
     }
