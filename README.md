@@ -25,6 +25,15 @@ Start Woking
 
 Go to myPhpAdmin and import the database.sql file from stable release
 
+Remove current production branch
+```
+git branch -D production
+```
+Add new production branch
+```
+git checkout -b production
+```
+
 ##### Changes to apis/db.php
 
 ```
@@ -44,15 +53,22 @@ var baseUrl = "";
 var logOutUrl = "https://besgondia.org";
 ```
 
-
-## Deploy to Hostinger 
-
+##### Changes to .gitignore
 ```
-git checkout production
-git merge master
-git commit -production
+remoce dist/
 ```
 
+Compile the js
+```
+grunt
+```
+Remove simple js
+```
+git rm -r home/**/*.js
+git rm -r js/*.js
+git rm -r receipt/*.js
+```
+###### push prodction
 
 ## Versioning
 
