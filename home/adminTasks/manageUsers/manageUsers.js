@@ -55,6 +55,7 @@ function sendSearchUserRequest() {
   let queryString = document.getElementById("searchBarView").value;
   let userSearchMeathord = document.getElementById("searchBy").value;
   let maxCols = document.getElementById("maxRows").value;
+  document.getElementById('userDetailsHolder').innerHTML = '';
 
   if (maxCols == "" || userSearchMeathord == "" || maxCols < parseInt("0",10)) {
     document.getElementById("errorMessage").style.display = "block";
