@@ -14,7 +14,7 @@ npm install grunt-contrib-obfuscator --save-dev
 npm install grunt-contrib-watch --save-dev
 ```
 
-make sure package.json and Gruntfile.ja are in place
+make sure package.json and Gruntfile.js are in place
 
 ```
 grunt watch --force
