@@ -6,6 +6,21 @@ A cloud based school management system by vaicomp.com
 
 School is an full fleaged school management system developed by vaicomp.com It includes functionalities like student data mmanagement, accounting, Online tests, Attendence and statistical analysis.
 
+## Development
+Install node [NODE LTS](https://nodejs.org/en/)
+```
+npm install -g grunt-cli
+npm install grunt-contrib-obfuscator --save-dev
+npm install grunt-contrib-watch --save-dev
+```
+
+make sure package.json and Gruntfile.ja are in place
+
+```
+grunt watch --force
+```
+Start Woking
+
 ## Deployment
 
 Go to myPhpAdmin and import the database.sql file from stable release
