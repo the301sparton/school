@@ -6,7 +6,6 @@ $(document).ready(function () {
             var getUserReq = $.post("../apis/User.php", { type: "getById", uid: user.uid });
             getUserReq.done(function (user_dat) {
                 me_data = JSON.parse(user_dat)[0];
-                console.log(me_data);
                 if (me_data != null) {
                     var myRoleListReq = $.post("../apis/userGroup.php", { type: "getRoleList", uid: me_data.uid });
                     myRoleListReq.done(function (myRoleListRes) {
