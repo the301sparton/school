@@ -67,7 +67,7 @@ function searchNEdit(forReceiptTemp) {
   }
   else{
     document.getElementById('feesActionHolder').innerHTML = searchNEditHTML;
-    document.getElementById('searchHeading').innerText = "Step 1 : Select Student"
+    document.getElementById('searchHeading').innerText = "Step 1 : Select Student";
   }
   maxRows = 5;
   searchBy = null;
@@ -97,7 +97,7 @@ function loadAllSessions() {
 
   allSessionReq.done(function (allSessions) {
     allSessions = JSON.parse(allSessions);
-    for (index in allSessions) {
+    for (var index in allSessions) {
 
       $('#sessionSelect')
         .append($('<option>', { value: allSessions[index].sessionName })
@@ -109,7 +109,7 @@ function loadAllSessions() {
   sessionSelect = currentSession;
   
   
-  })
+  });
 }
 
 function studentSearch(searchBar) {
@@ -125,7 +125,7 @@ function studentSearch(searchBar) {
       searchByNameReq.done(function (searchByNameRes) {
         var searchResult = JSON.parse(searchByNameRes);
         createResultView(searchResult, searchBar.value);
-      })
+      });
     }
     else {
       removeResults();
@@ -156,10 +156,10 @@ function createResultView(searchResult, searchStr) {
     resultView = `<div class="row collapsible">
                       <div class="text-center"><h4>No Result Found</h4>
                       </div>
-                  </div>`
+                  </div>`;
                   document.getElementById("searchResultHolder").innerHTML = resultView;
   }
-  for (itr in searchResult) {
+  for (var itr in searchResult) {
     if (itr == maxRows) {
       break;
     }
@@ -188,7 +188,7 @@ function createResultView(searchResult, searchStr) {
       </div>
       <div class="row content" id="searchContent`+ itr + `">
          
-      </div>`
+      </div>`;
     }
     else{
       resultView = `<div class="row collapsible" onclick="selectedStudent(this)">
@@ -215,7 +215,7 @@ function createResultView(searchResult, searchStr) {
     </div>
     <div class="row content" id="searchContent`+ itr + `">
        
-    </div>`
+    </div>`;
     }
     
     document.getElementById("searchResultHolder").innerHTML += resultView;
@@ -246,7 +246,7 @@ function selectedStudent(parent){
  document.getElementById("searchResultHolder").appendChild(parent);
  let classId = parent.childNodes[3].innerText;
  let id = parent.childNodes[1].innerText;
- document.getElementById('searchHeading').innerText = "Step 2 : Click + to genrerate new receipt"
+ document.getElementById('searchHeading').innerText = "Step 2 : Click + to genrerate new receipt";
  getFeesDetails(id, classId); // in generateReceipt Module
 }
 

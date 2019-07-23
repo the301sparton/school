@@ -22,22 +22,22 @@ $(document).ready(function () {
             var temp = "Welcome " + me_data.displayName.split(" ")[0] + "\nyou have ";
             myRoleList = JSON.parse(myRoleListRes);
             if (myRoleList.length > 0) {
-              for (i in myRoleList) {
+              for (var i in myRoleList) {
                 currentRole = myRoleList[i];
                 temp += currentRole.userType;
                 if (i == myRoleList.length - 2) {
                   temp += " & ";
                 }
                 else if (i > 1 && i != myRoleList.length) {
-                  temp += ", "
+                  temp += ", ";
                 }
                 setPermissions(currentRole);
               }
-              temp += " powers."
+              temp += " powers.";
               document.getElementById('home_msg').innerText = temp;
             }
             else {
-              document.getElementById('home_msg').innerText = temp + " no powers."
+              document.getElementById('home_msg').innerText = temp + " no powers.";
             }
 
 
@@ -196,7 +196,7 @@ function setActiveColorsAdminTasks(toSet) {
 
 
 function getlimitStudent() {
-  let limit = new Array();
+  let limit = [];
   if (canRegisterStudent == 1) {
     limit.push("registerStudent");
   }
@@ -213,7 +213,7 @@ function getlimitStudent() {
 }
 
 function getlimitFees() {
-  let limit = new Array();
+  let limit = [];
   if (canFeesReport == 1) {
     limit.push("feesReport");
   }
@@ -224,7 +224,7 @@ function getlimitFees() {
 }
 
 function getlimitAdminTasks() {
-  let limit = new Array();
+  let limit = [];
   if (canManageUsers == 1) {
     limit.push("manageUsers");
   }

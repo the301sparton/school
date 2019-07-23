@@ -5,7 +5,7 @@ let isClassAndSectionFirst = true;
 let dateFrom, dateTo;
 function feesReport() {
 
-  clearFilter()
+  clearFilter();
   FeeRepostType = "";
   FeeSessionSelect = "";
   isFirstDateReportView = true;
@@ -92,7 +92,7 @@ function loadAllSessionsAndSetListeners() {
 
   allSessionReq.done(function (allSessions) {
     allSessions = JSON.parse(allSessions);
-    for (index in allSessions) {
+    for (var index in allSessions) {
       $('#FeeSessionSelect')
         .append($('<option>', { value: allSessions[index].sessionName })
           .text(allSessions[index].sessionName
@@ -147,11 +147,11 @@ function checkReportType() {
                                                           </div>`;
       if (isFirstDateReportView) {
         $(document).on('change', '#dateFrom', function () {
-          dateFrom = document.getElementById('dateFrom').value
+          dateFrom = document.getElementById('dateFrom').value;
           ReportByDates();
         });
         $(document).on('change', '#dateTo', function () {
-          dateTo = document.getElementById('dateTo').value
+          dateTo = document.getElementById('dateTo').value;
           ReportByDates();
         });
       }
@@ -225,8 +225,8 @@ function classSummeryReport() {
   classSummeryReportReq.done(function (responseReport) {
     var reportJSON = JSON.parse(responseReport);
 
-    for (itr in reportJSON) {
-      reportJSON[itr]["balenceFees"] = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
+    for (var itr in reportJSON) {
+      reportJSON[itr].balenceFees = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
     }
 
     console.log(reportJSON);
@@ -248,29 +248,29 @@ function classSummeryReport() {
         { name: "balenceFees", type: "number", width: 80 }
       ]
     });
-    document.getElementById('jsGrid').style.display = "block"
-    
+    document.getElementById('jsGrid').style.display = "block";
+
     document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"><div>`;
-    document.getElementById('feeInfoHolder').innerHTML += `<div class="container"><div class="col-md-12"><button style="float:right" class="btn btn-secondary" onclick="printReport()">Print</button></div></div>`
+    document.getElementById('feeInfoHolder').innerHTML += `<div class="container"><div class="col-md-12"><button style="float:right" class="btn btn-secondary" onclick="printReport()">Print</button></div></div>`;
     document.getElementById('typeReport').innerText = "Class Summery Report For " + document.getElementById('filterClass').value + " " + document.getElementById("filterSection").value;
   });
 }
 
 function buildDateReport(report, byDate) {
-  let reportHeads = new Array();
-  let fieldsArr = new Array(), i = 0;
+  let reportHeads = [];
+  let fieldsArr = [], i = 0;
   if (report.length >= 1) {
     reportHeads = report[0];
-    for (key in reportHeads) {
+    for (var key in reportHeads) {
       fieldsArr[i] = { name: key, type: "number", width: 20 };
       i++;
     }
     if (byDate) {
-      for (itr in report) {
-        let finalDateArr = report[itr]["receiptDate"].split("-");
-        if (itr != report.length - 1)
-          report[itr]["receiptDate"] = finalDateArr[2] + "-" + finalDateArr[1] + "-" + finalDateArr[0];
-
+      for (var itr in report) {
+        let finalDateArr = report[itr].receiptDate.split("-");
+        if (itr != report.length - 1) {
+          report[itr].receiptDate = finalDateArr[2] + "-" + finalDateArr[1] + "-" + finalDateArr[0];
+        }
       }
     }
     // console.log(JSON.stringify(fieldsArr));
@@ -285,9 +285,9 @@ function buildDateReport(report, byDate) {
     data: report,
     fields: fieldsArr
   });
-  document.getElementById('jsGrid').style.display = "block"
+  document.getElementById('jsGrid').style.display = "block";
   document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"></div>`;
-  document.getElementById('feeInfoHolder').innerHTML += `<div class="container"><div class="col-md-12"><button style="float:right" class="btn btn-secondary" onclick="printReport()">Print</button></div></div>`
+  document.getElementById('feeInfoHolder').innerHTML += `<div class="container"><div class="col-md-12"><button style="float:right" class="btn btn-secondary" onclick="printReport()">Print</button></div></div>`;
 
   document.getElementById('typeReport').innerText = "Head summery Report";
 }
@@ -325,7 +325,7 @@ function UpdateFilter() {
   else if (FeeRepostType == "classSummeryReport") {
     if (document.getElementById("filterClass").value != "" && document.getElementById("filterClass").value != null && document.getElementById("filterSection").value != "" && document.getElementById("filterSection").value != null) {
       document.getElementById("errorMessage").style.display = "none";
-      classSummeryReport()
+      classSummeryReport();
     }
 
   }
@@ -363,7 +363,7 @@ function getClassAndSection() {
           disabled: true
         }, '</option>'));
 
-        for (index in classJSON) {
+        for (var index in classJSON) {
           $('#filterClass')
             .append($('<option>', {
               value: classJSON[index].className,
@@ -388,7 +388,7 @@ function getClassAndSection() {
           disabled: true
         }, '</option>'));
 
-        for (index in sectionJSON) {
+        for (var index in sectionJSON) {
           $('#filterSection')
             .append($('<option>', {
               value: sectionJSON[index].sectionName,
@@ -403,5 +403,5 @@ function getClassAndSection() {
 function printReport() {
   document.body.innerHTML = document.getElementById("jsGrid").innerHTML;
   window.print();
-  document.location.reload()
+  document.location.reload();
 }

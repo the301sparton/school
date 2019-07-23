@@ -74,7 +74,7 @@ function stepThree() {
 
   getClassListReq.done(function (classListRes) {
     classList = JSON.parse(classListRes);
-    for (index in classList) {
+    for (var index in classList) {
       $('#sessionClass')
         .append($('<option>', { value: classList[index].className })
           .text(classList[index].className
@@ -85,7 +85,7 @@ function stepThree() {
     });
     getSectionListReq.done(function (sectionListRes) {
       sectionList = JSON.parse(sectionListRes);
-      for (index in sectionList) {
+      for (var index in sectionList) {
         $('#sessionSection')
           .append($('<option>', { value: sectionList[index].sectionName })
             .text(sectionList[index].sectionName
@@ -97,7 +97,7 @@ function stepThree() {
 
   $("#sessionDetails").submit(function (event) {
     event.preventDefault();
-    updateSessionEntry(false)
+    updateSessionEntry(false);
   });
 }
 
@@ -130,9 +130,9 @@ function setSessionEntry() {
 }
 
 function updateSessionEntry(toReturn) {
-  let imgBaseEncode
+  let imgBaseEncode;
   if (imgBase == null) {
-    imgBaseEncode = ""
+    imgBaseEncode = "";
   }
   else {
     imgBaseEncode = imgBase;
@@ -166,7 +166,7 @@ function updateSessionEntry(toReturn) {
 
 
 function sessionDetailBack() {
-  updateSessionEntry(true)
+  updateSessionEntry(true);
   stepTwo();
 
 }

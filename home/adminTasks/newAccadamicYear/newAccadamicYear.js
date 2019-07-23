@@ -33,5 +33,5 @@ function setNextAccedamicYearMessage() {
 }
 
 function newAccedamicYearContinue(){
-    $("#modalNewAccedamicYear").modal()
+    $("#modalNewAccedamicYear").modal();
 }

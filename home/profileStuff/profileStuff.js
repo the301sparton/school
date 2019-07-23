@@ -100,7 +100,7 @@ function updateProfileListener() {
         updatedProfileImage = e.target.result;
         document.getElementById('myProfileImgForUpdate').src = updatedProfileImage;
         imageDataChanged = true;
-      }
+      };
       reader.readAsDataURL(input.files[0]);
     }
   });

@@ -70,7 +70,7 @@ function setAmountPaid(studentId) {
             document.getElementById('feesPaidValue').innerText = amount + " ₹";
         }
 
-    })
+    });
 }
 
 function setTotalFees(studentId) {
@@ -84,7 +84,7 @@ function setTotalFees(studentId) {
         if (amount != null) {
             document.getElementById('totalFeesValue').innerText = amount + " ₹";
         }
-    })
+    });
 }
 
 function newReceiptView() {
@@ -104,7 +104,7 @@ function newReceiptView() {
 
         
         feeHeads = JSON.parse(HeadList);
-        for (itr in feeHeads) {
+        for (var itr in feeHeads) {
             FeeHeadHTML = `<div class="row" style="margin-top: 2%">
             <div class="col-md-6">
               <label id = "headName`+ itr + `"></label>
@@ -136,8 +136,8 @@ $('#newReceiptForm').submit(function (event) {
     let superBreaksOFF = true;
     
     
-    feesHeadVal = new Array();
-    for (itr in feeHeads) {
+    feesHeadVal = [];
+    for (var itr in feeHeads) {
         if (document.getElementById('headValue' + itr).value != 0 ) {
             if(document.getElementById('headValue' + itr).value == "" || document.getElementById('headValue' + itr).value == null){
                 superBreaksOFF = false;

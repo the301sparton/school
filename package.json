@@ -1,0 +1,28 @@
+{
+  "name": "school",
+  "version": "1.0.0",
+  "description": "SMS",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the301sparton/school.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/the301sparton/school/issues"
+  },
+  "homepage": "https://github.com/the301sparton/school#readme",
+  "devDependencies": {
+    "grunt": "^1.0.4",
+    "grunt-contrib-jshint": "^2.1.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-fixmyjs": "^0.3.0"
+  }
+}

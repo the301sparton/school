@@ -11,7 +11,7 @@ $(document).ready(function () {
                     myRoleListReq.done(function (myRoleListRes) {
                         myRoleList = JSON.parse(myRoleListRes);
                         if (myRoleList.length > 0) {
-                            for (i in myRoleList) {
+                            for (var i in myRoleList) {
                                 currentRole = myRoleList[i];
                                 setPermissions(currentRole);
                             }

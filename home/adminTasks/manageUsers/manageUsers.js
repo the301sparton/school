@@ -86,7 +86,7 @@ function sendSearchUserRequest() {
 function makeUserView(allUserArray) {
   document.getElementById('allUserHolder').innerHTML ='';
   if (allUserArray.length > 0) {
-    for (itr in allUserArray) {
+    for (var itr in allUserArray) {
       userItemHtml = `<div class="row collapsible" onclick="getUserDetails(this)">
                <div class="col-rmd-1">
                  <img style="width: 50px; height: 50px; border-radius: 50%" id="userImg`+ itr + `">
@@ -105,7 +105,7 @@ function makeUserView(allUserArray) {
                    <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteUser(this)"></i></div>
                  </div>
                </div> 
-            </div>`
+            </div>`;
 
       document.getElementById('allUserHolder').innerHTML += userItemHtml;
 
@@ -143,7 +143,7 @@ function deleteUser(deleteUserBtn) {
     userDeleteReq.done(function (responce) {
       if (responce == 200) {
         document.getElementById("userDetailsHolder").innerHTML = "";
-        document.getElementById("allUserHolder").removeChild(deleteUserBtn.parentNode.parentNode.parentNode.parentNode)
+        document.getElementById("allUserHolder").removeChild(deleteUserBtn.parentNode.parentNode.parentNode.parentNode);
       }
       else {
         alert("Failed to delete user :(");
@@ -156,7 +156,7 @@ function deleteUser(deleteUserBtn) {
 function getUserDetails(usersView) {
 
   removeOtherUserViews(usersView);  //remove other users from view
-  let uidForThis = usersView.childNodes[3].childNodes[3].childNodes[3].innerText //get userId from view
+  let uidForThis = usersView.childNodes[3].childNodes[3].childNodes[3].innerText; //get userId from view
 
   //get usertypes for selected user
   var myRolesListReq = $.post(baseUrl + "/apis/userGroup.php", {
@@ -172,12 +172,12 @@ function getUserDetails(usersView) {
       </div>`;
 
     if (myRoleListArray.length > 0) {
-      for (itr in myRoleListArray) {
+      for (var itr in myRoleListArray) {
         let roleItemHTML = `<div class="row collapsible" style="cursor:default">
           <div class="col" id="roleId`+ itr + `" style="display:none"></div>
           <div class="col-md-10" id="roleName`+ itr + `"></div>
           <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
-          </div>`
+          </div>`;
         document.getElementById('userDetailsHolder').innerHTML += roleItemHTML;
         document.getElementById('roleId' + itr).innerText = myRoleListArray[itr].id;
         document.getElementById('roleName' + itr).innerText = myRoleListArray[itr].userType;
@@ -187,7 +187,7 @@ function getUserDetails(usersView) {
       <div class="col-md-11"></div>
       <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="addUserGroup(this)"></i>
       </div>
-      </div>`
+      </div>`;
     }
   });
 }
@@ -204,22 +204,28 @@ function addUserGroup(addBtnView) {
     let userGroupListArray = JSON.parse(userGroupList);
     $("#addRoleModal").modal();
     document.getElementById("addRoleBody").innerHTML = ``;
-    for (itr in userGroupListArray) {
-      document.getElementById("addRoleBody").innerHTML += `<div class="row">
-      <label for="newRole`+ itr + `" class="checklabel"><div id="newRoleText` + itr + `"></div>
-              <input type="checkbox" id="newRole`+ itr + `">
-              <span class="checkmark"></span>
-      </label>
-      <div>`;
-      document.getElementById("newRoleText" + itr).innerText = userGroupListArray[itr].userType;
+    if(userGroupListArray.length>0){
+      for (var itr in userGroupListArray) {
+        document.getElementById("addRoleBody").innerHTML += `<div class="row">
+        <label for="newRole`+ itr + `" class="checklabel"><div id="newRoleText` + itr + `"></div>
+                <input type="checkbox" id="newRole`+ itr + `">
+                <span class="checkmark"></span>
+        </label>
+        <div>`;
+        document.getElementById("newRoleText" + itr).innerText = userGroupListArray[itr].userType;
+      }
     }
+    else{
+      document.getElementById("addRoleBody").innerHTML = "User is already part of all user groups";
+    }
+    
   });
 }
 
 function addNewRoleConfirm() {
   let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[3].childNodes[3].innerText;
   let viewArray = document.getElementById("addRoleBody").childNodes;
-  let userTypeArray = new Array();
+  let userTypeArray = [];
   for (itr = 0; itr < viewArray.length; itr++) {
     if (getCheckBoxValue("newRole" + itr)) {
       userTypeArray.push(document.getElementById("newRoleText" + itr).innerText);
@@ -259,13 +265,13 @@ function deleteRoleItem(roleItemView) {
       else {
         alert("Failed to delete usergroup. :(");
       }
-    })
+    });
   }
 }
 
 function removeOtherUserViews(usersView) {
   document.getElementById("allUserHolder").innerHTML = '';
-  document.getElementById("allUserHolder").appendChild(usersView)
+  document.getElementById("allUserHolder").appendChild(usersView);
 }
 
 

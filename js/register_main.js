@@ -23,7 +23,7 @@ $(document).ready(function() {
                     ctx.drawImage(img,0,0, img.width, img.height);     // source rectangle
                     var dataURL = canvas.toDataURL();
                     imgBase = dataURL;
-                }
+                };
             }
             document.getElementById("displayName").value = user.displayName;
             document.getElementById("eid").value = user.email;
@@ -72,8 +72,8 @@ function readURL(input) {
         reader.onload = function (e) {
             $('#myProfileImagePicker').attr('src', e.target.result);
              imgBase = e.target.result;
-             document.getElementById('profileImage').src = imgBase
-        }
+             document.getElementById('profileImage').src = imgBase;
+        };
         reader.readAsDataURL(input.files[0]);
     }
   }

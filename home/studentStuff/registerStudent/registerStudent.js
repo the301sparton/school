@@ -14,7 +14,7 @@ function registerStudent(){
                     </div>`;
 
     document.getElementById('studentActionHolder').innerHTML = registerHTML;
-   stepOne()
+   stepOne();
 }
 
 
@@ -22,14 +22,14 @@ function registerStudent(){
 //Extras
 
 function makeAddressSame(){
-    document.getElementById("permanentAddress").value = document.getElementById("localAddress").value
-    document.getElementById("permanentState").value = document.getElementById("localState").value
-    document.getElementById("permanentCity").value = document.getElementById("localCity").value
-    document.getElementById("permanentPincode").value = document.getElementById("localPincode").value
+    document.getElementById("permanentAddress").value = document.getElementById("localAddress").value;
+    document.getElementById("permanentState").value = document.getElementById("localState").value;
+    document.getElementById("permanentCity").value = document.getElementById("localCity").value;
+    document.getElementById("permanentPincode").value = document.getElementById("localPincode").value;
 }
 
 function getCheckBoxValue(Boxid){
-    var temp
+    var temp;
     var isChecked = document.getElementById(Boxid).checked;
     if(isChecked){
         temp = 1;
@@ -46,7 +46,7 @@ function readURL(input) {
       reader.onload = function (e) {
           $('#studentImg').attr('src', e.target.result);
            imgBase = e.target.result.split(",")[1];
-      }
+      };
       reader.readAsDataURL(input.files[0]);
       
   }
