@@ -6,7 +6,7 @@ function manageRoles(){
           <hr>
     </div>
     
-    <div class="row" id="manageRolesHolder">
+    <div class="container" id="manageRolesHolder">
     </div>
     
     </div>`;
@@ -21,6 +21,157 @@ function getRoleList(){
     });
 
     userRoleReq.done(function(responce){
-        console.log(responce);
+        var RoleArray = JSON.parse(responce);
+        if(RoleArray.length >0){
+            makeRoleEditView(RoleArray);
+        }
+        else{
+            //TODO add a no roles defined statement here
+        }
     });
+}
+
+function makeRoleEditView(roleArray){
+    document.getElementById("manageRolesHolder").innerHTML = "";
+    for(var itr in roleArray){
+        var itemHtml = `<div class="row collapsible" style="padding:2%" id="item`+itr+`" data-toggle="collapse" data-target="#data`+itr+`">
+            <div class="col-md-6" style="text-align:left" id="groupName`+itr+`"></div>
+            <div class="col-md-6" style="text-align:right"><i class="fa fa-arrow-down" style="display:block"></i></div>
+            </div>
+
+            <div id="data`+itr+`" class="collapse" style="background:#d4e6f1; padding:2%; border-radius: 15px; margin-left:2%; margin-right:2%">
+                   <h6>Group Properties</h6>
+                   <hr>
+                   <div class="row" style="padding:2%">
+                        <div class="col-md-3">
+                        <label for="manageUsers`+ itr + `" class="checklabel">Manage Users
+                            <input type="checkbox" id="manageUsers`+ itr + `">
+                            <span class="checkmark"></span>
+                        </label>
+                        </div>
+
+                        <div class="col-md-3">
+                        <label for="manageRoles`+ itr + `" class="checklabel">Manage Role Groups
+                            <input type="checkbox" id="manageRoles`+ itr + `">
+                            <span class="checkmark"></span>
+                        </label>
+                        </div>
+
+                        <div class="col-md-3">
+                        <label for="manageFeesHeads`+ itr + `" class="checklabel">Manage Fees
+                            <input type="checkbox" id="manageFeesHeads`+ itr + `">
+                            <span class="checkmark"></span>
+                        </label>
+                        </div>
+
+                        <div class="col-md-3">
+                        <label for="newAccadamicYear`+ itr + `" class="checklabel">Start New Accadamic Year
+                            <input type="checkbox" id="newAccadamicYear`+ itr + `">
+                            <span class="checkmark"></span>
+                         </label>
+                        </div>
+                   </div>
+
+                   <div class="row" style="padding:2%">
+                        <div class="col-md-4">
+                        <label for="registerStudent`+ itr + `" class="checklabel">Register Student
+                            <input type="checkbox" id="registerStudent`+ itr + `">
+                            <span class="checkmark"></span>
+                        </label>
+                        </div>
+
+                        <div class="col-md-4">
+                        <label for="searchNEdit`+ itr + `" class="checklabel">Search and edit student data
+                            <input type="checkbox" id="searchNEdit`+ itr + `">
+                            <span class="checkmark"></span>
+                        </label>
+                        </div>
+
+                        <div class="col-md-4">
+                        <label for="deleteStudent`+ itr + `" class="checklabel">Delete all student data
+                            <input type="checkbox" id="deleteStudent`+ itr + `">
+                            <span class="checkmark"></span>
+                        </label>
+                        </div>
+                   </div>
+
+                   <div class="row" style="padding:2%">
+                        <div class="col-md-3">
+                        <label for="generateReceipt`+ itr + `" class="checklabel">Generate Receipt
+                            <input type="checkbox" id="generateReceipt`+ itr + `">
+                            <span class="checkmark"></span>
+                        </label>
+                        </div>
+
+                        <div class="col-md-3">
+                        <label for="feesReport`+ itr + `" class="checklabel">View Fees Reports
+                            <input type="checkbox" id="feesReport`+ itr + `">
+                            <span class="checkmark"></span>
+                        </label>
+                        </div>
+
+                        <div class="col-md-3">
+                        <label for="studentAttendence`+ itr + `" class="checklabel">Enter Student Attendence
+                            <input type="checkbox" id="studentAttendence`+ itr + `">
+                            <span class="checkmark"></span>
+                        </label>
+                        </div>
+
+                        <div class="col-md-3">
+                        <label for="studentReport`+ itr + `" class="checklabel">Student Report
+                            <input type="checkbox" id="studentReport`+ itr + `">
+                            <span class="checkmark"></span>
+                        </label>
+                        </div>
+                   </div>
+
+                   <div class="row" style="padding:1%">
+                    <div class="col-md-12">
+                           <button class="btn btn-primary" style="float:right">Update</button>
+                           <button class="btn btn-danger" style="float:right; margin-right:2%">Delete Group</button>
+                            
+                    </div>
+                   </div>
+            </div>
+        `;
+
+        document.getElementById("manageRolesHolder").innerHTML += itemHtml;
+       
+        document.getElementById("groupName"+itr).innerText = roleArray[itr].userType;
+        console.log(roleArray[itr]);
+        if(roleArray[itr].manageUsers == 1){
+            document.getElementById("manageUsers"+itr).checked = true;
+        }
+        if(roleArray[itr].manageRoles == 1){
+            document.getElementById("manageRoles"+itr).checked = true;
+        }
+        if(roleArray[itr].manageFeesHeads == 1){
+            document.getElementById("manageFeesHeads"+itr).checked = true;
+        }
+        if(roleArray[itr].newAccadamicYear == 1){
+            document.getElementById("newAccadamicYear"+itr).checked = true;
+        }
+        if(roleArray[itr].registerStudent == 1){
+            document.getElementById("registerStudent"+itr).checked = true;
+        }
+        if(roleArray[itr].searchNEdit == 1){
+            document.getElementById("searchNEdit"+itr).checked = true;
+        }
+        if(roleArray[itr].deleteStudent == 1){
+            document.getElementById("deleteStudent"+itr).checked = true;
+        }
+        if(roleArray[itr].generateReceipt == 1){
+            document.getElementById("generateReceipt"+itr).checked = true;
+        }
+        if(roleArray[itr].feesReport == 1){
+            document.getElementById("feesReport"+itr).checked = true;
+        }
+        if(roleArray[itr].studentAttendence == 1){
+            document.getElementById("studentAttendence"+itr).checked = true;
+        }
+        if(roleArray[itr].studentReport == 1){
+            document.getElementById("studentReport"+itr).checked = true;
+        }
+
+    }
 }
