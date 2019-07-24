@@ -23,6 +23,5 @@
     "grunt": "^1.0.4",
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-watch": "^1.1.0",
-    "grunt-fixmyjs": "^0.3.0"
   }
 }

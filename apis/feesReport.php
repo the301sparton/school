@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'commonFunctions.php';
 $type = $_POST['type'];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -11,22 +12,12 @@ else{
         $dateFrom = $_POST['dateFrom'];
         $dateTo = $_POST['dateTo'];
         $sql = "CALL get_datewise_headwise_list('$dateFrom', '$dateTo')";
-        $result = mysqli_query($conn, $sql);
-        $rows = array();    
-        while($r = mysqli_fetch_assoc($result)) {
-        $rows[] = $r;
-        }
-        print json_encode($rows);
+        getOutputFromQueary($sql);
     }
     else if($type == "byMonth"){
         $sessionName = $_POST['sessionName'];
         $sql = "CALL get_monthwise_headwise_list('$sessionName')";
-        $result = mysqli_query($conn, $sql);
-        $rows = array();    
-        while($r = mysqli_fetch_assoc($result)) {
-        $rows[] = $r;
-        }
-        print json_encode($rows);
+        getOutputFromQueary($sql);
     }
 }
 ?>

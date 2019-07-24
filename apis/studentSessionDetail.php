@@ -1,6 +1,6 @@
 <?php
 require_once 'db.php';
-
+require_once 'commonFunctions.php';
 
 $type = $_POST['type'];
 
@@ -26,12 +26,7 @@ else{
 
         $sql = "INSERT INTO `$tbl_name`(`sessionName`, `studentId`, `class`, `section`, `medium`, `totalFees`, `photo`) VALUES ('$sessionName','$studentId','$class','$section','$medium','$totalFees','$photo')"; 
 
-        if($conn->query($sql) == TRUE) {
-            echo 200;
-        }
-        else{
-            echo 500;
-        }
+        get200AsYes($sql);
     }
 
     else if($type == "updateSessionDetailsById"){
@@ -44,25 +39,16 @@ else{
         $id = $_POST['id'];
 
         $sql = "UPDATE `$tbl_name` SET class = '$class', section = '$section', medium = '$medium', totalFees = '$totalFees', photo = '$photo' WHERE id = '$id'";
-        if($conn->query($sql) == TRUE) {
-            echo 200;
-        }
-        else{
-            echo 500;
-        }
+        get200AsYes($sql);
     }
 
     else if($type == "getByStudentId"){
-
         $tbl = $_POST['sessionName'];
         $tbl_name = "studentdetails";
         $studentId = $_POST['studentId'];
 
         $sql = "SELECT * FROM `$tbl_name` WHERE studentId = $studentId AND sessionName = '$tbl'";
-        $result=mysqli_query($conn,$sql);
-        $rows = array();    
-        $r = mysqli_fetch_assoc($result);
-        print json_encode($r);
+        printOnlyRowFromQueary($sql);
     }
    
 }

@@ -1,5 +1,7 @@
 <?php
 require_once 'db.php';
+require_once 'commonFunctions.php';
+
 $type = $_POST['type'];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -47,17 +49,14 @@ else{
             }
         }
         else{
-            echo $sql;
+            echo 500;
         }
     }
 
     else if($type=="getStudentDetailsById"){
         $studentId = $_POST['studentId'];
         $sql = "SELECT `formNumber`, `admissionNumber`, `govermentId`, `firstName`, `middleName`, `lastName`, `motherName`, `fatherName`, `gender`, `aadharNumber`, `dob`, `pob_city`, `pob_dist`,`pob_state`, `religion`, `category`, `caste`, `nationality`, `motherTounge`, `lastSchool`, `lastClass`, `doa`, `submittedTC`, `rte` FROM `studentinfo` WHERE studentId = $studentId";
-        $result=mysqli_query($conn,$sql);
-        $rows = array();    
-        $r = mysqli_fetch_assoc($result);
-        print json_encode($r); 
+        printOnlyRowFromQueary($sql);
     }
     else if($type == "updateStudentId"){
         $studentId = $_POST['studentId'];
@@ -90,21 +89,13 @@ else{
         $doa = date('Y-m-d', strtotime($doa_temp));
 
         $sql = "UPDATE studentinfo SET formNumber = '$formNumber',admissionNumber = '$admissionNumber', govermentId = '$govermentId', firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', motherName = '$motherName', fatherName = '$fatherName', gender='$gender', aadharNumber = '$aadharNumber', dob = '$dob', pob_city='$pob_city', pob_dist='$pob_dist', pob_state='$pob_state', religion = '$religion', caste = '$caste', category = '$category', nationality = '$nationality', motherTounge = '$motherTounge', lastSchool = '$lastSchool', lastClass = '$lastClass', doa = '$doa', submittedTC = '$submittedTC', rte='$rte' WHERE studentId = $studentId"; 
-        if($conn->query($sql) == TRUE) {
-            echo 200;
-        }
-        else{
-            echo $sql;
-        }
+        get200AsYes($sql);
     }
 
     else if($type == "getContactDetailsById"){
         $studentId = $_POST["studentId"];
         $sql = "SELECT `localAddress`, `localState`, `localCity`, `localPincode`, `permanentAddress`, `permanentState`, `permanentCity`, `permanentPincode`, `guardianName`, `guardianPhone`, `guardianEmail` FROM studentinfo WHERE studentId = $studentId";
-        $result=mysqli_query($conn,$sql);
-        $rows = array();    
-        $r = mysqli_fetch_assoc($result);
-        print json_encode($r); 
+        printOnlyRowFromQueary($sql);
     }
 
     else if($type == "updateContactDetails"){
@@ -122,12 +113,7 @@ else{
         $studentId = $_POST["studentId"];
 
         $sql = "UPDATE `studentinfo` SET `localAddress`='$localAddress',`localState`='$localState',`localCity`='$localCity',`localPincode`='$localPincode',`permanentAddress`='$permanentAddress',`permanentState`='$permanentState',`permanentCity`='$permanentCity',`permanentPincode`='$permanentPincode',`guardianName`='$guardianName',`guardianPhone`='$guardianPhone', `guardianEmail` = '$guardianEmail' WHERE studentId = $studentId";
-        if($conn->query($sql) == TRUE) {
-            echo 200;
-        }
-        else{
-            echo 500;
-        }
+        get200AsYes($sql);
     }
 
     else if($type = "onlyNameNsessionDetals"){

@@ -1,6 +1,6 @@
 <?php
 require_once 'db.php';
-
+require_once 'commonFunctions.php';
 
 $type = $_POST['type'];
 
@@ -21,33 +21,18 @@ else{
         $mobileNumber = $_POST['mobileNumber'];
         $photo = $_POST['photo'];
         $sql = "INSERT INTO `users`(`uid`, `displayName`, `eid`, `mobileNumber`, `photo`) VALUES ('$uid','$displayName','$eid','$mobileNumber', '$photo')";
-        if($conn->query($sql) == TRUE) {
-            echo "200";
-        }
-        else{
-            echo "400";
-        }
+        get200AsYes($sql);
     }
     else if($type == "getById"){
         $uid = $_POST['uid'];
     
         $sql = "SELECT * FROM users WHERE uid='$uid'";
-        $result=mysqli_query($conn,$sql);
-        $rows = array();    
-        while($r = mysqli_fetch_assoc($result)) {
-        $rows[] = $r;
-        }
-        print json_encode($rows);   
+        getOutputFromQueary($sql); 
     }
 
     else if($type == "getAllUsers"){
         $sql = "SELECT * FROM users";
-        $result=mysqli_query($conn,$sql);
-        $rows = array();    
-        while($r = mysqli_fetch_assoc($result)) {
-        $rows[] = $r;
-        }
-        print json_encode($rows);
+        getOutputFromQueary($sql);
     }
 
     else if($type == "updateUser"){
@@ -57,12 +42,7 @@ else{
         $mobileNumber = $_POST['mobileNumber'];
         $photo = $_POST['photo'];
         $sql = "UPDATE users SET `displayName` = '$displayName', `eid` = '$eid', `mobileNumber` = '$mobileNumber', `photo` = '$photo' WHERE `uid` = '$uid'";
-        if($conn->query($sql) == TRUE) {
-            echo 200;
-        }
-        else{
-            echo 500;
-        }
+        get200AsYes($sql);
     }
 
     else if($type == "deleteUserByUid"){
@@ -70,12 +50,7 @@ else{
         $sql = "DELETE FROM usergrouplist WHERE `uid` = '$uid'";
         if($conn->query($sql) == TRUE) {
            $sql1 = "DELETE FROM users WHERE `uid` = '$uid'";
-           if($conn->query($sql1) == TRUE) {
-               echo 200;
-           }
-           else{
-               echo 400;
-           }
+           get200AsYes($sql);
         }
         else{
             echo 500;

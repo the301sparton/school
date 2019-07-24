@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'commonFunctions.php';
 $type = $_POST['type'];
    
 // Create connection
@@ -16,11 +17,6 @@ else{
         $message = $_POST['message'];
 
         $sql = "INSERT INTO `clientmessage`(`name`, `email`, `subject`, `message`) VALUES ('$name', '$email', '$subject', '$message')";
-        if($conn->query($sql) == TRUE) {
-            echo "200";
-        }
-        else{
-            echo "400";
-        }
+        get200AsYes($sql);
     }
 }

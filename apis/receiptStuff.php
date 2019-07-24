@@ -1,5 +1,7 @@
 <?php
 require_once 'db.php';
+require_once 'commonFunctions.php';
+
 $type = $_POST['type'];
 $amount = 0;
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -154,25 +156,12 @@ else{
         $class = $_POST['class'];
         $section = $_POST['section'];
         $sessionName = $_POST['sessionName'];
-
         $sql = "SELECT studentId, fullname, totalFees, paidFees FROM studentfees WHERE class = '$class' AND section = '$section'";
-        $rows = array();     
-        $result=mysqli_query($conn,$sql);
-                  
-        while($r = mysqli_fetch_assoc($result)) {
-            $rows[] = $r;
-        }
-        echo json_encode($rows);
+        getOutputFromQueary($sql);
     }
     else if($type=="headWiseSumm"){ 
         $sql = "SELECT * from headwisesumm";
-        $rows = array();     
-        $result=mysqli_query($conn,$sql);
-                  
-        while($r = mysqli_fetch_assoc($result)) {
-            $rows[] = $r;
-        }
-        echo json_encode($rows);
+        getOutputFromQueary($sql);
     }
 
 }

@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require 'commonFunctions.php';
 
 
 $type = $_POST['type'];
@@ -29,23 +30,13 @@ else{
     else if($type == "getAllRolesForUser"){
         $uid = $_POST["uid"];
         $sql = "SELECT `id`, `userType` FROM usergrouplist WHERE `uid` = '$uid'";
-        $rows = array();
-        $result=mysqli_query($conn,$sql);         
-        while($r = mysqli_fetch_assoc($result)) {
-            $rows[] = $r;
-        }
-        print json_encode($rows);
+        getOutputFromQueary($sql);
     }
 
     else if($type == "deleteUserGroupById"){
         $id = $_POST["id"];
         $sql = "DELETE FROM usergrouplist WHERE `id` = '$id'";
-        if($conn->query($sql) == TRUE) {
-            echo 200;
-        }
-        else{
-            echo 500;
-        }
+        get200AsYes($sql);
     }
 
     else if($type == "getUserGroupsToAdd"){
@@ -100,11 +91,12 @@ else{
         else if($searchType == "byPhoneNumber"){
             $sql = "SELECT * from users WHERE `mobileNumber` LIKE '$inputSearch' LIMIT $limit";
         }
-        $rows = array();
-        $result=mysqli_query($conn,$sql);         
-        while($r = mysqli_fetch_assoc($result)) {
-            $rows[] = $r;
-        }
-        print json_encode($rows);
+        getOutputFromQueary($sql);
+    }
+
+    else if($type == "getAllRolesWithId"){
+        $sql = "SELECT * from usergroup";
+        getOutputFromQueary($sql);
     }
 }
+?>
