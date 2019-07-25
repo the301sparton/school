@@ -322,13 +322,15 @@ function CreateNewStudent() {
   });
 
   newStudentDetailReq.done(function (newStudentDetailRes) {
+    console.log(newStudentDetailRes)
     var responce = JSON.parse(newStudentDetailRes);
+    
     if (responce.resCode == 200) {
       document.getElementById('studID').innerText = responce.id;
       stepTwo();
     }
     else {
-      alert("Failed to sync data. Check your Internet");
+      alert("Failed. Make sure this Admission Number is never used before");
     }
   });
 }
@@ -370,7 +372,8 @@ function updateStudentDetails() {
       stepTwo(false);
     }
     else {
-      alert("Failed to Update data. Check your Internet");
+      console.log(newStudentDetailRes)
+      alert("Failed. Make sure this Admission Number is never used before");
     }
   });
 }
