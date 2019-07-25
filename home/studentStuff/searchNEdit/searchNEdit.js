@@ -220,7 +220,13 @@ function createResultView(searchResult, searchStr) {
     }
     
     document.getElementById("searchResultHolder").innerHTML += resultView;
-    document.getElementById('studentImg' + itr).src = "data:image/png;base64, " + searchResult[itr].photo;
+    if(searchResult[itr].photo != null || searchResult[itr].photo !=""){
+      document.getElementById('studentImg' + itr).src = "data:image/png;base64, " + searchResult[itr].photo;
+    }
+    else{
+      document.getElementById('studentImg' + itr).src = baseUrl+"/img/me.png";
+    }
+   
     document.getElementById('studID' + itr).innerText = searchResult[itr].studentId;
     document.getElementById('studClassId'+itr).innerText = searchResult[itr].class;
     document.getElementById('studentName' + itr).innerHTML = searchResult[itr].firstName + " " + searchResult[itr].middleName + " " + searchResult[itr].lastName;
