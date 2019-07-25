@@ -136,12 +136,15 @@ function makeRoleEditView(roleArray){
         `;
 
         document.getElementById("manageRolesHolder").innerHTML += itemHtml;
-       
         document.getElementById("groupName"+itr).innerText = roleArray[itr].userType;
         console.log(roleArray[itr]);
+        
+    }
+    for(var itr in roleArray){
         if(roleArray[itr].manageUsers == 1){
             document.getElementById("manageUsers"+itr).checked = true;
         }
+
         if(roleArray[itr].manageRoles == 1){
             document.getElementById("manageRoles"+itr).checked = true;
         }
