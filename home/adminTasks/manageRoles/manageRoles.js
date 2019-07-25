@@ -140,7 +140,7 @@ function makeRoleEditView(roleArray){
         console.log(roleArray[itr]);
         
     }
-    for(var itr in roleArray){
+    for(itr in roleArray){
         if(roleArray[itr].manageUsers == 1){
             document.getElementById("manageUsers"+itr).checked = true;
         }
