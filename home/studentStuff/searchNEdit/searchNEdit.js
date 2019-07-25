@@ -220,7 +220,7 @@ function createResultView(searchResult, searchStr) {
     }
     
     document.getElementById("searchResultHolder").innerHTML += resultView;
-    if(searchResult[itr].photo != null || searchResult[itr].photo !=""){
+    if(searchResult[itr].photo != null && searchResult[itr].photo !=""){
       document.getElementById('studentImg' + itr).src = "data:image/png;base64, " + searchResult[itr].photo;
     }
     else{
