@@ -98,5 +98,9 @@ else{
         $sql = "SELECT * from usergroup";
         getOutputFromQueary($sql);
     }
+    else if($type == "updateUserGroup"){
+        $sql = "UPDATE usergroup SET `manageUsers` = '$manageUsers', `manageRoles` = '$manageRoles', `manageFeesHeads` = '$manageFeesHeads', `newAccadamicYear` = '$newAccadamicYear', `registerStudent` = '$registerStudent', `searchNEdit` = '$searchNEdit', `deleteStudent` = '$deleteStudent', `generateReceipt` = '$generateReceipt', `feesReport` = '$feesReport', `studentAttendence` = '$studentAttendence', `studentReport` = '$studentReport' WHERE `userType` = '$userType'";
+        get200AsYes($sql);
+    }
 }
 ?>

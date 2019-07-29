@@ -127,19 +127,18 @@ function makeRoleEditView(roleArray){
 
                    <div class="row" style="padding:1%">
                     <div class="col-md-12">
-                           <button class="btn btn-primary" style="float:right">Update</button>
-                           <button class="btn btn-danger" style="float:right; margin-right:2%">Delete Group</button>
+                           <button class="btn btn-primary" style="float:right" onclick="updateGroupDetails(this.parentNode.parentNode.parentNode)">Update</button>
+                           <button class="btn btn-danger" style="float:right; margin-right:2%" onclick="deleteGroup()">Delete Group</button>
                             
                     </div>
                    </div>
             </div>
         `;
-
         document.getElementById("manageRolesHolder").innerHTML += itemHtml;
-        document.getElementById("groupName"+itr).innerText = roleArray[itr].userType;
-        console.log(roleArray[itr]);
-        
+        document.getElementById("groupName"+itr).innerText = roleArray[itr].userType;    
     }
+
+    //set checkbox states
     for(itr in roleArray){
         if(roleArray[itr].manageUsers == 1){
             document.getElementById("manageUsers"+itr).checked = true;
@@ -177,4 +176,63 @@ function makeRoleEditView(roleArray){
         }
 
     }
+}
+
+function updateGroupDetails(view){
+    console.log(view);
+
+    //row one
+    let manageUsers = view.childNodes[5].childNodes[1].childNodes[1].childNodes[1].checked;
+    let manageRoles = view.childNodes[5].childNodes[3].childNodes[1].childNodes[1].checked;
+    let manageFeesHeads = view.childNodes[5].childNodes[5].childNodes[1].childNodes[1].checked;
+    let newAccadamicYear = view.childNodes[5].childNodes[7].childNodes[1].childNodes[1].checked;
+   
+    //row two
+    let registerStudent = view.childNodes[7].childNodes[1].childNodes[1].childNodes[1].checked;
+    let searchNEdit = view.childNodes[7].childNodes[3].childNodes[1].childNodes[1].checked;
+    let deleteStudent = view.childNodes[7].childNodes[5].childNodes[1].childNodes[1].checked;
+  
+    //row three
+    let generateReceipt = view.childNodes[9].childNodes[1].childNodes[1].childNodes[1].checked;
+    let feesReport = view.childNodes[9].childNodes[3].childNodes[1].childNodes[1].checked;
+    let studentAttendence = view.childNodes[9].childNodes[5].childNodes[1].childNodes[1].checked;
+    let studentReport = view.childNodes[9].childNodes[7].childNodes[1].childNodes[1].checked;
+  
+    console.log(view.parentNode.childNodes[0].childNodes[1].innerText);
+
+    //send request
+    // var updateGroupReq = $.post(baseUrl + "/apis/userGroup.php",{
+    //     type:"updateUserGroup",
+
+    //     userType: 
+
+    //     manageUsers: manageUsers,
+    //     manageRoles:manageRoles,
+    //     manageFeesHeads:manageFeesHeads,
+    //     newAccadamicYear:newAccadamicYear,
+
+    //     registerStudent:registerStudent,
+    //     searchNEdit:searchNEdit,
+    //     deleteStudent:deleteStudent,
+
+    //     generateReceipt:generateReceipt,
+    //     feesReport:feesReport,
+    //     studentAttendence:studentAttendence,
+    //     studentReport:studentReport
+    // });
+
+    // updateGroupReq.done(function(responce){
+    //     if(responce == 200){
+    //         alert("User role updated..!");
+    //         getRoleList();
+    //     }
+    //     else{
+    //         console.log(responce)
+    //         alert("Failed to update user role");
+    //     }
+    // });
+}
+
+function deleteGroup(){
+
 }
