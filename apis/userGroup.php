@@ -115,5 +115,16 @@ else{
         $sql = "UPDATE usergroup SET `manageUsers` = '$manageUsers', `manageRoles` = '$manageRoles', `manageFeesHeads` = '$manageFeesHeads', `newAccadamicYear` = '$newAccadamicYear', `registerStudent` = '$registerStudent', `searchNEdit` = '$searchNEdit', `deleteStudent` = '$deleteStudent', `generateReceipt` = '$generateReceipt', `feesReport` = '$feesReport', `studentAttendence` = '$studentAttendence', `studentReport` = '$studentReport' WHERE `userType` = '$userType'";
         get200AsYes($sql);
     }
+    else if($type == "deleteUserGroup"){
+        $userType = $_POST["userType"];
+        $sql = "DELETE FROM usergroup WHERE userType = '$userType'";
+        if($conn->query($sql) == TRUE) {
+           $sql1 = "DELETE FROM usergrouplist WHERE userType = '$userType'";
+           get200AsYes($sql1);
+        }
+        else{
+            echo 500;
+        }
+    }
 }
 ?>

@@ -129,7 +129,7 @@ function makeRoleEditView(roleArray) {
                    <div class="row" style="padding:1%">
                     <div class="col-md-12">
                           <button class="btn btn-primary" style="float:right" onclick="updateGroupDetails(this.parentNode.parentNode.parentNode)">Update</button>
-                           <button class="btn btn-danger" style="float:right; margin-right:2%" onclick="deleteGroup()">Delete Group</button> 
+                           <button class="btn btn-danger" style="float:right; margin-right:2%" onclick="deleteGroup(this.parentNode.parentNode.parentNode)">Delete Group</button> 
                     </div>
                    </div>
             </div>
@@ -208,7 +208,7 @@ function updateGroupDetails(view) {
     studentAttendence = isCheckedGeneric(studentAttendence);
     let studentReport = view.childNodes[9].childNodes[7].childNodes[1].childNodes[1].checked;
     studentReport = isCheckedGeneric(studentReport);
-    
+
     let userType = view.parentNode.childNodes[1].childNodes[1].innerText;
 
 
@@ -245,8 +245,21 @@ function updateGroupDetails(view) {
     });
 }
 
-function deleteGroup() {
-
+function deleteGroup(view) {
+    let userType = view.parentNode.childNodes[1].childNodes[1].innerText;
+    var deleteGroupReq = $.post(baseUrl + "/apis/userGroup.php",{
+        type: "deleteUserGroup",
+        userType: userType
+    });
+    deleteGroupReq.done(function(responce){
+        if(responce == 200){
+            alert("User group deleted..!");
+            view.parentNode.parentNode.removeChild(view.parentNode);
+        }
+        else{
+            alert("Failed to delete user group.. :(");
+        }
+    })
 }
 
 function isCheckedGeneric(isChecked){
