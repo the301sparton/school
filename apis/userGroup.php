@@ -99,6 +99,19 @@ else{
         getOutputFromQueary($sql);
     }
     else if($type == "updateUserGroup"){
+        $userType = $_POST["userType"];
+        $manageUsers = $_POST["manageUsers"];
+        $manageRoles = $_POST["manageRoles"];
+        $manageFeesHeads = $_POST["manageFeesHeads"];
+        $newAccadamicYear = $_POST["newAccadamicYear"];
+        $registerStudent = $_POST["registerStudent"];
+        $searchNEdit = $_POST["searchNEdit"];
+        $deleteStudent = $_POST["deleteStudent"];
+        $generateReceipt = $_POST["generateReceipt"];
+        $feesReport = $_POST["feesReport"];
+        $studentAttendence = $_POST["studentAttendence"];
+        $studentReport = $_POST["studentReport"];
+
         $sql = "UPDATE usergroup SET `manageUsers` = '$manageUsers', `manageRoles` = '$manageRoles', `manageFeesHeads` = '$manageFeesHeads', `newAccadamicYear` = '$newAccadamicYear', `registerStudent` = '$registerStudent', `searchNEdit` = '$searchNEdit', `deleteStudent` = '$deleteStudent', `generateReceipt` = '$generateReceipt', `feesReport` = '$feesReport', `studentAttendence` = '$studentAttendence', `studentReport` = '$studentReport' WHERE `userType` = '$userType'";
         get200AsYes($sql);
     }
