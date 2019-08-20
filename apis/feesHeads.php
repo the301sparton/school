@@ -1,5 +1,7 @@
 <?php
 require_once 'db.php';
+require_once 'commonFunctions.php';
+
 $type = $_POST['type'];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -35,6 +37,11 @@ else{
             $rows[] = $r;
         }
         print json_encode($rows); 
+    }
+
+    else if($type == "getAllHeads"){
+        $sql = "SELECT * FROM `feesheads`";
+        getOutputFromQueary($sql);
     }
 
 }
