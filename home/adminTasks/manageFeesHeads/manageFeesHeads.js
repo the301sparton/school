@@ -49,9 +49,48 @@ function makeViewForFeeHeads(){
               { name: "amount_9th", type: "number", width: 120 },
               { name: "amount_10th", type: "number", width: 120 },
               { type: "control",width: 60 }
-            ]
+            ],
+
+            onItemUpdating: function(args) {
+                // cancel update of the item with empty 'name' field
+                if(args.item.name === "") {
+                    args.cancel = true;
+                    alert("Specify the name of the item!");
+                }
+                   updateFeeHeadDetails(args.item);
+            }
         });
         document.getElementById('jsGrid').style.display = "block";
-
     });
+}
+
+function updateFeeHeadDetails(FeeHeadItem){
+    var shouldI = confirm("Are you sure..?");
+    if(shouldI){
+        let updateHeadItemReq = $.post(baseUrl + "/apis/feesHeads.php",{
+            type: "updateById",
+            id: FeeHeadItem.headId,
+            headName: FeeHeadItem.headName,
+            amount_KG1: FeeHeadItem.amount_KG1,
+            amount_KG2: FeeHeadItem.amount_KG2,
+            amount_Nursery: FeeHeadItem.amount_Nursery,
+            amount_1st: FeeHeadItem.amount_1st,
+            amount_2nd: FeeHeadItem.amount_2nd,
+            amount_3rd: FeeHeadItem.amount_3rd,
+            amount_4th: FeeHeadItem.amount_4th,
+            amount_5th: FeeHeadItem.amount_5th,
+            amount_6th: FeeHeadItem.amount_6th,
+            amount_7th: FeeHeadItem.amount_7th,
+            amount_8th: FeeHeadItem.amount_8th,
+            amount_9th: FeeHeadItem.amount_9th,
+            amount_10th: FeeHeadItem.amount_10th
+    });
+
+    updateHeadItemReq.done(function(responce){
+        if(responce != 200){
+            // if failed -> get old view
+            makeViewForFeeHeads();
+        }
+    });
+    }    
 }
