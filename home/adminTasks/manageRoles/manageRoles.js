@@ -217,32 +217,32 @@ function updateGroupDetails(view) {
 
 
     //send request
-    var updateGroupReq = $.post(baseUrl + "/apis/userGroup.php",{
-        type:"updateUserGroup",
+    var updateGroupReq = $.post(baseUrl + "/apis/userGroup.php", {
+        type: "updateUserGroup",
 
         userType: userType,
 
         manageUsers: manageUsers,
-        manageRoles:manageRoles,
-        manageFeesHeads:manageFeesHeads,
-        newAccadamicYear:newAccadamicYear,
+        manageRoles: manageRoles,
+        manageFeesHeads: manageFeesHeads,
+        newAccadamicYear: newAccadamicYear,
 
-        registerStudent:registerStudent,
-        searchNEdit:searchNEdit,
-        deleteStudent:deleteStudent,
+        registerStudent: registerStudent,
+        searchNEdit: searchNEdit,
+        deleteStudent: deleteStudent,
 
-        generateReceipt:generateReceipt,
-        feesReport:feesReport,
-        studentAttendence:studentAttendence,
-        studentReport:studentReport
+        generateReceipt: generateReceipt,
+        feesReport: feesReport,
+        studentAttendence: studentAttendence,
+        studentReport: studentReport
     });
 
-    updateGroupReq.done(function(responce){
-        if(responce == 200){
+    updateGroupReq.done(function (responce) {
+        if (responce == 200) {
             alert("User role updated..!");
             getRoleList();
         }
-        else{
+        else {
             console.log(responce)
             alert("Failed to update user role");
         }
@@ -251,41 +251,100 @@ function updateGroupDetails(view) {
 
 function deleteGroup(view) {
     let userType = view.parentNode.childNodes[1].childNodes[1].innerText;
-    var deleteGroupReq = $.post(baseUrl + "/apis/userGroup.php",{
+    var deleteGroupReq = $.post(baseUrl + "/apis/userGroup.php", {
         type: "deleteUserGroup",
         userType: userType
     });
-    deleteGroupReq.done(function(responce){
-        if(responce == 200){
+    deleteGroupReq.done(function (responce) {
+        if (responce == 200) {
             alert("User group deleted..!");
             view.parentNode.parentNode.removeChild(view.parentNode);
         }
-        else{
+        else {
             alert("Failed to delete user group.. :(");
         }
     })
 }
 
-function isCheckedGeneric(isChecked){
-    if(isChecked){
+function isCheckedGeneric(isChecked) {
+    if (isChecked) {
         temp = 1;
     }
-    else{
+    else {
         temp = 0;
     }
     return temp;
 }
 
-function createUserGroupView(){
+function createUserGroupView() {
     $("#createNewUserGroupModal").modal();
 }
 
-function createNewUserGroupForSure(){
+function createNewUserGroupForSure() {
     let newGroupName = document.getElementById("newUserGroupName").value;
-    if(newGroupName == null || newGroupName == ""){
+    if (newGroupName == null || newGroupName == "") {
         document.getElementById("groupNotUniqueAlert").style.display = "block";
     }
-    else{
+    else {
         document.getElementById("groupNotUniqueAlert").style.display = "none";
+
+
+        let NewNanageUsers = document.getElementById("NewNanageUsers").checked;
+        NewNanageUsers = isCheckedGeneric(NewNanageUsers);
+
+        let NewManageRoles = document.getElementById("NewManageRoles").checked;
+        NewManageRoles = isCheckedGeneric(NewManageRoles);
+
+        let NewManageFeesHeads = document.getElementById("NewManageFeesHeads").checked;
+        NewManageFeesHeads = isCheckedGeneric(NewManageFeesHeads);
+
+        let NewNewAccadamicYear = document.getElementById("NewNewAccadamicYear").checked;
+        NewNewAccadamicYear = isCheckedGeneric(NewNewAccadamicYear);
+
+        let NewRegisterStudent = document.getElementById("NewRegisterStudent").checked;
+        NewRegisterStudent = isCheckedGeneric(NewRegisterStudent);
+
+        let NwSearchNEdit = document.getElementById("NwSearchNEdit").checked;
+        NwSearchNEdit = isCheckedGeneric(NwSearchNEdit);
+
+        let NewDeleteStudent = document.getElementById("NewDeleteStudent").checked;
+        NewDeleteStudent = isCheckedGeneric(NewDeleteStudent);
+
+        let NewGenerateReceipt = document.getElementById("NewGenerateReceipt").checked;
+        NewGenerateReceipt = isCheckedGeneric(NewGenerateReceipt);
+
+        let NewFeesReport = document.getElementById("NewFeesReport").checked;
+        NewFeesReport = isCheckedGeneric(NewFeesReport);
+
+        let NewStudentAttendence = document.getElementById("NewStudentAttendence").checked;
+        NewStudentAttendence = isCheckedGeneric(NewStudentAttendence);
+
+        let NewStudentReport = document.getElementById("NewStudentReport").checked;
+        NewStudentReport = isCheckedGeneric(NewStudentReport);
+
+
+        console.log(NewNewAccadamicYear);
+
+        var createNewRoleRequest = $.post(baseUrl + "/apis/userGroup.php", {
+            type: "createNewRole",
+            newGroupName: newGroupName,
+            NewNanageUsers: NewNanageUsers,
+            NewManageRoles: NewManageRoles,
+            NewManageFeesHeads: NewManageFeesHeads,
+            NewNewAccadamicYear: NewNewAccadamicYear,
+            NewRegisterStudent: NewRegisterStudent,
+            NwSearchNEdit: NwSearchNEdit,
+            NewDeleteStudent: NewDeleteStudent,
+            NewGenerateReceipt: NewGenerateReceipt,
+            NewFeesReport: NewFeesReport,
+            NewStudentAttendence: NewStudentAttendence,
+            NewStudentReport: NewStudentReport
+        });
+
+        createNewRoleRequest.done(function (responce) {
+            if (responce == 200) {
+                manageRoles();
+            }
+        });
     }
 }

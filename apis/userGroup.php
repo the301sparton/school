@@ -126,5 +126,22 @@ else{
             echo 500;
         }
     }
+
+    else if($type == "createNewRole"){
+        $userType = $_POST['newGroupName'];
+        $manageUsers = $_POST['NewNanageUsers'];
+        $manageRoles = $_POST['NewManageRoles'];
+        $manageFeesHeads = $_POST['NewManageFeesHeads'];
+        $newAccadamicYear = $_POST['NewNewAccadamicYear'];
+        $registerStudent = $_POST['NewRegisterStudent'];
+        $searchNEdit = $_POST['NwSearchNEdit'];
+        $deleteStudent = $_POST['NewDeleteStudent'];
+        $generateReceipt = $_POST['NewGenerateReceipt'];
+        $feesReport = $_POST['NewFeesReport'];
+        $studentAttendence = $_POST['NewStudentAttendence'];
+        $studentReport = $_POST['NewStudentReport'];
+        $sql = "INSERT INTO `usergroup`(`userType`, `manageUsers`, `manageRoles`, `manageFeesHeads`, `newAccadamicYear`, `registerStudent`, `searchNEdit`, `deleteStudent`, `generateReceipt`, `feesReport`, `studentAttendence`, `studentReport`) VALUES ('$userType', '$manageUsers', '$manageRoles', '$manageFeesHeads', '$newAccadamicYear', '$registerStudent', '$searchNEdit', '$deleteStudent', '$generateReceipt', '$feesReport', '$studentAttendence', '$studentReport')";
+        get200AsYes($sql);
+    }
 }
 ?>
