@@ -8,6 +8,13 @@ function manageRoles() {
     
     <div class="container" id="manageRolesHolder">
     </div>
+    <div class="container" style = "margin:2%">
+    <div class="row">
+    <div class="col-md-11"></div>
+    <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="createUserGroupView()"></i>
+   
+    </div>
+    </div>
     
     </div>`;
 
@@ -24,9 +31,6 @@ function getRoleList() {
         var RoleArray = JSON.parse(responce);
         if (RoleArray.length > 0) {
             makeRoleEditView(RoleArray);
-        }
-        else {
-            //TODO add a no roles defined statement here
         }
     });
 }
@@ -270,4 +274,18 @@ function isCheckedGeneric(isChecked){
         temp = 0;
     }
     return temp;
+}
+
+function createUserGroupView(){
+    $("#createNewUserGroupModal").modal();
+}
+
+function createNewUserGroupForSure(){
+    let newGroupName = document.getElementById("newUserGroupName").value;
+    if(newGroupName == null || newGroupName == ""){
+        document.getElementById("groupNotUniqueAlert").style.display = "block";
+    }
+    else{
+        document.getElementById("groupNotUniqueAlert").style.display = "none";
+    }
 }
