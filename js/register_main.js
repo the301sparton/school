@@ -1,4 +1,4 @@
-let user; let imgBase;
+let user; let imgBase = '';
 $(document).ready(function() { 
      firebase.auth().onAuthStateChanged(function(usr) {
         if (usr) {
@@ -57,7 +57,7 @@ $("#newUserForm").submit(function(event) {
                         });
     newUserReq.done(function(newUserRes){
         console.log(newUserRes);
-        if(newUserRes == "200"){
+        if(newUserRes == 200){
             window.location = "../home";
         }
         else{
