@@ -27,7 +27,7 @@ $(document).ready(function () {
                 if (i > 0 && i != myRoleList.length-1) {
                   temp += ", ";
                 }
-                else if (i == myRoleList.length - 1) {
+                else if (i == myRoleList.length - 1 && i>=1) {
                   temp += " & ";
                 }
                 temp += currentRole.userType;
