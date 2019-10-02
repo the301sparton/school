@@ -96,7 +96,6 @@ function loadAllSessions() {
   });
 
   allSessionReq.done(function (allSessions) {
-    console.log(allSessions);
     allSessions = JSON.parse(allSessions);
     for (var index in allSessions) {
 
