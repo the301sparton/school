@@ -40,6 +40,8 @@ function studentAttendence(){
                         <input class="form-control" type="date" id="attendence_date">
                       </div>
                       <div class="col-md-6">
+                        <div class="alert" style="display: none" id="attendence_alert">
+                        </div>
                       </div>
                       <div class="col-md-2">
                         <button class="btn btn-primary" onclick="getStudentListForAttendence()">Get List</button>
@@ -88,6 +90,7 @@ function getClassAndSectionForAttendence() {
               }, '</option>'));
           }
         });
+        
   
       $.post(baseUrl + "/apis/sectionList.php",
         {
@@ -139,8 +142,22 @@ function getStudentListForAttendence(){
 
   if(attendence_sessionName != "" && attendence_className != "" && attendence_sectionName != "" && attendence_date !=""){
       //perform past date check
+      document.getElementById("attendence_alert").style.display = "none";
+      var dateFormOfAttendenceDate = new Date(attendence_date);
+        if (!inFuture(dateFormOfAttendenceDate)) {
+          document.getElementById("attendence_alert").style.display = "none";
+        }
+        else{
+          document.getElementById("attendence_alert").innerText = "Can not set attendence for future date";
+          document.getElementById("attendence_alert").style.display = "block";
+        }
   }
   else{
-    //please select all the fields
+   document.getElementById("attendence_alert").innerText = "Please Select all fields";
+   document.getElementById("attendence_alert").style.display = "block";
   }
 }
+
+const inFuture = (date) => {
+  return date.setHours(0,0,0,0) > new Date().setHours(0,0,0,0)
+};
