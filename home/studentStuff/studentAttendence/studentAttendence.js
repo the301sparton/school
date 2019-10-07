@@ -35,8 +35,30 @@ function studentAttendence(){
                 </div>
 
             </div>
+              <div class="row">
+                      <div class="col-md-4">
+                        <input class="form-control" type="date" id="attendence_date">
+                      </div>
+                      <div class="col-md-6">
+                      </div>
+                      <div class="col-md-2">
+                        <button class="btn btn-primary" onclick="getStudentListForAttendence()">Get List</button>
+                      </div>                
+              </div>
         </div>
+       
     </div>
+
+    <div class="container" id="attendenceDataHolder">
+            <div class="row">
+                <h4 id="classDetailsForAttendence"></h4>
+                <hr>
+            </div>
+
+           
+    </div>
+
+
     </div>`;
 
 loadAttendenceViewData();
@@ -46,14 +68,10 @@ function loadAttendenceViewData(){
     document.getElementById('loader').style.display = "block";
     $.when(getClassAndSectionForAttendence(),loadAllSessionsForAttendence()).then(function(){
         document.getElementById('loader').style.display = "none";
-
-        //Add Listeners Here
     });
 }
 
-
 function getClassAndSectionForAttendence() {
-    console.log("yo")
       $.post(baseUrl + "/apis/classList.php",
         {
           type: "getClassList"
@@ -61,13 +79,7 @@ function getClassAndSectionForAttendence() {
         function (classDATA) {
           let classJSON = JSON.parse(classDATA);
   
-          $('#attendence_className').append($('<option>', {
-            value: "",
-            text: "Select Student Class",
-            selected: true,
-            disabled: true
-          }, '</option>'));
-  
+        
           for (var index in classJSON) {
             $('#attendence_className')
               .append($('<option>', {
@@ -84,12 +96,7 @@ function getClassAndSectionForAttendence() {
         function (sectionDATA) {
           let sectionJSON = JSON.parse(sectionDATA);
   
-         $('#attendence_sectionName').append($('<option>', {
-            value: "",
-            text: "Select Student Section",
-            selected: true,
-            disabled: true
-          }, '</option>'));
+     
   
           for (var index in sectionJSON) {
             $('#attendence_sectionName')
@@ -99,9 +106,9 @@ function getClassAndSectionForAttendence() {
               }, '</option>'));
           }
         });
-  }
+}
 
-  function loadAllSessionsForAttendence() {
+function loadAllSessionsForAttendence() {
     var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
       type: "getAllSessions"
     });
@@ -121,4 +128,19 @@ function getClassAndSectionForAttendence() {
     
     
     });
+}
+
+
+function getStudentListForAttendence(){
+  let attendence_sessionName = document.getElementById("attendence_sessionName").value;
+  let attendence_className = document.getElementById("attendence_className").value;
+  let attendence_sectionName = document.getElementById("attendence_sectionName").value;
+  let attendence_date = document.getElementById("attendence_date").value;
+
+  if(attendence_sessionName != "" && attendence_className != "" && attendence_sectionName != "" && attendence_date !=""){
+      //perform past date check
   }
+  else{
+    //please select all the fields
+  }
+}
