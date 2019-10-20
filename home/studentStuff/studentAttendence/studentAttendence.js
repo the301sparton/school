@@ -146,6 +146,7 @@ function getStudentListForAttendence(){
       var dateFormOfAttendenceDate = new Date(attendence_date);
         if (!inFuture(dateFormOfAttendenceDate)) {
           document.getElementById("attendence_alert").style.display = "none";
+          //get attendence list
         }
         else{
           document.getElementById("attendence_alert").innerText = "Can not set attendence for future date";
