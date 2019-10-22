@@ -50,7 +50,7 @@ else{
         $sql = "DELETE FROM usergrouplist WHERE `uid` = '$uid'";
         if($conn->query($sql) == TRUE) {
            $sql1 = "DELETE FROM users WHERE `uid` = '$uid'";
-           get200AsYes($sql);
+           get200AsYes($sql1);
         }
         else{
             echo 500;
