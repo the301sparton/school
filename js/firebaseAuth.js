@@ -9,7 +9,7 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
 function Logout(){
   firebase.auth().signOut().then(function(){
     window.location = logOutUrl;
