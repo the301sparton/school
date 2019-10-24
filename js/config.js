@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-var baseUrl = "/School";
-var logOutUrl = "/School";
-=======
 
 var baseUrl = "";
 var logOutUrl = "https://besgondia.org";
->>>>>>> lol
 var websiteTitle = "BES Gondia";
 var websiteDesc = "Best in class education for your children.";
 
