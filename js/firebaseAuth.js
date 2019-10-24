@@ -1,3 +1,4 @@
+
 var firebaseConfig = {
   apiKey: "AIzaSyD-lUd0mKObtIex9YufmIUkKswmyj2o3Vo",
   authDomain: "vaicomp-fe7af.firebaseapp.com",
