@@ -9,6 +9,7 @@ var logOutUrl = "https://besgondia.org";
 var websiteTitle = "BES Gondia";
 var websiteDesc = "Best in class education for your children.";
 
+
 var TOSLink = "";
 var PPLink = "";
 var facebookLink = "";
