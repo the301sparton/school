@@ -1,0 +1,3 @@
+function manageClassList(){
+    setActiveColorsAdminTasks("manageClassList");
+}
