@@ -49,7 +49,7 @@ searchNEditHTML = `<div class="container" id="registerStudent">
     </div>
     <div class="row" style="margin-top:1.5%;" >
       <div class="col-md-7">
-      <div class="alert" id="errorMessage" style="display: none">
+      <div class="alertMine" id="errorMessage" style="display: none">
       </div>
       </div>
     </div>

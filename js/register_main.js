@@ -61,7 +61,7 @@ $("#newUserForm").submit(function(event) {
             window.location = "../home";
         }
         else{
-            alert("Failed to register :(");
+            showNotification("<strong>Error</strong>","Failed to register", "danger");
         }
     });
 });

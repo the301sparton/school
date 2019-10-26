@@ -118,17 +118,17 @@ function updateProfileListener() {
         photo: updatedProfileImage
       }).done(function (updateMeRes) {
         if (updateMeRes == 200) {
-          alert("Updated Successfully, Press Ok to refresh.");
+          showNotification("<strong>Suceess</strong>","Page will refresh", "success");
           location.reload();
         }
         else {
-          alert("Failed to update :(");
+          showNotification("<strong>Error</strong>","Failed to update profile", "danger");
         }
       });
 
     }
     else {
-      alert("No Data Was Changed");
+      showNotification("<strong>!!</strong>","No data was changed", "info");
     }
   });
 }

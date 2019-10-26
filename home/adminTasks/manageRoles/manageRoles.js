@@ -239,12 +239,12 @@ function updateGroupDetails(view) {
 
     updateGroupReq.done(function (responce) {
         if (responce == 200) {
-            alert("User role updated..!");
+            showNotification("Success","User Group Updated", "success");
             getRoleList();
         }
         else {
             console.log(responce)
-            alert("Failed to update user role");
+            showNotification("<strong>Error</strong>","Failed to update group", "danger");
         }
     });
 }
@@ -257,11 +257,11 @@ function deleteGroup(view) {
     });
     deleteGroupReq.done(function (responce) {
         if (responce == 200) {
-            alert("User group deleted..!");
+            showNotification("Success","User Group Deleted", "success");
             view.parentNode.parentNode.removeChild(view.parentNode);
         }
         else {
-            alert("Failed to delete user group.. :(");
+            showNotification("<strong>Error</strong>","Failed to delete group", "danger");
         }
     })
 }

@@ -160,7 +160,7 @@
     transform: rotate(45deg);
   }
 
-  .alert {
+  .alertMine {
     padding: 10px;
     background-color: #f77e65;
     color: white;

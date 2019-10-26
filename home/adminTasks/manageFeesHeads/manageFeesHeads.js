@@ -1,4 +1,4 @@
-function manageFeesHeads(){
+function manageFeesHeads() {
     setActiveColorsAdminTasks("manageFeesHeads");
 
     let manageFeesHeadsHTML = `<div class="container">
@@ -16,12 +16,12 @@ function manageFeesHeads(){
     makeViewForFeeHeads();
 }
 
-function makeViewForFeeHeads(){
-    let getAllfeeData = $.post(baseUrl + "/apis/feesHeads.php",{
+function makeViewForFeeHeads() {
+    let getAllfeeData = $.post(baseUrl + "/apis/feesHeads.php", {
         type: "getAllHeads"
     });
 
-    getAllfeeData.done(function(responce){
+    getAllfeeData.done(function (responce) {
         let feeData = JSON.parse(responce);
 
         $("#jsGrid").jsGrid({
@@ -30,44 +30,45 @@ function makeViewForFeeHeads(){
             editing: true,
             sorting: false,
             paging: true,
-      
+
             data: feeData,
-      
+
             fields: [
-              { name: "headName", type: "text", width: 140 },
-              { name: "amount_KG1", type: "number", width: 120},
-              { name: "amount_KG2", type: "number", width: 120 },
-              { name: "amount_Nursery", type: "number", width: 160 },
-              { name: "amount_1st", type: "number", width: 120 },
-              { name: "amount_2nd", type: "number", width: 120 },
-              { name: "amount_3rd", type: "number", width: 120 },
-              { name: "amount_4th", type: "number", width: 120 },
-              { name: "amount_5th", type: "number", width: 120 },
-              { name: "amount_6th", type: "number", width: 120 },
-              { name: "amount_7th", type: "number", width: 120 },
-              { name: "amount_8th", type: "number", width: 120 },
-              { name: "amount_9th", type: "number", width: 120 },
-              { name: "amount_10th", type: "number", width: 120 },
-              { type: "control",width: 60 }
+                { name: "headName", type: "text", width: 140 },
+                { name: "amount_KG1", type: "number", width: 120 },
+                { name: "amount_KG2", type: "number", width: 120 },
+                { name: "amount_Nursery", type: "number", width: 160 },
+                { name: "amount_1st", type: "number", width: 120 },
+                { name: "amount_2nd", type: "number", width: 120 },
+                { name: "amount_3rd", type: "number", width: 120 },
+                { name: "amount_4th", type: "number", width: 120 },
+                { name: "amount_5th", type: "number", width: 120 },
+                { name: "amount_6th", type: "number", width: 120 },
+                { name: "amount_7th", type: "number", width: 120 },
+                { name: "amount_8th", type: "number", width: 120 },
+                { name: "amount_9th", type: "number", width: 120 },
+                { name: "amount_10th", type: "number", width: 120 },
+                { type: "control", width: 60 }
             ],
 
-            onItemUpdating: function(args) {
+            onItemUpdating: function (args) {
                 // cancel update of the item with empty 'name' field
-                if(args.item.name === "") {
+                if (args.item.headName === "") {
                     args.cancel = true;
-                    alert("Specify the name of the item!");
+                    showNotification("<strong>Error!</strong>", "Enter fees head name.", "warning");
                 }
-                   updateFeeHeadDetails(args.item);
+                else {
+                    updateFeeHeadDetails(args.item);
+                }
+
             }
         });
         document.getElementById('jsGrid').style.display = "block";
     });
 }
 
-function updateFeeHeadDetails(FeeHeadItem){
-    var shouldI = confirm("Are you sure..?");
-    if(shouldI){
-        let updateHeadItemReq = $.post(baseUrl + "/apis/feesHeads.php",{
+function updateFeeHeadDetails(FeeHeadItem) {
+        let updateHeadItemReq = $.post(baseUrl + "/apis/feesHeads.php", {
             type: "updateById",
             id: FeeHeadItem.headId,
             headName: FeeHeadItem.headName,
@@ -84,13 +85,16 @@ function updateFeeHeadDetails(FeeHeadItem){
             amount_8th: FeeHeadItem.amount_8th,
             amount_9th: FeeHeadItem.amount_9th,
             amount_10th: FeeHeadItem.amount_10th
-    });
+        });
 
-    updateHeadItemReq.done(function(responce){
-        if(responce != 200){
-            // if failed -> get old view
-            makeViewForFeeHeads();
-        }
-    });
-    }    
+        updateHeadItemReq.done(function (responce) {
+            if (responce != 200) {
+                // if failed -> get old view
+                showNotification("<strong>Error</strong>", "Failed. loading old data", "danger");
+                makeViewForFeeHeads();
+            }
+            else{
+                showNotification("<strong>Success</strong>", "Fees Head Updated", "success");
+            }
+        });
 }

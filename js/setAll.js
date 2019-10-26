@@ -36,11 +36,11 @@ $("#contactForm").submit(function(event) {
     newMessageReq.done(function(data){
         console.log(data);
         if(data=="200"){
-            alert("Message Sent");
+            showNotification("<strong>Success</strong>","Message sent", "success");
             document.getElementById('contactForm').reset();
         }
         else{
-            alert("Failed to send message");
+            showNotification("<strong>Error</strong>","Failed to send message", "danger");
         }
     });
 });

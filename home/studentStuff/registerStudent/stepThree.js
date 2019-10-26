@@ -150,7 +150,7 @@ function updateSessionEntry(toReturn) {
   newSessionEntryReq.done(function (newSessionEntryRes) {
     if (newSessionEntryRes == 200) {
       if (!toReturn) {
-        alert("Student record saved successfully..!");
+        showNotification("<strong>Success</strong>","Data Saved Successfully", "success");
         if(document.location.href.includes("home")){
           studentOptionsView();
         }
@@ -158,7 +158,7 @@ function updateSessionEntry(toReturn) {
       }
     }
     else {
-      alert("Failed to save student record :(");
+      showNotification("<strong>Error</strong>","Failed to save data", "danger");
     }
     document.getElementById('loader').style.display = "none";
   });

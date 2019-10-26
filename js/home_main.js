@@ -8,6 +8,7 @@ let optionColors = ["D6E2E7", "E0E3EB", "B0CBD4", "C7D4F3", "F4ECF7"];
 let currentUprMenu = "top";
 
 $(document).ready(function () {
+  showNotification("<strong>Welcome</strong>", "to School "+ verName, "success");
   firebase.auth().onAuthStateChanged(function (usr) {
     if (usr) {
       user = usr;
@@ -49,7 +50,7 @@ $(document).ready(function () {
                 currentSession = JSON.parse(currentSessionRes).sessionName;
               }
               else {
-                alert("No Session Found. Please ask admin to create a new session.");
+                showNotification("<strong>Error</strong>","No session found - contact admin", "warning");
               }
               document.getElementById('loader').style.display = "none";  //HIDE LOADER
             });
