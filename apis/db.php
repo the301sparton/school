@@ -3,7 +3,7 @@
 
 $servername = "localhost";
 $username = "u353330278_bes";
-$password = "bn6a1yVEIQef";
+$password = "";
 $dbname = "u353330278_bes";
 
 ?>
