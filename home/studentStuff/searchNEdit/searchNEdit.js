@@ -1,8 +1,8 @@
-let searchBy;
-let maxRows;
-let sessionSelect;
-let ErrorIsVisible;
-let forReceipt;
+var searchBy;
+var maxRows = 5;
+var sessionSelect;
+var ErrorIsVisible;
+var forReceipt;
 
 let searchBarView;
 searchNEditHTML = `<div class="container" id="registerStudent">
@@ -69,7 +69,6 @@ function searchNEdit(forReceiptTemp) {
     document.getElementById('feesActionHolder').innerHTML = searchNEditHTML;
     document.getElementById('searchHeading').innerText = "Step 1 : Select Student";
   }
-  maxRows = 5;
   searchBy = null;
   sessionSelect = null;
   searchBarView = document.getElementById('searchBarView');
@@ -82,6 +81,7 @@ function searchNEdit(forReceiptTemp) {
   });
   $(document).on('change', '#maxRows', function () {
     maxRows = document.getElementById('maxRows').value;
+    console.log(maxRows);
     studentSearch(searchBarView);
   });
   $(document).on('change', '#sessionSelect', function () {
