@@ -169,13 +169,13 @@ $('#newReceiptForm').submit(function (event) {
                 viewReceipt(resjson.id, ReceiptForStudentId, sessionSelect);
             }
             else {
-                alert("Failed to generate receipt");
+                showNotification("<strong>Error</strong>","Failed to generate receipt", "danger");
                 console.log(newReceiptRes);
             }
         });
     }
     else{
-        alert("Receipt Not Created (Invalid Amounts)");
+        showNotification("<strong>Error</strong>","Invalid Amount - Receipt not created", "danger");
     }
 });
 

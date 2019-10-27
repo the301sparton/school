@@ -2,12 +2,13 @@ let user;
 let me_data;
 let myRoleList;
 let currentSession;
-let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canDeleteStudent; let canGenerateReceipt; let canStudentAttendence; let canStudentReport; let canFeesReport; let canManageUsers; let canManageRoles; let canManageFeesHeads; let canNewAccadamicYear;
+let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canManageClass; let canGenerateReceipt; let canStudentAttendence; let canStudentReport; let canFeesReport; let canManageUsers; let canManageRoles; let canManageFeesHeads; let canNewAccadamicYear;
 let currentStudentOption = '';
-let optionColors = ["D6E2E7", "E0E3EB", "B0CBD4", "C7D4F3"];
+let optionColors = ["D6E2E7", "E0E3EB", "B0CBD4", "C7D4F3", "F4ECF7"];
 let currentUprMenu = "top";
 
 $(document).ready(function () {
+  showNotification("<strong>Welcome</strong>", "to School "+ verName, "success");
   firebase.auth().onAuthStateChanged(function (usr) {
     if (usr) {
       user = usr;
@@ -49,7 +50,7 @@ $(document).ready(function () {
                 currentSession = JSON.parse(currentSessionRes).sessionName;
               }
               else {
-                alert("No Session Found. Please ask admin to create a new session.");
+                showNotification("<strong>Error</strong>","No session found - contact admin", "warning");
               }
               document.getElementById('loader').style.display = "none";  //HIDE LOADER
             });
@@ -91,11 +92,11 @@ function setPermissions(currentRole) {
   else if (canUpdateStudent == null) {
     canUpdateStudent = 0;
   }
-  if (currentRole.deleteStudent == 1) {
-    canDeleteStudent = 1;
+  if (currentRole.manageClass == 1) {
+    canManageClass = 1;
   }
-  else if (canDeleteStudent == null) {
-    canDeleteStudent = 0;
+  else if (canManageClass == null) {
+    canManageClass = 0;
   }
   if (currentRole.generateReceipt == 1) {
     canGenerateReceipt = 1;
@@ -236,6 +237,9 @@ function getlimitAdminTasks() {
   }
   if(canNewAccadamicYear == 1){
     limit.push("newAccadamicYear");
+  }
+  if(canManageClass == 1){
+    limit.push("manageClassList");
   }
   return limit;
 }
@@ -420,11 +424,14 @@ function adminTasksView() {
     AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
     <div class="text-center">`;
   }
+
+
+
   if (canManageFeesHeads == 0 && canNewAccadamicYear == 0) {
     AdminOptionHTML += ``;
   }
   else if (canManageFeesHeads == 1 && canNewAccadamicYear == 0) {
-    AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
+    AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow2">
         <div class="col-rmd-4">
               
         </div>
@@ -440,7 +447,7 @@ function adminTasksView() {
         <div class="col-rmd-4 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
     </div>`;
   }
-  else if (canManageFeesHeads == 1 && canNewAccadamicYear == 1) {
+  else {
     AdminOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
         <div class="col-rmd-5 button button3" id="manageFeesHeads" onclick="manageFeesHeads()">Manage Fees Heads</div>
         <div class="col-rmd-2">
@@ -448,6 +455,17 @@ function adminTasksView() {
         </div>
         <div class="col-rmd-5 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
       </div>`;
+  }
+
+
+
+  if(canManageClass){
+    AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow3">
+    <div class="col-rmd-4">
+          
+    </div>
+      <div class="col-rmd-4 button button5" id="manageClassList" onclick="manageClassList()">Manage Class List</div>             
+  </div>`;
   }
 
 

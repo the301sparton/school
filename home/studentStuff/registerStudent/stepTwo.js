@@ -267,7 +267,7 @@ var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php",{
 
     }
     else {
-      alert("Failed to update data :(");
+     showNotification("<strong>Error</stong>","Failed to save data","danger");
     }
   });
 }

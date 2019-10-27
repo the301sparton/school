@@ -106,13 +106,13 @@ else{
         $newAccadamicYear = $_POST["newAccadamicYear"];
         $registerStudent = $_POST["registerStudent"];
         $searchNEdit = $_POST["searchNEdit"];
-        $deleteStudent = $_POST["deleteStudent"];
+        $manageClass = $_POST["manageClass"];
         $generateReceipt = $_POST["generateReceipt"];
         $feesReport = $_POST["feesReport"];
         $studentAttendence = $_POST["studentAttendence"];
         $studentReport = $_POST["studentReport"];
 
-        $sql = "UPDATE usergroup SET `manageUsers` = '$manageUsers', `manageRoles` = '$manageRoles', `manageFeesHeads` = '$manageFeesHeads', `newAccadamicYear` = '$newAccadamicYear', `registerStudent` = '$registerStudent', `searchNEdit` = '$searchNEdit', `deleteStudent` = '$deleteStudent', `generateReceipt` = '$generateReceipt', `feesReport` = '$feesReport', `studentAttendence` = '$studentAttendence', `studentReport` = '$studentReport' WHERE `userType` = '$userType'";
+        $sql = "UPDATE usergroup SET `manageUsers` = '$manageUsers', `manageRoles` = '$manageRoles', `manageFeesHeads` = '$manageFeesHeads', `newAccadamicYear` = '$newAccadamicYear', `registerStudent` = '$registerStudent', `searchNEdit` = '$searchNEdit', `manageClass` = '$manageClass', `generateReceipt` = '$generateReceipt', `feesReport` = '$feesReport', `studentAttendence` = '$studentAttendence', `studentReport` = '$studentReport' WHERE `userType` = '$userType'";
         get200AsYes($sql);
     }
     else if($type == "deleteUserGroup"){
@@ -135,12 +135,12 @@ else{
         $newAccadamicYear = $_POST['NewNewAccadamicYear'];
         $registerStudent = $_POST['NewRegisterStudent'];
         $searchNEdit = $_POST['NwSearchNEdit'];
-        $deleteStudent = $_POST['NewDeleteStudent'];
+        $manageClass = $_POST['NewManageClass'];
         $generateReceipt = $_POST['NewGenerateReceipt'];
         $feesReport = $_POST['NewFeesReport'];
         $studentAttendence = $_POST['NewStudentAttendence'];
         $studentReport = $_POST['NewStudentReport'];
-        $sql = "INSERT INTO `usergroup`(`userType`, `manageUsers`, `manageRoles`, `manageFeesHeads`, `newAccadamicYear`, `registerStudent`, `searchNEdit`, `deleteStudent`, `generateReceipt`, `feesReport`, `studentAttendence`, `studentReport`) VALUES ('$userType', '$manageUsers', '$manageRoles', '$manageFeesHeads', '$newAccadamicYear', '$registerStudent', '$searchNEdit', '$deleteStudent', '$generateReceipt', '$feesReport', '$studentAttendence', '$studentReport')";
+        $sql = "INSERT INTO `usergroup`(`userType`, `manageUsers`, `manageRoles`, `manageFeesHeads`, `newAccadamicYear`, `registerStudent`, `searchNEdit`, `manageClass`, `generateReceipt`, `feesReport`, `studentAttendence`, `studentReport`) VALUES ('$userType', '$manageUsers', '$manageRoles', '$manageFeesHeads', '$newAccadamicYear', '$registerStudent', '$searchNEdit', '$manageClass', '$generateReceipt', '$feesReport', '$studentAttendence', '$studentReport')";
         get200AsYes($sql);
     }
 }

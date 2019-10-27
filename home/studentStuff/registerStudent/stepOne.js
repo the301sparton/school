@@ -330,7 +330,7 @@ function CreateNewStudent() {
       stepTwo();
     }
     else {
-      alert("Failed. Make sure this Admission Number is never used before");
+      showNotification("<strong>Error</strong>","Failed to save data", "danger");
     }
   });
 }
@@ -373,7 +373,7 @@ function updateStudentDetails() {
     }
     else {
       console.log(newStudentDetailRes)
-      alert("Failed. Make sure this Admission Number is never used before");
+      showNotification("<strong>Error</strong>","Failed to save data", "danger");
     }
   });
 }

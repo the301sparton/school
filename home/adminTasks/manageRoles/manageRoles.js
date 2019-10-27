@@ -93,8 +93,8 @@ function makeRoleEditView(roleArray) {
                         </div>
 
                         <div class="col-md-4">
-                        <label for="deleteStudent`+ itr + `" class="checklabel">Delete all student data
-                            <input type="checkbox" id="deleteStudent`+ itr + `">
+                        <label for="manageClass`+ itr + `" class="checklabel">Manage Class List
+                            <input type="checkbox" id="manageClass`+ itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
@@ -165,8 +165,8 @@ function makeRoleEditView(roleArray) {
         if (roleArray[itr].searchNEdit == 1) {
             document.getElementById("searchNEdit" + itr).checked = true;
         }
-        if (roleArray[itr].deleteStudent == 1) {
-            document.getElementById("deleteStudent" + itr).checked = true;
+        if (roleArray[itr].manageClass == 1) {
+            document.getElementById("manageClass" + itr).checked = true;
         }
         if (roleArray[itr].generateReceipt == 1) {
             document.getElementById("generateReceipt" + itr).checked = true;
@@ -200,8 +200,8 @@ function updateGroupDetails(view) {
     registerStudent = isCheckedGeneric(registerStudent);
     let searchNEdit = view.childNodes[7].childNodes[3].childNodes[1].childNodes[1].checked;
     searchNEdit = isCheckedGeneric(searchNEdit);
-    let deleteStudent = view.childNodes[7].childNodes[5].childNodes[1].childNodes[1].checked;
-    deleteStudent = isCheckedGeneric(deleteStudent);
+    let manageClass = view.childNodes[7].childNodes[5].childNodes[1].childNodes[1].checked;
+    manageClass = isCheckedGeneric(manageClass);
 
     //row three
     let generateReceipt = view.childNodes[9].childNodes[1].childNodes[1].childNodes[1].checked;
@@ -229,7 +229,7 @@ function updateGroupDetails(view) {
 
         registerStudent: registerStudent,
         searchNEdit: searchNEdit,
-        deleteStudent: deleteStudent,
+        manageClass: manageClass,
 
         generateReceipt: generateReceipt,
         feesReport: feesReport,
@@ -239,12 +239,12 @@ function updateGroupDetails(view) {
 
     updateGroupReq.done(function (responce) {
         if (responce == 200) {
-            alert("User role updated..!");
+            showNotification("Success","User Group Updated", "success");
             getRoleList();
         }
         else {
             console.log(responce)
-            alert("Failed to update user role");
+            showNotification("<strong>Error</strong>","Failed to update group", "danger");
         }
     });
 }
@@ -257,11 +257,11 @@ function deleteGroup(view) {
     });
     deleteGroupReq.done(function (responce) {
         if (responce == 200) {
-            alert("User group deleted..!");
+            showNotification("Success","User Group Deleted", "success");
             view.parentNode.parentNode.removeChild(view.parentNode);
         }
         else {
-            alert("Failed to delete user group.. :(");
+            showNotification("<strong>Error</strong>","Failed to delete group", "danger");
         }
     })
 }
@@ -307,8 +307,8 @@ function createNewUserGroupForSure() {
         let NwSearchNEdit = document.getElementById("NwSearchNEdit").checked;
         NwSearchNEdit = isCheckedGeneric(NwSearchNEdit);
 
-        let NewDeleteStudent = document.getElementById("NewDeleteStudent").checked;
-        NewDeleteStudent = isCheckedGeneric(NewDeleteStudent);
+        let NewManageClass = document.getElementById("NewManageClass").checked;
+        NewManageClass = isCheckedGeneric(NewManageClass);
 
         let NewGenerateReceipt = document.getElementById("NewGenerateReceipt").checked;
         NewGenerateReceipt = isCheckedGeneric(NewGenerateReceipt);
@@ -334,7 +334,7 @@ function createNewUserGroupForSure() {
             NewNewAccadamicYear: NewNewAccadamicYear,
             NewRegisterStudent: NewRegisterStudent,
             NwSearchNEdit: NwSearchNEdit,
-            NewDeleteStudent: NewDeleteStudent,
+            NewManageClass: NewManageClass,
             NewGenerateReceipt: NewGenerateReceipt,
             NewFeesReport: NewFeesReport,
             NewStudentAttendence: NewStudentAttendence,

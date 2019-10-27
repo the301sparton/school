@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'commonFunctions.php';
 $type = $_POST['type'];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -9,116 +10,40 @@ if ($conn->connect_error) {
     if ($type == "name") {
         $nameIP = $_POST['inputKeyWord'];
         $limit = $_POST['limit'];
-        $tbl = $_POST['sessionName'];
-        $tbl_name = "studentdetails";
-
         $name = $nameIP . "%";
-
-        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentinfo WHERE firstName LIKE '$name' OR lastName LIKE '$name' LIMIT $limit";
-        $result = mysqli_query($conn, $sql1);
-        $rows = array();
-        while ($r = mysqli_fetch_assoc($result)) {
-            $sid = $r['studentId'];
-            $sql2 = "SELECT * FROM `$tbl_name` WHERE studentId = '$sid' AND sessionName = '$tbl'";
-            $result2 = mysqli_query($conn, $sql2);
-            $r2 = mysqli_fetch_assoc($result2);
-            if ($r2 != null) {
-                $finalElement = array_merge($r, $r2);
-                $rows[] = $finalElement;
-            }
-        }
-        echo json_encode($rows);
+        $sql1 = "SELECT `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `firstName` LIKE '$name' OR `lastName` LIKE '$name' LIMIT $limit";
+        getOutputFromQueary($sql1);
     }
     else if($type == "admissionNumber"){
         $nameIP = $_POST['inputKeyWord'];
         $limit = $_POST['limit'];
-        $tbl = $_POST['sessionName'];
-        $tbl_name = "studentdetails";
-
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentinfo WHERE `admissionNumber` LIKE '$name' LIMIT $limit";
-        $result = mysqli_query($conn, $sql1);
-        $rows = array();
-        while ($r = mysqli_fetch_assoc($result)) {
-            $sid = $r['studentId'];
-            $sql2 = "SELECT * FROM `$tbl_name` WHERE studentId = '$sid' AND sessionName = '$tbl'";
-            $result2 = mysqli_query($conn, $sql2);
-            $r2 = mysqli_fetch_assoc($result2);
-            if ($r2 != null) {
-                $finalElement = array_merge($r, $r2);
-                $rows[] = $finalElement;
-            }
-        }
-        echo json_encode($rows);
+        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `admissionNumber` LIKE '$name' LIMIT $limit";
+        getOutputFromQueary($sql1);
     }
     else if($type == "aadharNumber"){
         $nameIP = $_POST['inputKeyWord'];
         $limit = $_POST['limit'];
-        $tbl = $_POST['sessionName'];
-        $tbl_name = "studentdetails";
-
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentinfo WHERE `aadharNumber` LIKE '$name' LIMIT $limit";
-        $result = mysqli_query($conn, $sql1);
-        $rows = array();
-        while ($r = mysqli_fetch_assoc($result)) {
-            $sid = $r['studentId'];
-            $sql2 = "SELECT * FROM `$tbl_name` WHERE studentId = '$sid' AND sessionName = '$tbl'";
-            $result2 = mysqli_query($conn, $sql2);
-            $r2 = mysqli_fetch_assoc($result2);
-            if ($r2 != null) {
-                $finalElement = array_merge($r, $r2);
-                $rows[] = $finalElement;
-            }
-        }
-        echo json_encode($rows);
+        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `aadharNumber` LIKE '$name' LIMIT $limit";
+        getOutputFromQueary($sql1);
     }
     else if($type == "formNumber"){
         $nameIP = $_POST['inputKeyWord'];
         $limit = $_POST['limit'];
-        $tbl = $_POST['sessionName'];
-        $tbl_name = "studentdetails";
-
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentinfo WHERE `formNumber` LIKE '$name' LIMIT $limit";
-        $result = mysqli_query($conn, $sql1);
-        $rows = array();
-        while ($r = mysqli_fetch_assoc($result)) {
-            $sid = $r['studentId'];
-            $sql2 = "SELECT * FROM `$tbl_name` WHERE studentId = '$sid' AND sessionName = '$tbl'";
-            $result2 = mysqli_query($conn, $sql2);
-            $r2 = mysqli_fetch_assoc($result2);
-            if ($r2 != null) {
-                $finalElement = array_merge($r, $r2);
-                $rows[] = $finalElement;
-            }
-        }
-        echo json_encode($rows);
+        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `formNumber` LIKE '$name' LIMIT $limit";
+        getOutputFromQueary($sql1);
     }
     else if($type == "parentPhoneNumber"){
         $nameIP = $_POST['inputKeyWord'];
         $limit = $_POST['limit'];
-        $tbl = $_POST['sessionName'];
-        $tbl_name = "studentdetails";
-
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT `studentId`,`admissionNumber`, `firstName`, `middleName`, `lastName` FROM studentinfo WHERE `guardianPhone` LIKE '$name' LIMIT $limit";
-        $result = mysqli_query($conn, $sql1);
-        $rows = array();
-        while ($r = mysqli_fetch_assoc($result)) {
-            $sid = $r['studentId'];
-            $sql2 = "SELECT * FROM `$tbl_name` WHERE studentId = '$sid' AND sessionName = '$tbl'";
-            $result2 = mysqli_query($conn, $sql2);
-            $r2 = mysqli_fetch_assoc($result2);
-            if ($r2 != null) {
-                $finalElement = array_merge($r, $r2);
-                $rows[] = $finalElement;
-            }
-        }
-        echo json_encode($rows);
+        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `formNumber` LIKE '$parentPhoneNumber' LIMIT $limit";
+        getOutputFromQueary($sql1);
     }
 }

@@ -40,7 +40,7 @@ function studentAttendence(){
                         <input class="form-control" type="date" id="attendence_date">
                       </div>
                       <div class="col-md-6">
-                        <div class="alert" style="display: none" id="attendence_alert">
+                        <div class="alertMine" style="display: none" id="attendence_alert">
                         </div>
                       </div>
                       <div class="col-md-2">

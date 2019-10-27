@@ -1,4 +1,4 @@
-let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canDeleteStudent; let canGenerateReceipt; let canStudentAttendence; let canStudentReport;
+let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canManageClass; let canGenerateReceipt; let canStudentAttendence; let canStudentReport;
 $(document).ready(function () {
     firebase.auth().onAuthStateChanged(function (usr) {
         if (usr) {
@@ -49,11 +49,11 @@ function setPermissions(currentRole) {
     else if (canUpdateStudent == null) {
         canUpdateStudent = 0;
     }
-    if (currentRole.deleteStudent == 1) {
-        canDeleteStudent = 1;
+    if (currentRole.manageClass == 1) {
+        canManageClass = 1;
     }
-    else if (canDeleteStudent == null) {
-        canDeleteStudent = 0;
+    else if (canManageClass == null) {
+        canManageClass = 0;
     }
     if (currentRole.generateReceipt == 1) {
         canGenerateReceipt = 1;

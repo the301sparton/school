@@ -31,7 +31,7 @@ function manageUsers() {
 
     <div class="row" style="margin-top:1.5%;" >
       <div class="col-md-7">
-      <div class="alert" id="errorMessage" style="display: none">Please Select search methord and number of rows</div>
+      <div class="alertMine" id="errorMessage" style="display: none">Please Select search methord and number of rows</div>
       </div>
     </div>
     
@@ -146,7 +146,7 @@ function deleteUser(deleteUserBtn) {
         document.getElementById("allUserHolder").removeChild(deleteUserBtn.parentNode.parentNode.parentNode.parentNode);
       }
       else {
-        alert("Failed to delete user :(");
+        showNotification("<strong>Error</strong>","Failed to delete user", "danger");
       }
     });
   }
@@ -244,7 +244,7 @@ function addNewRoleConfirm() {
       getUserDetails(document.getElementById('allUserHolder').childNodes[0]);
     }
     else {
-      alert("Failed to update user groups :(");
+      showNotification("<strong>Error</strong>","Failed to update user groups", "danger");
     }
   });
 }
@@ -264,7 +264,7 @@ function deleteRoleItem(roleItemView) {
         roleItemView.parentNode.parentNode.parentNode.removeChild(roleItemView.parentNode.parentNode);
       }
       else {
-        alert("Failed to delete usergroup. :(");
+        showNotification("<strong>Error</strong>","Failed to delete user group", "danger");
       }
     });
   }
