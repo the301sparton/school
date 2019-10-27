@@ -1,4 +1,6 @@
-function manageFeesHeads(){
+function manageClassList(){
+    setActiveColorsAdminTasks("manageClassList");
+};function manageFeesHeads() {
     setActiveColorsAdminTasks("manageFeesHeads");
 
     let manageFeesHeadsHTML = `<div class="container">
@@ -16,12 +18,12 @@ function manageFeesHeads(){
     makeViewForFeeHeads();
 }
 
-function makeViewForFeeHeads(){
-    let getAllfeeData = $.post(baseUrl + "/apis/feesHeads.php",{
+function makeViewForFeeHeads() {
+    let getAllfeeData = $.post(baseUrl + "/apis/feesHeads.php", {
         type: "getAllHeads"
     });
 
-    getAllfeeData.done(function(responce){
+    getAllfeeData.done(function (responce) {
         let feeData = JSON.parse(responce);
 
         $("#jsGrid").jsGrid({
@@ -30,44 +32,45 @@ function makeViewForFeeHeads(){
             editing: true,
             sorting: false,
             paging: true,
-      
+
             data: feeData,
-      
+
             fields: [
-              { name: "headName", type: "text", width: 140 },
-              { name: "amount_KG1", type: "number", width: 120},
-              { name: "amount_KG2", type: "number", width: 120 },
-              { name: "amount_Nursery", type: "number", width: 160 },
-              { name: "amount_1st", type: "number", width: 120 },
-              { name: "amount_2nd", type: "number", width: 120 },
-              { name: "amount_3rd", type: "number", width: 120 },
-              { name: "amount_4th", type: "number", width: 120 },
-              { name: "amount_5th", type: "number", width: 120 },
-              { name: "amount_6th", type: "number", width: 120 },
-              { name: "amount_7th", type: "number", width: 120 },
-              { name: "amount_8th", type: "number", width: 120 },
-              { name: "amount_9th", type: "number", width: 120 },
-              { name: "amount_10th", type: "number", width: 120 },
-              { type: "control",width: 60 }
+                { name: "headName", type: "text", width: 140 },
+                { name: "amount_KG1", type: "number", width: 120 },
+                { name: "amount_KG2", type: "number", width: 120 },
+                { name: "amount_Nursery", type: "number", width: 160 },
+                { name: "amount_1st", type: "number", width: 120 },
+                { name: "amount_2nd", type: "number", width: 120 },
+                { name: "amount_3rd", type: "number", width: 120 },
+                { name: "amount_4th", type: "number", width: 120 },
+                { name: "amount_5th", type: "number", width: 120 },
+                { name: "amount_6th", type: "number", width: 120 },
+                { name: "amount_7th", type: "number", width: 120 },
+                { name: "amount_8th", type: "number", width: 120 },
+                { name: "amount_9th", type: "number", width: 120 },
+                { name: "amount_10th", type: "number", width: 120 },
+                { type: "control", width: 60 }
             ],
 
-            onItemUpdating: function(args) {
+            onItemUpdating: function (args) {
                 // cancel update of the item with empty 'name' field
-                if(args.item.name === "") {
+                if (args.item.headName === "") {
                     args.cancel = true;
-                    alert("Specify the name of the item!");
+                    showNotification("<strong>Error!</strong>", "Enter fees head name.", "warning");
                 }
-                   updateFeeHeadDetails(args.item);
+                else {
+                    updateFeeHeadDetails(args.item);
+                }
+
             }
         });
         document.getElementById('jsGrid').style.display = "block";
     });
 }
 
-function updateFeeHeadDetails(FeeHeadItem){
-    var shouldI = confirm("Are you sure..?");
-    if(shouldI){
-        let updateHeadItemReq = $.post(baseUrl + "/apis/feesHeads.php",{
+function updateFeeHeadDetails(FeeHeadItem) {
+        let updateHeadItemReq = $.post(baseUrl + "/apis/feesHeads.php", {
             type: "updateById",
             id: FeeHeadItem.headId,
             headName: FeeHeadItem.headName,
@@ -84,15 +87,18 @@ function updateFeeHeadDetails(FeeHeadItem){
             amount_8th: FeeHeadItem.amount_8th,
             amount_9th: FeeHeadItem.amount_9th,
             amount_10th: FeeHeadItem.amount_10th
-    });
+        });
 
-    updateHeadItemReq.done(function(responce){
-        if(responce != 200){
-            // if failed -> get old view
-            makeViewForFeeHeads();
-        }
-    });
-    }    
+        updateHeadItemReq.done(function (responce) {
+            if (responce != 200) {
+                // if failed -> get old view
+                showNotification("<strong>Error</strong>", "Failed. loading old data", "danger");
+                makeViewForFeeHeads();
+            }
+            else{
+                showNotification("<strong>Success</strong>", "Fees Head Updated", "success");
+            }
+        });
 };function manageRoles() {
     setActiveColorsAdminTasks("manageRoles");
     let userRoleHTML = `<div class="container">
@@ -188,8 +194,8 @@ function makeRoleEditView(roleArray) {
                         </div>
 
                         <div class="col-md-4">
-                        <label for="deleteStudent`+ itr + `" class="checklabel">Delete all student data
-                            <input type="checkbox" id="deleteStudent`+ itr + `">
+                        <label for="manageClass`+ itr + `" class="checklabel">Manage Class List
+                            <input type="checkbox" id="manageClass`+ itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
@@ -260,8 +266,8 @@ function makeRoleEditView(roleArray) {
         if (roleArray[itr].searchNEdit == 1) {
             document.getElementById("searchNEdit" + itr).checked = true;
         }
-        if (roleArray[itr].deleteStudent == 1) {
-            document.getElementById("deleteStudent" + itr).checked = true;
+        if (roleArray[itr].manageClass == 1) {
+            document.getElementById("manageClass" + itr).checked = true;
         }
         if (roleArray[itr].generateReceipt == 1) {
             document.getElementById("generateReceipt" + itr).checked = true;
@@ -295,8 +301,8 @@ function updateGroupDetails(view) {
     registerStudent = isCheckedGeneric(registerStudent);
     let searchNEdit = view.childNodes[7].childNodes[3].childNodes[1].childNodes[1].checked;
     searchNEdit = isCheckedGeneric(searchNEdit);
-    let deleteStudent = view.childNodes[7].childNodes[5].childNodes[1].childNodes[1].checked;
-    deleteStudent = isCheckedGeneric(deleteStudent);
+    let manageClass = view.childNodes[7].childNodes[5].childNodes[1].childNodes[1].checked;
+    manageClass = isCheckedGeneric(manageClass);
 
     //row three
     let generateReceipt = view.childNodes[9].childNodes[1].childNodes[1].childNodes[1].checked;
@@ -324,7 +330,7 @@ function updateGroupDetails(view) {
 
         registerStudent: registerStudent,
         searchNEdit: searchNEdit,
-        deleteStudent: deleteStudent,
+        manageClass: manageClass,
 
         generateReceipt: generateReceipt,
         feesReport: feesReport,
@@ -334,12 +340,12 @@ function updateGroupDetails(view) {
 
     updateGroupReq.done(function (responce) {
         if (responce == 200) {
-            alert("User role updated..!");
+            showNotification("Success","User Group Updated", "success");
             getRoleList();
         }
         else {
             console.log(responce)
-            alert("Failed to update user role");
+            showNotification("<strong>Error</strong>","Failed to update group", "danger");
         }
     });
 }
@@ -352,11 +358,11 @@ function deleteGroup(view) {
     });
     deleteGroupReq.done(function (responce) {
         if (responce == 200) {
-            alert("User group deleted..!");
+            showNotification("Success","User Group Deleted", "success");
             view.parentNode.parentNode.removeChild(view.parentNode);
         }
         else {
-            alert("Failed to delete user group.. :(");
+            showNotification("<strong>Error</strong>","Failed to delete group", "danger");
         }
     })
 }
@@ -402,8 +408,8 @@ function createNewUserGroupForSure() {
         let NwSearchNEdit = document.getElementById("NwSearchNEdit").checked;
         NwSearchNEdit = isCheckedGeneric(NwSearchNEdit);
 
-        let NewDeleteStudent = document.getElementById("NewDeleteStudent").checked;
-        NewDeleteStudent = isCheckedGeneric(NewDeleteStudent);
+        let NewManageClass = document.getElementById("NewManageClass").checked;
+        NewManageClass = isCheckedGeneric(NewManageClass);
 
         let NewGenerateReceipt = document.getElementById("NewGenerateReceipt").checked;
         NewGenerateReceipt = isCheckedGeneric(NewGenerateReceipt);
@@ -429,7 +435,7 @@ function createNewUserGroupForSure() {
             NewNewAccadamicYear: NewNewAccadamicYear,
             NewRegisterStudent: NewRegisterStudent,
             NwSearchNEdit: NwSearchNEdit,
-            NewDeleteStudent: NewDeleteStudent,
+            NewManageClass: NewManageClass,
             NewGenerateReceipt: NewGenerateReceipt,
             NewFeesReport: NewFeesReport,
             NewStudentAttendence: NewStudentAttendence,
@@ -475,7 +481,7 @@ function createNewUserGroupForSure() {
 
     <div class="row" style="margin-top:1.5%;" >
       <div class="col-md-7">
-      <div class="alert" id="errorMessage" style="display: none">Please Select search methord and number of rows</div>
+      <div class="alertMine" id="errorMessage" style="display: none">Please Select search methord and number of rows</div>
       </div>
     </div>
     
@@ -590,7 +596,7 @@ function deleteUser(deleteUserBtn) {
         document.getElementById("allUserHolder").removeChild(deleteUserBtn.parentNode.parentNode.parentNode.parentNode);
       }
       else {
-        alert("Failed to delete user :(");
+        showNotification("<strong>Error</strong>","Failed to delete user", "danger");
       }
     });
   }
@@ -688,7 +694,7 @@ function addNewRoleConfirm() {
       getUserDetails(document.getElementById('allUserHolder').childNodes[0]);
     }
     else {
-      alert("Failed to update user groups :(");
+      showNotification("<strong>Error</strong>","Failed to update user groups", "danger");
     }
   });
 }
@@ -708,7 +714,7 @@ function deleteRoleItem(roleItemView) {
         roleItemView.parentNode.parentNode.parentNode.removeChild(roleItemView.parentNode.parentNode);
       }
       else {
-        alert("Failed to delete usergroup. :(");
+        showNotification("<strong>Error</strong>","Failed to delete user group", "danger");
       }
     });
   }
@@ -877,17 +883,17 @@ function updateProfileListener() {
         photo: updatedProfileImage
       }).done(function (updateMeRes) {
         if (updateMeRes == 200) {
-          alert("Updated Successfully, Press Ok to refresh.");
+          showNotification("<strong>Suceess</strong>","Page will refresh", "success");
           location.reload();
         }
         else {
-          alert("Failed to update :(");
+          showNotification("<strong>Error</strong>","Failed to update profile", "danger");
         }
       });
 
     }
     else {
-      alert("No Data Was Changed");
+      showNotification("<strong>!!</strong>","No data was changed", "info");
     }
   });
 };let FeeRepostType;
@@ -964,7 +970,7 @@ function feesReport() {
 
     <div class="row" style="margin-top:1.5%;" >
       <div class="col-md-7">
-          <div class="alert" id="errorMessage" style="display: none">
+          <div class="alertMine" id="errorMessage" style="display: none">
           </div>
       </div>
     </div>
@@ -1467,13 +1473,13 @@ $('#newReceiptForm').submit(function (event) {
                 viewReceipt(resjson.id, ReceiptForStudentId, sessionSelect);
             }
             else {
-                alert("Failed to generate receipt");
+                showNotification("<strong>Error</strong>","Failed to generate receipt", "danger");
                 console.log(newReceiptRes);
             }
         });
     }
     else{
-        alert("Receipt Not Created (Invalid Amounts)");
+        showNotification("<strong>Error</strong>","Invalid Amount - Receipt not created", "danger");
     }
 });
 
@@ -1868,7 +1874,7 @@ function CreateNewStudent() {
       stepTwo();
     }
     else {
-      alert("Failed. Make sure this Admission Number is never used before");
+      showNotification("<strong>Error</strong>","Failed to save data", "danger");
     }
   });
 }
@@ -1911,7 +1917,7 @@ function updateStudentDetails() {
     }
     else {
       console.log(newStudentDetailRes)
-      alert("Failed. Make sure this Admission Number is never used before");
+      showNotification("<strong>Error</strong>","Failed to save data", "danger");
     }
   });
 }
@@ -2068,7 +2074,7 @@ function updateSessionEntry(toReturn) {
   newSessionEntryReq.done(function (newSessionEntryRes) {
     if (newSessionEntryRes == 200) {
       if (!toReturn) {
-        alert("Student record saved successfully..!");
+        showNotification("<strong>Success</strong>","Data Saved Successfully", "success");
         if(document.location.href.includes("home")){
           studentOptionsView();
         }
@@ -2076,7 +2082,7 @@ function updateSessionEntry(toReturn) {
       }
     }
     else {
-      alert("Failed to save student record :(");
+      showNotification("<strong>Error</strong>","Failed to save data", "danger");
     }
     document.getElementById('loader').style.display = "none";
   });
@@ -2359,7 +2365,7 @@ var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php",{
 
     }
     else {
-      alert("Failed to update data :(");
+     showNotification("<strong>Error</stong>","Failed to save data","danger");
     }
   });
 }
@@ -2368,13 +2374,12 @@ function contactDetailBack(){
 setContactDetails();
 stepOne();
 }
-//STEPTWO END;
+//STEPTWO END;var searchBy;
+var maxRows = 5;
+var sessionSelect;
+var ErrorIsVisible;
+var forReceipt;
 
-let searchBy;
-let maxRows;
-let sessionSelect;
-let ErrorIsVisible;
-let forReceipt;
 
 let searchBarView;
 searchNEditHTML = `<div class="container" id="registerStudent">
@@ -2421,7 +2426,7 @@ searchNEditHTML = `<div class="container" id="registerStudent">
     </div>
     <div class="row" style="margin-top:1.5%;" >
       <div class="col-md-7">
-      <div class="alert" id="errorMessage" style="display: none">
+      <div class="alertMine" id="errorMessage" style="display: none">
       </div>
       </div>
     </div>
@@ -2441,7 +2446,6 @@ function searchNEdit(forReceiptTemp) {
     document.getElementById('feesActionHolder').innerHTML = searchNEditHTML;
     document.getElementById('searchHeading').innerText = "Step 1 : Select Student";
   }
-  maxRows = 5;
   searchBy = null;
   sessionSelect = null;
   searchBarView = document.getElementById('searchBarView');
@@ -2454,6 +2458,7 @@ function searchNEdit(forReceiptTemp) {
   });
   $(document).on('change', '#maxRows', function () {
     maxRows = document.getElementById('maxRows').value;
+    console.log(maxRows);
     studentSearch(searchBarView);
   });
   $(document).on('change', '#sessionSelect', function () {
@@ -2677,7 +2682,7 @@ function selectedStudent(parent){
                         <input class="form-control" type="date" id="attendence_date">
                       </div>
                       <div class="col-md-6">
-                        <div class="alert" style="display: none" id="attendence_alert">
+                        <div class="alertMine" style="display: none" id="attendence_alert">
                         </div>
                       </div>
                       <div class="col-md-2">
@@ -2848,11 +2853,11 @@ $("#contactForm").submit(function(event) {
     newMessageReq.done(function(data){
         console.log(data);
         if(data=="200"){
-            alert("Message Sent");
+            showNotification("<strong>Success</strong>","Message sent", "success");
             document.getElementById('contactForm').reset();
         }
         else{
-            alert("Failed to send message");
+            showNotification("<strong>Error</strong>","Failed to send message", "danger");
         }
     });
 });;
@@ -2877,12 +2882,13 @@ function Logout(){
 let me_data;
 let myRoleList;
 let currentSession;
-let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canDeleteStudent; let canGenerateReceipt; let canStudentAttendence; let canStudentReport; let canFeesReport; let canManageUsers; let canManageRoles; let canManageFeesHeads; let canNewAccadamicYear;
+let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canManageClass; let canGenerateReceipt; let canStudentAttendence; let canStudentReport; let canFeesReport; let canManageUsers; let canManageRoles; let canManageFeesHeads; let canNewAccadamicYear;
 let currentStudentOption = '';
-let optionColors = ["D6E2E7", "E0E3EB", "B0CBD4", "C7D4F3"];
+let optionColors = ["D6E2E7", "E0E3EB", "B0CBD4", "C7D4F3", "F4ECF7"];
 let currentUprMenu = "top";
 
 $(document).ready(function () {
+  showNotification("<strong>Welcome</strong>", "to School "+ verName, "success");
   firebase.auth().onAuthStateChanged(function (usr) {
     if (usr) {
       user = usr;
@@ -2924,7 +2930,7 @@ $(document).ready(function () {
                 currentSession = JSON.parse(currentSessionRes).sessionName;
               }
               else {
-                alert("No Session Found. Please ask admin to create a new session.");
+                showNotification("<strong>Error</strong>","No session found - contact admin", "warning");
               }
               document.getElementById('loader').style.display = "none";  //HIDE LOADER
             });
@@ -2966,11 +2972,11 @@ function setPermissions(currentRole) {
   else if (canUpdateStudent == null) {
     canUpdateStudent = 0;
   }
-  if (currentRole.deleteStudent == 1) {
-    canDeleteStudent = 1;
+  if (currentRole.manageClass == 1) {
+    canManageClass = 1;
   }
-  else if (canDeleteStudent == null) {
-    canDeleteStudent = 0;
+  else if (canManageClass == null) {
+    canManageClass = 0;
   }
   if (currentRole.generateReceipt == 1) {
     canGenerateReceipt = 1;
@@ -3111,6 +3117,9 @@ function getlimitAdminTasks() {
   }
   if(canNewAccadamicYear == 1){
     limit.push("newAccadamicYear");
+  }
+  if(canManageClass == 1){
+    limit.push("manageClassList");
   }
   return limit;
 }
@@ -3295,11 +3304,14 @@ function adminTasksView() {
     AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
     <div class="text-center">`;
   }
+
+
+
   if (canManageFeesHeads == 0 && canNewAccadamicYear == 0) {
     AdminOptionHTML += ``;
   }
   else if (canManageFeesHeads == 1 && canNewAccadamicYear == 0) {
-    AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
+    AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow2">
         <div class="col-rmd-4">
               
         </div>
@@ -3315,7 +3327,7 @@ function adminTasksView() {
         <div class="col-rmd-4 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
     </div>`;
   }
-  else if (canManageFeesHeads == 1 && canNewAccadamicYear == 1) {
+  else {
     AdminOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
         <div class="col-rmd-5 button button3" id="manageFeesHeads" onclick="manageFeesHeads()">Manage Fees Heads</div>
         <div class="col-rmd-2">
@@ -3323,6 +3335,17 @@ function adminTasksView() {
         </div>
         <div class="col-rmd-5 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
       </div>`;
+  }
+
+
+
+  if(canManageClass){
+    AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow3">
+    <div class="col-rmd-4">
+          
+    </div>
+      <div class="col-rmd-4 button button5" id="manageClassList" onclick="manageClassList()">Manage Class List</div>             
+  </div>`;
   }
 
 
@@ -3353,15 +3376,15 @@ function adminTasksView() {
   });
 
   // Back to top button
-  $(window).scroll(function() {
+  $(window).scroll(function () {
     if ($(this).scrollTop() > 100) {
       $('.back-to-top').fadeIn('slow');
     } else {
       $('.back-to-top').fadeOut('slow');
     }
   });
-  $('.back-to-top').click(function(){
-    $('html, body').animate({scrollTop : 0},1500, 'easeInOutExpo');
+  $('.back-to-top').click(function () {
+    $('html, body').animate({ scrollTop: 0 }, 1500, 'easeInOutExpo');
     return false;
   });
 
@@ -3369,7 +3392,7 @@ function adminTasksView() {
   new WOW().init();
 
   // Header scroll class
-  $(window).scroll(function() {
+  $(window).scroll(function () {
     if ($(this).scrollTop() > 100) {
       $('#header').addClass('header-scrolled');
     } else {
@@ -3382,7 +3405,7 @@ function adminTasksView() {
   }
 
   // Smooth scroll for the navigation and links with .scrollto classes
-  $('.main-nav a, .mobile-nav a, .scrollto').on('click', function() {
+  $('.main-nav a, .mobile-nav a, .scrollto').on('click', function () {
     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
       var target = $(this.hash);
       if (target.length) {
@@ -3391,7 +3414,7 @@ function adminTasksView() {
         if ($('#header').length) {
           top_space = $('#header').outerHeight();
 
-          if (! $('#header').hasClass('header-scrolled')) {
+          if (!$('#header').hasClass('header-scrolled')) {
             top_space = top_space - 40;
           }
         }
@@ -3422,53 +3445,42 @@ function adminTasksView() {
 
   $(window).on('scroll', function () {
     var cur_pos = $(this).scrollTop();
-  
-    nav_sections.each(function() {
+
+    nav_sections.each(function () {
       var top = $(this).offset().top - main_nav_height,
-          bottom = top + $(this).outerHeight();
-  
+        bottom = top + $(this).outerHeight();
+
       if (cur_pos >= top && cur_pos <= bottom) {
         main_nav.find('li').removeClass('active');
-        main_nav.find('a[href="#'+$(this).attr('id')+'"]').parent('li').addClass('active');
+        main_nav.find('a[href="#' + $(this).attr('id') + '"]').parent('li').addClass('active');
       }
     });
   });
 
-  // jQuery counterUp (used in Whu Us section)
-  // $('[data-toggle="counter-up"]').counterUp({
-  //   delay: 10,
-  //   time: 1000
-  // });
-
-  // Porfolio isotope and filter
-  // $(window).on('load', function () {
-  //   var portfolioIsotope = $('.portfolio-container').isotope({
-  //     itemSelector: '.portfolio-item'
-  //   });
-  //   $('#portfolio-flters li').on( 'click', function() {
-  //     $("#portfolio-flters li").removeClass('filter-active');
-  //     $(this).addClass('filter-active');
-  
-  //     portfolioIsotope.isotope({ filter: $(this).data('filter') });
-  //   });
-  // });
-
-  // Testimonials carousel (uses the Owl Carousel library)
-  // $(".testimonials-carousel").owlCarousel({
-  //   autoplay: true,
-  //   dots: true,
-  //   loop: true,
-  //   items: 1
-  // });
-
-  // Clients carousel (uses the Owl Carousel library)
-  // $(".clients-carousel").owlCarousel({
-  //   autoplay: true,
-  //   dots: true,
-  //   loop: true,
-  //   responsive: { 0: { items: 2 }, 768: { items: 4 }, 900: { items: 6 }
-  //   }
-  // });
-
 })(jQuery);
+
+
+
+function showNotification(titleMsg, messageBody, typeOfNotifs) {
+  $.notify({
+    title: titleMsg,
+    message: messageBody
+  },
+    {
+      type: typeOfNotifs,
+      animate: {
+        enter: 'animated bounceIn',
+        exit: 'animated bounceOut'
+      },
+      allow_dismiss: true,
+      placement: {
+        from: 'top',
+        align: 'right'
+      },
+      offset: {
+        x: 50,
+        y: 105
+      }
+    });
+}
 

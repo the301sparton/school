@@ -4,6 +4,7 @@ var sessionSelect;
 var ErrorIsVisible;
 var forReceipt;
 
+
 let searchBarView;
 searchNEditHTML = `<div class="container" id="registerStudent">
     <div class="text-center">
