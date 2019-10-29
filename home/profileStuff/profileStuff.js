@@ -109,26 +109,28 @@ function updateProfileListener() {
   $('#profileUpdateForm').submit(function (event) {
     event.preventDefault();
     if (document.getElementById("up_displayName").value != me_data.displayName || document.getElementById("up_emailId").value != me_data.eid || document.getElementById("up_mobileNumber").value != me_data.mobileNumber || imageDataChanged == true) {
-      $.post(baseUrl + "/apis/User.php", {
+      let updateProfileReq = $.post(baseUrl + "/apis/User.php", {
         type: "updateUser",
         uid: me_data.uid,
         displayName: document.getElementById("up_displayName").value,
         eid: document.getElementById("up_emailId").value,
         mobileNumber: document.getElementById("up_mobileNumber").value,
         photo: updatedProfileImage
-      }).done(function (updateMeRes) {
+      });
+      updateProfileReq.done(function (updateMeRes) {
         if (updateMeRes == 200) {
-          showNotification("<strong>Suceess</strong>","Page will refresh", "success");
+          showNotification("<strong>Suceess</strong>", "Page will refresh", "success");
           location.reload();
         }
         else {
-          showNotification("<strong>Error</strong>","Failed to update profile", "danger");
+          showNotification("<strong>Error</strong>", "Failed to update profile", "danger");
         }
       });
+      updateProfileReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 
     }
     else {
-      showNotification("<strong>!!</strong>","No data was changed", "info");
+      showNotification("<strong>!!</strong>", "No data was changed", "info");
     }
   });
 }

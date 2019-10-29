@@ -91,30 +91,36 @@ function loadAllSessionsAndSetListeners() {
   });
 
   allSessionReq.done(function (allSessions) {
-    allSessions = JSON.parse(allSessions);
-    for (var index in allSessions) {
-      $('#FeeSessionSelect')
-        .append($('<option>', { value: allSessions[index].sessionName })
-          .text(allSessions[index].sessionName
-          ));
+    try {
+      allSessions = JSON.parse(allSessions);
+      for (var index in allSessions) {
+        $('#FeeSessionSelect')
+          .append($('<option>', { value: allSessions[index].sessionName })
+            .text(allSessions[index].sessionName
+            ));
+      }
+
+      FeeSessionSelect = currentSession;
+      document.getElementById("FeeSessionSelect").value = currentSession;
+
+      $(document).on('change', '#FeeRepostType', function () {
+        FeeRepostType = document.getElementById('FeeRepostType').value;
+        checkReportType();
+      });
+
+      $(document).on('change', '#FeeSessionSelect', function () {
+        FeeSessionSelect = document.getElementById('FeeSessionSelect').value;
+        document.getElementById("errorMessage").style.display = "none";
+        checkReportType();
+      });
+    }
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
     }
 
-    FeeSessionSelect = currentSession;
-    document.getElementById("FeeSessionSelect").value = currentSession;
-
-    $(document).on('change', '#FeeRepostType', function () {
-      FeeRepostType = document.getElementById('FeeRepostType').value;
-      checkReportType();
-    });
-
-    $(document).on('change', '#FeeSessionSelect', function () {
-      FeeSessionSelect = document.getElementById('FeeSessionSelect').value;
-      document.getElementById("errorMessage").style.display = "none";
-      checkReportType();
-    });
   });
 
-
+  allSessionReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 
 }
 
@@ -223,37 +229,45 @@ function classSummeryReport() {
     sessionName: FeeSessionSelect
   });
   classSummeryReportReq.done(function (responseReport) {
-    var reportJSON = JSON.parse(responseReport);
+    try {
+      var reportJSON = JSON.parse(responseReport);
 
-    for (var itr in reportJSON) {
-      reportJSON[itr].balenceFees = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
+      for (var itr in reportJSON) {
+        reportJSON[itr].balenceFees = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
+      }
+
+      console.log(reportJSON);
+      document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
+      $("#jsGrid").jsGrid({
+        width: "100%",
+        inserting: false,
+        editing: false,
+        sorting: true,
+        paging: true,
+
+        data: reportJSON,
+
+        fields: [
+          { name: "studentId", type: "number", width: 80 },
+          { name: "fullname", type: "text", width: 150, validate: "required" },
+          { name: "totalFees", type: "number", width: 80 },
+          { name: "paidFees", type: "number", width: 80 },
+          { name: "balenceFees", type: "number", width: 80 }
+        ]
+      });
+      document.getElementById('jsGrid').style.display = "block";
+
+      document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"><div>`;
+      document.getElementById('feeInfoHolder').innerHTML += `<div class="container"><div class="col-md-12"><button style="float:right" class="btn btn-secondary" onclick="printReport()">Print</button></div></div>`;
+      document.getElementById('typeReport').innerText = "Class Summery Report For " + document.getElementById('filterClass').value + " " + document.getElementById("filterSection").value;
+
     }
-
-    console.log(reportJSON);
-    document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
-    $("#jsGrid").jsGrid({
-      width: "100%",
-      inserting: false,
-      editing: false,
-      sorting: true,
-      paging: true,
-
-      data: reportJSON,
-
-      fields: [
-        { name: "studentId", type: "number", width: 80 },
-        { name: "fullname", type: "text", width: 150, validate: "required" },
-        { name: "totalFees", type: "number", width: 80 },
-        { name: "paidFees", type: "number", width: 80 },
-        { name: "balenceFees", type: "number", width: 80 }
-      ]
-    });
-    document.getElementById('jsGrid').style.display = "block";
-
-    document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"><div>`;
-    document.getElementById('feeInfoHolder').innerHTML += `<div class="container"><div class="col-md-12"><button style="float:right" class="btn btn-secondary" onclick="printReport()">Print</button></div></div>`;
-    document.getElementById('typeReport').innerText = "Class Summery Report For " + document.getElementById('filterClass').value + " " + document.getElementById("filterSection").value;
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
+    }
   });
+
+  classSummeryReportReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function buildDateReport(report, byDate) {
@@ -302,9 +316,16 @@ function ReportByDates() {
     });
 
     reportByDateReq.done(function (reportRes) {
-      var report = JSON.parse(reportRes);
-      buildDateReport(report, true);
+      try {
+        var report = JSON.parse(reportRes);
+        buildDateReport(report, true);
+      }
+      catch (e) {
+        showNotification("Error", "Failed to get data", "danger");
+      }
     });
+
+    reportByDateReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
   }
 }
 
@@ -314,8 +335,15 @@ function getMonthWiseReport() {
     sessionName: FeeSessionSelect
   });
   monthWiseReportReq.done(function (reportRes) {
-    buildDateReport(JSON.parse(reportRes));
+    try {
+      buildDateReport(JSON.parse(reportRes));
+    }
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
+    }
   });
+
+  monthWiseReportReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function UpdateFilter() {
@@ -352,23 +380,25 @@ function getClassAndSection() {
         type: "getClassList"
       },
       function (classDATA) {
-        let classJSON = JSON.parse(classDATA);
-
-        $('#filterClass').empty();
-
-        $('#filterClass').append($('<option>', {
-          value: "",
-          text: "Select Student Class",
-          selected: true,
-          disabled: true
-        }, '</option>'));
-
-        for (var index in classJSON) {
-          $('#filterClass')
-            .append($('<option>', {
-              value: classJSON[index].className,
-              text: classJSON[index].className,
-            }, '</option>'));
+        try {
+          let classJSON = JSON.parse(classDATA);
+          $('#filterClass').empty();
+          $('#filterClass').append($('<option>', {
+            value: "",
+            text: "Select Student Class",
+            selected: true,
+            disabled: true
+          }, '</option>'));
+          for (var index in classJSON) {
+            $('#filterClass')
+              .append($('<option>', {
+                value: classJSON[index].className,
+                text: classJSON[index].className,
+              }, '</option>'));
+          }
+        }
+        catch (e) {
+          showNotification("Error", "Failed to get data", "danger");
         }
       });
 
@@ -377,23 +407,25 @@ function getClassAndSection() {
         type: "getSectionList"
       },
       function (sectionDATA) {
-        let sectionJSON = JSON.parse(sectionDATA);
-
-        $('#filterSection').empty();
-
-        $('#filterSection').append($('<option>', {
-          value: "",
-          text: "Select Student Section",
-          selected: true,
-          disabled: true
-        }, '</option>'));
-
-        for (var index in sectionJSON) {
-          $('#filterSection')
-            .append($('<option>', {
-              value: sectionJSON[index].sectionName,
-              text: sectionJSON[index].sectionName,
-            }, '</option>'));
+        try {
+          let sectionJSON = JSON.parse(sectionDATA);
+          $('#filterSection').empty();
+          $('#filterSection').append($('<option>', {
+            value: "",
+            text: "Select Student Section",
+            selected: true,
+            disabled: true
+          }, '</option>'));
+          for (var index in sectionJSON) {
+            $('#filterSection')
+              .append($('<option>', {
+                value: sectionJSON[index].sectionName,
+                text: sectionJSON[index].sectionName,
+              }, '</option>'));
+          }
+        }
+        catch (e) {
+          showNotification("Error", "Failed to get data", "danger");
         }
       });
     isClassAndSectionFirst = false;

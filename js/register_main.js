@@ -10,6 +10,8 @@ $(document).ready(function() {
                     window.location = "../home";
                 }
             });
+
+            getUserReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
             
             if(user.photoURL !=null){
                 document.getElementById("profileImage").src = user.photoURL;
@@ -64,6 +66,8 @@ $("#newUserForm").submit(function(event) {
             showNotification("<strong>Error</strong>","Failed to register", "danger");
         }
     });
+
+    newUserReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 });
 
 function readURL(input) {

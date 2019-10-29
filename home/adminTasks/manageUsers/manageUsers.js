@@ -57,7 +57,7 @@ function sendSearchUserRequest() {
   let maxCols = document.getElementById("maxRowsForUser").value;
   document.getElementById('userDetailsHolder').innerHTML = '';
 
-  if (maxCols == "" || userSearchMeathord == "" || maxCols < parseInt("0",10)) {
+  if (maxCols == "" || userSearchMeathord == "" || maxCols < parseInt("0", 10)) {
     document.getElementById("errorMessage").style.display = "block";
   }
   else {
@@ -71,8 +71,15 @@ function sendSearchUserRequest() {
       });
 
       searchUserReq.done(function (responce) {
-        makeUserView(JSON.parse(responce));
+        try {
+          makeUserView(JSON.parse(responce));
+        }
+        catch (e) {
+          showNotification("Error", "Failed to get data", "danger");
+        }
       });
+
+      searchUserReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
     }
     else {
       document.getElementById('allUserHolder').innerHTML = `<div class="row collapsible">
@@ -84,7 +91,7 @@ function sendSearchUserRequest() {
 }
 
 function makeUserView(allUserArray) {
-  document.getElementById('allUserHolder').innerHTML ='';
+  document.getElementById('allUserHolder').innerHTML = '';
   if (allUserArray.length > 0) {
     for (var itr in allUserArray) {
       userItemHtml = `<div class="row collapsible" onclick="getUserDetails(this)">
@@ -146,9 +153,11 @@ function deleteUser(deleteUserBtn) {
         document.getElementById("allUserHolder").removeChild(deleteUserBtn.parentNode.parentNode.parentNode.parentNode);
       }
       else {
-        showNotification("<strong>Error</strong>","Failed to delete user", "danger");
+        showNotification("<strong>Error</strong>", "Failed to delete user", "danger");
       }
     });
+
+    userDeleteReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
   }
 
 }
@@ -165,30 +174,38 @@ function getUserDetails(usersView) {
   });
 
   myRolesListReq.done(function (myRoleList) {
-    let myRoleListArray = JSON.parse(myRoleList);
-    document.getElementById('userDetailsHolder').innerHTML = `<div class="text-center">
-        <h6>Edit User Groups</h6>
-        <hr>
-      </div>`;
+    try {
+      let myRoleListArray = JSON.parse(myRoleList);
+      document.getElementById('userDetailsHolder').innerHTML = `<div class="text-center">
+          <h6>Edit User Groups</h6>
+          <hr>
+        </div>`;
 
-    if (myRoleListArray.length > 0) {
-      for (var itr in myRoleListArray) {
-        let roleItemHTML = `<div class="row collapsible" style="cursor:default">
-          <div class="col" id="roleId`+ itr + `" style="display:none"></div>
-          <div class="col-md-10" id="roleName`+ itr + `"></div>
-          <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
-          </div>`;
-        document.getElementById('userDetailsHolder').innerHTML += roleItemHTML;
-        document.getElementById('roleId' + itr).innerText = myRoleListArray[itr].id;
-        document.getElementById('roleName' + itr).innerText = myRoleListArray[itr].userType;
+      if (myRoleListArray.length > 0) {
+        for (var itr in myRoleListArray) {
+          let roleItemHTML = `<div class="row collapsible" style="cursor:default">
+            <div class="col" id="roleId`+ itr + `" style="display:none"></div>
+            <div class="col-md-10" id="roleName`+ itr + `"></div>
+            <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
+            </div>`;
+          document.getElementById('userDetailsHolder').innerHTML += roleItemHTML;
+          document.getElementById('roleId' + itr).innerText = myRoleListArray[itr].id;
+          document.getElementById('roleName' + itr).innerText = myRoleListArray[itr].userType;
+        }
       }
+      document.getElementById('userDetailsHolder').innerHTML += `<div class="row" style="margin-top:2%; margin-bottom:2%">
+        <div class="col-md-11"></div>
+        <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="addUserGroup(this)"></i>
+        </div>
+        </div>`;
     }
-    document.getElementById('userDetailsHolder').innerHTML += `<div class="row" style="margin-top:2%; margin-bottom:2%">
-      <div class="col-md-11"></div>
-      <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="addUserGroup(this)"></i>
-      </div>
-      </div>`;
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
+    }
+
   });
+
+  myRolesListReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function addUserGroup(addBtnView) {
@@ -200,27 +217,34 @@ function addUserGroup(addBtnView) {
   });
 
   getUserGroupsToAdd.done(function (userGroupList) {
-    let userGroupListArray = JSON.parse(userGroupList);
-    $("#addRoleModal").modal();
-    document.getElementById("addRoleBody").innerHTML = ``;
-    if(userGroupListArray.length>0){
-      document.getElementById('addRoleBtn').style.display = "block";
-      for (var itr in userGroupListArray) {
-        document.getElementById("addRoleBody").innerHTML += `<div class="row">
-        <label for="newRole`+ itr + `" class="checklabel"><div id="newRoleText` + itr + `"></div>
-                <input type="checkbox" id="newRole`+ itr + `">
-                <span class="checkmark"></span>
-        </label>
-        <div>`;
-        document.getElementById("newRoleText" + itr).innerText = userGroupListArray[itr].userType;
+    try {
+      let userGroupListArray = JSON.parse(userGroupList);
+      $("#addRoleModal").modal();
+      document.getElementById("addRoleBody").innerHTML = ``;
+      if (userGroupListArray.length > 0) {
+        document.getElementById('addRoleBtn').style.display = "block";
+        for (var itr in userGroupListArray) {
+          document.getElementById("addRoleBody").innerHTML += `<div class="row">
+          <label for="newRole`+ itr + `" class="checklabel"><div id="newRoleText` + itr + `"></div>
+                  <input type="checkbox" id="newRole`+ itr + `">
+                  <span class="checkmark"></span>
+          </label>
+          <div>`;
+          document.getElementById("newRoleText" + itr).innerText = userGroupListArray[itr].userType;
+        }
+      }
+      else {
+        document.getElementById('addRoleBtn').style.display = "none";
+        document.getElementById("addRoleBody").innerHTML = "User is already part of all user groups";
       }
     }
-    else{
-      document.getElementById('addRoleBtn').style.display = "none";
-      document.getElementById("addRoleBody").innerHTML = "User is already part of all user groups";
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
     }
-    
+
   });
+
+  getUserGroupsToAdd.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function addNewRoleConfirm() {
@@ -244,13 +268,16 @@ function addNewRoleConfirm() {
       getUserDetails(document.getElementById('allUserHolder').childNodes[0]);
     }
     else {
-      showNotification("<strong>Error</strong>","Failed to update user groups", "danger");
+      showNotification("<strong>Error</strong>", "Failed to update user groups", "danger");
     }
   });
+
+  addNewRolesReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+
 }
 
 function deleteRoleItem(roleItemView) {
-  
+
   var confirmState = confirm("Are you sure about removing this usergroup..?");
   if (confirmState == true) {
     let roleId = roleItemView.parentNode.parentNode.childNodes[1].innerText;
@@ -264,9 +291,11 @@ function deleteRoleItem(roleItemView) {
         roleItemView.parentNode.parentNode.parentNode.removeChild(roleItemView.parentNode.parentNode);
       }
       else {
-        showNotification("<strong>Error</strong>","Failed to delete user group", "danger");
+        showNotification("<strong>Error</strong>", "Failed to delete user group", "danger");
       }
     });
+
+    deleteRoleReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
   }
 }
 

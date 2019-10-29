@@ -28,11 +28,19 @@ function getRoleList() {
     });
 
     userRoleReq.done(function (responce) {
-        var RoleArray = JSON.parse(responce);
-        if (RoleArray.length > 0) {
-            makeRoleEditView(RoleArray);
+        try{
+            var RoleArray = JSON.parse(responce);
+            if (RoleArray.length > 0) {
+                makeRoleEditView(RoleArray);
+            }
         }
+        catch(e){
+            showNotification("Error", "Failed to get data", "danger");
+        }
+        
     });
+
+    userRoleReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function makeRoleEditView(roleArray) {
@@ -247,6 +255,8 @@ function updateGroupDetails(view) {
             showNotification("<strong>Error</strong>","Failed to update group", "danger");
         }
     });
+
+    updateGroupReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function deleteGroup(view) {
@@ -264,6 +274,8 @@ function deleteGroup(view) {
             showNotification("<strong>Error</strong>","Failed to delete group", "danger");
         }
     })
+
+    deleteGroupReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function isCheckedGeneric(isChecked) {
@@ -346,5 +358,7 @@ function createNewUserGroupForSure() {
                 manageRoles();
             }
         });
+
+        createNewRoleRequest.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
     }
 }

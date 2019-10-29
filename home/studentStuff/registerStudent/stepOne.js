@@ -223,7 +223,7 @@ function stepOne() {
   if (document.getElementById('studID').innerText != "") {
     setStudentDetails();
   }
-  else{
+  else {
     $('#step_one_next').removeAttr('disabled');
     document.getElementById('loader').style.display = "none";
   }
@@ -247,46 +247,54 @@ function setStudentDetails() {
   });
 
   setStudentDetailsReq.done(function (setStudentDetailsRes) {
-    studentDetail = JSON.parse(setStudentDetailsRes);
-    document.getElementById('formNumber').value = studentDetail.formNumber;
-    document.getElementById('admissionNumber').value = studentDetail.admissionNumber;
-    document.getElementById('govermentId').value = studentDetail.govermentId;
-    document.getElementById('firstName').value = studentDetail.firstName;
-    document.getElementById('middleName').value = studentDetail.middleName;
-    document.getElementById('lastName').value = studentDetail.lastName;
-    document.getElementById('motherName').value = studentDetail.motherName;
-    document.getElementById('fatherName').value = studentDetail.fatherName;
-    document.getElementById('gender').value = studentDetail.gender;
-    document.getElementById('aadharNumber').value = studentDetail.aadharNumber;
-    document.getElementById('stud_DOB').value = studentDetail.dob;
-    document.getElementById('pob_city').value = studentDetail.pob_city;
-    document.getElementById('pob_dist').value = studentDetail.pob_dist;
-    document.getElementById('pob_state').value = studentDetail.pob_state;
-    document.getElementById('religion').value = studentDetail.religion;
-    document.getElementById('category').value = studentDetail.category;
-    document.getElementById('caste').value = studentDetail.caste;
-    document.getElementById('nationality').value = studentDetail.nationality;
-    document.getElementById('motherTounge').value = studentDetail.motherTounge;
-    document.getElementById('lastSchool').value = studentDetail.lastSchool;
-    document.getElementById('lastClass').value = studentDetail.lastClass;
-    document.getElementById('stud_DOA').value = studentDetail.doa;
+    try {
+      studentDetail = JSON.parse(setStudentDetailsRes);
+      document.getElementById('formNumber').value = studentDetail.formNumber;
+      document.getElementById('admissionNumber').value = studentDetail.admissionNumber;
+      document.getElementById('govermentId').value = studentDetail.govermentId;
+      document.getElementById('firstName').value = studentDetail.firstName;
+      document.getElementById('middleName').value = studentDetail.middleName;
+      document.getElementById('lastName').value = studentDetail.lastName;
+      document.getElementById('motherName').value = studentDetail.motherName;
+      document.getElementById('fatherName').value = studentDetail.fatherName;
+      document.getElementById('gender').value = studentDetail.gender;
+      document.getElementById('aadharNumber').value = studentDetail.aadharNumber;
+      document.getElementById('stud_DOB').value = studentDetail.dob;
+      document.getElementById('pob_city').value = studentDetail.pob_city;
+      document.getElementById('pob_dist').value = studentDetail.pob_dist;
+      document.getElementById('pob_state').value = studentDetail.pob_state;
+      document.getElementById('religion').value = studentDetail.religion;
+      document.getElementById('category').value = studentDetail.category;
+      document.getElementById('caste').value = studentDetail.caste;
+      document.getElementById('nationality').value = studentDetail.nationality;
+      document.getElementById('motherTounge').value = studentDetail.motherTounge;
+      document.getElementById('lastSchool').value = studentDetail.lastSchool;
+      document.getElementById('lastClass').value = studentDetail.lastClass;
+      document.getElementById('stud_DOA').value = studentDetail.doa;
 
-    if (studentDetail.submittedTC == 1) {
-      document.getElementById("submittedTC").checked = true;
+      if (studentDetail.submittedTC == 1) {
+        document.getElementById("submittedTC").checked = true;
+      }
+      else {
+        document.getElementById("submittedTC").checked = false;
+      }
+
+      if (studentDetail.rte == 1) {
+        document.getElementById("rte").checked = true;
+      }
+      else {
+        document.getElementById("rte").checked = false;
+      }
+      $('#step_one_next').removeAttr('disabled');
+      document.getElementById('loader').style.display = "none";
     }
-    else {
-      document.getElementById("submittedTC").checked = false;
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
     }
 
-    if (studentDetail.rte == 1) {
-      document.getElementById("rte").checked = true;
-    }
-    else {
-      document.getElementById("rte").checked = false;
-    }
-    $('#step_one_next').removeAttr('disabled');
-    document.getElementById('loader').style.display = "none";
   });
+
+  setStudentDetailsReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function CreateNewStudent() {
@@ -323,16 +331,24 @@ function CreateNewStudent() {
 
   newStudentDetailReq.done(function (newStudentDetailRes) {
     console.log(newStudentDetailRes)
-    var responce = JSON.parse(newStudentDetailRes);
-    
-    if (responce.resCode == 200) {
-      document.getElementById('studID').innerText = responce.id;
-      stepTwo();
+    try {
+      var responce = JSON.parse(newStudentDetailRes);
+
+      if (responce.resCode == 200) {
+        document.getElementById('studID').innerText = responce.id;
+        stepTwo();
+      }
+      else {
+        showNotification("<strong>Error</strong>", "Failed to save data", "danger");
+      }
     }
-    else {
-      showNotification("<strong>Error</strong>","Failed to save data", "danger");
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
     }
+
   });
+
+  newStudentDetailReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function updateStudentDetails() {
@@ -373,8 +389,10 @@ function updateStudentDetails() {
     }
     else {
       console.log(newStudentDetailRes)
-      showNotification("<strong>Error</strong>","Failed to save data", "danger");
+      showNotification("<strong>Error</strong>", "Failed to save data", "danger");
     }
   });
+
+  newStudentDetailReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 //StepOne End

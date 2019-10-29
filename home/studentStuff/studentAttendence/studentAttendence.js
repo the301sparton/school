@@ -131,6 +131,8 @@ function loadAllSessionsForAttendence() {
     
     
     });
+
+    allSessionReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 
