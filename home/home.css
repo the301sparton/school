@@ -90,6 +90,18 @@
     color: black;
   }
 
+  .button6 {
+    background-color:  #aed6f1 ; 
+    color: black; 
+    border: 2px solid #aed6f1  ;
+    cursor: pointer;
+  }
+  
+  .button6:hover {
+    background-color: white;
+    color: black;
+  }
+
 
   .checklabel {
     display: block;

@@ -11,7 +11,7 @@ function manageRoles() {
     <div class="container" style = "margin:2%">
     <div class="row">
     <div class="col-md-11"></div>
-    <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="createUserGroupView()"></i>
+    <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="createUserGroupView()"></i>
    
     </div>
     </div>
