@@ -40,9 +40,15 @@ function getFeesDetails(studentId, classId) {
       </div>
     </div>
 
-    <div class="row" id="receiptHolder">
+    <div class="row">
+        <div class="col-rmd-2"></div>
+        <div class="col-rmd-8">
+            <div class="container" id="receiptHolder">
 
+            </div>
+        </div>
     </div>
+
     <div class="row" style="margin-top:2%;">
     <div class="col-md-11"></div>
     <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="newReceiptView()"></i>
@@ -214,11 +220,30 @@ function showReceiptList(){
     });
     getReceiptListReq.done(function(receiptListData){
         try {
-            a = JSON.parse(response);
+            let receiptListJSON = JSON.parse(receiptListData);
+            for(itr in receiptListJSON){
+                let receiptListHTML = `<div class="row button button4" style="margin:1%" onclick="viewReceiptFromList(this)">
+                <div class="col-rmd-6" id="receiptIdforList`+ itr + `">
+                </div>
+                <div class="col-rmd-6" id="amountforList`+itr+`">
+                </div>          
+                </div>`;
+
+                document.getElementById("receiptHolder").innerHTML += receiptListHTML;
+                document.getElementById("receiptIdforList"+itr).innerText = "Receipt Id : "+receiptListJSON[itr].receiptId; 
+                document.getElementById("amountforList"+itr).innerText = "Amount : "+receiptListJSON[itr].recamt + " ₹";
+            }
+            
         } catch(e) {
-            showNotification("Error", "Failed to get data", "danger");
+            console.log(e)
+            showNotification("<strong>Error</strong>", "Failed to get data", "danger");
         }
     });
 
     getReceiptListReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+}
+
+function viewReceiptFromList(div){
+console.log(":",(div.childNodes[1].innerText).split(": "));
+viewReceipt(div.childNodes[1].innerText.split(": ")[1]);
 }
