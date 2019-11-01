@@ -276,7 +276,7 @@ function buildDateReport(report, byDate) {
   if (report.length >= 1) {
     reportHeads = report[0];
     for (var key in reportHeads) {
-      fieldsArr[i] = { name: key, type: "number", width: 20 };
+      fieldsArr[i] = { name: key, type: "number", width: 120 };
       i++;
     }
     if (byDate) {
