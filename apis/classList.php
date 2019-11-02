@@ -37,8 +37,5 @@ else{
         $teacherId = $_POST['teacherId'];
         $sql = "INSERT INTO classlist (`className`, `section`, `teacherid`) VALUES ('$class', '$section', '$teacherId')";
         get200AsYes($sql);
-        
-
-        
     }
 }

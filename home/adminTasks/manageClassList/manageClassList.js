@@ -1,3 +1,6 @@
+var previousValueForClassNameToUpdate = "";
+var previousValueForSectionNameToUpdate = "";
+
 function manageClassList() {
     setActiveColorsAdminTasks("manageClassList");
     let manageClassListHTML = `<div class="container">
@@ -71,6 +74,8 @@ function showClassListDetailsDialog(args, forEdit) {
         if (forEdit) {
             document.getElementById("classListModalTitel").innerHTML = '<h4>Edit Class Details</h4>'
             document.getElementById("newClassName").value = args.className;
+            previousValueForClassNameToUpdate = args.className;
+            previousValueForSectionNameToUpdate = args.section;
             document.getElementById("newClassSection").value = args.section;
             document.getElementById('newClassTeacher').value = args.uid;
             document.getElementById("classDeleteBtn").style.display = "block";
@@ -153,7 +158,39 @@ function createOrUpdateClass() {
         insertClassReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
     }
     else {
-
+        let deleteClassListItemReq = $.post(baseUrl + "/apis/classList.php", {
+            type: "deleteClassItem",
+            className: previousValueForClassNameToUpdate,
+            section: previousValueForSectionNameToUpdate
+        });
+    
+        deleteClassListItemReq.done(function (responce) {
+            if (responce == 200) {
+                let insertClassReq = $.post(baseUrl + "/apis/classList.php", {
+                    type: "insertClass",
+                    className: document.getElementById("newClassName").value,
+                    section: document.getElementById("newClassSection").value,
+                    teacherId: document.getElementById('newClassTeacher').value
+                });
+        
+                insertClassReq.done(function (responce) {
+                    if (responce == 200) {
+                        showNotification("Success!", "Class Updated Successfully", "success");
+                        getClassListToShow();
+                    }
+                    else {
+                        console.log(responce);
+                        showNotification("Error!", "Class & Section together must be unique", "danger");
+                    }
+                });
+            }
+            else if(responce == 300){
+                showNotification("Error!", "Class is in use", "danger");
+            }
+            else {
+                showNotification("Error!", "Failed to delete Class", "danger");
+            }
+        });
     }
 }
 
