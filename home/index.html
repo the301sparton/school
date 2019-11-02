@@ -284,8 +284,6 @@
     </div>
   </div>
 
-
-
   <!-- New userGroup Modal 
    -->
   <div class="modal" id="createNewUserGroupModal">
@@ -398,180 +396,217 @@
         <div class="row" style="margin: 2%">
 
           <div class="col-md-8">
-            <div class="alertMine" style="display: none" id="groupNotUniqueAlert" >
-                  Group name should not be NULL and MUST be unique
-              </div>
-          </div>          
+            <div class="alertMine" style="display: none" id="groupNotUniqueAlert">
+              Group name should not be NULL and MUST be unique
+            </div>
+          </div>
 
           <div class=" col-md-4">
-              <button type="button" style="float: right" class="btn btn-warning" data-dismiss="modal">Close</button>
-              <button id="addRoleBtn" style="float: right; margin-right: 2%" type="button" class="btn btn-danger" 
+            <button type="button" style="float: right" class="btn btn-warning" data-dismiss="modal">Close</button>
+            <button id="addRoleBtn" style="float: right; margin-right: 2%" type="button" class="btn btn-danger"
               onclick="createNewUserGroupForSure()">Create</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End New userGroup Modal -->
+
+
+  <div class="modal" id="addEditClassList">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" id="classListModalTitel"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body" style="margin:1%">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-2">
+                <label for="newClassName">Class Name</label>
+              </div>
+              <div class="col-md-3">
+                <input type="text" class="form-control" id="newClassName">
+              </div>
+
+              <div class="col-md-3">
+                <label for="newClassSection">Section Name</label>
+              </div>
+              <div class="col-md-3">
+                <input type="text" class="form-control" id="newClassSection">
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 2%;">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                <label for="newClassSection">Class Teacher</label>
+              </div>
+              <div class="col-md-4">
+                <Select class="form-control" id="newClassTeacher"></Select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+          <button id="" type="button" class="btn btn-danger" data-dismiss="modal" onclick="">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!--==========================
+    Footer
+  ============================-->
+  <footer id="footer" class="section-bg">
+    <div class="footer-top">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-lg-6">
+
+            <div class="row">
+
+              <div class="col-sm-6">
+
+                <div class="footer-info">
+                  <h3 id="fotter_WebsiteTitle"></h3>
+                  <h6 id="fotter_WebsiteDesc"></h6>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="footer-links">
+                  <h4>Useful Links</h4>
+                  <ul>
+                    <li><a id="footer_tosLink">Terms of service</a></li>
+                    <li><a id="footer_ppLink">Privacy policy</a></li>
+                  </ul>
+                </div>
+
+                <div class="footer-links">
+                  <h4>Contact Us</h4>
+                  <p id="footer_address">
+
+                  </p>
+
+                </div>
+
+                <div class="social-links">
+                  <a href="#" class="twitter" id="footer_twitterLink"><i class="fa fa-twitter"></i></a>
+                  <a href="#" class="facebook" id="footer_facebookLink"><i class="fa fa-facebook"></i></a>
+                  <a href="#" class="instagram" id="footer_instagramLink"><i class="fa fa-instagram"></i></a>
+                  <a href="#" class="linkedin" id="footer_linkedinLink"><i class="fa fa-linkedin"></i></a>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="form">
+
+              <h4>Send us a message</h4>
+              <p>We would be glad to hear your thoughts and suggestions<br>Connect with us and we will get back to you
+                as soon as possible.</p>
+              <form class="contactForm" id="contactForm">
+                <div class="form-group">
+                  <input type="text" name="name" class="form-control" id="feedbackName" placeholder="Your Name"
+                    data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control" name="email" id="feedbackEmail" placeholder="Your Email"
+                    data-rule="email" data-msg="Please enter a valid email" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="subject" id="feedbackSubject" placeholder="Subject"
+                    data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name="message" id="feedbackMessgae" rows="5" data-rule="required"
+                    data-msg="Please write something for us" placeholder="Message"></textarea>
+                  <div class="validation"></div>
+                </div>
+
+                <div id="sendmessage">Your message has been sent. Thank you!</div>
+                <div id="errormessage"></div>
+
+                <div class="text-center"><button type="submit" title="Send Message">Send Message</button></div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- End New userGroup Modal -->
 
-
-
-    <!--==========================
-    Footer
-  ============================-->
-    <footer id="footer" class="section-bg">
-      <div class="footer-top">
-        <div class="container">
-
-          <div class="row">
-
-            <div class="col-lg-6">
-
-              <div class="row">
-
-                <div class="col-sm-6">
-
-                  <div class="footer-info">
-                    <h3 id="fotter_WebsiteTitle"></h3>
-                    <h6 id="fotter_WebsiteDesc"></h6>
-                  </div>
-                </div>
-
-                <div class="col-sm-6">
-                  <div class="footer-links">
-                    <h4>Useful Links</h4>
-                    <ul>
-                      <li><a id="footer_tosLink">Terms of service</a></li>
-                      <li><a id="footer_ppLink">Privacy policy</a></li>
-                    </ul>
-                  </div>
-
-                  <div class="footer-links">
-                    <h4>Contact Us</h4>
-                    <p id="footer_address">
-
-                    </p>
-
-                  </div>
-
-                  <div class="social-links">
-                    <a href="#" class="twitter" id="footer_twitterLink"><i class="fa fa-twitter"></i></a>
-                    <a href="#" class="facebook" id="footer_facebookLink"><i class="fa fa-facebook"></i></a>
-                    <a href="#" class="instagram" id="footer_instagramLink"><i class="fa fa-instagram"></i></a>
-                    <a href="#" class="linkedin" id="footer_linkedinLink"><i class="fa fa-linkedin"></i></a>
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-            <div class="col-lg-6">
-
-              <div class="form">
-
-                <h4>Send us a message</h4>
-                <p>We would be glad to hear your thoughts and suggestions<br>Connect with us and we will get back to you
-                  as soon as possible.</p>
-                <form class="contactForm" id="contactForm">
-                  <div class="form-group">
-                    <input type="text" name="name" class="form-control" id="feedbackName" placeholder="Your Name"
-                      data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                    <div class="validation"></div>
-                  </div>
-                  <div class="form-group">
-                    <input type="email" class="form-control" name="email" id="feedbackEmail" placeholder="Your Email"
-                      data-rule="email" data-msg="Please enter a valid email" />
-                    <div class="validation"></div>
-                  </div>
-                  <div class="form-group">
-                    <input type="text" class="form-control" name="subject" id="feedbackSubject" placeholder="Subject"
-                      data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                    <div class="validation"></div>
-                  </div>
-                  <div class="form-group">
-                    <textarea class="form-control" name="message" id="feedbackMessgae" rows="5" data-rule="required"
-                      data-msg="Please write something for us" placeholder="Message"></textarea>
-                    <div class="validation"></div>
-                  </div>
-
-                  <div id="sendmessage">Your message has been sent. Thank you!</div>
-                  <div id="errormessage"></div>
-
-                  <div class="text-center"><button type="submit" title="Send Message">Send Message</button></div>
-                </form>
-              </div>
-
-            </div>
-
-
-
-          </div>
-
-        </div>
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>Vaikuntha Computers</strong>. All Rights Reserved
       </div>
+    </div>
+  </footer><!-- #footer -->
 
-      <div class="container">
-        <div class="copyright">
-          &copy; Copyright <strong>Vaikuntha Computers</strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-          <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Rapid
-          -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-      </div>
-    </footer><!-- #footer -->
-    <script src="../lib/jquery/jquery.min.js"></script>
 
-    <script src="../lib/jquery/jquery-migrate.min.js"></script>
-    <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../lib/easing/easing.min.js"></script>
-    <script src="../lib/mobile-nav/mobile-nav.js"></script>
-    <script src="../lib/wow/wow.min.js"></script>
-    <script src="../lib/bootstrap-notify.min.js"></script>
-    <script src="../lib/chartjs/chart.js"></script>
-    <script src="../js/main.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-auth.js"></script>
+  <script src="../lib/jquery/jquery.min.js"></script>
+  <script src="../lib/jquery/jquery-migrate.min.js"></script>
+  <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../lib/easing/easing.min.js"></script>
+  <script src="../lib/mobile-nav/mobile-nav.js"></script>
+  <script src="../lib/wow/wow.min.js"></script>
+  <script src="../lib/bootstrap-notify.min.js"></script>
+  <script src="../lib/chartjs/chart.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-auth.js"></script>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 
-    <!-- My JS Libraries -->
-    <script src="../js/config.js"></script>
-    <script src="../js/setAll.js"></script>
-    <script src="../js/firebaseAuth.js"></script>
-    <script src="../js/home_main.js"></script>
+  <!-- My JS Libraries -->
+  <script src="../js/config.js"></script>
+  <script src="../js/setAll.js"></script>
+  <script src="../js/firebaseAuth.js"></script>
+  <script src="../js/home_main.js"></script>
 
-    <script src="./studentStuff/registerStudent/registerStudent.js"></script>
-    <script src="./studentStuff/registerStudent/stepOne.js"></script>
-    <script src="./studentStuff/registerStudent/stepTwo.js"></script>
-    <script src="./studentStuff/registerStudent/stepThree.js"></script>
+  <script src="./studentStuff/registerStudent/registerStudent.js"></script>
+  <script src="./studentStuff/registerStudent/stepOne.js"></script>
+  <script src="./studentStuff/registerStudent/stepTwo.js"></script>
+  <script src="./studentStuff/registerStudent/stepThree.js"></script>
 
-    <script src="./studentStuff/registerStudent/registerStudent.js"></script>
-    <script src="./studentStuff/searchNEdit/searchNEdit.js"></script>
-    <script src="./studentStuff/studentReport/studentReport.js"></script>
-    <script src="./studentStuff/studentAttendence/studentAttendence.js"></script>
+  <script src="./studentStuff/registerStudent/registerStudent.js"></script>
+  <script src="./studentStuff/searchNEdit/searchNEdit.js"></script>
+  <script src="./studentStuff/studentReport/studentReport.js"></script>
+  <script src="./studentStuff/studentAttendence/studentAttendence.js"></script>
 
-    <!-- fees js -->
-    <script src="./receiptStuff/generateReceipt/generateReceipt.js"></script>
-    <script src="./receiptStuff/feesReport/feesReport.js"></script>
+  <!-- fees js -->
+  <script src="./receiptStuff/generateReceipt/generateReceipt.js"></script>
+  <script src="./receiptStuff/feesReport/feesReport.js"></script>
 
-    <!-- Admin Tasks js -->
-    <script src="./adminTasks/manageUsers/manageUsers.js"></script>
-    <script src="./adminTasks/manageRoles/manageRoles.js"></script>
-    <script src="./adminTasks/manageFeesHeads/manageFeesHeads.js"></script>
-    <script src="./adminTasks/newAccadamicYear/newAccadamicYear.js"></script>
-    <script src="./adminTasks/manageClassList/manageClassList.js"></script>
+  <!-- Admin Tasks js -->
+  <script src="./adminTasks/manageUsers/manageUsers.js"></script>
+  <script src="./adminTasks/manageRoles/manageRoles.js"></script>
+  <script src="./adminTasks/manageFeesHeads/manageFeesHeads.js"></script>
+  <script src="./adminTasks/newAccadamicYear/newAccadamicYear.js"></script>
+  <script src="./adminTasks/manageClassList/manageClassList.js"></script>
 
-    <script src="./profileStuff/profileStuff.js"></script>
+  <script src="./profileStuff/profileStuff.js"></script>
 
-  
+
 
 </body>
 

@@ -9,7 +9,11 @@ if ($conn->connect_error) {
 }
 else{
     if($type=="getClassList"){
-        $sql = "SELECT className FROM `classlist` ORDER BY `id`";
+        $sql = "SELECT * FROM `classListView` ORDER BY `className`";
+        getOutputFromQueary($sql);
+    }
+    else if($type == "getUserList"){
+        $sql = "SELECT DISTINCT users.uid, users.displayName from usergrouplist INNER JOIN users ON usergrouplist.uid = users.uid";
         getOutputFromQueary($sql);
     }
 }
