@@ -16,4 +16,29 @@ else{
         $sql = "SELECT DISTINCT users.uid, users.displayName from usergrouplist INNER JOIN users ON usergrouplist.uid = users.uid";
         getOutputFromQueary($sql);
     }
+    else if($type == "deleteClassItem"){
+        $class = $_POST['className'];
+        $section = $_POST['section'];
+        $cheackSQL = "SELECT id from studentdetails WHERE class = '$class' AND section = '$section'";
+        $result=mysqli_query($GLOBALS['conn'],$cheackSQL);  
+        if (mysqli_num_rows($result) == 0) { 
+            $sql = "DELETE FROM classlist WHERE className = '$class' AND section = '$section'";
+            get200AsYes($sql);
+        }
+        else{
+            echo 300;
+        }
+       
+    }
+
+    else if($type == "insertClass"){
+        $class = $_POST['className'];
+        $section = $_POST['section'];
+        $teacherId = $_POST['teacherId'];
+        $sql = "INSERT INTO classlist (`className`, `section`, `teacherid`) VALUES ('$class', '$section', '$teacherId')";
+        get200AsYes($sql);
+        
+
+        
+    }
 }

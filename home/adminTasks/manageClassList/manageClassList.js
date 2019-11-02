@@ -73,8 +73,12 @@ function showClassListDetailsDialog(args, forEdit) {
             document.getElementById("newClassName").value = args.className;
             document.getElementById("newClassSection").value = args.section;
             document.getElementById('newClassTeacher').value = args.uid;
+            document.getElementById("classDeleteBtn").style.display = "block";
         }
         else {
+            document.getElementById("classDeleteBtn").style.display = "none";
+            document.getElementById("newClassName").value = '';
+            document.getElementById("newClassSection").value = '';
             document.getElementById("classListModalTitel").innerHTML = '<h4>Create New Class</h4>'
         }
 
@@ -85,21 +89,72 @@ function showClassListDetailsDialog(args, forEdit) {
 
 }
 
-function setValuesInClassTeacherSelect(teacherList){
+function setValuesInClassTeacherSelect(teacherList) {
     $('#newClassTeacher').empty();
-        $('#newClassTeacher').append($('<option>', {
-            value: "",
-            text: "Select Class Teacher",
-            selected: true,
-            disabled: true
-        }, '</option>'));
-        for (var index in teacherList) {
-            $('#newClassTeacher')
-                .append($('<option>', {
-                    value:teacherList[index].uid,
-                    text: teacherList[index].displayName,
-                }, '</option>'));
-        }
+    $('#newClassTeacher').append($('<option>', {
+        value: "",
+        text: "Select Class Teacher",
+        selected: true,
+        disabled: true
+    }, '</option>'));
+    for (var index in teacherList) {
+        $('#newClassTeacher')
+            .append($('<option>', {
+                value: teacherList[index].uid,
+                text: teacherList[index].displayName,
+            }, '</option>'));
+    }
 }
 
-//Handle UPDATE DELETE CREATE
+function deleteClassListItem() {
+    let deleteClassListItemReq = $.post(baseUrl + "/apis/classList.php", {
+        type: "deleteClassItem",
+        className: document.getElementById("newClassName").value,
+        section: document.getElementById("newClassSection").value
+    });
+
+    deleteClassListItemReq.done(function (responce) {
+        if (responce == 200) {
+            showNotification("Success!", "Class Deleted Successfully", "success");
+            getClassListToShow();
+        }
+        else if(responce == 300){
+            showNotification("Error!", "Class is in use", "danger");
+        }
+        else {
+            showNotification("Error!", "Failed to delete Class", "danger");
+        }
+    });
+
+    deleteClassListItemReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+}
+
+function createOrUpdateClass() {
+    if (document.getElementById("classListModalTitel").innerHTML.includes("Create")) {
+
+        let insertClassReq = $.post(baseUrl + "/apis/classList.php", {
+            type: "insertClass",
+            className: document.getElementById("newClassName").value,
+            section: document.getElementById("newClassSection").value,
+            teacherId: document.getElementById('newClassTeacher').value
+        });
+
+        insertClassReq.done(function (responce) {
+            if (responce == 200) {
+                showNotification("Success!", "Class Created Successfully", "success");
+                getClassListToShow();
+            }
+            else {
+                console.log(responce);
+                showNotification("Error!", "Class & Section together must be unique", "danger");
+            }
+        });
+    
+        insertClassReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    }
+    else {
+
+    }
+}
+
+//Handle UPDATE CREATE
