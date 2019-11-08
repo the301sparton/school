@@ -137,25 +137,36 @@ function deleteClassListItem() {
 function createOrUpdateClass() {
     if (document.getElementById("classListModalTitel").innerHTML.includes("Create")) {
 
-        let insertClassReq = $.post(baseUrl + "/apis/classList.php", {
-            type: "insertClass",
-            className: document.getElementById("newClassName").value,
-            section: document.getElementById("newClassSection").value,
-            teacherId: document.getElementById('newClassTeacher').value
-        });
+        let classListVal = document.getElementById("newClassName").value;
+        let sectionVal = document.getElementById("newClassSection").value;
+        let teacherIdVal = document.getElementById('newClassTeacher').value
 
-        insertClassReq.done(function (responce) {
-            if (responce == 200) {
-                showNotification("Success!", "Class Created Successfully", "success");
-                getClassListToShow();
-            }
-            else {
-                console.log(responce);
-                showNotification("Error!", "Class & Section together must be unique", "danger");
-            }
-        });
+        if(classListVal != "" && sectionVal != "" && teacherIdVal != ""){
+            let insertClassReq = $.post(baseUrl + "/apis/classList.php", {
+                type: "insertClass",
+                className: classListVal,
+                section: sectionVal,
+                teacherId: teacherIdVal
+            });
     
-        insertClassReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+            insertClassReq.done(function (responce) {
+                if (responce == 200) {
+                    showNotification("Success!", "Class Created Successfully", "success");
+                    getClassListToShow();
+                }
+                else {
+                    console.log(responce);
+                    showNotification("Error!", "Class & Section together must be unique", "danger");
+                }
+            });
+        
+            insertClassReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+        }
+
+        else{
+            showNotification("Error!", "Class, Section and teacher must be selected", "warning");
+        }
+        
     }
     else {
         let deleteClassListItemReq = $.post(baseUrl + "/apis/classList.php", {
