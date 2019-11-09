@@ -21,19 +21,17 @@ function studentAttendence(){
                     </select>
                 </div>
 
+                <div class="col-md-3">
+                    <label for="attendence_className">
+                        Class :
+                    </label>
+                </div>
 
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <select id="attendence_className" class="form-control">
                         <option disabled selected value="">Select Class</option>
                     </select>
                 </div>
-
-                <div class="col-md-4">
-                    <select id="attendence_sectionName" class="form-control">
-                        <option disabled selected value="">Select Section</option>
-                    </select>
-                </div>
-
             </div>
               <div class="row">
                       <div class="col-md-4">
@@ -68,48 +66,12 @@ loadAttendenceViewData();
 
 function loadAttendenceViewData(){
     document.getElementById('loader').style.display = "block";
-    $.when(getClassAndSectionForAttendence(),loadAllSessionsForAttendence()).then(function(){
+    $.when(loadAllSessionsForAttendence(), loadClassListWithAccess()).then(function(){
         document.getElementById('loader').style.display = "none";
     });
 }
 
-function getClassAndSectionForAttendence() {
-      $.post(baseUrl + "/apis/classList.php",
-        {
-          type: "getClassList"
-        },
-        function (classDATA) {
-          let classJSON = JSON.parse(classDATA);
-  
-        
-          for (var index in classJSON) {
-            $('#attendence_className')
-              .append($('<option>', {
-                value: classJSON[index].className,
-                text: classJSON[index].className,
-              }, '</option>'));
-          }
-        });
-        
-  
-      $.post(baseUrl + "/apis/sectionList.php",
-        {
-          type: "getSectionList"
-        },
-        function (sectionDATA) {
-          let sectionJSON = JSON.parse(sectionDATA);
-  
-     
-  
-          for (var index in sectionJSON) {
-            $('#attendence_sectionName')
-              .append($('<option>', {
-                value: sectionJSON[index].sectionName,
-                text: sectionJSON[index].sectionName,
-              }, '</option>'));
-          }
-        });
-}
+
 
 function loadAllSessionsForAttendence() {
     var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
@@ -135,30 +97,29 @@ function loadAllSessionsForAttendence() {
     allSessionReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
+function loadClassListWithAccess(){
+  var allClassReq = $.post(baseUrl + "/apis/classList.php", {
+    type: "getAllCLassWithAccess",
+    uid: me_data.uid
+  });
+
+  allClassReq.done(function (res) {
+    allClass = JSON.parse(res);
+    for (var index in allClass) {
+
+      $('#attendence_className')
+        .append($('<option>', { value: allClass[index].className+allClass[index].section })
+          .text(allClass[index].className + " " + allClass[index].section
+          ));
+    }
+  });
+
+  allClassReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+}
+
 
 function getStudentListForAttendence(){
-  let attendence_sessionName = document.getElementById("attendence_sessionName").value;
-  let attendence_className = document.getElementById("attendence_className").value;
-  let attendence_sectionName = document.getElementById("attendence_sectionName").value;
-  let attendence_date = document.getElementById("attendence_date").value;
-
-  if(attendence_sessionName != "" && attendence_className != "" && attendence_sectionName != "" && attendence_date !=""){
-      //perform past date check
-      document.getElementById("attendence_alert").style.display = "none";
-      var dateFormOfAttendenceDate = new Date(attendence_date);
-        if (!inFuture(dateFormOfAttendenceDate)) {
-          document.getElementById("attendence_alert").style.display = "none";
-          //get attendence list
-        }
-        else{
-          document.getElementById("attendence_alert").innerText = "Can not set attendence for future date";
-          document.getElementById("attendence_alert").style.display = "block";
-        }
-  }
-  else{
-   document.getElementById("attendence_alert").innerText = "Please Select all fields";
-   document.getElementById("attendence_alert").style.display = "block";
-  }
+  
 }
 
 const inFuture = (date) => {

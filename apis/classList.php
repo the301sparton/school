@@ -18,6 +18,12 @@ else{
         getOutputFromQueary($sql);
     }
 
+    else if($type == "getAllCLassWithAccess"){
+        $uid = $_POST["uid"];
+        $sql = "SELECT className, section from classlist WHERE teacherid = '$uid'";
+        getOutputFromQueary($sql);
+    }
+
     else if($type == "getSectionForClassName"){
         $className = $_POST["className"];
         $sql = "SELECT section from classlist WHERE `className` = '$className'";
