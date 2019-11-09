@@ -68,45 +68,10 @@ let imgBase;
 function stepThree() {
   document.getElementById('loader').style.display = "block";
   document.getElementById('step_container').innerHTML = stepThreeHTML;
-  var getClassListReq = $.post(baseUrl + "/apis/classList.php", {
-    type: "getClassList"
+ 
+  $.when(loadClassForSelectId("sessionClass", "sessionSection")).then(function () {
+    setSessionEntry();
   });
-
-  getClassListReq.done(function (classListRes) {
-    try {
-      classList = JSON.parse(classListRes);
-      for (var index in classList) {
-        $('#sessionClass')
-          .append($('<option>', { value: classList[index].className })
-            .text(classList[index].className
-            ));
-      }
-      var getSectionListReq = $.post(baseUrl + "/apis/sectionList.php", {
-        type: "getSectionList"
-      });
-      getSectionListReq.done(function (sectionListRes) {
-        try {
-          sectionList = JSON.parse(sectionListRes);
-          for (var index in sectionList) {
-            $('#sessionSection')
-              .append($('<option>', { value: sectionList[index].sectionName })
-                .text(sectionList[index].sectionName
-                ));
-          }
-          setSessionEntry();
-        }
-        catch (e) {
-          showNotification("Error", "Failed to get data", "danger");
-        }
-      });
-      getSectionListReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
-    }
-    catch (e) {
-      showNotification("Error", "Failed to get data", "danger");
-    }
-  });
-
-  getClassListReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 
   $("#sessionDetails").submit(function (event) {
     event.preventDefault();
@@ -129,12 +94,22 @@ function setSessionEntry() {
       try {
         var responce = JSON.parse(setSessionEntryRes);
         document.getElementById("detId").innerText = responce.id;
-        document.getElementById("studID").innerText = responce.studentId;
-        document.getElementById("sessionClass").value = responce.class;
-        document.getElementById("sessionSection").value = responce.section;
+        document.getElementById("studID").innerText = responce.studentId;document.getElementById("sessionClass").value = responce.class;
+        $("#sessionClass").trigger("change");sectionNameRequest.done(function() {
+          if(document.getElementById("sessionSection") != null){
+            console.log("doing")
+            document.getElementById("sessionSection").value = responce.section;
+            document.getElementById('loader').style.display = "none";
+          }
+        });
         document.getElementById("sessionMedium").value = responce.medium;
         document.getElementById("sessionTotalFees").value = responce.totalFees;
-        document.getElementById("studentImg").src = "data:image/png;base64, " + responce.photo;
+        if(responce.photo != ""){
+          document.getElementById("studentImg").src = "data:image/png;base64, " + responce.photo;
+        }
+        else{
+          document.getElementById("studentImg").src = baseUrl + "/img/me.png";
+        }
         imgBase = responce.photo;
       }
       catch (e) {
@@ -144,13 +119,14 @@ function setSessionEntry() {
     }
     $("#step_three_back").removeAttr('disabled');
     $("#step_three_save").removeAttr('disabled');
-    document.getElementById('loader').style.display = "none";
+    
   });
 
   setSessionEntryReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function updateSessionEntry(toReturn) {
+  console.log("update called");
   let imgBaseEncode;
   if (imgBase == null) {
     imgBaseEncode = "";
@@ -186,7 +162,6 @@ function updateSessionEntry(toReturn) {
 
   newSessionEntryReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
-
 
 function sessionDetailBack() {
   updateSessionEntry(true);

@@ -4,15 +4,15 @@ let isFirstDateReportView = true;
 let isClassAndSectionFirst = true;
 let dateFrom, dateTo;
 
-function FeeRepostTypehangeFun(){
+function FeeRepostTypehangeFun() {
   FeeRepostType = document.getElementById('FeeRepostType').value;
   checkReportType();
 }
 
-function FeeSessionSelectOnChange(){
-        FeeSessionSelect = document.getElementById('FeeSessionSelect').value;
-        document.getElementById("errorMessage").style.display = "none";
-        checkReportType();
+function FeeSessionSelectOnChange() {
+  FeeSessionSelect = document.getElementById('FeeSessionSelect').value;
+  document.getElementById("errorMessage").style.display = "none";
+  checkReportType();
 }
 
 function feesReport() {
@@ -315,7 +315,7 @@ function buildDateReport(report, byDate) {
       var months = [];
       var totals = [];
       for (var itr in report) {
-        if(itr != (report.length - 1)){
+        if (itr != (report.length - 1)) {
           months.push(report[itr].month);
           totals.push(report[itr].Total);
         }
@@ -334,7 +334,7 @@ function buildDateReport(report, byDate) {
         }
       });
     }
-   
+
   }
 
   $("#jsGrid").jsGrid({
@@ -346,8 +346,8 @@ function buildDateReport(report, byDate) {
     data: report,
     fields: fieldsArr
   });
- document.getElementById('jsGrid').style.display = "block";
- document.getElementById('printBtn').disabled = false;
+  document.getElementById('jsGrid').style.display = "block";
+  document.getElementById('printBtn').disabled = false;
 }
 
 function ReportByDates() {
@@ -407,7 +407,7 @@ function UpdateFilter() {
 }
 
 function showFilters() {
-  $.when(getClassAndSection()).then(function () {
+  $.when(loadClassForSelectId("filterClass", "filterSection")).then(function () {
     $("#filterModal").modal({ backdrop: 'static', keyboard: false });
   });
 }
@@ -417,64 +417,6 @@ function clearFilter() {
   document.getElementById("filterSection").value = "";
 }
 
-function getClassAndSection() {
-  if (isClassAndSectionFirst) {
-    $.post(baseUrl + "/apis/classList.php",
-      {
-        type: "getClassList"
-      },
-      function (classDATA) {
-        try {
-          let classJSON = JSON.parse(classDATA);
-          $('#filterClass').empty();
-          $('#filterClass').append($('<option>', {
-            value: "",
-            text: "Select Student Class",
-            selected: true,
-            disabled: true
-          }, '</option>'));
-          for (var index in classJSON) {
-            $('#filterClass')
-              .append($('<option>', {
-                value: classJSON[index].className,
-                text: classJSON[index].className,
-              }, '</option>'));
-          }
-        }
-        catch (e) {
-          showNotification("Error", "Failed to get data", "danger");
-        }
-      });
-
-    $.post(baseUrl + "/apis/sectionList.php",
-      {
-        type: "getSectionList"
-      },
-      function (sectionDATA) {
-        try {
-          let sectionJSON = JSON.parse(sectionDATA);
-          $('#filterSection').empty();
-          $('#filterSection').append($('<option>', {
-            value: "",
-            text: "Select Student Section",
-            selected: true,
-            disabled: true
-          }, '</option>'));
-          for (var index in sectionJSON) {
-            $('#filterSection')
-              .append($('<option>', {
-                value: sectionJSON[index].sectionName,
-                text: sectionJSON[index].sectionName,
-              }, '</option>'));
-          }
-        }
-        catch (e) {
-          showNotification("Error", "Failed to get data", "danger");
-        }
-      });
-    isClassAndSectionFirst = false;
-  }
-}
 
 function printReport() {
   document.body.innerHTML = document.getElementById("jsGrid").innerHTML;

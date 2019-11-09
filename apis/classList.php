@@ -12,6 +12,18 @@ else{
         $sql = "SELECT * FROM `classListView` ORDER BY `className`";
         getOutputFromQueary($sql);
     }
+
+    else if($type == "getOnlyClassName"){
+        $sql = "SELECT DISTINCT className from classlist";
+        getOutputFromQueary($sql);
+    }
+
+    else if($type == "getSectionForClassName"){
+        $className = $_POST["className"];
+        $sql = "SELECT section from classlist WHERE `className` = '$className'";
+        getOutputFromQueary($sql);
+    }
+
     else if($type == "getUserList"){
         $sql = "SELECT DISTINCT users.uid, users.displayName from usergrouplist INNER JOIN users ON usergrouplist.uid = users.uid";
         getOutputFromQueary($sql);
