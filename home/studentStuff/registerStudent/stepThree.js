@@ -1,12 +1,13 @@
 
-stepThreeHTML = ` <div class="row">
+let imgBase;
+//StepThree Start
+function stepThree() {
+  stepThreeHTML = ` <div class="row">
 <div class="col-md-2">
   Session Detail
 </div>
 <div class="col-md-10">
   <form id="sessionDetails">
-
-   
       <div class="row" style="margin-top:3%">
         <div class="col-md-2">
             <div style="display:none" id="detId"></div>
@@ -60,12 +61,6 @@ stepThreeHTML = ` <div class="row">
   </form>
 </div>
 </div>`;
-
-let imgBase;
-
-
-//StepThree Start
-function stepThree() {
   document.getElementById('loader').style.display = "block";
   document.getElementById('step_container').innerHTML = stepThreeHTML;
  
