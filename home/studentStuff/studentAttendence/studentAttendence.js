@@ -38,7 +38,7 @@ function studentAttendence(){
                         <input class="form-control" type="date" id="attendence_date">
                       </div>
                       <div class="col-md-6">
-                        <div class="alertMine" style="display: none" id="attendence_alert">
+                        <div class="alertMine" style="display: none;" id="attendence_alert">
                         </div>
                       </div>
                       <div class="col-md-2">
@@ -119,9 +119,24 @@ function loadClassListWithAccess(){
 
 
 function getStudentListForAttendence(){
-  
-}
+  let sessionName = document.getElementById("attendence_sessionName").value;
+  let classNSection = document.getElementById("attendence_className").value;
+  let dateForAttendence = document.getElementById("attendence_date").value;
 
-const inFuture = (date) => {
-  return date.setHours(0,0,0,0) > new Date().setHours(0,0,0,0)
-};
+  if(sessionName != "" && classNSection != "" && dateForAttendence != ""){
+    var date = new Date(dateForAttendence);
+    if( date.setHours(0,0,0,0) > new Date().setHours(0,0,0,0)){
+      document.getElementById("attendence_alert").innerText = "Can not set attendence for future dates";
+      document.getElementById("attendence_alert").style.display = "block";
+    }
+    else{
+      document.getElementById("attendence_alert").style.display = "none";
+    }
+    
+
+  }
+  else{
+    document.getElementById("attendence_alert").innerText = "Please Select All Values";
+    document.getElementById("attendence_alert").style.display = "block";
+  }
+}

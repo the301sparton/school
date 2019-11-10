@@ -176,6 +176,7 @@
     padding: 10px;
     background-color: #f77e65;
     color: white;
+    border-radius:6px;
   }
   
   .collapsible {
