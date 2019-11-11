@@ -1,3 +1,5 @@
+
+var lengthOfListAttendence = -1;
 function studentAttendence() {
   currentStudentOption = "studentAttendence";
   setActiveColorsStudent("studentAttendence");
@@ -16,7 +18,7 @@ function studentAttendence() {
             <div class="row" style="margin-bottom:3%">
 
                 <div class="col-md-4">
-                    <select id="attendence_sessionName" class="form-control">
+                    <select id="attendence_sessionName" class="form-control" onchange="getStudentListForAttendence()">
                         <option disabled selected value="">Select Accedamic Year</option>
                     </select>
                 </div>
@@ -28,22 +30,20 @@ function studentAttendence() {
                 </div>
 
                 <div class="col-md-5">
-                    <select id="attendence_className" class="form-control">
+                    <select id="attendence_className" class="form-control" onchange="getStudentListForAttendence()">
                         <option disabled selected value="">Select Class</option>
                     </select>
                 </div>
             </div>
               <div class="row">
                       <div class="col-md-4">
-                        <input class="form-control" type="date" id="attendence_date">
+                        <input class="form-control" type="date" id="attendence_date" onchange="getStudentListForAttendence()">
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-8">
                         <div class="alertMine" style="display: none;" id="attendence_alert">
                         </div>
                       </div>
-                      <div class="col-md-2">
-                        <button class="btn btn-primary" onclick="getStudentListForAttendence()">Get List</button>
-                      </div>                
+                                  
               </div>
         </div>
        
@@ -56,13 +56,13 @@ function studentAttendence() {
             </div>
             
             <div class = "row">
-                  <div class="col-md-3"></div>
+                  <div class="col-md-2"></div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-8">
                   <div id="myListHolder" class="container"></div>
                   </div>
 
-                  <div class="col-md-3"></div>
+                  <div class="col-md-2"></div>
             </div>
     </div>
 
@@ -78,7 +78,6 @@ function loadAttendenceViewData() {
     document.getElementById('loader').style.display = "none";
   });
 }
-
 
 
 function loadAllSessionsForAttendence() {
@@ -136,6 +135,7 @@ function getStudentListForAttendence() {
     if (date.setHours(0, 0, 0, 0) > new Date().setHours(0, 0, 0, 0)) {
       document.getElementById("attendence_alert").innerText = "Can not set attendence for future dates";
       document.getElementById("attendence_alert").style.display = "block";
+      document.getElementById("myListHolder").innerHTML = "";
     }
     else {
       document.getElementById("attendence_alert").style.display = "none";
@@ -145,6 +145,7 @@ function getStudentListForAttendence() {
 
   }
   else {
+    document.getElementById("myListHolder").innerHTML = "";
     document.getElementById("attendence_alert").innerText = "Please Select All Values";
     document.getElementById("attendence_alert").style.display = "block";
   }
@@ -161,7 +162,27 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
 
   getAttendenceListReq.done(function (response) {
     var studList = JSON.parse(response);
-    arrayData = new Array();
+    lengthOfListAttendence = studList.length;
+    document.getElementById("myListHolder").innerHTML = `<div class = "row" style="background: #ebdef0; border-radius:6px; margin-bottom:2%; padding:2%"> 
+    <div class="col-md-3" style="text-align:center">Roll Num.</div>
+    <div class="col-md-6" style="text-align:center">Full Name</div>
+    <div class="col-md-3">
+    <label class="checklabel" style="padding-left:0px">Check All
+            <input type="checkbox" id="studState`+student+`" onchange = "checkAllForAttendence(this)">
+            <span class="checkmark" style = "left:85%;"></span>
+    </label>
+        </div>
+    </div>`;
+
+    if(studList.length == 0){
+      document.getElementById("myListHolder").innerHTML += `<div class = "row" style="background:#d4e6f1; border-radius:6px; margin-bottom:2%; padding:2%"> 
+      <div class="col-md-3" style="text-align:center"></div>
+      <div class="col-md-6" style="text-align:center">NO DATA</div>
+      <div class="col-md-3"> 
+      </div>
+      </div>`;
+    }
+
     for (student in studList) {
       var obj = new Object;
       obj.fullname = studList[student].firstName + " " + studList[student].middleName + " " + studList[student].lastName;
@@ -171,11 +192,35 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
       else{
         obj.state = false;
       }
-      arrayData.push(obj);
+      
+      document.getElementById("myListHolder").innerHTML += `<div class = "row" style="background:#d4e6f1; border-radius:6px; margin-bottom:2%; padding:2%"> 
+      <div class="col-md-3" id="studRoll`+ student + `" style="text-align:center"></div>
+      <div class="col-md-6" id="nameStud`+ student + `" style="text-align:center"></div>
+      <div class="col-md-3" style="text-align:center">  
+        <label class="checklabel">P/A
+            <input type="checkbox" id="studState`+student+`">
+            <span class="checkmark" style = "left:85%;"></span>
+        </label>
+      </div>
+      </div>`;
+      document.getElementById("studRoll"+student).innerText = (parseInt(student) + 1);
+      document.getElementById("nameStud"+student).innerText = obj.fullname; 
+      document.getElementById("studState"+student).checked = obj.state;
     }
 
+    document.getElementById("myListHolder").innerHTML += `<div class = "row" style="margin-bottom:2%; padding:2%"> 
+      <div class="col-md-11"><Button class="btn btn-primary" style="position: relative; left:60%">SAVE</Button></div></div>`;
   });
 
   getAttendenceListReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 
+}
+
+function checkAllForAttendence(checkbox){
+  let arrayView = document.getElementById("myListHolder").childNodes;
+  for(itr = 0; itr<arrayView.length; itr++){
+    if(itr != 0){      
+      arrayView[itr].childNodes[5].childNodes[1].childNodes[1].checked = checkbox.checked;
+    }
+  }
 }

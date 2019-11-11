@@ -17,10 +17,10 @@ else{
         $section = $classArray[1];
         $dateForAttendence = $_POST["dateForAttendence"];
         $dateForAttendenceFinal = date('Y-m-d', strtotime($dateForAttendence)); 
-        $sqlforAlready = "SELECT * FROM attendencedetails WHERE `sessionName` = '$sessionName' AND `date`= '$dateForAttendenceFinal' AND `class` = '$class'AND `section` = '$section'";
+        $sqlforAlready = "SELECT * FROM attendencedetails WHERE `sessionName` = '$sessionName' AND `date`= '$dateForAttendenceFinal' AND `class` = '$class'AND `section` = '$section' ORDER BY `firstName`";
         $result = mysqli_query($GLOBALS['conn'],$sqlforAlready);  
         if (mysqli_num_rows($result) == 0) { 
-            $sql = "SELECT sessionName, class, section, studentid, firstName, middleName, lastName FROM searchstudent WHERE `sessionName` = '$sessionName' AND `class` = '$class'AND `section` = '$section'";
+            $sql = "SELECT sessionName, class, section, studentid, firstName, middleName, lastName FROM searchstudent WHERE `sessionName` = '$sessionName' AND `class` = '$class'AND `section` = '$section' ORDER BY `firstName`";
             getOutputFromQueary($sql);
         }
         else{
