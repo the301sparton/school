@@ -54,13 +54,16 @@ $(document).ready(function () {
               }
               document.getElementById('loader').style.display = "none";  //HIDE LOADER
             });
+            currentSessionReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
           });
+          myRoleListReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 
         }
         else {
           window.location = "../register";
         }
       });
+      getUserReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
     }
     else {
       document.location = "../";

@@ -1,3 +1,6 @@
+
+var sectionNameRequest;
+
 (function ($) {
   "use strict";
 
@@ -95,6 +98,13 @@
 })(jQuery);
 
 
+function handleNetworkIssues(textStatus){
+  if(textStatus == "error"){
+    showNotification("<strong>Error!</strong>","Network Issue", "warning");
+  }
+ console.log(textStatus);
+}
+
 
 function showNotification(titleMsg, messageBody, typeOfNotifs) {
   $.notify({
@@ -119,3 +129,80 @@ function showNotification(titleMsg, messageBody, typeOfNotifs) {
     });
 }
 
+
+function loadClassForSelectId(idofSelect, idofSectionSelect) {
+
+  if ($("#" + idofSelect).find('option').length < 2) {
+    $('#' + idofSectionSelect)
+    .find('option')
+    .remove()
+    .end()
+    .append('<option value="" selected disabled>Select Section</option>')
+    .val('')
+    ;
+    $("#" + idofSelect).change(function () {
+      loadSectionForClassName(idofSelect, idofSectionSelect);
+    });
+
+    let classNameReq = $.post(baseUrl + "/apis/classList.php", {
+      type: "getOnlyClassName"
+    });
+
+    classNameReq.done(function (response) {
+      try {
+        let classNames = JSON.parse(response);
+        $('#' + idofSelect)
+          .find('option')
+          .remove()
+          .end()
+          .append('<option value="" selected disabled>Select Class</option>')
+          .val('')
+          ;
+        for (var index in classNames) {
+          $('#' + idofSelect)
+            .append($('<option>', { value: classNames[index].className })
+              .text(classNames[index].className
+              ));
+        }
+      }
+      catch (e) {
+        showNotification("Error", "Failed to get data", "danger");
+      }
+    });
+
+    classNameReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+  }
+
+}
+
+function loadSectionForClassName(idofSelect, idofSectionSelect) {
+  sectionNameRequest = $.post(baseUrl + "/apis/classList.php", {
+      type: "getSectionForClassName",
+      className: document.getElementById(idofSelect).value
+    });
+
+    sectionNameRequest.done(function (response) {
+      try {
+        let sectionNames = JSON.parse(response);
+        $('#' + idofSectionSelect)
+          .find('option')
+          .remove()
+          .end()
+          .append('<option value="" selected disabled>Select Section</option>')
+          .val('')
+          ;
+        for (var index in sectionNames) {
+          $('#' + idofSectionSelect)
+            .append($('<option>', { value: sectionNames[index].section })
+              .text(sectionNames[index].section
+              ));
+        }
+      }
+      catch (e) {
+        showNotification("Error", "Failed to get data", "danger");
+      }
+
+    });
+
+    sectionNameRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+}

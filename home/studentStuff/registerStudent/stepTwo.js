@@ -1,5 +1,5 @@
 
-  stepTwoHTML = `<div class="row">
+stepTwoHTML = `<div class="row">
   <div class="col-md-2">
     Contact Detail
   </div>
@@ -180,71 +180,75 @@
 
 
 //StepTwo START
-function stepTwo(){
+function stepTwo() {
   document.getElementById('loader').style.display = "block";
-loadContactDetails();
-document.getElementById('step_container').innerHTML = stepTwoHTML;
-$("#contactDetails").submit(function(event) {         
+  loadContactDetails();
+  document.getElementById('step_container').innerHTML = stepTwoHTML;
+  $("#contactDetails").submit(function (event) {
     event.preventDefault();
     setContactDetails(true);
-});
+  });
 }
 
-function loadContactDetails(){
-var loadContactDetailReq = $.post(baseUrl + "/apis/studentInfo.php",{
+function loadContactDetails() {
+  var loadContactDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "getContactDetailsById",
     studentId: document.getElementById("studID").innerText
-});
+  });
 
-loadContactDetailReq.done(function(loadContactDetailRes){
-  if(loadContactDetailRes != "null"){
-    
-    let cotactDetails = JSON.parse(loadContactDetailRes);
-    if(cotactDetails.localAddress != ""){
-      document.getElementById('localAddress').value = cotactDetails.localAddress;
-    }
-    if(cotactDetails.localState != ""){
-      document.getElementById('localState').value = cotactDetails.localState;
-    }
-    if(cotactDetails.localCity!=""){
-      document.getElementById('localCity').value = cotactDetails.localCity;
-    }
-    if(cotactDetails.localPincode!=""){
-      document.getElementById('localPincode').value = cotactDetails.localPincode;
-    }
-    if(cotactDetails.permanentAddress!=""){
-      document.getElementById('permanentAddress').value = cotactDetails.permanentAddress;
-    }
-    if(cotactDetails.permanentState!=""){
-      document.getElementById('permanentState').value = cotactDetails.permanentState;
-    }
-    if(cotactDetails.permanentCity!=""){
-      document.getElementById('permanentCity').value = cotactDetails.permanentCity;
-    }
-    if(cotactDetails.permanentPincode!=""){
-      document.getElementById('permanentPincode').value = cotactDetails.permanentPincode;
-    }
-    if(cotactDetails.guardianName){
-      document.getElementById('guardianName').value = cotactDetails.guardianName;
-    }
-    if(cotactDetails.guardianPhone){
-      document.getElementById('guardianPhone').value = cotactDetails.guardianPhone;
-    }
-    if(cotactDetails.guardianEmail){
-      document.getElementById('guardianEmail').value = cotactDetails.guardianEmail;
-    }
-    
+  loadContactDetailReq.done(function (loadContactDetailRes) {
+    if (loadContactDetailRes != "null") {
+      try {
+        let cotactDetails = JSON.parse(loadContactDetailRes);
+        if (cotactDetails.localAddress != "") {
+          document.getElementById('localAddress').value = cotactDetails.localAddress;
+        }
+        if (cotactDetails.localState != "") {
+          document.getElementById('localState').value = cotactDetails.localState;
+        }
+        if (cotactDetails.localCity != "") {
+          document.getElementById('localCity').value = cotactDetails.localCity;
+        }
+        if (cotactDetails.localPincode != "") {
+          document.getElementById('localPincode').value = cotactDetails.localPincode;
+        }
+        if (cotactDetails.permanentAddress != "") {
+          document.getElementById('permanentAddress').value = cotactDetails.permanentAddress;
+        }
+        if (cotactDetails.permanentState != "") {
+          document.getElementById('permanentState').value = cotactDetails.permanentState;
+        }
+        if (cotactDetails.permanentCity != "") {
+          document.getElementById('permanentCity').value = cotactDetails.permanentCity;
+        }
+        if (cotactDetails.permanentPincode != "") {
+          document.getElementById('permanentPincode').value = cotactDetails.permanentPincode;
+        }
+        if (cotactDetails.guardianName) {
+          document.getElementById('guardianName').value = cotactDetails.guardianName;
+        }
+        if (cotactDetails.guardianPhone) {
+          document.getElementById('guardianPhone').value = cotactDetails.guardianPhone;
+        }
+        if (cotactDetails.guardianEmail) {
+          document.getElementById('guardianEmail').value = cotactDetails.guardianEmail;
+        }
+      }
+      catch (e) {
+        showNotification("Error", "Failed to get data", "danger");
+      }
     }
     $("#step_two_back").removeAttr('disabled');
-    
     $("#step_two_next").removeAttr('disabled');
-  document.getElementById('loader').style.display = "none";
-});
-//Comment
+    document.getElementById('loader').style.display = "none";
+  });
+
+  loadContactDetailReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  //Comment
 }
 
-function setContactDetails(toReturn){
-var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php",{
+function setContactDetails(toReturn) {
+  var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "updateContactDetails",
     localAddress: document.getElementById('localAddress').value,
     localState: document.getElementById('localState').value,
@@ -257,8 +261,8 @@ var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php",{
     guardianName: document.getElementById('guardianName').value,
     guardianPhone: document.getElementById('guardianPhone').value,
     guardianEmail: document.getElementById('guardianEmail').value,
-    studentId: document.getElementById('studID').innerText 
-});
+    studentId: document.getElementById('studID').innerText
+  });
   setContactDetailsreq.done(function (setContactDetailsres) {
     if (setContactDetailsres == 200) {
       if (toReturn) {
@@ -267,13 +271,14 @@ var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php",{
 
     }
     else {
-     showNotification("<strong>Error</stong>","Failed to save data","danger");
+      showNotification("<strong>Error</stong>", "Failed to save data", "danger");
     }
   });
+  setContactDetailsreq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
-function contactDetailBack(){
-setContactDetails();
-stepOne();
+function contactDetailBack() {
+  setContactDetails();
+  stepOne();
 }
 //STEPTWO END

@@ -163,6 +163,12 @@ else{
         $sql = "SELECT * from headwisesumm";
         getOutputFromQueary($sql);
     }
+    else if($type == "receiptListBySessionAndStudentId"){
+        $studentId = $_POST['studentId'];
+        $sessionName = $_POST['sessionName'];
+        $sql = "SELECT `receiptId`, `recamt` from vreceiptamount WHERE `studentId` = '$studentId' AND `sessionName` = '$sessionName'";
+        getOutputFromQueary($sql);
+    }
 
 }
 

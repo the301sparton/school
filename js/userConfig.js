@@ -22,6 +22,7 @@ $(document).ready(function () {
                     window.location = "../register";
                 }
             });
+            getUserReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
         }
         else {
             document.location = logOutUrl;

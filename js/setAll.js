@@ -43,4 +43,6 @@ $("#contactForm").submit(function(event) {
             showNotification("<strong>Error</strong>","Failed to send message", "danger");
         }
     });
+
+    newMessageReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 });

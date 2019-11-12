@@ -61,12 +61,12 @@ searchNEditHTML = `<div class="container" id="registerStudent">
   </div>`;
 function searchNEdit(forReceiptTemp) {
   forReceipt = forReceiptTemp;
-  if(!forReceipt){
+  if (!forReceipt) {
     currentStudentOption = "searchNEdit";
     setActiveColorsStudent("searchNEdit");
     document.getElementById('studentActionHolder').innerHTML = searchNEditHTML;
   }
-  else{
+  else {
     document.getElementById('feesActionHolder').innerHTML = searchNEditHTML;
     document.getElementById('searchHeading').innerText = "Step 1 : Select Student";
   }
@@ -97,25 +97,33 @@ function loadAllSessions() {
   });
 
   allSessionReq.done(function (allSessions) {
-    allSessions = JSON.parse(allSessions);
-    for (var index in allSessions) {
+    try {
+      allSessions = JSON.parse(allSessions);
+      for (var index in allSessions) {
 
-      $('#sessionSelect')
-        .append($('<option>', { value: allSessions[index].sessionName })
-          .text(allSessions[index].sessionName
-          ));
+        $('#sessionSelect')
+          .append($('<option>', { value: allSessions[index].sessionName })
+            .text(allSessions[index].sessionName
+            ));
+      }
+
+      document.getElementById("sessionSelect").value = currentSession;
+      sessionSelect = currentSession;
+    }
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
     }
 
-  document.getElementById("sessionSelect").value = currentSession;
-  sessionSelect = currentSession;
-  
-  
   });
+
+  allSessionReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
+
 
 function studentSearch(searchBar) {
   if (allFieldsAreSet()) {
     if (searchBar.value != "") {
+
       var searchByNameReq = $.post(baseUrl + "/apis/searchStudent.php", {
         type: searchBy,
         inputKeyWord: searchBar.value,
@@ -123,10 +131,19 @@ function studentSearch(searchBar) {
         sessionName: sessionSelect
       });
 
+
       searchByNameReq.done(function (searchByNameRes) {
-        var searchResult = JSON.parse(searchByNameRes);
-        createResultView(searchResult, searchBar.value);
+        try {
+          var searchResult = JSON.parse(searchByNameRes);
+          createResultView(searchResult, searchBar.value);
+        }
+        catch (e) {
+          showNotification("Error", "Failed to get data", "danger");
+        }
       });
+
+      searchByNameReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+
     }
     else {
       removeResults();
@@ -153,18 +170,18 @@ function allFieldsAreSet() {
 
 function createResultView(searchResult, searchStr) {
   removeResults();
-  if(searchResult.length == 0 && searchStr!=""){
+  if (searchResult.length == 0 && searchStr != "") {
     resultView = `<div class="row collapsible">
                       <div class="text-center"><h4>No Result Found</h4>
                       </div>
                   </div>`;
-                  document.getElementById("searchResultHolder").innerHTML = resultView;
+    document.getElementById("searchResultHolder").innerHTML = resultView;
   }
   for (var itr in searchResult) {
     if (itr == maxRows) {
       break;
     }
-    if (!forReceipt){
+    if (!forReceipt) {
       resultView = `<div class="row collapsible" onclick="viewStudent(this)">
       <div style="display: none;" id="studID`+ itr + `"></div>
       <div style="display: none;" id="studClassId`+ itr + `"></div>
@@ -191,7 +208,7 @@ function createResultView(searchResult, searchStr) {
          
       </div>`;
     }
-    else{
+    else {
       resultView = `<div class="row collapsible" onclick="selectedStudent(this)">
     <div style="display: none;" id="studID`+ itr + `"></div>
     <div style="display: none;" id="studClassId`+ itr + `"></div>
@@ -218,17 +235,17 @@ function createResultView(searchResult, searchStr) {
        
     </div>`;
     }
-    
+
     document.getElementById("searchResultHolder").innerHTML += resultView;
-    if(searchResult[itr].photo != null && searchResult[itr].photo !=""){
+    if (searchResult[itr].photo != null && searchResult[itr].photo != "") {
       document.getElementById('studentImg' + itr).src = "data:image/png;base64, " + searchResult[itr].photo;
     }
-    else{
-      document.getElementById('studentImg' + itr).src = baseUrl+"/img/me.png";
+    else {
+      document.getElementById('studentImg' + itr).src = baseUrl + "/img/me.png";
     }
-   
+
     document.getElementById('studID' + itr).innerText = searchResult[itr].studentId;
-    document.getElementById('studClassId'+itr).innerText = searchResult[itr].class;
+    document.getElementById('studClassId' + itr).innerText = searchResult[itr].class;
     document.getElementById('studentName' + itr).innerHTML = searchResult[itr].firstName + " " + searchResult[itr].middleName + " " + searchResult[itr].lastName;
     document.getElementById('studentClassNSection' + itr).innerHTML = "Class " + searchResult[itr].class + " Section " + searchResult[itr].section;
     document.getElementById('admissionNumber' + itr).innerHTML = searchResult[itr].admissionNumber;
@@ -247,14 +264,14 @@ function viewStudent(parent) {
   document.location = baseUrl + "/studentView?studentId=" + id + "&sessionName=" + sessionSelect;
 }
 
-function selectedStudent(parent){
- removeResults();
- //console.log(parent);
- document.getElementById("searchResultHolder").appendChild(parent);
- let classId = parent.childNodes[3].innerText;
- let id = parent.childNodes[1].innerText;
- document.getElementById('searchHeading').innerText = "Step 2 : Click + to genrerate new receipt";
- getFeesDetails(id, classId); // in generateReceipt Module
+function selectedStudent(parent) {
+  removeResults();
+  //console.log(parent);
+  document.getElementById("searchResultHolder").appendChild(parent);
+  let classId = parent.childNodes[3].innerText;
+  let id = parent.childNodes[1].innerText;
+  document.getElementById('searchHeading').innerText = "Step 2 : Click + to genrerate new receipt";
+  getFeesDetails(id, classId); // in generateReceipt Module
 }
 
 
