@@ -27,6 +27,31 @@ else{
             getOutputFromQueary($sqlforAlready);
         }    
     }
+
+    else if($type == "saveAttendenceRecords"){
+        $dataArray = $_POST["data"];
+        $sql = "INSERT into attendencerecords (`studentId`, `sessionName`, `date`, `state`) values ";
+        $counter = 0;
+        foreach($dataArray as $student){
+            $code = 0;
+            $stateBool = $student["state"];
+            if($stateBool == "true"){
+                $code = 1;
+            }
+            $date = $student["date"];
+            $dateForAttendenceFinal = date('Y-m-d', strtotime($date)); 
+            $sessionName = $student["sessionName"];
+            $studentId = $student["studentId"];
+            if( $counter == count( $dataArray ) - 1) { 
+            $sql = $sql."('$studentId', '$sessionName', '$dateForAttendenceFinal', '$code');";
+            }
+            else{
+                $sql = $sql."('$studentId', '$sessionName', '$dateForAttendenceFinal', '$code'), ";
+            }
+            $counter = $counter + 1;
+        }
+        get200AsYes($sql);
+    }
 }
 
 ?>

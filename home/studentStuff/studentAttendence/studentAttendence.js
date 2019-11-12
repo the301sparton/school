@@ -1,5 +1,5 @@
 
-var lengthOfListAttendence = -1;
+var studList;
 function studentAttendence() {
   currentStudentOption = "studentAttendence";
   setActiveColorsStudent("studentAttendence");
@@ -97,8 +97,6 @@ function loadAllSessionsForAttendence() {
 
     document.getElementById("attendence_sessionName").value = currentSession;
     sessionSelect = currentSession;
-
-
   });
 
   allSessionReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
@@ -161,14 +159,14 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
   });
 
   getAttendenceListReq.done(function (response) {
-    var studList = JSON.parse(response);
-    lengthOfListAttendence = studList.length;
+    studList = JSON.parse(response);
+    console.log(studList);
     document.getElementById("myListHolder").innerHTML = `<div class = "row" style="background: #ebdef0; border-radius:6px; margin-bottom:2%; padding:2%"> 
     <div class="col-md-3" style="text-align:center">Roll Num.</div>
     <div class="col-md-6" style="text-align:center">Full Name</div>
     <div class="col-md-3">
     <label class="checklabel" style="padding-left:0px">Check All
-            <input type="checkbox" id="studState`+student+`" onchange = "checkAllForAttendence(this)">
+            <input type="checkbox" onchange = "checkAllForAttendence(this)">
             <span class="checkmark" style = "left:85%;"></span>
     </label>
         </div>
@@ -187,29 +185,38 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
       var obj = new Object;
       obj.fullname = studList[student].firstName + " " + studList[student].middleName + " " + studList[student].lastName;
       if(studList[student].state != null && studList[student].state != ""){
-        obj.state = studList[student].state;
+        if(studList[student].state == "1"){
+          obj.state = true;
+        }
+        else{
+          obj.state = false;
+        }
+       
       }
       else{
         obj.state = false;
       }
-      
-      document.getElementById("myListHolder").innerHTML += `<div class = "row" style="background:#d4e6f1; border-radius:6px; margin-bottom:2%; padding:2%"> 
+     document.getElementById("myListHolder").innerHTML += `<div class = "row" style="background:#d4e6f1; border-radius:6px; margin-bottom:2%; padding:2%"> 
       <div class="col-md-3" id="studRoll`+ student + `" style="text-align:center"></div>
       <div class="col-md-6" id="nameStud`+ student + `" style="text-align:center"></div>
       <div class="col-md-3" style="text-align:center">  
-        <label class="checklabel">P/A
-            <input type="checkbox" id="studState`+student+`">
+        <label for="studState`+ student + `" class="checklabel">P/A
+            <input type="checkbox" id="studState`+ student + `">
             <span class="checkmark" style = "left:85%;"></span>
         </label>
       </div>
       </div>`;
       document.getElementById("studRoll"+student).innerText = (parseInt(student) + 1);
-      document.getElementById("nameStud"+student).innerText = obj.fullname; 
-      document.getElementById("studState"+student).checked = obj.state;
+      document.getElementById("nameStud"+student).innerText = obj.fullname;
+      if(studList[student].state == 1){
+        $('#studState'+student).attr('checked', true);
+        console.log(document.getElementById("studState"+student).checked)
+      } 
     }
-
+    
+    
     document.getElementById("myListHolder").innerHTML += `<div class = "row" style="margin-bottom:2%; padding:2%"> 
-      <div class="col-md-11"><Button class="btn btn-primary" style="position: relative; left:60%">SAVE</Button></div></div>`;
+      <div class="col-md-11"><Button class="btn btn-primary" style="position: relative; left:60%" onclick="saveAttendenceRecords()">SAVE</Button></div></div>`;
   });
 
   getAttendenceListReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
@@ -218,9 +225,32 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
 
 function checkAllForAttendence(checkbox){
   let arrayView = document.getElementById("myListHolder").childNodes;
-  for(itr = 0; itr<arrayView.length; itr++){
+  for(itr = 0; itr<(arrayView.length - 1); itr++){
     if(itr != 0){      
       arrayView[itr].childNodes[5].childNodes[1].childNodes[1].checked = checkbox.checked;
     }
   }
+}
+
+
+function saveAttendenceRecords(){
+  let dataArray = new Array();
+  for(itr in studList){
+    let obj = new Object;
+    obj.studentId = studList[itr].studentId;
+    obj.sessionName = studList[itr].sessionName;
+    obj.date = document.getElementById("attendence_date").value;
+    obj.state = document.getElementById("studState"+itr).checked;
+
+    dataArray.push(obj);
+  }
+
+  var saveAttendenceReq = $.post(baseUrl + "/apis/attendence.php",{
+    type: "saveAttendenceRecords",
+    data: dataArray
+  });
+
+  saveAttendenceReq.done(function(response){
+    console.log(response);
+  });
 }
