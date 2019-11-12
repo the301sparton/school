@@ -1,6 +1,212 @@
-function manageClassList(){
+var previousValueForClassNameToUpdate = "";
+var previousValueForSectionNameToUpdate = "";
+
+function manageClassList() {
     setActiveColorsAdminTasks("manageClassList");
-};function manageFeesHeads() {
+    let manageClassListHTML = `<div class="container">
+    <div class="text-center">
+          <h5>Manage Class List</h5>
+          <hr>
+    </div>
+
+    <div class="container" style="padding: 1%">
+    
+    <div id="jsGrid" style = "display:none" ></div>
+    <div class="row" style="margin-top:2%">
+    <div class="col-md-11"></div>
+    <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="showClassListDetailsDialog()"></i>
+   
+    </div>
+    </div>
+    
+    </div>`;
+    document.getElementById('adminActionHolder').innerHTML = manageClassListHTML;
+
+    getClassListToShow();
+}
+
+function getClassListToShow() {
+    document.getElementById('jsGrid').style.display = "none";
+    let classListReq = $.post(baseUrl + "/apis/classList.php", {
+        type: "getClassList"
+    });
+    classListReq.done(function (responce) {
+        document.getElementById('jsGrid').style.display = "block";
+        $("#jsGrid").jsGrid({
+            width: "100%",
+            inserting: false,
+            editing: false,
+            sorting: false,
+            paging: true,
+            fields: [{ name: "className", title: "Class Name", type: "text", width: 140 },
+            { name: "section", title: "Section", type: "text", width: 120 },
+            { name: "displayName", title: "Class Teacher", type: "text", width: 120 },
+            ],
+            rowClick: function (args) {
+                showClassListDetailsDialog(args.item, true);
+            },
+            data: JSON.parse(responce),
+            onItemUpdating: function (args) {
+                // cancel update of the item with empty 'name' field
+                if (args.item.headName === "") {
+                    args.cancel = true;
+                    showNotification("<strong>Error!</strong>", "Enter fees head name.", "warning");
+                }
+                else {
+                    updateClassListItem(args.item);
+                }
+            }
+        });
+    });
+    classListReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+}
+
+function showClassListDetailsDialog(args, forEdit) {
+    let getTeacherList = $.post(baseUrl + "/apis/classList.php", {
+        type: "getUserList"
+    });
+
+    getTeacherList.done(function (responce) {
+
+        let teacherList = JSON.parse(responce)
+        setValuesInClassTeacherSelect(teacherList);
+
+        if (forEdit) {
+            document.getElementById("classListModalTitel").innerHTML = '<h4>Edit Class Details</h4>'
+            document.getElementById("newClassName").value = args.className;
+            previousValueForClassNameToUpdate = args.className;
+            previousValueForSectionNameToUpdate = args.section;
+            document.getElementById("newClassSection").value = args.section;
+            document.getElementById('newClassTeacher').value = args.uid;
+            document.getElementById("classDeleteBtn").style.display = "block";
+        }
+        else {
+            document.getElementById("classDeleteBtn").style.display = "none";
+            document.getElementById("newClassName").value = '';
+            document.getElementById("newClassSection").value = '';
+            document.getElementById("classListModalTitel").innerHTML = '<h4>Create New Class</h4>'
+        }
+
+        $("#addEditClassList").modal();
+    });
+
+    getTeacherList.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+
+}
+
+function setValuesInClassTeacherSelect(teacherList) {
+    $('#newClassTeacher').empty();
+    $('#newClassTeacher').append($('<option>', {
+        value: "",
+        text: "Select Class Teacher",
+        selected: true,
+        disabled: true
+    }, '</option>'));
+    for (var index in teacherList) {
+        $('#newClassTeacher')
+            .append($('<option>', {
+                value: teacherList[index].uid,
+                text: teacherList[index].displayName,
+            }, '</option>'));
+    }
+}
+
+function deleteClassListItem() {
+    let deleteClassListItemReq = $.post(baseUrl + "/apis/classList.php", {
+        type: "deleteClassItem",
+        className: document.getElementById("newClassName").value,
+        section: document.getElementById("newClassSection").value
+    });
+
+    deleteClassListItemReq.done(function (responce) {
+        if (responce == 200) {
+            showNotification("Success!", "Class Deleted Successfully", "success");
+            getClassListToShow();
+        }
+        else if(responce == 300){
+            showNotification("Error!", "Class is in use", "danger");
+        }
+        else {
+            showNotification("Error!", "Failed to delete Class", "danger");
+        }
+    });
+
+    deleteClassListItemReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+}
+
+function createOrUpdateClass() {
+    if (document.getElementById("classListModalTitel").innerHTML.includes("Create")) {
+
+        let classListVal = document.getElementById("newClassName").value;
+        let sectionVal = document.getElementById("newClassSection").value;
+        let teacherIdVal = document.getElementById('newClassTeacher').value
+
+        if(classListVal != "" && sectionVal != "" && teacherIdVal != ""){
+            let insertClassReq = $.post(baseUrl + "/apis/classList.php", {
+                type: "insertClass",
+                className: classListVal,
+                section: sectionVal,
+                teacherId: teacherIdVal
+            });
+    
+            insertClassReq.done(function (responce) {
+                if (responce == 200) {
+                    showNotification("Success!", "Class Created Successfully", "success");
+                    getClassListToShow();
+                }
+                else {
+                    console.log(responce);
+                    showNotification("Error!", "Class & Section together must be unique", "danger");
+                }
+            });
+        
+            insertClassReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+        }
+
+        else{
+            showNotification("Error!", "Class, Section and teacher must be selected", "warning");
+        }
+        
+    }
+    else {
+        let deleteClassListItemReq = $.post(baseUrl + "/apis/classList.php", {
+            type: "deleteClassItem",
+            className: previousValueForClassNameToUpdate,
+            section: previousValueForSectionNameToUpdate
+        });
+    
+        deleteClassListItemReq.done(function (responce) {
+            if (responce == 200) {
+                let insertClassReq = $.post(baseUrl + "/apis/classList.php", {
+                    type: "insertClass",
+                    className: document.getElementById("newClassName").value,
+                    section: document.getElementById("newClassSection").value,
+                    teacherId: document.getElementById('newClassTeacher').value
+                });
+        
+                insertClassReq.done(function (responce) {
+                    if (responce == 200) {
+                        showNotification("Success!", "Class Updated Successfully", "success");
+                        getClassListToShow();
+                    }
+                    else {
+                        console.log(responce);
+                        showNotification("Error!", "Class & Section together must be unique", "danger");
+                    }
+                });
+            }
+            else if(responce == 300){
+                showNotification("Error!", "Class is in use", "danger");
+            }
+            else {
+                showNotification("Error!", "Failed to delete Class", "danger");
+            }
+        });
+    }
+}
+
+//Handle UPDATE CREATE;
+function manageFeesHeads() {
     setActiveColorsAdminTasks("manageFeesHeads");
 
     let manageFeesHeadsHTML = `<div class="container">
@@ -24,49 +230,58 @@ function makeViewForFeeHeads() {
     });
 
     getAllfeeData.done(function (responce) {
-        let feeData = JSON.parse(responce);
-
-        $("#jsGrid").jsGrid({
-            width: "100%",
-            inserting: false,
-            editing: true,
-            sorting: false,
-            paging: true,
-
-            data: feeData,
-
-            fields: [
-                { name: "headName", type: "text", width: 140 },
-                { name: "amount_KG1", type: "number", width: 120 },
-                { name: "amount_KG2", type: "number", width: 120 },
-                { name: "amount_Nursery", type: "number", width: 160 },
-                { name: "amount_1st", type: "number", width: 120 },
-                { name: "amount_2nd", type: "number", width: 120 },
-                { name: "amount_3rd", type: "number", width: 120 },
-                { name: "amount_4th", type: "number", width: 120 },
-                { name: "amount_5th", type: "number", width: 120 },
-                { name: "amount_6th", type: "number", width: 120 },
-                { name: "amount_7th", type: "number", width: 120 },
-                { name: "amount_8th", type: "number", width: 120 },
-                { name: "amount_9th", type: "number", width: 120 },
-                { name: "amount_10th", type: "number", width: 120 },
-                { type: "control", width: 60 }
-            ],
-
-            onItemUpdating: function (args) {
-                // cancel update of the item with empty 'name' field
-                if (args.item.headName === "") {
-                    args.cancel = true;
-                    showNotification("<strong>Error!</strong>", "Enter fees head name.", "warning");
+        try{
+            let feeData = JSON.parse(responce);
+            $("#jsGrid").jsGrid({
+                width: "100%",
+                inserting: false,
+                editing: true,
+                sorting: false,
+                paging: true,
+    
+                data: feeData,
+    
+                fields: [
+                    { name: "headName", type: "text", width: 140 },
+                    { name: "amount_KG1", type: "number", width: 120 },
+                    { name: "amount_KG2", type: "number", width: 120 },
+                    { name: "amount_Nursery", type: "number", width: 160 },
+                    { name: "amount_1st", type: "number", width: 120 },
+                    { name: "amount_2nd", type: "number", width: 120 },
+                    { name: "amount_3rd", type: "number", width: 120 },
+                    { name: "amount_4th", type: "number", width: 120 },
+                    { name: "amount_5th", type: "number", width: 120 },
+                    { name: "amount_6th", type: "number", width: 120 },
+                    { name: "amount_7th", type: "number", width: 120 },
+                    { name: "amount_8th", type: "number", width: 120 },
+                    { name: "amount_9th", type: "number", width: 120 },
+                    { name: "amount_10th", type: "number", width: 120 },
+                    { type: "control", width: 60 }
+                ],
+    
+                onItemUpdating: function (args) {
+                    // cancel update of the item with empty 'name' field
+                    if (args.item.headName === "") {
+                        args.cancel = true;
+                        showNotification("<strong>Error!</strong>", "Enter fees head name.", "warning");
+                    }
+                    else {
+                        updateFeeHeadDetails(args.item);
+                    }
+    
                 }
-                else {
-                    updateFeeHeadDetails(args.item);
-                }
+            });
+        }
+        catch(e){
+             showNotification("Error", "Failed to get data", "danger");
+        }
+        
 
-            }
-        });
+        
         document.getElementById('jsGrid').style.display = "block";
     });
+
+    getAllfeeData.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function updateFeeHeadDetails(FeeHeadItem) {
@@ -99,6 +314,8 @@ function updateFeeHeadDetails(FeeHeadItem) {
                 showNotification("<strong>Success</strong>", "Fees Head Updated", "success");
             }
         });
+
+        updateHeadItemReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 };function manageRoles() {
     setActiveColorsAdminTasks("manageRoles");
     let userRoleHTML = `<div class="container">
@@ -112,7 +329,7 @@ function updateFeeHeadDetails(FeeHeadItem) {
     <div class="container" style = "margin:2%">
     <div class="row">
     <div class="col-md-11"></div>
-    <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="createUserGroupView()"></i>
+    <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="createUserGroupView()"></i>
    
     </div>
     </div>
@@ -129,11 +346,19 @@ function getRoleList() {
     });
 
     userRoleReq.done(function (responce) {
-        var RoleArray = JSON.parse(responce);
-        if (RoleArray.length > 0) {
-            makeRoleEditView(RoleArray);
+        try{
+            var RoleArray = JSON.parse(responce);
+            if (RoleArray.length > 0) {
+                makeRoleEditView(RoleArray);
+            }
         }
+        catch(e){
+            showNotification("Error", "Failed to get data", "danger");
+        }
+        
     });
+
+    userRoleReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function makeRoleEditView(roleArray) {
@@ -348,6 +573,8 @@ function updateGroupDetails(view) {
             showNotification("<strong>Error</strong>","Failed to update group", "danger");
         }
     });
+
+    updateGroupReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function deleteGroup(view) {
@@ -365,6 +592,8 @@ function deleteGroup(view) {
             showNotification("<strong>Error</strong>","Failed to delete group", "danger");
         }
     })
+
+    deleteGroupReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function isCheckedGeneric(isChecked) {
@@ -447,6 +676,8 @@ function createNewUserGroupForSure() {
                 manageRoles();
             }
         });
+
+        createNewRoleRequest.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
     }
 };function manageUsers() {
   setActiveColorsAdminTasks("manageUsers");
@@ -507,7 +738,7 @@ function sendSearchUserRequest() {
   let maxCols = document.getElementById("maxRowsForUser").value;
   document.getElementById('userDetailsHolder').innerHTML = '';
 
-  if (maxCols == "" || userSearchMeathord == "" || maxCols < parseInt("0",10)) {
+  if (maxCols == "" || userSearchMeathord == "" || maxCols < parseInt("0", 10)) {
     document.getElementById("errorMessage").style.display = "block";
   }
   else {
@@ -521,8 +752,15 @@ function sendSearchUserRequest() {
       });
 
       searchUserReq.done(function (responce) {
-        makeUserView(JSON.parse(responce));
+        try {
+          makeUserView(JSON.parse(responce));
+        }
+        catch (e) {
+          showNotification("Error", "Failed to get data", "danger");
+        }
       });
+
+      searchUserReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
     }
     else {
       document.getElementById('allUserHolder').innerHTML = `<div class="row collapsible">
@@ -534,7 +772,7 @@ function sendSearchUserRequest() {
 }
 
 function makeUserView(allUserArray) {
-  document.getElementById('allUserHolder').innerHTML ='';
+  document.getElementById('allUserHolder').innerHTML = '';
   if (allUserArray.length > 0) {
     for (var itr in allUserArray) {
       userItemHtml = `<div class="row collapsible" onclick="getUserDetails(this)">
@@ -596,9 +834,11 @@ function deleteUser(deleteUserBtn) {
         document.getElementById("allUserHolder").removeChild(deleteUserBtn.parentNode.parentNode.parentNode.parentNode);
       }
       else {
-        showNotification("<strong>Error</strong>","Failed to delete user", "danger");
+        showNotification("<strong>Error</strong>", "Failed to delete user", "danger");
       }
     });
+
+    userDeleteReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
   }
 
 }
@@ -615,30 +855,38 @@ function getUserDetails(usersView) {
   });
 
   myRolesListReq.done(function (myRoleList) {
-    let myRoleListArray = JSON.parse(myRoleList);
-    document.getElementById('userDetailsHolder').innerHTML = `<div class="text-center">
-        <h6>Edit User Groups</h6>
-        <hr>
-      </div>`;
+    try {
+      let myRoleListArray = JSON.parse(myRoleList);
+      document.getElementById('userDetailsHolder').innerHTML = `<div class="text-center">
+          <h6>Edit User Groups</h6>
+          <hr>
+        </div>`;
 
-    if (myRoleListArray.length > 0) {
-      for (var itr in myRoleListArray) {
-        let roleItemHTML = `<div class="row collapsible" style="cursor:default">
-          <div class="col" id="roleId`+ itr + `" style="display:none"></div>
-          <div class="col-md-10" id="roleName`+ itr + `"></div>
-          <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
-          </div>`;
-        document.getElementById('userDetailsHolder').innerHTML += roleItemHTML;
-        document.getElementById('roleId' + itr).innerText = myRoleListArray[itr].id;
-        document.getElementById('roleName' + itr).innerText = myRoleListArray[itr].userType;
+      if (myRoleListArray.length > 0) {
+        for (var itr in myRoleListArray) {
+          let roleItemHTML = `<div class="row collapsible" style="cursor:default">
+            <div class="col" id="roleId`+ itr + `" style="display:none"></div>
+            <div class="col-md-10" id="roleName`+ itr + `"></div>
+            <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
+            </div>`;
+          document.getElementById('userDetailsHolder').innerHTML += roleItemHTML;
+          document.getElementById('roleId' + itr).innerText = myRoleListArray[itr].id;
+          document.getElementById('roleName' + itr).innerText = myRoleListArray[itr].userType;
+        }
       }
+      document.getElementById('userDetailsHolder').innerHTML += `<div class="row" style="margin-top:2%; margin-bottom:2%">
+        <div class="col-md-11"></div>
+        <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="addUserGroup(this)"></i>
+        </div>
+        </div>`;
     }
-    document.getElementById('userDetailsHolder').innerHTML += `<div class="row" style="margin-top:2%; margin-bottom:2%">
-      <div class="col-md-11"></div>
-      <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="addUserGroup(this)"></i>
-      </div>
-      </div>`;
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
+    }
+
   });
+
+  myRolesListReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function addUserGroup(addBtnView) {
@@ -650,27 +898,34 @@ function addUserGroup(addBtnView) {
   });
 
   getUserGroupsToAdd.done(function (userGroupList) {
-    let userGroupListArray = JSON.parse(userGroupList);
-    $("#addRoleModal").modal();
-    document.getElementById("addRoleBody").innerHTML = ``;
-    if(userGroupListArray.length>0){
-      document.getElementById('addRoleBtn').style.display = "block";
-      for (var itr in userGroupListArray) {
-        document.getElementById("addRoleBody").innerHTML += `<div class="row">
-        <label for="newRole`+ itr + `" class="checklabel"><div id="newRoleText` + itr + `"></div>
-                <input type="checkbox" id="newRole`+ itr + `">
-                <span class="checkmark"></span>
-        </label>
-        <div>`;
-        document.getElementById("newRoleText" + itr).innerText = userGroupListArray[itr].userType;
+    try {
+      let userGroupListArray = JSON.parse(userGroupList);
+      $("#addRoleModal").modal();
+      document.getElementById("addRoleBody").innerHTML = ``;
+      if (userGroupListArray.length > 0) {
+        document.getElementById('addRoleBtn').style.display = "block";
+        for (var itr in userGroupListArray) {
+          document.getElementById("addRoleBody").innerHTML += `<div class="row">
+          <label for="newRole`+ itr + `" class="checklabel"><div id="newRoleText` + itr + `"></div>
+                  <input type="checkbox" id="newRole`+ itr + `">
+                  <span class="checkmark"></span>
+          </label>
+          <div>`;
+          document.getElementById("newRoleText" + itr).innerText = userGroupListArray[itr].userType;
+        }
+      }
+      else {
+        document.getElementById('addRoleBtn').style.display = "none";
+        document.getElementById("addRoleBody").innerHTML = "User is already part of all user groups";
       }
     }
-    else{
-      document.getElementById('addRoleBtn').style.display = "none";
-      document.getElementById("addRoleBody").innerHTML = "User is already part of all user groups";
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
     }
-    
+
   });
+
+  getUserGroupsToAdd.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function addNewRoleConfirm() {
@@ -694,13 +949,16 @@ function addNewRoleConfirm() {
       getUserDetails(document.getElementById('allUserHolder').childNodes[0]);
     }
     else {
-      showNotification("<strong>Error</strong>","Failed to update user groups", "danger");
+      showNotification("<strong>Error</strong>", "Failed to update user groups", "danger");
     }
   });
+
+  addNewRolesReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+
 }
 
 function deleteRoleItem(roleItemView) {
-  
+
   var confirmState = confirm("Are you sure about removing this usergroup..?");
   if (confirmState == true) {
     let roleId = roleItemView.parentNode.parentNode.childNodes[1].innerText;
@@ -714,9 +972,11 @@ function deleteRoleItem(roleItemView) {
         roleItemView.parentNode.parentNode.parentNode.removeChild(roleItemView.parentNode.parentNode);
       }
       else {
-        showNotification("<strong>Error</strong>","Failed to delete user group", "danger");
+        showNotification("<strong>Error</strong>", "Failed to delete user group", "danger");
       }
     });
+
+    deleteRoleReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
   }
 }
 
@@ -874,26 +1134,28 @@ function updateProfileListener() {
   $('#profileUpdateForm').submit(function (event) {
     event.preventDefault();
     if (document.getElementById("up_displayName").value != me_data.displayName || document.getElementById("up_emailId").value != me_data.eid || document.getElementById("up_mobileNumber").value != me_data.mobileNumber || imageDataChanged == true) {
-      $.post(baseUrl + "/apis/User.php", {
+      let updateProfileReq = $.post(baseUrl + "/apis/User.php", {
         type: "updateUser",
         uid: me_data.uid,
         displayName: document.getElementById("up_displayName").value,
         eid: document.getElementById("up_emailId").value,
         mobileNumber: document.getElementById("up_mobileNumber").value,
         photo: updatedProfileImage
-      }).done(function (updateMeRes) {
+      });
+      updateProfileReq.done(function (updateMeRes) {
         if (updateMeRes == 200) {
-          showNotification("<strong>Suceess</strong>","Page will refresh", "success");
+          showNotification("<strong>Suceess</strong>", "Page will refresh", "success");
           location.reload();
         }
         else {
-          showNotification("<strong>Error</strong>","Failed to update profile", "danger");
+          showNotification("<strong>Error</strong>", "Failed to update profile", "danger");
         }
       });
+      updateProfileReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 
     }
     else {
-      showNotification("<strong>!!</strong>","No data was changed", "info");
+      showNotification("<strong>!!</strong>", "No data was changed", "info");
     }
   });
 };let FeeRepostType;
@@ -901,6 +1163,18 @@ let FeeSessionSelect;
 let isFirstDateReportView = true;
 let isClassAndSectionFirst = true;
 let dateFrom, dateTo;
+
+function FeeRepostTypehangeFun() {
+  FeeRepostType = document.getElementById('FeeRepostType').value;
+  checkReportType();
+}
+
+function FeeSessionSelectOnChange() {
+  FeeSessionSelect = document.getElementById('FeeSessionSelect').value;
+  document.getElementById("errorMessage").style.display = "none";
+  checkReportType();
+}
+
 function feesReport() {
 
   clearFilter();
@@ -919,7 +1193,7 @@ function feesReport() {
     <div class="row" id="typeHolder">
     <div class="col-md-2" style="text-align:right"><label for="FeeRepostType">Report Type: </label></div>
       <div class="col-md-4">
-        <select class="form-control" id="FeeRepostType">
+        <select class="form-control" id="FeeRepostType" onchange="FeeRepostTypehangeFun()">
           <option selected disabled value="">Select Report Type</option>
           <option value="receiptById">Get Receipt By Id</option>
           <option value="byDate">By Date</option>
@@ -928,7 +1202,7 @@ function feesReport() {
         </select>
       </div>
       <div class="col-md-4" id="feeSessionDiv">
-        <select class="form-control" id="FeeSessionSelect">
+        <select class="form-control" id="FeeSessionSelect" onchange="FeeSessionSelectOnChange()">
           <option selected disabled value="">Select Accedamic Year</option>
         </select>
       </div>
@@ -989,30 +1263,25 @@ function loadAllSessionsAndSetListeners() {
   });
 
   allSessionReq.done(function (allSessions) {
-    allSessions = JSON.parse(allSessions);
-    for (var index in allSessions) {
-      $('#FeeSessionSelect')
-        .append($('<option>', { value: allSessions[index].sessionName })
-          .text(allSessions[index].sessionName
-          ));
+    try {
+      allSessions = JSON.parse(allSessions);
+      for (var index in allSessions) {
+        $('#FeeSessionSelect')
+          .append($('<option>', { value: allSessions[index].sessionName })
+            .text(allSessions[index].sessionName
+            ));
+      }
+
+      FeeSessionSelect = currentSession;
+      document.getElementById("FeeSessionSelect").value = currentSession;
+    }
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
     }
 
-    FeeSessionSelect = currentSession;
-    document.getElementById("FeeSessionSelect").value = currentSession;
-
-    $(document).on('change', '#FeeRepostType', function () {
-      FeeRepostType = document.getElementById('FeeRepostType').value;
-      checkReportType();
-    });
-
-    $(document).on('change', '#FeeSessionSelect', function () {
-      FeeSessionSelect = document.getElementById('FeeSessionSelect').value;
-      document.getElementById("errorMessage").style.display = "none";
-      checkReportType();
-    });
   });
 
-
+  allSessionReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 
 }
 
@@ -1032,17 +1301,20 @@ function checkReportType() {
       document.getElementById('FeeReportHolder').innerHTML = ``;
       document.getElementById("errorMessage").style.display = "none";
       document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-2" style="text-align: end">
-                                                            <label for="dateFrom">From:</label>
+                                                            <label for="dateFrom">Date From - To:</label>
                                                           </div>
-                                                          <div class="col-md-3">
+                                                          <div class="col-md-4">
                                                             <input type="date" class="form-control" id="dateFrom">
                                                           </div>
-                                                          <div class="col-md-2" style="text-align: end">
-                                                            <label for="dateTo">To:</label>
-                                                          </div>
-                                                          <div class="col-md-3">
+                                                         
+                                                          <div class="col-md-4">
                                                             <input type="date" class="form-control" id="dateTo">
-                                                          </div>`;
+                                                          </div>
+
+                                                          <div class="col-md-1">
+                                                          <button id="printBtn" style="float:right" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                          </div>
+                                                         `;
       if (isFirstDateReportView) {
         $(document).on('change', '#dateFrom', function () {
           dateFrom = document.getElementById('dateFrom').value;
@@ -1064,6 +1336,11 @@ function checkReportType() {
       document.getElementById('receiptGoBox').style.display = "none";
       document.getElementById('feeSessionDiv').style.display = "block";
       document.getElementById('FeeReportHolder').innerHTML = ``;
+      document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
+                                                              </div>
+                                                              <div class="col-md-1">
+                                                                <button id="printBtn" style="float:right" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                              </div>`;
       document.getElementById("errorMessage").style.display = "none";
 
       if (FeeSessionSelect != "") {
@@ -1108,11 +1385,6 @@ function checkReportType() {
   }
 }
 
-
-function getReceipt(div) {
-  console.log(div);
-}
-
 function classSummeryReport() {
   var classSummeryReportReq = $.post(baseUrl + "/apis/receiptStuff.php", {
     type: "classSummeryReport",
@@ -1121,49 +1393,67 @@ function classSummeryReport() {
     sessionName: FeeSessionSelect
   });
   classSummeryReportReq.done(function (responseReport) {
-    var reportJSON = JSON.parse(responseReport);
+    try {
+      var reportJSON = JSON.parse(responseReport);
 
-    for (var itr in reportJSON) {
-      reportJSON[itr].balenceFees = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
+      for (var itr in reportJSON) {
+        reportJSON[itr].balenceFees = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
+      }
+
+      console.log(reportJSON);
+      document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
+      $("#jsGrid").jsGrid({
+        width: "100%",
+        inserting: false,
+        editing: false,
+        sorting: true,
+        paging: true,
+
+        data: reportJSON,
+
+        fields: [
+          { name: "studentId", type: "number", width: 80 },
+          { name: "fullname", type: "text", width: 150, validate: "required" },
+          { name: "totalFees", type: "number", width: 80 },
+          { name: "paidFees", type: "number", width: 80 },
+          { name: "balenceFees", type: "number", width: 80 }
+        ]
+      });
+      document.getElementById('jsGrid').style.display = "block";
     }
-
-    console.log(reportJSON);
-    document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
-    $("#jsGrid").jsGrid({
-      width: "100%",
-      inserting: false,
-      editing: false,
-      sorting: true,
-      paging: true,
-
-      data: reportJSON,
-
-      fields: [
-        { name: "studentId", type: "number", width: 80 },
-        { name: "fullname", type: "text", width: 150, validate: "required" },
-        { name: "totalFees", type: "number", width: 80 },
-        { name: "paidFees", type: "number", width: 80 },
-        { name: "balenceFees", type: "number", width: 80 }
-      ]
-    });
-    document.getElementById('jsGrid').style.display = "block";
-
-    document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"><div>`;
-    document.getElementById('feeInfoHolder').innerHTML += `<div class="container"><div class="col-md-12"><button style="float:right" class="btn btn-secondary" onclick="printReport()">Print</button></div></div>`;
-    document.getElementById('typeReport').innerText = "Class Summery Report For " + document.getElementById('filterClass').value + " " + document.getElementById("filterSection").value;
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
+    }
   });
+
+  classSummeryReportReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 function buildDateReport(report, byDate) {
+  document.getElementById('printBtn').disabled = true;
+  document.getElementById('FeeReportHolder').innerHTML = `
+  <div class="row" style="margin-bottom:3%">
+  <div class="col-md-12">
+    <canvas id="myChart" width="100" height="40"></canvas>
+  </div>
+  </div>
+
+  <div class="row">
+    <div id="jsGrid" style = "display:none;"></div>
+  </div>`;
+
   let reportHeads = [];
   let fieldsArr = [], i = 0;
   if (report.length >= 1) {
     reportHeads = report[0];
     for (var key in reportHeads) {
-      fieldsArr[i] = { name: key, type: "number", width: 20 };
+      fieldsArr[i] = { name: key, type: "number", width: 120 };
       i++;
     }
     if (byDate) {
+      document.getElementById('FeeReportHolder').innerHTML = ` <div class="row">
+      <div id="jsGrid" style = "display:none; text-align:center"></div>
+    </div>`;
       for (var itr in report) {
         let finalDateArr = report[itr].receiptDate.split("-");
         if (itr != report.length - 1) {
@@ -1171,9 +1461,42 @@ function buildDateReport(report, byDate) {
         }
       }
     }
-    // console.log(JSON.stringify(fieldsArr));
+    //Month Wise Report
+    else {
+      document.getElementById('FeeReportHolder').innerHTML = `
+      <div class="row">
+        <div class="col-md-12">
+          <canvas id="myChart" width="100" height="40"></canvas>
+        </div>
+      </div>
+      <div class="row" style="margin-top:5%">
+        <div id="jsGrid" style = "display:none; text-align:center"></div>
+      </div>`;
+      var months = [];
+      var totals = [];
+      for (var itr in report) {
+        if (itr != (report.length - 1)) {
+          months.push(report[itr].month);
+          totals.push(report[itr].Total);
+        }
+      }
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [{
+            label: 'Earnings by month',
+            data: totals,
+            borderColor: '#2e86c1',
+            fill: false,
+          }]
+        }
+      });
+    }
+
   }
-  document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
+
   $("#jsGrid").jsGrid({
     width: "100%",
     inserting: false,
@@ -1184,10 +1507,7 @@ function buildDateReport(report, byDate) {
     fields: fieldsArr
   });
   document.getElementById('jsGrid').style.display = "block";
-  document.getElementById('feeInfoHolder').innerHTML = `<div class="col-md-12" id="typeReport" style="text-align:center"></div>`;
-  document.getElementById('feeInfoHolder').innerHTML += `<div class="container"><div class="col-md-12"><button style="float:right" class="btn btn-secondary" onclick="printReport()">Print</button></div></div>`;
-
-  document.getElementById('typeReport').innerText = "Head summery Report";
+  document.getElementById('printBtn').disabled = false;
 }
 
 function ReportByDates() {
@@ -1200,9 +1520,16 @@ function ReportByDates() {
     });
 
     reportByDateReq.done(function (reportRes) {
-      var report = JSON.parse(reportRes);
-      buildDateReport(report, true);
+      try {
+        var report = JSON.parse(reportRes);
+        buildDateReport(report, true);
+      }
+      catch (e) {
+        showNotification("Error", "Failed to get data", "danger");
+      }
     });
+
+    reportByDateReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
   }
 }
 
@@ -1212,8 +1539,15 @@ function getMonthWiseReport() {
     sessionName: FeeSessionSelect
   });
   monthWiseReportReq.done(function (reportRes) {
-    buildDateReport(JSON.parse(reportRes));
+    try {
+      buildDateReport(JSON.parse(reportRes));
+    }
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
+    }
   });
+
+  monthWiseReportReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 function UpdateFilter() {
@@ -1233,7 +1567,7 @@ function UpdateFilter() {
 }
 
 function showFilters() {
-  $.when(getClassAndSection()).then(function () {
+  $.when(loadClassForSelectId("filterClass", "filterSection")).then(function () {
     $("#filterModal").modal({ backdrop: 'static', keyboard: false });
   });
 }
@@ -1243,60 +1577,6 @@ function clearFilter() {
   document.getElementById("filterSection").value = "";
 }
 
-function getClassAndSection() {
-  if (isClassAndSectionFirst) {
-    $.post(baseUrl + "/apis/classList.php",
-      {
-        type: "getClassList"
-      },
-      function (classDATA) {
-        let classJSON = JSON.parse(classDATA);
-
-        $('#filterClass').empty();
-
-        $('#filterClass').append($('<option>', {
-          value: "",
-          text: "Select Student Class",
-          selected: true,
-          disabled: true
-        }, '</option>'));
-
-        for (var index in classJSON) {
-          $('#filterClass')
-            .append($('<option>', {
-              value: classJSON[index].className,
-              text: classJSON[index].className,
-            }, '</option>'));
-        }
-      });
-
-    $.post(baseUrl + "/apis/sectionList.php",
-      {
-        type: "getSectionList"
-      },
-      function (sectionDATA) {
-        let sectionJSON = JSON.parse(sectionDATA);
-
-        $('#filterSection').empty();
-
-        $('#filterSection').append($('<option>', {
-          value: "",
-          text: "Select Student Section",
-          selected: true,
-          disabled: true
-        }, '</option>'));
-
-        for (var index in sectionJSON) {
-          $('#filterSection')
-            .append($('<option>', {
-              value: sectionJSON[index].sectionName,
-              text: sectionJSON[index].sectionName,
-            }, '</option>'));
-        }
-      });
-    isClassAndSectionFirst = false;
-  }
-}
 
 function printReport() {
   document.body.innerHTML = document.getElementById("jsGrid").innerHTML;
@@ -1320,7 +1600,7 @@ function getFeesDetails(studentId, classId) {
       <div class="col-md-5" style="text-align: start">
        <h5 style="margin-bottom: 10px">Total Fees</h5> 
       </div>
-      <div class="col-md-2" style="text-align: center">
+      <div class="col-md-2" style="text-align: center" onclick="showReceiptList()">
        <h6 style="margin-bottom: 10px;" class="myLink">Show Receipt List</h6> 
       </div>
       <div class="col-md-5" style="text-align: end">
@@ -1344,12 +1624,18 @@ function getFeesDetails(studentId, classId) {
       </div>
     </div>
 
-    <div class="row" id="receiptHolder">
+    <div class="row">
+        <div class="col-rmd-2"></div>
+        <div class="col-rmd-8">
+            <div class="container" id="receiptHolder">
 
+            </div>
+        </div>
     </div>
+
     <div class="row" style="margin-top:2%;">
     <div class="col-md-11"></div>
-    <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="newReceiptView()"></i>
+    <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="newReceiptView()"></i>
     </div>
    
     </div>
@@ -1362,8 +1648,7 @@ function getFeesDetails(studentId, classId) {
 }
 
 function setAmountPaid(studentId) {
-    console.log(sessionSelect);
-    var AmountRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
+   var AmountRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
         type: "getMyPaidAmount",
         studentId: studentId,
         sessionName: sessionSelect
@@ -1375,6 +1660,8 @@ function setAmountPaid(studentId) {
         }
 
     });
+
+    AmountRequest.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function setTotalFees(studentId) {
@@ -1389,6 +1676,8 @@ function setTotalFees(studentId) {
             document.getElementById('totalFeesValue').innerText = amount + " ₹";
         }
     });
+
+    AmountRequest.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function newReceiptView() {
@@ -1406,30 +1695,37 @@ function newReceiptView() {
 
         document.getElementById("receiptDate").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
 
-        
-        feeHeads = JSON.parse(HeadList);
-        for (var itr in feeHeads) {
-            FeeHeadHTML = `<div class="row" style="margin-top: 2%">
-            <div class="col-md-6">
-              <label id = "headName`+ itr + `"></label>
-            </div>
-            <div class="col-md-1" style="display:none">
-              <label id = "headId`+ itr + `"></label>
-            </div>
-            <div class="col-md-6">
-              <input class="form-control" type="number" id="headValue`+ itr + `" onchange="setSum(this.value)" value="0">
-            </div>
-          </div>`;
-          
-            document.getElementById('headHolder').innerHTML += FeeHeadHTML;
-
-            document.getElementById('headName' + itr).innerText = feeHeads[itr].headName+" ("+feeHeads[itr]["0"]+" / "+feeHeads[itr]["amount_"+ReceiptClassId]+")";
-
-            document.getElementById('headId' + itr).innerText = feeHeads[itr].headId;
+        try{
+            feeHeads = JSON.parse(HeadList);
+            for (var itr in feeHeads) {
+                FeeHeadHTML = `<div class="row" style="margin-top: 2%">
+                <div class="col-md-6">
+                  <label id = "headName`+ itr + `"></label>
+                </div>
+                <div class="col-md-1" style="display:none">
+                  <label id = "headId`+ itr + `"></label>
+                </div>
+                <div class="col-md-6">
+                  <input class="form-control" type="number" id="headValue`+ itr + `" onchange="setSum(this.value)" value="0">
+                </div>
+              </div>`;
+              
+                document.getElementById('headHolder').innerHTML += FeeHeadHTML;
+    
+                document.getElementById('headName' + itr).innerText = feeHeads[itr].headName+" ("+feeHeads[itr]["0"]+" / "+feeHeads[itr]["amount_"+ReceiptClassId]+")";
+    
+                document.getElementById('headId' + itr).innerText = feeHeads[itr].headId;
+            }
+            $('#newReceiptModal').modal();
+    
         }
-        $('#newReceiptModal').modal();
-
+        catch(e){
+            showNotification("Error","Failed to get data", "danger");
+        }
+        
     });
+
+    getHeadsReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 
 }
 
@@ -1466,17 +1762,24 @@ $('#newReceiptForm').submit(function (event) {
         });
 
         newReceiptRequest.done(function (newReceiptRes) {
-            console.log(newReceiptRes);
-            var resjson = JSON.parse(newReceiptRes);
-            if (resjson.resCode == 200) {
-                getFeesDetails(ReceiptForStudentId);
-                viewReceipt(resjson.id, ReceiptForStudentId, sessionSelect);
+            try{
+                var resjson = JSON.parse(newReceiptRes);
+                if (resjson.resCode == 200) {
+                    getFeesDetails(ReceiptForStudentId);
+                    viewReceipt(resjson.id, ReceiptForStudentId, sessionSelect);
+                }
+                else {
+                    showNotification("<strong>Error</strong>","Failed to generate receipt", "danger");
+                    console.log(newReceiptRes);
+                }
             }
-            else {
-                showNotification("<strong>Error</strong>","Failed to generate receipt", "danger");
-                console.log(newReceiptRes);
+            catch(e){
+                showNotification("Error","Failed to get data", "danger");
             }
+           
         });
+
+        newReceiptRequest.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
     }
     else{
         showNotification("<strong>Error</strong>","Invalid Amount - Receipt not created", "danger");
@@ -1489,6 +1792,44 @@ function setSum(value) {
 
 function viewReceipt(receiptId){
     document.location = baseUrl+"/receipt?receiptId="+receiptId;
+}
+
+
+function showReceiptList(){
+    document.getElementById("receiptHolder").innerHTML = '';
+    let getReceiptListReq = $.post(baseUrl + "/apis/receiptStuff.php",{
+        type: "receiptListBySessionAndStudentId",
+        studentId: ReceiptForStudentId,
+        sessionName: sessionSelect
+    });
+    getReceiptListReq.done(function(receiptListData){
+        try {
+            let receiptListJSON = JSON.parse(receiptListData);
+            for(itr in receiptListJSON){
+                let receiptListHTML = `<div class="row button button4" style="margin:1%" onclick="viewReceiptFromList(this)">
+                <div class="col-rmd-6" id="receiptIdforList`+ itr + `">
+                </div>
+                <div class="col-rmd-6" id="amountforList`+itr+`">
+                </div>          
+                </div>`;
+
+                document.getElementById("receiptHolder").innerHTML += receiptListHTML;
+                document.getElementById("receiptIdforList"+itr).innerText = "Receipt Id : "+receiptListJSON[itr].receiptId; 
+                document.getElementById("amountforList"+itr).innerText = "Amount : "+receiptListJSON[itr].recamt + " ₹";
+            }
+            
+        } catch(e) {
+            console.log(e)
+            showNotification("<strong>Error</strong>", "Failed to get data", "danger");
+        }
+    });
+
+    getReceiptListReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+}
+
+function viewReceiptFromList(div){
+console.log(":",(div.childNodes[1].innerText).split(": "));
+viewReceipt(div.childNodes[1].innerText.split(": ")[1]);
 };function registerStudent(){
     currentStudentOption = "registerStudent";
     setActiveColorsStudent("registerStudent");
@@ -1767,7 +2108,7 @@ function stepOne() {
   if (document.getElementById('studID').innerText != "") {
     setStudentDetails();
   }
-  else{
+  else {
     $('#step_one_next').removeAttr('disabled');
     document.getElementById('loader').style.display = "none";
   }
@@ -1791,46 +2132,54 @@ function setStudentDetails() {
   });
 
   setStudentDetailsReq.done(function (setStudentDetailsRes) {
-    studentDetail = JSON.parse(setStudentDetailsRes);
-    document.getElementById('formNumber').value = studentDetail.formNumber;
-    document.getElementById('admissionNumber').value = studentDetail.admissionNumber;
-    document.getElementById('govermentId').value = studentDetail.govermentId;
-    document.getElementById('firstName').value = studentDetail.firstName;
-    document.getElementById('middleName').value = studentDetail.middleName;
-    document.getElementById('lastName').value = studentDetail.lastName;
-    document.getElementById('motherName').value = studentDetail.motherName;
-    document.getElementById('fatherName').value = studentDetail.fatherName;
-    document.getElementById('gender').value = studentDetail.gender;
-    document.getElementById('aadharNumber').value = studentDetail.aadharNumber;
-    document.getElementById('stud_DOB').value = studentDetail.dob;
-    document.getElementById('pob_city').value = studentDetail.pob_city;
-    document.getElementById('pob_dist').value = studentDetail.pob_dist;
-    document.getElementById('pob_state').value = studentDetail.pob_state;
-    document.getElementById('religion').value = studentDetail.religion;
-    document.getElementById('category').value = studentDetail.category;
-    document.getElementById('caste').value = studentDetail.caste;
-    document.getElementById('nationality').value = studentDetail.nationality;
-    document.getElementById('motherTounge').value = studentDetail.motherTounge;
-    document.getElementById('lastSchool').value = studentDetail.lastSchool;
-    document.getElementById('lastClass').value = studentDetail.lastClass;
-    document.getElementById('stud_DOA').value = studentDetail.doa;
+    try {
+      studentDetail = JSON.parse(setStudentDetailsRes);
+      document.getElementById('formNumber').value = studentDetail.formNumber;
+      document.getElementById('admissionNumber').value = studentDetail.admissionNumber;
+      document.getElementById('govermentId').value = studentDetail.govermentId;
+      document.getElementById('firstName').value = studentDetail.firstName;
+      document.getElementById('middleName').value = studentDetail.middleName;
+      document.getElementById('lastName').value = studentDetail.lastName;
+      document.getElementById('motherName').value = studentDetail.motherName;
+      document.getElementById('fatherName').value = studentDetail.fatherName;
+      document.getElementById('gender').value = studentDetail.gender;
+      document.getElementById('aadharNumber').value = studentDetail.aadharNumber;
+      document.getElementById('stud_DOB').value = studentDetail.dob;
+      document.getElementById('pob_city').value = studentDetail.pob_city;
+      document.getElementById('pob_dist').value = studentDetail.pob_dist;
+      document.getElementById('pob_state').value = studentDetail.pob_state;
+      document.getElementById('religion').value = studentDetail.religion;
+      document.getElementById('category').value = studentDetail.category;
+      document.getElementById('caste').value = studentDetail.caste;
+      document.getElementById('nationality').value = studentDetail.nationality;
+      document.getElementById('motherTounge').value = studentDetail.motherTounge;
+      document.getElementById('lastSchool').value = studentDetail.lastSchool;
+      document.getElementById('lastClass').value = studentDetail.lastClass;
+      document.getElementById('stud_DOA').value = studentDetail.doa;
 
-    if (studentDetail.submittedTC == 1) {
-      document.getElementById("submittedTC").checked = true;
+      if (studentDetail.submittedTC == 1) {
+        document.getElementById("submittedTC").checked = true;
+      }
+      else {
+        document.getElementById("submittedTC").checked = false;
+      }
+
+      if (studentDetail.rte == 1) {
+        document.getElementById("rte").checked = true;
+      }
+      else {
+        document.getElementById("rte").checked = false;
+      }
+      $('#step_one_next').removeAttr('disabled');
+      document.getElementById('loader').style.display = "none";
     }
-    else {
-      document.getElementById("submittedTC").checked = false;
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
     }
 
-    if (studentDetail.rte == 1) {
-      document.getElementById("rte").checked = true;
-    }
-    else {
-      document.getElementById("rte").checked = false;
-    }
-    $('#step_one_next').removeAttr('disabled');
-    document.getElementById('loader').style.display = "none";
   });
+
+  setStudentDetailsReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function CreateNewStudent() {
@@ -1867,16 +2216,24 @@ function CreateNewStudent() {
 
   newStudentDetailReq.done(function (newStudentDetailRes) {
     console.log(newStudentDetailRes)
-    var responce = JSON.parse(newStudentDetailRes);
-    
-    if (responce.resCode == 200) {
-      document.getElementById('studID').innerText = responce.id;
-      stepTwo();
+    try {
+      var responce = JSON.parse(newStudentDetailRes);
+
+      if (responce.resCode == 200) {
+        document.getElementById('studID').innerText = responce.id;
+        stepTwo();
+      }
+      else {
+        showNotification("<strong>Error</strong>", "Failed to save data", "danger");
+      }
     }
-    else {
-      showNotification("<strong>Error</strong>","Failed to save data", "danger");
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
     }
+
   });
+
+  newStudentDetailReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function updateStudentDetails() {
@@ -1917,20 +2274,23 @@ function updateStudentDetails() {
     }
     else {
       console.log(newStudentDetailRes)
-      showNotification("<strong>Error</strong>","Failed to save data", "danger");
+      showNotification("<strong>Error</strong>", "Failed to save data", "danger");
     }
   });
+
+  newStudentDetailReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 //StepOne End
 ;
-stepThreeHTML = ` <div class="row">
+let imgBase;
+//StepThree Start
+function stepThree() {
+  stepThreeHTML = ` <div class="row">
 <div class="col-md-2">
   Session Detail
 </div>
 <div class="col-md-10">
   <form id="sessionDetails">
-
-   
       <div class="row" style="margin-top:3%">
         <div class="col-md-2">
             <div style="display:none" id="detId"></div>
@@ -1984,39 +2344,11 @@ stepThreeHTML = ` <div class="row">
   </form>
 </div>
 </div>`;
-
-let imgBase;
-
-
-//StepThree Start
-function stepThree() {
   document.getElementById('loader').style.display = "block";
   document.getElementById('step_container').innerHTML = stepThreeHTML;
-  var getClassListReq = $.post(baseUrl + "/apis/classList.php", {
-    type: "getClassList"
-  });
-
-  getClassListReq.done(function (classListRes) {
-    classList = JSON.parse(classListRes);
-    for (var index in classList) {
-      $('#sessionClass')
-        .append($('<option>', { value: classList[index].className })
-          .text(classList[index].className
-          ));
-    }
-    var getSectionListReq = $.post(baseUrl + "/apis/sectionList.php", {
-      type: "getSectionList"
-    });
-    getSectionListReq.done(function (sectionListRes) {
-      sectionList = JSON.parse(sectionListRes);
-      for (var index in sectionList) {
-        $('#sessionSection')
-          .append($('<option>', { value: sectionList[index].sectionName })
-            .text(sectionList[index].sectionName
-            ));
-      }
-      setSessionEntry();
-    });
+ 
+  $.when(loadClassForSelectId("sessionClass", "sessionSection")).then(function () {
+    setSessionEntry();
   });
 
   $("#sessionDetails").submit(function (event) {
@@ -2037,23 +2369,42 @@ function setSessionEntry() {
   });
   setSessionEntryReq.done(function (setSessionEntryRes) {
     if (setSessionEntryRes != "null") {
-      var responce = JSON.parse(setSessionEntryRes);
-      document.getElementById("detId").innerText = responce.id;
-      document.getElementById("studID").innerText = responce.studentId;
-      document.getElementById("sessionClass").value = responce.class;
-      document.getElementById("sessionSection").value = responce.section;
-      document.getElementById("sessionMedium").value = responce.medium;
-      document.getElementById("sessionTotalFees").value = responce.totalFees;
-      document.getElementById("studentImg").src = "data:image/png;base64, " + responce.photo;
-      imgBase = responce.photo;
+      try {
+        var responce = JSON.parse(setSessionEntryRes);
+        document.getElementById("detId").innerText = responce.id;
+        document.getElementById("studID").innerText = responce.studentId;document.getElementById("sessionClass").value = responce.class;
+        $("#sessionClass").trigger("change");sectionNameRequest.done(function() {
+          if(document.getElementById("sessionSection") != null){
+            console.log("doing")
+            document.getElementById("sessionSection").value = responce.section;
+            document.getElementById('loader').style.display = "none";
+          }
+        });
+        document.getElementById("sessionMedium").value = responce.medium;
+        document.getElementById("sessionTotalFees").value = responce.totalFees;
+        if(responce.photo != ""){
+          document.getElementById("studentImg").src = "data:image/png;base64, " + responce.photo;
+        }
+        else{
+          document.getElementById("studentImg").src = baseUrl + "/img/me.png";
+        }
+        imgBase = responce.photo;
+      }
+      catch (e) {
+        showNotification("Error", "Failed to get data", "danger");
+      }
+
     }
     $("#step_three_back").removeAttr('disabled');
     $("#step_three_save").removeAttr('disabled');
-    document.getElementById('loader').style.display = "none";
+    
   });
+
+  setSessionEntryReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
 function updateSessionEntry(toReturn) {
+  console.log("update called");
   let imgBaseEncode;
   if (imgBase == null) {
     imgBaseEncode = "";
@@ -2074,20 +2425,21 @@ function updateSessionEntry(toReturn) {
   newSessionEntryReq.done(function (newSessionEntryRes) {
     if (newSessionEntryRes == 200) {
       if (!toReturn) {
-        showNotification("<strong>Success</strong>","Data Saved Successfully", "success");
-        if(document.location.href.includes("home")){
+        showNotification("<strong>Success</strong>", "Data Saved Successfully", "success");
+        if (document.location.href.includes("home")) {
           studentOptionsView();
         }
-        
+
       }
     }
     else {
-      showNotification("<strong>Error</strong>","Failed to save data", "danger");
+      showNotification("<strong>Error</strong>", "Failed to save data", "danger");
     }
     document.getElementById('loader').style.display = "none";
   });
-}
 
+  newSessionEntryReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+}
 
 function sessionDetailBack() {
   updateSessionEntry(true);
@@ -2097,7 +2449,7 @@ function sessionDetailBack() {
 //StepThree End
 
 ;
-  stepTwoHTML = `<div class="row">
+stepTwoHTML = `<div class="row">
   <div class="col-md-2">
     Contact Detail
   </div>
@@ -2278,71 +2630,75 @@ function sessionDetailBack() {
 
 
 //StepTwo START
-function stepTwo(){
+function stepTwo() {
   document.getElementById('loader').style.display = "block";
-loadContactDetails();
-document.getElementById('step_container').innerHTML = stepTwoHTML;
-$("#contactDetails").submit(function(event) {         
+  loadContactDetails();
+  document.getElementById('step_container').innerHTML = stepTwoHTML;
+  $("#contactDetails").submit(function (event) {
     event.preventDefault();
     setContactDetails(true);
-});
+  });
 }
 
-function loadContactDetails(){
-var loadContactDetailReq = $.post(baseUrl + "/apis/studentInfo.php",{
+function loadContactDetails() {
+  var loadContactDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "getContactDetailsById",
     studentId: document.getElementById("studID").innerText
-});
+  });
 
-loadContactDetailReq.done(function(loadContactDetailRes){
-  if(loadContactDetailRes != "null"){
-    
-    let cotactDetails = JSON.parse(loadContactDetailRes);
-    if(cotactDetails.localAddress != ""){
-      document.getElementById('localAddress').value = cotactDetails.localAddress;
-    }
-    if(cotactDetails.localState != ""){
-      document.getElementById('localState').value = cotactDetails.localState;
-    }
-    if(cotactDetails.localCity!=""){
-      document.getElementById('localCity').value = cotactDetails.localCity;
-    }
-    if(cotactDetails.localPincode!=""){
-      document.getElementById('localPincode').value = cotactDetails.localPincode;
-    }
-    if(cotactDetails.permanentAddress!=""){
-      document.getElementById('permanentAddress').value = cotactDetails.permanentAddress;
-    }
-    if(cotactDetails.permanentState!=""){
-      document.getElementById('permanentState').value = cotactDetails.permanentState;
-    }
-    if(cotactDetails.permanentCity!=""){
-      document.getElementById('permanentCity').value = cotactDetails.permanentCity;
-    }
-    if(cotactDetails.permanentPincode!=""){
-      document.getElementById('permanentPincode').value = cotactDetails.permanentPincode;
-    }
-    if(cotactDetails.guardianName){
-      document.getElementById('guardianName').value = cotactDetails.guardianName;
-    }
-    if(cotactDetails.guardianPhone){
-      document.getElementById('guardianPhone').value = cotactDetails.guardianPhone;
-    }
-    if(cotactDetails.guardianEmail){
-      document.getElementById('guardianEmail').value = cotactDetails.guardianEmail;
-    }
-    
+  loadContactDetailReq.done(function (loadContactDetailRes) {
+    if (loadContactDetailRes != "null") {
+      try {
+        let cotactDetails = JSON.parse(loadContactDetailRes);
+        if (cotactDetails.localAddress != "") {
+          document.getElementById('localAddress').value = cotactDetails.localAddress;
+        }
+        if (cotactDetails.localState != "") {
+          document.getElementById('localState').value = cotactDetails.localState;
+        }
+        if (cotactDetails.localCity != "") {
+          document.getElementById('localCity').value = cotactDetails.localCity;
+        }
+        if (cotactDetails.localPincode != "") {
+          document.getElementById('localPincode').value = cotactDetails.localPincode;
+        }
+        if (cotactDetails.permanentAddress != "") {
+          document.getElementById('permanentAddress').value = cotactDetails.permanentAddress;
+        }
+        if (cotactDetails.permanentState != "") {
+          document.getElementById('permanentState').value = cotactDetails.permanentState;
+        }
+        if (cotactDetails.permanentCity != "") {
+          document.getElementById('permanentCity').value = cotactDetails.permanentCity;
+        }
+        if (cotactDetails.permanentPincode != "") {
+          document.getElementById('permanentPincode').value = cotactDetails.permanentPincode;
+        }
+        if (cotactDetails.guardianName) {
+          document.getElementById('guardianName').value = cotactDetails.guardianName;
+        }
+        if (cotactDetails.guardianPhone) {
+          document.getElementById('guardianPhone').value = cotactDetails.guardianPhone;
+        }
+        if (cotactDetails.guardianEmail) {
+          document.getElementById('guardianEmail').value = cotactDetails.guardianEmail;
+        }
+      }
+      catch (e) {
+        showNotification("Error", "Failed to get data", "danger");
+      }
     }
     $("#step_two_back").removeAttr('disabled');
-    
     $("#step_two_next").removeAttr('disabled');
-  document.getElementById('loader').style.display = "none";
-});
-//Comment
+    document.getElementById('loader').style.display = "none";
+  });
+
+  loadContactDetailReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  //Comment
 }
 
-function setContactDetails(toReturn){
-var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php",{
+function setContactDetails(toReturn) {
+  var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "updateContactDetails",
     localAddress: document.getElementById('localAddress').value,
     localState: document.getElementById('localState').value,
@@ -2355,8 +2711,8 @@ var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php",{
     guardianName: document.getElementById('guardianName').value,
     guardianPhone: document.getElementById('guardianPhone').value,
     guardianEmail: document.getElementById('guardianEmail').value,
-    studentId: document.getElementById('studID').innerText 
-});
+    studentId: document.getElementById('studID').innerText
+  });
   setContactDetailsreq.done(function (setContactDetailsres) {
     if (setContactDetailsres == 200) {
       if (toReturn) {
@@ -2365,16 +2721,18 @@ var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php",{
 
     }
     else {
-     showNotification("<strong>Error</stong>","Failed to save data","danger");
+      showNotification("<strong>Error</stong>", "Failed to save data", "danger");
     }
   });
+  setContactDetailsreq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
 
-function contactDetailBack(){
-setContactDetails();
-stepOne();
+function contactDetailBack() {
+  setContactDetails();
+  stepOne();
 }
-//STEPTWO END;var searchBy;
+//STEPTWO END;
+var searchBy;
 var maxRows = 5;
 var sessionSelect;
 var ErrorIsVisible;
@@ -2437,12 +2795,12 @@ searchNEditHTML = `<div class="container" id="registerStudent">
   </div>`;
 function searchNEdit(forReceiptTemp) {
   forReceipt = forReceiptTemp;
-  if(!forReceipt){
+  if (!forReceipt) {
     currentStudentOption = "searchNEdit";
     setActiveColorsStudent("searchNEdit");
     document.getElementById('studentActionHolder').innerHTML = searchNEditHTML;
   }
-  else{
+  else {
     document.getElementById('feesActionHolder').innerHTML = searchNEditHTML;
     document.getElementById('searchHeading').innerText = "Step 1 : Select Student";
   }
@@ -2473,25 +2831,33 @@ function loadAllSessions() {
   });
 
   allSessionReq.done(function (allSessions) {
-    allSessions = JSON.parse(allSessions);
-    for (var index in allSessions) {
+    try {
+      allSessions = JSON.parse(allSessions);
+      for (var index in allSessions) {
 
-      $('#sessionSelect')
-        .append($('<option>', { value: allSessions[index].sessionName })
-          .text(allSessions[index].sessionName
-          ));
+        $('#sessionSelect')
+          .append($('<option>', { value: allSessions[index].sessionName })
+            .text(allSessions[index].sessionName
+            ));
+      }
+
+      document.getElementById("sessionSelect").value = currentSession;
+      sessionSelect = currentSession;
+    }
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
     }
 
-  document.getElementById("sessionSelect").value = currentSession;
-  sessionSelect = currentSession;
-  
-  
   });
+
+  allSessionReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 }
+
 
 function studentSearch(searchBar) {
   if (allFieldsAreSet()) {
     if (searchBar.value != "") {
+
       var searchByNameReq = $.post(baseUrl + "/apis/searchStudent.php", {
         type: searchBy,
         inputKeyWord: searchBar.value,
@@ -2499,10 +2865,19 @@ function studentSearch(searchBar) {
         sessionName: sessionSelect
       });
 
+
       searchByNameReq.done(function (searchByNameRes) {
-        var searchResult = JSON.parse(searchByNameRes);
-        createResultView(searchResult, searchBar.value);
+        try {
+          var searchResult = JSON.parse(searchByNameRes);
+          createResultView(searchResult, searchBar.value);
+        }
+        catch (e) {
+          showNotification("Error", "Failed to get data", "danger");
+        }
       });
+
+      searchByNameReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+
     }
     else {
       removeResults();
@@ -2529,18 +2904,18 @@ function allFieldsAreSet() {
 
 function createResultView(searchResult, searchStr) {
   removeResults();
-  if(searchResult.length == 0 && searchStr!=""){
+  if (searchResult.length == 0 && searchStr != "") {
     resultView = `<div class="row collapsible">
                       <div class="text-center"><h4>No Result Found</h4>
                       </div>
                   </div>`;
-                  document.getElementById("searchResultHolder").innerHTML = resultView;
+    document.getElementById("searchResultHolder").innerHTML = resultView;
   }
   for (var itr in searchResult) {
     if (itr == maxRows) {
       break;
     }
-    if (!forReceipt){
+    if (!forReceipt) {
       resultView = `<div class="row collapsible" onclick="viewStudent(this)">
       <div style="display: none;" id="studID`+ itr + `"></div>
       <div style="display: none;" id="studClassId`+ itr + `"></div>
@@ -2567,7 +2942,7 @@ function createResultView(searchResult, searchStr) {
          
       </div>`;
     }
-    else{
+    else {
       resultView = `<div class="row collapsible" onclick="selectedStudent(this)">
     <div style="display: none;" id="studID`+ itr + `"></div>
     <div style="display: none;" id="studClassId`+ itr + `"></div>
@@ -2594,17 +2969,17 @@ function createResultView(searchResult, searchStr) {
        
     </div>`;
     }
-    
+
     document.getElementById("searchResultHolder").innerHTML += resultView;
-    if(searchResult[itr].photo != null && searchResult[itr].photo !=""){
+    if (searchResult[itr].photo != null && searchResult[itr].photo != "") {
       document.getElementById('studentImg' + itr).src = "data:image/png;base64, " + searchResult[itr].photo;
     }
-    else{
-      document.getElementById('studentImg' + itr).src = baseUrl+"/img/me.png";
+    else {
+      document.getElementById('studentImg' + itr).src = baseUrl + "/img/me.png";
     }
-   
+
     document.getElementById('studID' + itr).innerText = searchResult[itr].studentId;
-    document.getElementById('studClassId'+itr).innerText = searchResult[itr].class;
+    document.getElementById('studClassId' + itr).innerText = searchResult[itr].class;
     document.getElementById('studentName' + itr).innerHTML = searchResult[itr].firstName + " " + searchResult[itr].middleName + " " + searchResult[itr].lastName;
     document.getElementById('studentClassNSection' + itr).innerHTML = "Class " + searchResult[itr].class + " Section " + searchResult[itr].section;
     document.getElementById('admissionNumber' + itr).innerHTML = searchResult[itr].admissionNumber;
@@ -2623,14 +2998,14 @@ function viewStudent(parent) {
   document.location = baseUrl + "/studentView?studentId=" + id + "&sessionName=" + sessionSelect;
 }
 
-function selectedStudent(parent){
- removeResults();
- //console.log(parent);
- document.getElementById("searchResultHolder").appendChild(parent);
- let classId = parent.childNodes[3].innerText;
- let id = parent.childNodes[1].innerText;
- document.getElementById('searchHeading').innerText = "Step 2 : Click + to genrerate new receipt";
- getFeesDetails(id, classId); // in generateReceipt Module
+function selectedStudent(parent) {
+  removeResults();
+  //console.log(parent);
+  document.getElementById("searchResultHolder").appendChild(parent);
+  let classId = parent.childNodes[3].innerText;
+  let id = parent.childNodes[1].innerText;
+  document.getElementById('searchHeading').innerText = "Step 2 : Click + to genrerate new receipt";
+  getFeesDetails(id, classId); // in generateReceipt Module
 }
 
 
@@ -2640,10 +3015,12 @@ function selectedStudent(parent){
 
 
 // EXtras
-;function studentAttendence(){
-    currentStudentOption = "studentAttendence";
-    setActiveColorsStudent("studentAttendence");
-    document.getElementById('studentActionHolder').innerHTML = `<div class="container" id="registerStudent">
+;
+var studList;
+function studentAttendence() {
+  currentStudentOption = "studentAttendence";
+  setActiveColorsStudent("studentAttendence");
+  document.getElementById('studentActionHolder').innerHTML = `<div class="container" id="registerStudent">
     <div class="text-center">
       <h4 id="searchHeading">Student Attendence</h4>
       <hr>
@@ -2658,36 +3035,32 @@ function selectedStudent(parent){
             <div class="row" style="margin-bottom:3%">
 
                 <div class="col-md-4">
-                    <select id="attendence_sessionName" class="form-control">
+                    <select id="attendence_sessionName" class="form-control" onchange="getStudentListForAttendence()">
                         <option disabled selected value="">Select Accedamic Year</option>
                     </select>
                 </div>
 
+                <div class="col-md-3">
+                    <label for="attendence_className">
+                        Class :
+                    </label>
+                </div>
 
-                <div class="col-md-4">
-                    <select id="attendence_className" class="form-control">
+                <div class="col-md-5">
+                    <select id="attendence_className" class="form-control" onchange="getStudentListForAttendence()">
                         <option disabled selected value="">Select Class</option>
                     </select>
                 </div>
-
-                <div class="col-md-4">
-                    <select id="attendence_sectionName" class="form-control">
-                        <option disabled selected value="">Select Section</option>
-                    </select>
-                </div>
-
             </div>
               <div class="row">
                       <div class="col-md-4">
-                        <input class="form-control" type="date" id="attendence_date">
+                        <input class="form-control" type="date" id="attendence_date" onchange="getStudentListForAttendence()">
                       </div>
-                      <div class="col-md-6">
-                        <div class="alertMine" style="display: none" id="attendence_alert">
+                      <div class="col-md-8">
+                        <div class="alertMine" style="display: none;" id="attendence_alert">
                         </div>
                       </div>
-                      <div class="col-md-2">
-                        <button class="btn btn-primary" onclick="getStudentListForAttendence()">Get List</button>
-                      </div>                
+                                  
               </div>
         </div>
        
@@ -2698,112 +3071,216 @@ function selectedStudent(parent){
                 <h4 id="classDetailsForAttendence"></h4>
                 <hr>
             </div>
+            
+            <div class = "row">
+                  <div class="col-md-2"></div>
 
-           
+                  <div class="col-md-8">
+                  <div id="myListHolder" class="container"></div>
+                  </div>
+
+                  <div class="col-md-2"></div>
+            </div>
     </div>
 
 
     </div>`;
 
-loadAttendenceViewData();
+  loadAttendenceViewData();
 }
 
-function loadAttendenceViewData(){
-    document.getElementById('loader').style.display = "block";
-    $.when(getClassAndSectionForAttendence(),loadAllSessionsForAttendence()).then(function(){
-        document.getElementById('loader').style.display = "none";
-    });
+function loadAttendenceViewData() {
+  document.getElementById('loader').style.display = "block";
+  $.when(loadAllSessionsForAttendence(), loadClassListWithAccess()).then(function () {
+    document.getElementById('loader').style.display = "none";
+  });
 }
 
-function getClassAndSectionForAttendence() {
-      $.post(baseUrl + "/apis/classList.php",
-        {
-          type: "getClassList"
-        },
-        function (classDATA) {
-          let classJSON = JSON.parse(classDATA);
-  
-        
-          for (var index in classJSON) {
-            $('#attendence_className')
-              .append($('<option>', {
-                value: classJSON[index].className,
-                text: classJSON[index].className,
-              }, '</option>'));
-          }
-        });
-        
-  
-      $.post(baseUrl + "/apis/sectionList.php",
-        {
-          type: "getSectionList"
-        },
-        function (sectionDATA) {
-          let sectionJSON = JSON.parse(sectionDATA);
-  
-     
-  
-          for (var index in sectionJSON) {
-            $('#attendence_sectionName')
-              .append($('<option>', {
-                value: sectionJSON[index].sectionName,
-                text: sectionJSON[index].sectionName,
-              }, '</option>'));
-          }
-        });
-}
 
 function loadAllSessionsForAttendence() {
-    var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
-      type: "getAllSessions"
-    });
-  
-    allSessionReq.done(function (allSessions) {
-      allSessions = JSON.parse(allSessions);
-      for (var index in allSessions) {
-  
-        $('#attendence_sessionName')
-          .append($('<option>', { value: allSessions[index].sessionName })
-            .text(allSessions[index].sessionName
-            ));
-      }
-  
+  var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
+    type: "getAllSessions"
+  });
+
+  allSessionReq.done(function (allSessions) {
+    allSessions = JSON.parse(allSessions);
+    for (var index in allSessions) {
+
+      $('#attendence_sessionName')
+        .append($('<option>', { value: allSessions[index].sessionName })
+          .text(allSessions[index].sessionName
+          ));
+    }
+
     document.getElementById("attendence_sessionName").value = currentSession;
     sessionSelect = currentSession;
-    
-    
-    });
+  });
+
+  allSessionReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+}
+
+function loadClassListWithAccess() {
+  var allClassReq = $.post(baseUrl + "/apis/classList.php", {
+    type: "getAllCLassWithAccess",
+    uid: me_data.uid
+  });
+
+  allClassReq.done(function (res) {
+    allClass = JSON.parse(res);
+    for (var index in allClass) {
+
+      $('#attendence_className')
+        .append($('<option>', { value: allClass[index].className + ":" + allClass[index].section })
+          .text(allClass[index].className + " " + allClass[index].section
+          ));
+    }
+  });
+
+  allClassReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 
-function getStudentListForAttendence(){
-  let attendence_sessionName = document.getElementById("attendence_sessionName").value;
-  let attendence_className = document.getElementById("attendence_className").value;
-  let attendence_sectionName = document.getElementById("attendence_sectionName").value;
-  let attendence_date = document.getElementById("attendence_date").value;
+function getStudentListForAttendence() {
+  let sessionName = document.getElementById("attendence_sessionName").value;
+  let classNSection = document.getElementById("attendence_className").value;
+  let dateForAttendence = document.getElementById("attendence_date").value;
 
-  if(attendence_sessionName != "" && attendence_className != "" && attendence_sectionName != "" && attendence_date !=""){
-      //perform past date check
+  if (sessionName != "" && classNSection != "" && dateForAttendence != "") {
+    var date = new Date(dateForAttendence);
+    if (date.setHours(0, 0, 0, 0) > new Date().setHours(0, 0, 0, 0)) {
+      document.getElementById("attendence_alert").innerText = "Can not set attendence for future dates";
+      document.getElementById("attendence_alert").style.display = "block";
+      document.getElementById("myListHolder").innerHTML = "";
+    }
+    else {
       document.getElementById("attendence_alert").style.display = "none";
-      var dateFormOfAttendenceDate = new Date(attendence_date);
-        if (!inFuture(dateFormOfAttendenceDate)) {
-          document.getElementById("attendence_alert").style.display = "none";
-          //get attendence list
+      getAttendenceList(sessionName, classNSection, dateForAttendence);
+    }
+
+
+  }
+  else {
+    document.getElementById("myListHolder").innerHTML = "";
+    document.getElementById("attendence_alert").innerText = "Please Select All Values";
+    document.getElementById("attendence_alert").style.display = "block";
+  }
+}
+
+
+function getAttendenceList(sessionName, classNSection, dateForAttendence) {
+  let getAttendenceListReq = $.post(baseUrl + "/apis/attendence.php", {
+    type: "getList",
+    sessionName: sessionName,
+    class: classNSection,
+    dateForAttendence: dateForAttendence
+  });
+
+  getAttendenceListReq.done(function (response) {
+    studList = JSON.parse(response);
+    document.getElementById("myListHolder").innerHTML = `<div class = "row" style="background: #ebdef0; border-radius:6px; margin-bottom:2%; padding:2%"> 
+    <div class="col-md-3" style="text-align:center">Roll Num.</div>
+    <div class="col-md-6" style="text-align:center">Full Name</div>
+    <div class="col-md-3">
+    <label class="checklabel" style="padding-left:0px">Check All
+            <input type="checkbox" onchange = "checkAllForAttendence(this)">
+            <span class="checkmark" style = "left:85%;"></span>
+    </label>
+        </div>
+    </div>`;
+
+    if(studList.length == 0){
+      document.getElementById("myListHolder").innerHTML += `<div class = "row" style="background:#d4e6f1; border-radius:6px; margin-bottom:2%; padding:2%"> 
+      <div class="col-md-3" style="text-align:center"></div>
+      <div class="col-md-6" style="text-align:center">NO DATA</div>
+      <div class="col-md-3"> 
+      </div>
+      </div>`;
+    }
+
+    for (student in studList) {
+      var obj = new Object;
+      obj.fullname = studList[student].firstName + " " + studList[student].middleName + " " + studList[student].lastName;
+      if(studList[student].state != null && studList[student].state != ""){
+        if(studList[student].state == "1"){
+          obj.state = true;
         }
         else{
-          document.getElementById("attendence_alert").innerText = "Can not set attendence for future date";
-          document.getElementById("attendence_alert").style.display = "block";
+          obj.state = false;
         }
-  }
-  else{
-   document.getElementById("attendence_alert").innerText = "Please Select all fields";
-   document.getElementById("attendence_alert").style.display = "block";
+       
+      }
+      else{
+        obj.state = false;
+      }
+     document.getElementById("myListHolder").innerHTML += `<div class = "row" style="background:#d4e6f1; border-radius:6px; margin-bottom:2%; padding:2%"> 
+      <div class="col-md-3" id="studRoll`+ student + `" style="text-align:center"></div>
+      <div class="col-md-6" id="nameStud`+ student + `" style="text-align:center"></div>
+      <div class="col-md-3" style="text-align:center">  
+        <label for="studState`+ student + `" class="checklabel">P/A
+            <input type="checkbox" id="studState`+ student + `">
+            <span class="checkmark" style = "left:85%;"></span>
+        </label>
+      </div>
+      </div>`;
+      document.getElementById("studRoll"+student).innerText = (parseInt(student) + 1);
+      document.getElementById("nameStud"+student).innerText = obj.fullname;
+      if(studList[student].state == 1){
+        $('#studState'+student).attr('checked', true);
+      } 
+    }
+    
+    
+    document.getElementById("myListHolder").innerHTML += `<div class = "row" style="margin-bottom:2%; padding:2%"> 
+      <div class="col-md-11"><Button class="btn btn-primary" style="position: relative; left:60%" onclick="saveAttendenceRecords()">SAVE</Button></div></div>`;
+  });
+
+  getAttendenceListReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+
+}
+
+function checkAllForAttendence(checkbox){
+  let arrayView = document.getElementById("myListHolder").childNodes;
+  for(itr = 0; itr<(arrayView.length - 1); itr++){
+    if(itr != 0){      
+      arrayView[itr].childNodes[5].childNodes[1].childNodes[1].checked = checkbox.checked;
+    }
   }
 }
 
-const inFuture = (date) => {
-  return date.setHours(0,0,0,0) > new Date().setHours(0,0,0,0)
-};;function studentReport(){
+
+function saveAttendenceRecords(){
+  let dataArray = new Array();
+  var type = "saveAttendenceRecords";
+  for(itr in studList){
+    let obj = new Object;
+    obj.attendenceId = studList[itr].attendenceId;
+    obj.studentId = studList[itr].studentId;
+    obj.sessionName = studList[itr].sessionName;
+    obj.date = document.getElementById("attendence_date").value;
+    obj.state = document.getElementById("studState"+itr).checked;
+    dataArray.push(obj);
+  }
+  if(dataArray[0].attendenceId != null){
+    type = "updateAttendenceRecords";
+  }
+
+  var saveAttendenceReq = $.post(baseUrl + "/apis/attendence.php",{
+    type: type,
+    data: dataArray,
+  });
+
+  saveAttendenceReq.done(function(response){
+    if(response == 200){
+      showNotification("<strong>Success</strong>", "Attendence Saved", "success");
+    }
+    else{
+      showNotification("Error", "Failed to save attendence", "danger");
+    }
+  });
+
+  saveAttendenceReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+}
+;function studentReport(){
     currentStudentOption = "studentReport";
     setActiveColorsStudent("studentReport");
     document.getElementById('studentActionHolder').innerHTML = `<div class="container" id="registerStudent">
@@ -2860,6 +3337,8 @@ $("#contactForm").submit(function(event) {
             showNotification("<strong>Error</strong>","Failed to send message", "danger");
         }
     });
+
+    newMessageReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 });;
 var firebaseConfig = {
   apiKey: "AIzaSyD-lUd0mKObtIex9YufmIUkKswmyj2o3Vo",
@@ -2934,13 +3413,16 @@ $(document).ready(function () {
               }
               document.getElementById('loader').style.display = "none";  //HIDE LOADER
             });
+            currentSessionReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
           });
+          myRoleListReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
 
         }
         else {
           window.location = "../register";
         }
       });
+      getUserReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
     }
     else {
       document.location = "../";
@@ -3363,7 +3845,10 @@ function adminTasksView() {
   
  
 
-};(function ($) {
+};
+var sectionNameRequest;
+
+(function ($) {
   "use strict";
 
   // Preloader (if the #preloader div exists)
@@ -3460,6 +3945,13 @@ function adminTasksView() {
 })(jQuery);
 
 
+function handleNetworkIssues(textStatus){
+  if(textStatus == "error"){
+    showNotification("<strong>Error!</strong>","Network Issue", "warning");
+  }
+ console.log(textStatus);
+}
+
 
 function showNotification(titleMsg, messageBody, typeOfNotifs) {
   $.notify({
@@ -3484,3 +3976,80 @@ function showNotification(titleMsg, messageBody, typeOfNotifs) {
     });
 }
 
+
+function loadClassForSelectId(idofSelect, idofSectionSelect) {
+
+  if ($("#" + idofSelect).find('option').length < 2) {
+    $('#' + idofSectionSelect)
+    .find('option')
+    .remove()
+    .end()
+    .append('<option value="" selected disabled>Select Section</option>')
+    .val('')
+    ;
+    $("#" + idofSelect).change(function () {
+      loadSectionForClassName(idofSelect, idofSectionSelect);
+    });
+
+    let classNameReq = $.post(baseUrl + "/apis/classList.php", {
+      type: "getOnlyClassName"
+    });
+
+    classNameReq.done(function (response) {
+      try {
+        let classNames = JSON.parse(response);
+        $('#' + idofSelect)
+          .find('option')
+          .remove()
+          .end()
+          .append('<option value="" selected disabled>Select Class</option>')
+          .val('')
+          ;
+        for (var index in classNames) {
+          $('#' + idofSelect)
+            .append($('<option>', { value: classNames[index].className })
+              .text(classNames[index].className
+              ));
+        }
+      }
+      catch (e) {
+        showNotification("Error", "Failed to get data", "danger");
+      }
+    });
+
+    classNameReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+  }
+
+}
+
+function loadSectionForClassName(idofSelect, idofSectionSelect) {
+  sectionNameRequest = $.post(baseUrl + "/apis/classList.php", {
+      type: "getSectionForClassName",
+      className: document.getElementById(idofSelect).value
+    });
+
+    sectionNameRequest.done(function (response) {
+      try {
+        let sectionNames = JSON.parse(response);
+        $('#' + idofSectionSelect)
+          .find('option')
+          .remove()
+          .end()
+          .append('<option value="" selected disabled>Select Section</option>')
+          .val('')
+          ;
+        for (var index in sectionNames) {
+          $('#' + idofSectionSelect)
+            .append($('<option>', { value: sectionNames[index].section })
+              .text(sectionNames[index].section
+              ));
+        }
+      }
+      catch (e) {
+        showNotification("Error", "Failed to get data", "danger");
+      }
+
+    });
+
+    sectionNameRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+}
