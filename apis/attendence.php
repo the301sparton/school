@@ -52,6 +52,37 @@ else{
         }
         get200AsYes($sql);
     }
+
+    else if($type == "updateAttendenceRecords"){
+        $dataArray = $_POST["data"];
+        $sql = "UPDATE attendencerecords
+        SET state = CASE id ";
+        $attendenceIdArray = array();
+        foreach($dataArray as $student){
+            $code = 0;
+            $stateBool = $student["state"];
+            if($stateBool == "true"){
+                $code = 1;
+            }
+
+            $attendenceId = $student["attendenceId"];
+            array_push($attendenceIdArray, $attendenceId);
+            $sql = $sql."WHEN '$attendenceId' THEN '$code' ";
+        }
+
+        $sql = $sql."END WHERE id IN (";
+        $counter = 0;
+        foreach($attendenceIdArray as $id){
+            if($counter == count( $dataArray ) - 1){
+                $sql = $sql."$id)";
+            }
+            else{
+                $sql = $sql."$id,";
+            }  
+            $counter = $counter + 1;          
+        }
+        get200AsYes($sql);
+    }
 }
 
 ?>

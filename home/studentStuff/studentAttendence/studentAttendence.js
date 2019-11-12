@@ -233,6 +233,7 @@ function checkAllForAttendence(checkbox){
 
 function saveAttendenceRecords(){
   let dataArray = new Array();
+  var type = "saveAttendenceRecords";
   for(itr in studList){
     let obj = new Object;
     obj.attendenceId = studList[itr].attendenceId;
@@ -242,10 +243,13 @@ function saveAttendenceRecords(){
     obj.state = document.getElementById("studState"+itr).checked;
     dataArray.push(obj);
   }
+  if(dataArray[0].attendenceId != null){
+    type = "updateAttendenceRecords";
+  }
 
   var saveAttendenceReq = $.post(baseUrl + "/apis/attendence.php",{
-    type: "saveAttendenceRecords",
-    data: dataArray
+    type: type,
+    data: dataArray,
   });
 
   saveAttendenceReq.done(function(response){
