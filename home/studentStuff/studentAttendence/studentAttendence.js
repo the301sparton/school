@@ -160,7 +160,6 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
 
   getAttendenceListReq.done(function (response) {
     studList = JSON.parse(response);
-    console.log(studList);
     document.getElementById("myListHolder").innerHTML = `<div class = "row" style="background: #ebdef0; border-radius:6px; margin-bottom:2%; padding:2%"> 
     <div class="col-md-3" style="text-align:center">Roll Num.</div>
     <div class="col-md-6" style="text-align:center">Full Name</div>
@@ -210,7 +209,6 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
       document.getElementById("nameStud"+student).innerText = obj.fullname;
       if(studList[student].state == 1){
         $('#studState'+student).attr('checked', true);
-        console.log(document.getElementById("studState"+student).checked)
       } 
     }
     
@@ -237,11 +235,11 @@ function saveAttendenceRecords(){
   let dataArray = new Array();
   for(itr in studList){
     let obj = new Object;
+    obj.attendenceId = studList[itr].attendenceId;
     obj.studentId = studList[itr].studentId;
     obj.sessionName = studList[itr].sessionName;
     obj.date = document.getElementById("attendence_date").value;
     obj.state = document.getElementById("studState"+itr).checked;
-
     dataArray.push(obj);
   }
 
@@ -251,6 +249,13 @@ function saveAttendenceRecords(){
   });
 
   saveAttendenceReq.done(function(response){
-    console.log(response);
+    if(response == 200){
+      showNotification("<strong>Success</strong>", "Attendence Saved", "success");
+    }
+    else{
+      showNotification("Error", "Failed to save attendence", "danger");
+    }
   });
+
+  saveAttendenceReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
