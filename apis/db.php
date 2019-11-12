@@ -1,8 +1,9 @@
 <?php
 
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "vaicomp";
+$username = "u353330278_bes";
+$password = "bn6a1yVEIQef";
+$dbname = "u353330278_bes";
+
 
 ?>

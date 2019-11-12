@@ -1,8 +1,9 @@
 let verName = "1.5.0";
-let baseUrl = "/School";
-let logOutUrl = "/School";
+let baseUrl = "";
+let logOutUrl = "www.besgondia.org";
 let websiteTitle = "BES Gondia";
 let websiteDesc = "Best in class education for your children.";
+
 let TOSLink = "";
 let PPLink = "";
 let facebookLink = "";
