@@ -1,5 +1,3 @@
-var previousValueForClassNameToUpdate = "";
-var previousValueForSectionNameToUpdate = "";
 
 function manageClassList() {
     setActiveColorsAdminTasks("manageClassList");
@@ -45,17 +43,7 @@ function getClassListToShow() {
             rowClick: function (args) {
                 showClassListDetailsDialog(args.item, true);
             },
-            data: JSON.parse(responce),
-            onItemUpdating: function (args) {
-                // cancel update of the item with empty 'name' field
-                if (args.item.headName === "") {
-                    args.cancel = true;
-                    showNotification("<strong>Error!</strong>", "Enter fees head name.", "warning");
-                }
-                else {
-                    updateClassListItem(args.item);
-                }
-            }
+            data: JSON.parse(responce)
         });
     });
     classListReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
@@ -74,13 +62,15 @@ function showClassListDetailsDialog(args, forEdit) {
         if (forEdit) {
             document.getElementById("classListModalTitel").innerHTML = '<h4>Edit Class Details</h4>'
             document.getElementById("newClassName").value = args.className;
-            previousValueForClassNameToUpdate = args.className;
-            previousValueForSectionNameToUpdate = args.section;
+            document.getElementById("newClassName").disabled = true;
             document.getElementById("newClassSection").value = args.section;
+            document.getElementById("newClassSection").disabled = true;
             document.getElementById('newClassTeacher').value = args.uid;
             document.getElementById("classDeleteBtn").style.display = "block";
         }
         else {
+            document.getElementById("newClassName").disabled = false;
+            document.getElementById("newClassSection").disabled = false;
             document.getElementById("classDeleteBtn").style.display = "none";
             document.getElementById("newClassName").value = '';
             document.getElementById("newClassSection").value = '';
@@ -123,7 +113,7 @@ function deleteClassListItem() {
             showNotification("Success!", "Class Deleted Successfully", "success");
             getClassListToShow();
         }
-        else if(responce == 300){
+        else if (responce == 300) {
             showNotification("Error!", "Class is in use", "danger");
         }
         else {
@@ -141,14 +131,14 @@ function createOrUpdateClass() {
         let sectionVal = document.getElementById("newClassSection").value;
         let teacherIdVal = document.getElementById('newClassTeacher').value
 
-        if(classListVal != "" && sectionVal != "" && teacherIdVal != ""){
+        if (classListVal != "" && sectionVal != "" && teacherIdVal != "") {
             let insertClassReq = $.post(baseUrl + "/apis/classList.php", {
                 type: "insertClass",
                 className: classListVal,
                 section: sectionVal,
                 teacherId: teacherIdVal
             });
-    
+
             insertClassReq.done(function (responce) {
                 if (responce == 200) {
                     showNotification("Success!", "Class Created Successfully", "success");
@@ -159,49 +149,38 @@ function createOrUpdateClass() {
                     showNotification("Error!", "Class & Section together must be unique", "danger");
                 }
             });
-        
+
             insertClassReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
         }
 
-        else{
+        else {
             showNotification("Error!", "Class, Section and teacher must be selected", "warning");
         }
-        
+
     }
     else {
-        let deleteClassListItemReq = $.post(baseUrl + "/apis/classList.php", {
-            type: "deleteClassItem",
-            className: previousValueForClassNameToUpdate,
-            section: previousValueForSectionNameToUpdate
+
+        let classListVal = document.getElementById("newClassName").value;
+        let sectionVal = document.getElementById("newClassSection").value;
+        let teacherIdVal = document.getElementById('newClassTeacher').value
+        let updateClassTeacherReq = $.post(baseUrl + "/apis/classList.php", {
+            type: "updateClassTeacher",
+            className: classListVal,
+            teacherId: teacherIdVal,
+            section: sectionVal
         });
-    
-        deleteClassListItemReq.done(function (responce) {
+
+        updateClassTeacherReq.done(function (responce) {
             if (responce == 200) {
-                let insertClassReq = $.post(baseUrl + "/apis/classList.php", {
-                    type: "insertClass",
-                    className: document.getElementById("newClassName").value,
-                    section: document.getElementById("newClassSection").value,
-                    teacherId: document.getElementById('newClassTeacher').value
-                });
-        
-                insertClassReq.done(function (responce) {
-                    if (responce == 200) {
-                        showNotification("Success!", "Class Updated Successfully", "success");
-                        getClassListToShow();
-                    }
-                    else {
-                        console.log(responce);
-                        showNotification("Error!", "Class & Section together must be unique", "danger");
-                    }
-                });
-            }
-            else if(responce == 300){
-                showNotification("Error!", "Class is in use", "danger");
+                showNotification("Success!", "Class Teacher Updated Successfully", "success");
+                manageClassList();
             }
             else {
                 showNotification("Error!", "Failed to delete Class", "danger");
             }
         });
+
+        updateClassTeacherReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
     }
 }
 
