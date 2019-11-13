@@ -61,6 +61,14 @@ else{
         }
         
     }
+
+    else if($type == "updateClassTeacher"){
+        $class = $_POST['className'];
+        $section = $_POST['section'];
+        $teacherId = $_POST['teacherId'];
+        $sql = "UPDATE classlist SET teacherid = '$teacherId' WHERE className = '$class' AND section = '$section'";
+        get200AsYes($sql);
+    }
 }
 
 ?>
