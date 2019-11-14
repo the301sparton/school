@@ -9,7 +9,7 @@ if ($conn->connect_error) {
 }
 else{
     if($type=="getClassList"){
-        $sql = "SELECT * FROM `classListView` ORDER BY `className`";
+        $sql = "SELECT * FROM `classlistview` ORDER BY `className`";
         getOutputFromQueary($sql);
     }
 
