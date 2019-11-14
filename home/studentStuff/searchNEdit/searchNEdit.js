@@ -12,7 +12,7 @@ searchNEditHTML = `<div class="container" id="registerStudent">
     </div>
     <div class="row">
       <div class="col-md-4">
-        <input class="form-control" type="text" placeholder="Search.." onkeyup="studentSearch(this)" id="searchBarView">
+        <input class="form-control" type="text" placeholder="Search.." onkeydown="studentSearch(this)" id="searchBarView">
       </div>
       <div class="col-md-3">
         <select class="form-control" id="searchBy">
@@ -115,7 +115,7 @@ function loadAllSessions() {
 
   });
 
-  allSessionReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  allSessionReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 
@@ -141,7 +141,7 @@ function studentSearch(searchBar) {
         }
       });
 
-      searchByNameReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+      searchByNameReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 
     }
     else {
@@ -169,19 +169,47 @@ function allFieldsAreSet() {
 
 function createResultView(searchResult, searchStr) {
   removeResults();
-  if (searchResult.length == 0 && searchStr != "") {
+  if (searchResult.length == 0 || searchStr == "") {
     resultView = `<div class="row collapsible">
                       <div class="text-center"><h4>No Result Found</h4>
                       </div>
                   </div>`;
     document.getElementById("searchResultHolder").innerHTML = resultView;
   }
-  for (var itr in searchResult) {
-    if (itr == maxRows) {
-      break;
-    }
-    if (!forReceipt) {
-      resultView = `<div class="row collapsible" onclick="viewStudent(this)">
+  else {
+    for (var itr in searchResult) {
+      if (itr == maxRows) {
+        break;
+      }
+      if (!forReceipt) {
+        resultView = `<div class="row collapsible" onclick="viewStudent(this)">
+        <div style="display: none;" id="studID`+ itr + `"></div>
+        <div style="display: none;" id="studClassId`+ itr + `"></div>
+           <div class="col-rmd-1">
+             <img style="width: 50px; height: 50px; border-radius: 50%" id="studentImg`+ itr + `">
+           </div>
+           <div class="col-rmd-11">
+             <div class="row" style="font-size: 18px">
+               <div class="col-rmd-8" id="studentName`+ itr + `">
+                 
+               </div>
+               <div class="col-rmd-4" style="text-align: right; padding-right:1%" id="studentClassNSection`+ itr + `">
+                
+               </div>
+             </div>
+             <div class="row">
+               <div class="col-rmd-8" id="admissionNumber`+ itr + `">
+               </div>
+              
+             </div>
+           </div> 
+        </div>
+        <div class="row content" id="searchContent`+ itr + `">
+           
+        </div>`;
+      }
+      else {
+        resultView = `<div class="row collapsible" onclick="selectedStudent(this)">
       <div style="display: none;" id="studID`+ itr + `"></div>
       <div style="display: none;" id="studClassId`+ itr + `"></div>
          <div class="col-rmd-1">
@@ -206,48 +234,22 @@ function createResultView(searchResult, searchStr) {
       <div class="row content" id="searchContent`+ itr + `">
          
       </div>`;
-    }
-    else {
-      resultView = `<div class="row collapsible" onclick="selectedStudent(this)">
-    <div style="display: none;" id="studID`+ itr + `"></div>
-    <div style="display: none;" id="studClassId`+ itr + `"></div>
-       <div class="col-rmd-1">
-         <img style="width: 50px; height: 50px; border-radius: 50%" id="studentImg`+ itr + `">
-       </div>
-       <div class="col-rmd-11">
-         <div class="row" style="font-size: 18px">
-           <div class="col-rmd-8" id="studentName`+ itr + `">
-             
-           </div>
-           <div class="col-rmd-4" style="text-align: right; padding-right:1%" id="studentClassNSection`+ itr + `">
-            
-           </div>
-         </div>
-         <div class="row">
-           <div class="col-rmd-8" id="admissionNumber`+ itr + `">
-           </div>
-          
-         </div>
-       </div> 
-    </div>
-    <div class="row content" id="searchContent`+ itr + `">
-       
-    </div>`;
-    }
+      }
 
-    document.getElementById("searchResultHolder").innerHTML += resultView;
-    if (searchResult[itr].photo != null && searchResult[itr].photo != "") {
-      document.getElementById('studentImg' + itr).src = "data:image/png;base64, " + searchResult[itr].photo;
-    }
-    else {
-      document.getElementById('studentImg' + itr).src = baseUrl + "/img/me.png";
-    }
+      document.getElementById("searchResultHolder").innerHTML += resultView;
+      if (searchResult[itr].photo != null && searchResult[itr].photo != "") {
+        document.getElementById('studentImg' + itr).src = "data:image/png;base64, " + searchResult[itr].photo;
+      }
+      else {
+        document.getElementById('studentImg' + itr).src = baseUrl + "/img/me.png";
+      }
 
-    document.getElementById('studID' + itr).innerText = searchResult[itr].studentId;
-    document.getElementById('studClassId' + itr).innerText = searchResult[itr].class;
-    document.getElementById('studentName' + itr).innerHTML = searchResult[itr].firstName + " " + searchResult[itr].middleName + " " + searchResult[itr].lastName;
-    document.getElementById('studentClassNSection' + itr).innerHTML = "Class " + searchResult[itr].class + " Section " + searchResult[itr].section;
-    document.getElementById('admissionNumber' + itr).innerHTML = searchResult[itr].admissionNumber;
+      document.getElementById('studID' + itr).innerText = searchResult[itr].studentId;
+      document.getElementById('studClassId' + itr).innerText = searchResult[itr].class;
+      document.getElementById('studentName' + itr).innerHTML = searchResult[itr].firstName + " " + searchResult[itr].middleName + " " + searchResult[itr].lastName;
+      document.getElementById('studentClassNSection' + itr).innerHTML = "Class " + searchResult[itr].class + " Section " + searchResult[itr].section;
+      document.getElementById('admissionNumber' + itr).innerHTML = searchResult[itr].admissionNumber;
+    }
   }
 }
 
