@@ -158,6 +158,7 @@ function allFieldsAreSet() {
     ErrorIsVisible = false;
     return true;
   }
+  
   else {
     if (ErrorIsVisible == null || ErrorIsVisible == false) {
       document.getElementById('errorMessage').style.display = "block";
