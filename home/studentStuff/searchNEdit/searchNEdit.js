@@ -131,6 +131,7 @@ function studentSearch(event) {
   }
 }
 
+
 function makeSearchRequest() {
   let searchQuery = $("#searchBarView").val();
   if (allFieldsAreSet(searchQuery)) {

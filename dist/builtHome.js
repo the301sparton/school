@@ -2726,7 +2726,7 @@ searchNEditHTML = `<div class="container" id="registerStudent">
     </div>
     <div class="row">
       <div class="col-md-4">
-        <input class="form-control" type="text" placeholder="Search.." onkeydown="studentSearch(this)" id="searchBarView">
+        <input class="form-control" type="text" placeholder="Search.." onkeyup="studentSearch(event)" id="searchBarView">
       </div>
       <div class="col-md-3">
         <select class="form-control" id="searchBy">
@@ -2833,38 +2833,48 @@ function loadAllSessions() {
 }
 
 
-function studentSearch(searchBar) {
-  if (allFieldsAreSet()) {
-    if (searchBar.value != "") {
-
-      var searchByNameReq = $.post(baseUrl + "/apis/searchStudent.php", {
-        type: searchBy,
-        inputKeyWord: searchBar.value,
-        limit: maxRows,
-        sessionName: sessionSelect
-      });
-
-
-      searchByNameReq.done(function (searchByNameRes) {
-        try {
-          var searchResult = JSON.parse(searchByNameRes);
-          createResultView(searchResult, searchBar.value);
-        }
-        catch (e) {
-          showNotification("Error", "Failed to get data", "danger");
-        }
-      });
-
-      searchByNameReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
-
-    }
-    else {
-      removeResults();
-    }
+function studentSearch(event) {
+  clearTimeout($.data(this, 'timer'));
+  if (event.keyCode == 13) {
+    makeSearchRequest();
+  }
+  else {
+    $(this).data('timer', setTimeout(makeSearchRequest, 500));
   }
 }
 
-function allFieldsAreSet() {
+
+function makeSearchRequest() {
+  let searchQuery = $("#searchBarView").val();
+  if (allFieldsAreSet(searchQuery)) {
+    var searchByNameReq = $.post(baseUrl + "/apis/searchStudent.php", {
+      type: searchBy,
+      inputKeyWord: searchQuery,
+      limit: maxRows,
+      sessionName: sessionSelect
+    });
+
+
+    searchByNameReq.done(function (searchByNameRes) {
+      try {
+        var searchResult = JSON.parse(searchByNameRes);
+        createResultView(searchResult, searchQuery);
+      }
+      catch (e) {
+        showNotification("Error", "Failed to get data", "danger");
+      }
+    });
+
+    searchByNameReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+  }
+  else {
+    removeResults();
+  }
+}
+
+
+
+function allFieldsAreSet(searchQuery) {
   if ((searchBy != null && maxRows != null && sessionSelect != null)) {
     document.getElementById('errorMessage').style.display = "none";
     ErrorIsVisible = false;
