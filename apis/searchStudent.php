@@ -11,7 +11,7 @@ if ($conn->connect_error) {
         $nameIP = $_POST['inputKeyWord'];
         $limit = $_POST['limit'];
         $name = $nameIP . "%";
-        $sql1 = "SELECT `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `firstName` LIKE '$name' OR `lastName` LIKE '$name' LIMIT $limit ORDER BY firstName";
+        $sql1 = "SELECT `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `firstName` LIKE '$name' OR `lastName` LIKE '$name' LIMIT $limit ";
         getOutputFromQueary($sql1);
     }
     else if($type == "admissionNumber"){
