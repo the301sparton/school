@@ -27,8 +27,8 @@ else{
         $resultReceipt=mysqli_query($conn,$sqlReceipt);
             while($rReceipt = mysqli_fetch_assoc($resultReceipt)){
                 $receiptId = $rReceipt["receiptId"]; 
-                $sqlHead = "SELECT amount FROM feesDetails WHERE receiptId = '$receiptId' AND headId = '$headId'";
-                $resultHead=mysqli_query($conn,$sqlHead);
+                $sqlHead = "SELECT amount FROM feesdetails WHERE receiptId = '$receiptId' AND headId = '$headId'";
+                $resultHead = mysqli_query($conn,$sqlHead);
                 while($rHead = mysqli_fetch_assoc($resultHead)){
                     $headAmount = $headAmount + $rHead["amount"];
                 }
