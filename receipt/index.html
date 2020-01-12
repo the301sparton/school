@@ -5,7 +5,7 @@
 	<meta charset="utf-8" />
 	<script src="../lib/jquery/jquery.min.js"></script>
 	<script src="../lib/jquery/jquery-migrate.min.js"></script>
-	
+	<script src="../css/style.css"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-auth.js"></script>
 	<script src="../js/firebaseAuth.js"></script>
@@ -32,10 +32,29 @@
 		background: #F1948A;
 		cursor: pointer;
 	}
+
+	.preloader {
+
+		position: fixed;
+		z-index: 999;
+		height: 100%;
+		width: 100%;
+		overflow: show;
+		margin: auto;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		background-image: url('../img/loading.gif');
+		background-repeat: no-repeat;
+		background-color: #FFF;
+		background-position: center;
+		display: block;
+	}
 </style>
 
 <body style="margin: 0;">
-
+	<div class="preloader" id="loader"></div>
 	<!-- <div class="row no-print">
 		<div class="col-md-1">
 			
