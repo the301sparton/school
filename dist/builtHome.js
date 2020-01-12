@@ -1523,6 +1523,7 @@ function getMonthWiseReport() {
       buildDateReport(JSON.parse(reportRes));
     }
     catch (e) {
+      console.log("Err")
       showNotification("Error", "Failed to get data", "danger");
     }
   });
