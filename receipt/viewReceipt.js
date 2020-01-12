@@ -60,6 +60,7 @@ function pg_main() {
                 },
                     function (studentDataStr) {
                         let totalAmount = 0;
+                        console.log(studentDataStr)
                         stuentData = JSON.parse(studentDataStr);
 
                         let finalDateArr = thisReceipt.receiptDate.split("-");
@@ -68,7 +69,7 @@ function pg_main() {
                         document.getElementById('t2_1').innerText = thisReceipt.receiptId;
                         document.getElementById('t4_1').innerText = finalDate;
                         document.getElementById('t6_1').innerText = stuentData.firstName + " " + stuentData.middleName + " " + stuentData.lastName;
-                        document.getElementById('t8_1').innerText = stuentData.class + " " + stuentData.section;
+                        document.getElementById('t8_1').innerText = stuentData.class + " " + stuentData.section + " [2019-2020]";
 
                         var shouldIDisplayHeadAmount = performClassAnalysis(stuentData.class);
                         let indexHead = 0;
@@ -84,9 +85,25 @@ function pg_main() {
                                        console.log(tempAmt.amount)
                                        document.getElementById("id_" + indexHead).innerText = tempAmt.amount
                                    }
+                                   else {
+                                       document.getElementById("id_" + indexHead).style.display = "none";
+                                   }
                                }
                         }
                         else{
+
+                            for(indexHead = 0; indexHead<=8;indexHead++){
+                                document.getElementById("id_" + indexHead).style.display = "block";
+                                   tempAmt = feeHeadVal[document.getElementById("id_" + indexHead).innerHTML];
+                                   if(tempAmt != null){
+                                       console.log(tempAmt.amount)
+                                       document.getElementById("id_" + indexHead).innerText = "";
+                                   }
+                                   else {
+                                       document.getElementById("id_" + indexHead).style.display = "none";
+                                   }
+                               }
+
                             document.getElementById('id_4').innerText = totalAmount;
                             document.getElementById("id_4" ).style.display = "block";
                         }

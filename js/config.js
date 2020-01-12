@@ -1,6 +1,6 @@
 let verName = "1.5.0";
-let baseUrl = "/School";
-let logOutUrl = "/School";
+let baseUrl = "/school";
+let logOutUrl = "/school";
 let websiteTitle = "BES Gondia";
 let websiteDesc = "Best in class education for your children.";
 
