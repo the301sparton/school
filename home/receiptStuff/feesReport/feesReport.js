@@ -379,6 +379,7 @@ function getMonthWiseReport() {
     sessionName: FeeSessionSelect
   });
   monthWiseReportReq.done(function (reportRes) {
+    console.log(reportRes)
     try {
       buildDateReport(JSON.parse(reportRes));
     }
@@ -399,9 +400,6 @@ function UpdateFilter() {
       document.getElementById("errorMessage").style.display = "none";
       classSummeryReport();
     }
-
-  }
-  else {
 
   }
 }
