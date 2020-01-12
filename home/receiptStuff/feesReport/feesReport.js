@@ -1,3 +1,4 @@
+
 let FeeRepostType;
 let FeeSessionSelect;
 let isFirstDateReportView = true;
@@ -216,12 +217,6 @@ function checkReportType() {
       document.getElementById("errorMessage").style.display = "none";
     }
 
-
-    else {
-
-    }
-
-
   }
 }
 
@@ -268,6 +263,7 @@ function classSummeryReport() {
 
   classSummeryReportReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
+
 
 function buildDateReport(report, byDate) {
   document.getElementById('printBtn').disabled = true;

@@ -1,3 +1,4 @@
+
 let isFirstUpdateProfileListener = true;
 let updatedProfileImage = '';
 let imageDataChanged = false;

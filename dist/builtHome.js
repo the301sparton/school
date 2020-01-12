@@ -1002,7 +1002,8 @@ function setNextAccedamicYearMessage() {
 
 function newAccedamicYearContinue(){
     $("#modalNewAccedamicYear").modal();
-};let isFirstUpdateProfileListener = true;
+};
+let isFirstUpdateProfileListener = true;
 let updatedProfileImage = '';
 let imageDataChanged = false;
 function profileSettings() {
@@ -1137,7 +1138,8 @@ function updateProfileListener() {
       showNotification("<strong>!!</strong>", "No data was changed", "info");
     }
   });
-};let FeeRepostType;
+};
+let FeeRepostType;
 let FeeSessionSelect;
 let isFirstDateReportView = true;
 let isClassAndSectionFirst = true;
@@ -1355,12 +1357,6 @@ function checkReportType() {
       document.getElementById("errorMessage").style.display = "none";
     }
 
-
-    else {
-
-    }
-
-
   }
 }
 
@@ -1407,6 +1403,7 @@ function classSummeryReport() {
 
   classSummeryReportReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
+
 
 function buildDateReport(report, byDate) {
   document.getElementById('printBtn').disabled = true;
@@ -3853,6 +3850,7 @@ var sectionNameRequest;
       });
     }
   });
+  
 
   // Back to top button
   $(window).scroll(function () {
