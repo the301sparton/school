@@ -19,7 +19,7 @@ if ($conn->connect_error) {
         $limit = $_POST['limit'];
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `admissionNumber` LIKE '$name' LIMIT $limit ORDER BY `admissionNumber`";
+        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `admissionNumber` LIKE '$name' ORDER BY `admissionNumber` LIMIT $limit";
         getOutputFromQueary($sql1);
     }
     else if($type == "aadharNumber"){
@@ -27,7 +27,7 @@ if ($conn->connect_error) {
         $limit = $_POST['limit'];
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `aadharNumber` LIKE '$name' LIMIT $limit ORDER BY `aadharNumber`";
+        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `aadharNumber` LIKE '$name' ORDER BY `aadharNumber` LIMIT $limit";
         getOutputFromQueary($sql1);
     }
     else if($type == "formNumber"){
@@ -35,7 +35,7 @@ if ($conn->connect_error) {
         $limit = $_POST['limit'];
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `formNumber` LIKE '$name' LIMIT $limit ORDER BY `formNumber`";
+        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `formNumber` LIKE '$name' ORDER BY `formNumber` LIMIT $limit";
         getOutputFromQueary($sql1);
     }
     else if($type == "parentPhoneNumber"){
@@ -43,7 +43,7 @@ if ($conn->connect_error) {
         $limit = $_POST['limit'];
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `formNumber` LIKE '$parentPhoneNumber' LIMIT $limit ORDER BY `formNumber`";
+        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `formNumber` LIKE '$parentPhoneNumber' ORDER BY `formNumber`  LIMIT $limit";
         getOutputFromQueary($sql1);
     }
 }

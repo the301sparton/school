@@ -144,11 +144,13 @@ function makeSearchRequest() {
 
 
     searchByNameReq.done(function (searchByNameRes) {
+      console.log(searchByNameRes)
       try {
         var searchResult = JSON.parse(searchByNameRes);
         createResultView(searchResult, searchQuery);
       }
       catch (e) {
+        console.log("LOL");
         showNotification("Error", "Failed to get data", "danger");
       }
     });

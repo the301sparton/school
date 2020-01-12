@@ -15,6 +15,7 @@ $(document).ready(function () {
       
       var getUserReq = $.post("../apis/User.php", { type: "getById", uid: user.uid });
       getUserReq.done(function (user_dat) {
+        console.log(user_dat)
         me_data = JSON.parse(user_dat)[0];
         if (me_data != null) {
           setMyImage(me_data.photo);
