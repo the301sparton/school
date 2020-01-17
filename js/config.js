@@ -3,7 +3,6 @@ let baseUrl = "/school";
 let logOutUrl = "/school";
 let websiteTitle = "BES Gondia";
 let websiteDesc = "Best in class education for your children.";
-
 let TOSLink = "";
 let PPLink = "";
 let facebookLink = "";
