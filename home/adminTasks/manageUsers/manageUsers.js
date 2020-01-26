@@ -18,6 +18,7 @@ function manageUsers() {
           <option value="byName">Name</option>
           <option value="byEmailId">Email Id</option>
           <option value="byPhoneNumber">Phone Number</option>
+          <option value="ALL">List All Users</option>
         </select>
       </div>
       <div class="col-md-2" style="text-align: end">
@@ -53,7 +54,15 @@ function manageUsers() {
 
 function sendSearchUserRequest() {
   let queryString = document.getElementById("searchBarView").value;
+  
   let userSearchMeathord = document.getElementById("searchByForUser").value;
+  if(userSearchMeathord == "ALL"){
+    document.getElementById("searchBarView").disabled = true;
+  }
+  else{
+    document.getElementById("searchBarView").disabled = false;
+  }
+
   let maxCols = document.getElementById("maxRowsForUser").value;
   document.getElementById('userDetailsHolder').innerHTML = '';
 
@@ -61,9 +70,9 @@ function sendSearchUserRequest() {
     document.getElementById("errorMessage").style.display = "block";
   }
   else {
-    if (queryString != "" && queryString != null) {
+    if ((queryString != "" && queryString != null) || userSearchMeathord == "ALL") {
       document.getElementById("errorMessage").style.display = "none";
-      let searchUserReq = $.post(baseUrl + "/apis/userGroup.php", {
+      let searchUserReq = $.post(baseUrl + "/apis/User.php", {
         type: "searchUser",
         searchType: userSearchMeathord,
         limit: maxCols,
@@ -71,6 +80,7 @@ function sendSearchUserRequest() {
       });
 
       searchUserReq.done(function (responce) {
+        console.log(responce);
         try {
           makeUserView(JSON.parse(responce));
         }

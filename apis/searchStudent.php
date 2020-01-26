@@ -43,7 +43,7 @@ if ($conn->connect_error) {
         $limit = $_POST['limit'];
         $name = $nameIP . "%";
 
-        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `formNumber` LIKE '$parentPhoneNumber' ORDER BY `formNumber`  LIMIT $limit";
+        $sql1 = "SELECT  `studentId`,`firstName`, `middleName`, `lastName`, `admissionNumber`, `class`, `section`, `photo` from searchstudent WHERE `guardianPhone` LIKE '$name' ORDER BY `guardianPhone`  LIMIT $limit";
         getOutputFromQueary($sql1);
     }
 }
