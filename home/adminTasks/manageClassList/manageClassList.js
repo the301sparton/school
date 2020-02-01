@@ -24,6 +24,7 @@ function manageClassList() {
 }
 
 function getClassListToShow() {
+    document.getElementById("new_loader").style.display = "block";
     document.getElementById('jsGrid').style.display = "none";
     let classListReq = $.post(baseUrl + "/apis/classList.php", {
         type: "getClassList"
@@ -45,8 +46,13 @@ function getClassListToShow() {
             },
             data: JSON.parse(responce)
         });
+        document.getElementById("new_loader").style.display = "none";
     });
-    classListReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    classListReq.fail(function (jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    }
+    );
 }
 
 function showClassListDetailsDialog(args, forEdit) {
@@ -102,6 +108,7 @@ function setValuesInClassTeacherSelect(teacherList) {
 }
 
 function deleteClassListItem() {
+    document.getElementById("new_loader").style.display = "block";
     let deleteClassListItemReq = $.post(baseUrl + "/apis/classList.php", {
         type: "deleteClassItem",
         className: document.getElementById("newClassName").value,
@@ -119,9 +126,13 @@ function deleteClassListItem() {
         else {
             showNotification("Error!", "Failed to delete Class", "danger");
         }
+        document.getElementById("new_loader").style.display = "none";
     });
 
-    deleteClassListItemReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    deleteClassListItemReq.fail(function (jqXHR, textStatus) { 
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus) 
+    });
 }
 
 function createOrUpdateClass() {
@@ -132,6 +143,7 @@ function createOrUpdateClass() {
         let teacherIdVal = document.getElementById('newClassTeacher').value
 
         if (classListVal != "" && sectionVal != "" && teacherIdVal != "") {
+            document.getElementById("new_loader").style.display = "block";
             let insertClassReq = $.post(baseUrl + "/apis/classList.php", {
                 type: "insertClass",
                 className: classListVal,
@@ -148,9 +160,13 @@ function createOrUpdateClass() {
                     console.log(responce);
                     showNotification("Error!", "Class & Section together must be unique", "danger");
                 }
+                document.getElementById("new_loader").style.display = "none";
             });
 
-            insertClassReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+            insertClassReq.fail(function (jqXHR, textStatus) { 
+                document.getElementById("new_loader").style.display = "none";
+                handleNetworkIssues(textStatus) 
+            });
         }
 
         else {
@@ -163,6 +179,8 @@ function createOrUpdateClass() {
         let classListVal = document.getElementById("newClassName").value;
         let sectionVal = document.getElementById("newClassSection").value;
         let teacherIdVal = document.getElementById('newClassTeacher').value
+
+        document.getElementById("new_loader").style.display = "block";
         let updateClassTeacherReq = $.post(baseUrl + "/apis/classList.php", {
             type: "updateClassTeacher",
             className: classListVal,
@@ -178,9 +196,13 @@ function createOrUpdateClass() {
             else {
                 showNotification("Error!", "Failed to delete Class", "danger");
             }
+            document.getElementById("new_loader").style.display = "none";
         });
 
-        updateClassTeacherReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+        updateClassTeacherReq.fail(function (jqXHR, textStatus) { 
+            document.getElementById("new_loader").style.display = "none";
+            handleNetworkIssues(textStatus) 
+        });
     }
 }
 

@@ -73,15 +73,15 @@ function studentAttendence() {
 }
 
 function loadAttendenceViewData() {
-  document.getElementById('loader').style.display = "block";
+  document.getElementById("new_loader").style.display = "block";
   $.when(loadAllSessionsForAttendence(), loadClassListWithAccess()).then(function () {
-    document.getElementById('loader').style.display = "none";
+    document.getElementById("new_loader").style.display = "none";
   });
 }
 
 
 function loadAllSessionsForAttendence() {
-  var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
+ var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
     type: "getAllSessions"
   });
 
@@ -97,9 +97,12 @@ function loadAllSessionsForAttendence() {
 
     document.getElementById("attendence_sessionName").value = currentSession;
     sessionSelect = currentSession;
+   
   });
 
-  allSessionReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+  allSessionReq.fail(function (jqXHR, textStatus) {
+    handleNetworkIssues(textStatus) 
+  });
 }
 
 function loadClassListWithAccess() {
@@ -151,6 +154,7 @@ function getStudentListForAttendence() {
 
 
 function getAttendenceList(sessionName, classNSection, dateForAttendence) {
+  document.getElementById("new_loader").style.display = "block";
   let getAttendenceListReq = $.post(baseUrl + "/apis/attendence.php", {
     type: "getList",
     sessionName: sessionName,
@@ -215,9 +219,13 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
     
     document.getElementById("myListHolder").innerHTML += `<div class = "row" style="margin-bottom:2%; padding:2%"> 
       <div class="col-md-11"><Button class="btn btn-primary" style="position: relative; left:60%" onclick="saveAttendenceRecords()">SAVE</Button></div></div>`;
-  });
+      document.getElementById("new_loader").style.display = "none";
+    });
 
-  getAttendenceListReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+  getAttendenceListReq.fail(function (jqXHR, textStatus) {
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus) 
+  });
 
 }
 
@@ -246,7 +254,7 @@ function saveAttendenceRecords(){
   if(dataArray[0].attendenceId != null){
     type = "updateAttendenceRecords";
   }
-
+  document.getElementById("new_loader").style.display = "block";
   var saveAttendenceReq = $.post(baseUrl + "/apis/attendence.php",{
     type: type,
     data: dataArray,
@@ -259,7 +267,11 @@ function saveAttendenceRecords(){
     else{
       showNotification("Error", "Failed to save attendence", "danger");
     }
+    document.getElementById("new_loader").style.display = "none";
   });
 
-  saveAttendenceReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+  saveAttendenceReq.fail(function (jqXHR, textStatus) { 
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus) 
+  });
 }

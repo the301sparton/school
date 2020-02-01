@@ -152,6 +152,7 @@ function deleteUser(deleteUserBtn) {
   let uidForDelete = deleteUserBtn.parentNode.parentNode.childNodes[3].innerText;
   let confirmDelteUser = confirm("Are you sure about deleting user account..?");
   if (confirmDelteUser == true) {
+    document.getElementById("new_loader").style.display = "block";
     let userDeleteReq = $.post(baseUrl + "/apis/User.php", {
       type: "deleteUserByUid",
       uid: uidForDelete
@@ -165,9 +166,13 @@ function deleteUser(deleteUserBtn) {
       else {
         showNotification("<strong>Error</strong>", "Failed to delete user", "danger");
       }
+      document.getElementById("new_loader").style.display = "none";
     });
 
-    userDeleteReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+    userDeleteReq.fail(function(jqXHR, textStatus){
+      document.getElementById("new_loader").style.display = "none";
+      handleNetworkIssues(textStatus)
+    });
   }
 
 }
@@ -178,6 +183,7 @@ function getUserDetails(usersView) {
   let uidForThis = usersView.childNodes[3].childNodes[3].childNodes[3].innerText; //get userId from view
 
   //get usertypes for selected user
+  document.getElementById("new_loader").style.display = "block";
   var myRolesListReq = $.post(baseUrl + "/apis/userGroup.php", {
     type: "getAllRolesForUser",
     uid: uidForThis
@@ -212,15 +218,18 @@ function getUserDetails(usersView) {
     catch (e) {
       showNotification("Error", "Failed to get data", "danger");
     }
-
+    document.getElementById("new_loader").style.display = "none";
   });
 
-  myRolesListReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  myRolesListReq.fail(function(jqXHR, textStatus){
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+  });
 }
 
 function addUserGroup(addBtnView) {
   let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[3].childNodes[3].innerText;
-
+  document.getElementById("new_loader").style.display = "block";
   var getUserGroupsToAdd = $.post(baseUrl + "/apis/userGroup.php", {
     type: "getUserGroupsToAdd",
     uid: uid
@@ -251,10 +260,12 @@ function addUserGroup(addBtnView) {
     catch (e) {
       showNotification("Error", "Failed to get data", "danger");
     }
-
+    document.getElementById("new_loader").style.display = "none";
   });
 
-  getUserGroupsToAdd.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  getUserGroupsToAdd.fail(function(jqXHR, textStatus){
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)});
 }
 
 function addNewRoleConfirm() {
@@ -266,7 +277,7 @@ function addNewRoleConfirm() {
       userTypeArray.push(document.getElementById("newRoleText" + itr).innerText);
     }
   }
-
+  document.getElementById("new_loader").style.display = "block";
   var addNewRolesReq = $.post(baseUrl + "/apis/userGroup.php", {
     type: "addNewRoles",
     uid: uid,
@@ -280,9 +291,13 @@ function addNewRoleConfirm() {
     else {
       showNotification("<strong>Error</strong>", "Failed to update user groups", "danger");
     }
+    document.getElementById("new_loader").style.display = "none";
   });
 
-  addNewRolesReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  addNewRolesReq.fail(function(jqXHR, textStatus){
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+  });
 
 }
 
@@ -291,6 +306,7 @@ function deleteRoleItem(roleItemView) {
   var confirmState = confirm("Are you sure about removing this usergroup..?");
   if (confirmState == true) {
     let roleId = roleItemView.parentNode.parentNode.childNodes[1].innerText;
+    document.getElementById("new_loader").style.display = "block";
     let deleteRoleReq = $.post(baseUrl + "/apis/userGroup.php", {
       type: "deleteUserGroupById",
       id: roleId
@@ -303,9 +319,13 @@ function deleteRoleItem(roleItemView) {
       else {
         showNotification("<strong>Error</strong>", "Failed to delete user group", "danger");
       }
+      document.getElementById("new_loader").style.display = "none";
     });
 
-    deleteRoleReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+    deleteRoleReq.fail(function(jqXHR, textStatus){
+      document.getElementById("new_loader").style.display = "none";
+      handleNetworkIssues(textStatus)
+    });
   }
 }
 

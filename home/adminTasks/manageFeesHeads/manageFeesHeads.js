@@ -17,6 +17,7 @@ function manageFeesHeads() {
 }
 
 function makeViewForFeeHeads() {
+    document.getElementById("new_loader").style.display = "block";
     let getAllfeeData = $.post(baseUrl + "/apis/feesHeads.php", {
         type: "getAllHeads"
     });
@@ -71,12 +72,17 @@ function makeViewForFeeHeads() {
 
         
         document.getElementById('jsGrid').style.display = "block";
+        document.getElementById("new_loader").style.display = "none";
     });
 
-    getAllfeeData.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+    getAllfeeData.fail(function(jqXHR, textStatus){
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 }
 
 function updateFeeHeadDetails(FeeHeadItem) {
+    document.getElementById("new_loader").style.display = "block";
         let updateHeadItemReq = $.post(baseUrl + "/apis/feesHeads.php", {
             type: "updateById",
             id: FeeHeadItem.headId,
@@ -105,7 +111,11 @@ function updateFeeHeadDetails(FeeHeadItem) {
             else{
                 showNotification("<strong>Success</strong>", "Fees Head Updated", "success");
             }
+            document.getElementById("new_loader").style.display = "none";
         });
 
-        updateHeadItemReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+        updateHeadItemReq.fail(function(jqXHR, textStatus){
+            document.getElementById("new_loader").style.display = "none";
+            handleNetworkIssues(textStatus)
+        });
 }

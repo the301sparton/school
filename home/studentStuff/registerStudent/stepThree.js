@@ -61,9 +61,8 @@ function stepThree() {
   </form>
 </div>
 </div>`;
-  document.getElementById('loader').style.display = "block";
   document.getElementById('step_container').innerHTML = stepThreeHTML;
- 
+
   $.when(loadClassForSelectId("sessionClass", "sessionSection")).then(function () {
     setSessionEntry();
   });
@@ -79,6 +78,7 @@ function setSessionEntry() {
   $("#img_picker").change(function () {
     readURL(this);
   });
+  document.getElementById("new_loader").style.display = "block";
   var setSessionEntryReq = $.post(baseUrl + "/apis/studentSessionDetail.php", {
     type: "getByStudentId",
     sessionName: currentSession,
@@ -89,9 +89,9 @@ function setSessionEntry() {
       try {
         var responce = JSON.parse(setSessionEntryRes);
         document.getElementById("detId").innerText = responce.id;
-        document.getElementById("studID").innerText = responce.studentId;document.getElementById("sessionClass").value = responce.class;
-        $("#sessionClass").trigger("change");sectionNameRequest.done(function() {
-          if(document.getElementById("sessionSection") != null){
+        document.getElementById("studID").innerText = responce.studentId; document.getElementById("sessionClass").value = responce.class;
+        $("#sessionClass").trigger("change"); sectionNameRequest.done(function () {
+          if (document.getElementById("sessionSection") != null) {
             console.log("doing")
             document.getElementById("sessionSection").value = responce.section;
             document.getElementById('loader').style.display = "none";
@@ -99,10 +99,10 @@ function setSessionEntry() {
         });
         document.getElementById("sessionMedium").value = responce.medium;
         document.getElementById("sessionTotalFees").value = responce.totalFees;
-        if(responce.photo != ""){
+        if (responce.photo != "") {
           document.getElementById("studentImg").src = "data:image/png;base64, " + responce.photo;
         }
-        else{
+        else {
           document.getElementById("studentImg").src = baseUrl + "/img/me.png";
         }
         imgBase = responce.photo;
@@ -110,18 +110,20 @@ function setSessionEntry() {
       catch (e) {
         showNotification("Error", "Failed to get data", "danger");
       }
-
+      document.getElementById("new_loader").style.display = "none";
     }
     $("#step_three_back").removeAttr('disabled');
     $("#step_three_save").removeAttr('disabled');
-    
+
   });
 
-  setSessionEntryReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  setSessionEntryReq.fail(function (jqXHR, textStatus) {
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+  });
 }
 
 function updateSessionEntry(toReturn) {
-  console.log("update called");
   let imgBaseEncode;
   if (imgBase == null) {
     imgBaseEncode = "";
@@ -129,7 +131,7 @@ function updateSessionEntry(toReturn) {
   else {
     imgBaseEncode = imgBase;
   }
-  document.getElementById('loader').style.display = "block";
+  document.getElementById("new_loader").style.display = "block";
   var newSessionEntryReq = $.post(baseUrl + "/apis/studentSessionDetail.php", {
     type: "updateSessionDetailsById",
     id: document.getElementById("detId").innerText,
@@ -152,10 +154,13 @@ function updateSessionEntry(toReturn) {
     else {
       showNotification("<strong>Error</strong>", "Failed to save data", "danger");
     }
-    document.getElementById('loader').style.display = "none";
+    document.getElementById("new_loader").style.display = "none";
   });
 
-  newSessionEntryReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  newSessionEntryReq.fail(function (jqXHR, textStatus) {
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+  });
 }
 
 function sessionDetailBack() {

@@ -98,6 +98,7 @@ function feesReport() {
 }
 
 function loadAllSessionsAndSetListeners() {
+  document.getElementById("new_loader").style.display = "block";
   var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
     type: "getAllSessions"
   });
@@ -118,10 +119,13 @@ function loadAllSessionsAndSetListeners() {
     catch (e) {
       showNotification("Error", "Failed to get data", "danger");
     }
-
+    document.getElementById("new_loader").style.display = "none";
   });
 
-  allSessionReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+  allSessionReq.fail(function (jqXHR, textStatus) { 
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus) 
+  });
 
 }
 
@@ -226,6 +230,7 @@ function checkReportType() {
 }
 
 function classSummeryReport() {
+  document.getElementById("new_loader").style.display = "block";
   var classSummeryReportReq = $.post(baseUrl + "/apis/receiptStuff.php", {
     type: "classSummeryReport",
     class: document.getElementById("filterClass").value,
@@ -260,13 +265,17 @@ function classSummeryReport() {
         ]
       });
       document.getElementById('jsGrid').style.display = "block";
+      document.getElementById("new_loader").style.display = "none";
     }
     catch (e) {
       showNotification("Error", "Failed to get data", "danger");
     }
   });
 
-  classSummeryReportReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+  classSummeryReportReq.fail(function (jqXHR, textStatus) { 
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus) 
+  });
 }
 
 function buildDateReport(report, byDate) {
@@ -353,6 +362,7 @@ function buildDateReport(report, byDate) {
 function ReportByDates() {
 
   if (document.getElementById("dateFrom").value != "" && document.getElementById("dateTo").value != "") {
+    document.getElementById("new_loader").style.display = "block";
     var reportByDateReq = $.post(baseUrl + "/apis/feesReport.php", {
       type: "byDay",
       dateFrom: document.getElementById("dateFrom").value,
@@ -367,13 +377,18 @@ function ReportByDates() {
       catch (e) {
         showNotification("Error", "Failed to get data", "danger");
       }
+      document.getElementById("new_loader").style.display = "none";
     });
 
-    reportByDateReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    reportByDateReq.fail(function (jqXHR, textStatus) { 
+      document.getElementById("new_loader").style.display = "none";
+      handleNetworkIssues(textStatus) 
+    });
   }
 }
 
 function getMonthWiseReport() {
+  document.getElementById("new_loader").style.display = "block";
   var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
     type: "byMonth",
     sessionName: FeeSessionSelect
@@ -387,7 +402,10 @@ function getMonthWiseReport() {
     }
   });
 
-  monthWiseReportReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+  monthWiseReportReq.fail(function (jqXHR, textStatus) { 
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus) 
+  });
 }
 
 function UpdateFilter() {

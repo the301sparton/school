@@ -181,7 +181,7 @@ stepTwoHTML = `<div class="row">
 
 //StepTwo START
 function stepTwo() {
-  document.getElementById('loader').style.display = "block";
+  document.getElementById("new_loader").style.display = "block";
   loadContactDetails();
   document.getElementById('step_container').innerHTML = stepTwoHTML;
   $("#contactDetails").submit(function (event) {
@@ -240,14 +240,18 @@ function loadContactDetails() {
     }
     $("#step_two_back").removeAttr('disabled');
     $("#step_two_next").removeAttr('disabled');
-    document.getElementById('loader').style.display = "none";
+    document.getElementById("new_loader").style.display = "none";
   });
 
-  loadContactDetailReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  loadContactDetailReq.fail(function(jqXHR, textStatus){
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+  });
   //Comment
 }
 
 function setContactDetails(toReturn) {
+  document.getElementById("new_loader").style.display = "none";
   var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "updateContactDetails",
     localAddress: document.getElementById('localAddress').value,
@@ -268,13 +272,16 @@ function setContactDetails(toReturn) {
       if (toReturn) {
         stepThree();
       }
-
     }
     else {
       showNotification("<strong>Error</stong>", "Failed to save data", "danger");
     }
+    document.getElementById("new_loader").style.display = "none";
   });
-  setContactDetailsreq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  setContactDetailsreq.fail(function(jqXHR, textStatus){
+    document.getElementById("new_loader").style.display = "none";
+  handleNetworkIssues(textStatus)
+});
 }
 
 function contactDetailBack() {

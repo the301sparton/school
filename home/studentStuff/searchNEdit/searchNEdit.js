@@ -91,6 +91,7 @@ function searchNEdit(forReceiptTemp) {
 }
 
 function loadAllSessions() {
+  document.getElementById("new_loader").style.display = "block";
   var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
     type: "getAllSessions"
   });
@@ -112,10 +113,13 @@ function loadAllSessions() {
     catch (e) {
       showNotification("Error", "Failed to get data", "danger");
     }
-
+    document.getElementById("new_loader").style.display = "none";
   });
 
-  allSessionReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+  allSessionReq.fail(function (jqXHR, textStatus) { 
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus) 
+  });
 }
 
 
