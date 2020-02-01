@@ -51,23 +51,30 @@ else{
     else if($type == "insertClass"){
         $class = $_POST['className'];
         $section = $_POST['section'];
+        $schoolId = $_POST['schoolId'];
         $teacherId = $_POST['teacherId'];
         if($class != "" && $section != "" && $teacherId != ""){
-            $sql = "INSERT INTO classlist (`className`, `section`, `teacherid`) VALUES ('$class', '$section', '$teacherId')";
+            $sql = "INSERT INTO classlist (`className`, `section`, `teacherid`, `schoolId`) VALUES ('$class', '$section', '$teacherId', '$schoolId')";
             get200AsYes($sql);
         }
         else{
-            echo 500;
+            echo $sql;
         }
         
     }
 
-    else if($type == "updateClassTeacher"){
+    else if($type == "updateClass"){
         $class = $_POST['className'];
         $section = $_POST['section'];
+        $schoolId = $_POST['schoolId'];
         $teacherId = $_POST['teacherId'];
-        $sql = "UPDATE classlist SET teacherid = '$teacherId' WHERE className = '$class' AND section = '$section'";
+        $sql = "UPDATE classlist SET teacherid = '$teacherId', schoolId = '$schoolId' WHERE className = '$class' AND section = '$section'";
         get200AsYes($sql);
+    }
+
+    else if($type == "getAllSchools"){
+        $sql = "SELECT * FROM schoolId";
+        getOutputFromQueary($sql);
     }
 }
 

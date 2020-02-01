@@ -23,6 +23,7 @@ function manageRoles() {
 }
 
 function getRoleList() {
+    document.getElementById("new_loader").style.display = "block";
     var userRoleReq = $.post(baseUrl + "/apis/userGroup.php", {
         type: "getAllRolesWithId"
     });
@@ -37,10 +38,13 @@ function getRoleList() {
         catch(e){
             showNotification("Error", "Failed to get data", "danger");
         }
-        
+        document.getElementById("new_loader").style.display = "none";
     });
 
-    userRoleReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+    userRoleReq.fail(function(jqXHR, textStatus){
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 }
 
 function makeRoleEditView(roleArray) {
@@ -225,6 +229,7 @@ function updateGroupDetails(view) {
 
 
     //send request
+    document.getElementById("new_loader").style.display = "block";
     var updateGroupReq = $.post(baseUrl + "/apis/userGroup.php", {
         type: "updateUserGroup",
 
@@ -254,13 +259,18 @@ function updateGroupDetails(view) {
             console.log(responce)
             showNotification("<strong>Error</strong>","Failed to update group", "danger");
         }
+        document.getElementById("new_loader").style.display = "none";
     });
 
-    updateGroupReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+    updateGroupReq.fail(function(jqXHR, textStatus){
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 }
 
 function deleteGroup(view) {
     let userType = view.parentNode.childNodes[1].childNodes[1].innerText;
+    document.getElementById("new_loader").style.display = "block";
     var deleteGroupReq = $.post(baseUrl + "/apis/userGroup.php", {
         type: "deleteUserGroup",
         userType: userType
@@ -273,9 +283,13 @@ function deleteGroup(view) {
         else {
             showNotification("<strong>Error</strong>","Failed to delete group", "danger");
         }
+        document.getElementById("new_loader").style.display = "none";
     })
 
-    deleteGroupReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+    deleteGroupReq.fail(function(jqXHR, textStatus){
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 }
 
 function isCheckedGeneric(isChecked) {
@@ -335,8 +349,8 @@ function createNewUserGroupForSure() {
         NewStudentReport = isCheckedGeneric(NewStudentReport);
 
 
-        console.log(NewNewAccadamicYear);
-
+       
+        document.getElementById("new_loader").style.display = "block";
         var createNewRoleRequest = $.post(baseUrl + "/apis/userGroup.php", {
             type: "createNewRole",
             newGroupName: newGroupName,
@@ -357,8 +371,12 @@ function createNewUserGroupForSure() {
             if (responce == 200) {
                 manageRoles();
             }
+            document.getElementById("new_loader").style.display = "none";
         });
 
-        createNewRoleRequest.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+        createNewRoleRequest.fail(function(jqXHR, textStatus){
+            document.getElementById("new_loader").style.display = "none";
+            handleNetworkIssues(textStatus)
+        });
     }
 }

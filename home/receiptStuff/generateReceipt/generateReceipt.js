@@ -57,14 +57,16 @@ function getFeesDetails(studentId, classId) {
     </div>
 
 </div>`;
-
+    document.getElementById("new_loader").style.display = "block";
     document.getElementById("feeInfoHolder").innerHTML = feesDetailHTML;
-    setAmountPaid(studentId);
-    setTotalFees(studentId);
+    $.when(setAmountPaid(studentId), setTotalFees(studentId)).then(function () {
+        document.getElementById("new_loader").style.display = "none";
+    });
+
 }
 
 function setAmountPaid(studentId) {
-   var AmountRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
+    var AmountRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
         type: "getMyPaidAmount",
         studentId: studentId,
         sessionName: sessionSelect
@@ -77,7 +79,7 @@ function setAmountPaid(studentId) {
 
     });
 
-    AmountRequest.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+    AmountRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 function setTotalFees(studentId) {
@@ -93,10 +95,11 @@ function setTotalFees(studentId) {
         }
     });
 
-    AmountRequest.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+    AmountRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 function newReceiptView() {
+    document.getElementById("new_loader").style.display = "block";
     var getHeadsReq = $.post(baseUrl + "/apis/feesHeads.php", {
         type: "getActiveFeesHeads",
         classId: ReceiptClassId,
@@ -111,7 +114,7 @@ function newReceiptView() {
 
         document.getElementById("receiptDate").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
 
-        try{
+        try {
             feeHeads = JSON.parse(HeadList);
             for (var itr in feeHeads) {
                 FeeHeadHTML = `<div class="row" style="margin-top: 2%">
@@ -125,23 +128,26 @@ function newReceiptView() {
                   <input class="form-control" type="number" id="headValue`+ itr + `" onchange="setSum(this.value)" value="0">
                 </div>
               </div>`;
-              
+
                 document.getElementById('headHolder').innerHTML += FeeHeadHTML;
-    
-                document.getElementById('headName' + itr).innerText = feeHeads[itr].headName+" ("+feeHeads[itr]["0"]+" / "+feeHeads[itr]["amount_"+ReceiptClassId]+")";
-    
+
+                document.getElementById('headName' + itr).innerText = feeHeads[itr].headName + " (" + feeHeads[itr]["0"] + " / " + feeHeads[itr]["amount_" + ReceiptClassId] + ")";
+
                 document.getElementById('headId' + itr).innerText = feeHeads[itr].headId;
             }
             $('#newReceiptModal').modal();
-    
+
         }
-        catch(e){
-            showNotification("Error","Failed to get data", "danger");
+        catch (e) {
+            showNotification("Error", "Failed to get data", "danger");
         }
-        
+        document.getElementById("new_loader").style.display = "none";
     });
 
-    getHeadsReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+    getHeadsReq.fail(function (jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 
 }
 
@@ -150,12 +156,12 @@ $('#newReceiptForm').submit(function (event) {
     $('#newReceiptModal').modal('toggle');
     let shouldSendReq = false;
     let superBreaksOFF = true;
-    
-    
+
+
     feesHeadVal = [];
     for (var itr in feeHeads) {
-        if (document.getElementById('headValue' + itr).value != 0 ) {
-            if(document.getElementById('headValue' + itr).value == "" || document.getElementById('headValue' + itr).value == null){
+        if (document.getElementById('headValue' + itr).value != 0) {
+            if (document.getElementById('headValue' + itr).value == "" || document.getElementById('headValue' + itr).value == null) {
                 superBreaksOFF = false;
                 break;
             }
@@ -166,6 +172,7 @@ $('#newReceiptForm').submit(function (event) {
     console.log(shouldSendReq);
     console.log(superBreaksOFF);
     if (shouldSendReq && superBreaksOFF) {
+        document.getElementById("new_loader").style.display = "block";
         var newReceiptRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
             type: "newReceipt",
             userId: me_data.uid,
@@ -178,27 +185,30 @@ $('#newReceiptForm').submit(function (event) {
         });
 
         newReceiptRequest.done(function (newReceiptRes) {
-            try{
+            try {
                 var resjson = JSON.parse(newReceiptRes);
                 if (resjson.resCode == 200) {
                     getFeesDetails(ReceiptForStudentId);
                     viewReceipt(resjson.id, ReceiptForStudentId, sessionSelect);
                 }
                 else {
-                    showNotification("<strong>Error</strong>","Failed to generate receipt", "danger");
+                    showNotification("<strong>Error</strong>", "Failed to generate receipt", "danger");
                     console.log(newReceiptRes);
                 }
             }
-            catch(e){
-                showNotification("Error","Failed to get data", "danger");
+            catch (e) {
+                showNotification("Error", "Failed to get data", "danger");
             }
-           
+            document.getElementById("new_loader").style.display = "none";
         });
 
-        newReceiptRequest.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+        newReceiptRequest.fail(function (jqXHR, textStatus) {
+            document.getElementById("new_loader").style.display = "none";
+            handleNetworkIssues(textStatus)
+        });
     }
-    else{
-        showNotification("<strong>Error</strong>","Invalid Amount - Receipt not created", "danger");
+    else {
+        showNotification("<strong>Error</strong>", "Invalid Amount - Receipt not created", "danger");
     }
 });
 
@@ -206,44 +216,49 @@ function setSum(value) {
     document.getElementById('totalFees').value = parseInt(value, 10) + parseInt(document.getElementById('totalFees').value, 10);
 }
 
-function viewReceipt(receiptId){
-    document.location = baseUrl+"/receipt?receiptId="+receiptId;
+function viewReceipt(receiptId) {
+    document.location = baseUrl + "/receipt?receiptId=" + receiptId;
 }
 
 
-function showReceiptList(){
+function showReceiptList() {
     document.getElementById("receiptHolder").innerHTML = '';
-    let getReceiptListReq = $.post(baseUrl + "/apis/receiptStuff.php",{
+    document.getElementById("new_loader").style.display = "block";
+    let getReceiptListReq = $.post(baseUrl + "/apis/receiptStuff.php", {
         type: "receiptListBySessionAndStudentId",
         studentId: ReceiptForStudentId,
         sessionName: sessionSelect
     });
-    getReceiptListReq.done(function(receiptListData){
+    getReceiptListReq.done(function (receiptListData) {
         try {
             let receiptListJSON = JSON.parse(receiptListData);
-            for(itr in receiptListJSON){
+            for (itr in receiptListJSON) {
                 let receiptListHTML = `<div class="row button button4" style="margin:1%" onclick="viewReceiptFromList(this)">
                 <div class="col-rmd-6" id="receiptIdforList`+ itr + `">
                 </div>
-                <div class="col-rmd-6" id="amountforList`+itr+`">
+                <div class="col-rmd-6" id="amountforList`+ itr + `">
                 </div>          
                 </div>`;
 
                 document.getElementById("receiptHolder").innerHTML += receiptListHTML;
-                document.getElementById("receiptIdforList"+itr).innerText = "Receipt Id : "+receiptListJSON[itr].receiptId; 
-                document.getElementById("amountforList"+itr).innerText = "Amount : "+receiptListJSON[itr].recamt + " ₹";
+                document.getElementById("receiptIdforList" + itr).innerText = "Receipt Id : " + receiptListJSON[itr].receiptId;
+                document.getElementById("amountforList" + itr).innerText = "Amount : " + receiptListJSON[itr].recamt + " ₹";
             }
-            
-        } catch(e) {
+
+        } catch (e) {
             console.log(e)
             showNotification("<strong>Error</strong>", "Failed to get data", "danger");
         }
+        document.getElementById("new_loader").style.display = "none";
     });
 
-    getReceiptListReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+    getReceiptListReq.fail(function (jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 }
 
-function viewReceiptFromList(div){
-console.log(":",(div.childNodes[1].innerText).split(": "));
-viewReceipt(div.childNodes[1].innerText.split(": ")[1]);
+function viewReceiptFromList(div) {
+    console.log(":", (div.childNodes[1].innerText).split(": "));
+    viewReceipt(div.childNodes[1].innerText.split(": ")[1]);
 }

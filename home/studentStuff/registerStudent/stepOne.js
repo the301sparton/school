@@ -217,7 +217,6 @@ stepOneHTML = `<div class="row">
 
 //stepOne START
 function stepOne() {
-  document.getElementById('loader').style.display = "block";
   document.getElementById('step_container').innerHTML = stepOneHTML;
   //Read from db
   if (document.getElementById('studID').innerText != "") {
@@ -225,7 +224,6 @@ function stepOne() {
   }
   else {
     $('#step_one_next').removeAttr('disabled');
-    document.getElementById('loader').style.display = "none";
   }
 
 
@@ -241,6 +239,7 @@ function stepOne() {
 }
 
 function setStudentDetails() {
+  document.getElementById("new_loader").style.display = "block";
   var setStudentDetailsReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "getStudentDetailsById",
     studentId: document.getElementById('studID').innerText
@@ -291,15 +290,19 @@ function setStudentDetails() {
     catch (e) {
       showNotification("Error", "Failed to get data", "danger");
     }
-
+    document.getElementById("new_loader").style.display = "none";
   });
 
-  setStudentDetailsReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  setStudentDetailsReq.fail(function(jqXHR, textStatus){
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+  });
 }
 
 function CreateNewStudent() {
   var submittedTC = getCheckBoxValue("submittedTC");
   var rte = getCheckBoxValue("rte");
+  document.getElementById("new_loader").style.display = "block";
   var newStudentDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "newStudentDetails",
     formNumber: document.getElementById('formNumber').value,
@@ -345,15 +348,19 @@ function CreateNewStudent() {
     catch (e) {
       showNotification("Error", "Failed to get data", "danger");
     }
-
+    document.getElementById("new_loader").style.display = "none";
   });
 
-  newStudentDetailReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  newStudentDetailReq.fail(function(jqXHR, textStatus){
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+  });
 }
 
 function updateStudentDetails() {
   var submittedTC = getCheckBoxValue("submittedTC");
   var rte = getCheckBoxValue("rte");
+  document.getElementById("new_loader").style.display = "block";
   var newStudentDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "updateStudentId",
     studentId: document.getElementById('studID').innerText,
@@ -391,8 +398,12 @@ function updateStudentDetails() {
       console.log(newStudentDetailRes)
       showNotification("<strong>Error</strong>", "Failed to save data", "danger");
     }
+    document.getElementById("new_loader").style.display = "none";
   });
 
-  newStudentDetailReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+  newStudentDetailReq.fail(function(jqXHR, textStatus){
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+  });
 }
 //StepOne End

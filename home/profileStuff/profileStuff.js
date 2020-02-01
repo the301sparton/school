@@ -110,6 +110,7 @@ function updateProfileListener() {
   $('#profileUpdateForm').submit(function (event) {
     event.preventDefault();
     if (document.getElementById("up_displayName").value != me_data.displayName || document.getElementById("up_emailId").value != me_data.eid || document.getElementById("up_mobileNumber").value != me_data.mobileNumber || imageDataChanged == true) {
+      document.getElementById("new_loader").style.display = "block";
       let updateProfileReq = $.post(baseUrl + "/apis/User.php", {
         type: "updateUser",
         uid: me_data.uid,
@@ -126,8 +127,12 @@ function updateProfileListener() {
         else {
           showNotification("<strong>Error</strong>", "Failed to update profile", "danger");
         }
+        document.getElementById("new_loader").style.display = "none";
       });
-      updateProfileReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+      updateProfileReq.fail(function(jqXHR, textStatus){
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+      });
 
     }
     else {
