@@ -38,6 +38,7 @@ function feesReport() {
           <option value="receiptById">Get Receipt By Id</option>
           <option value="byDate">By Date</option>
           <option value="byMonth">By Month</option>
+          <option value="bySchool">By School</option>
           <option value="classSummeryReport">Class Summery Report</option>
         </select>
       </div>
@@ -122,9 +123,9 @@ function loadAllSessionsAndSetListeners() {
     document.getElementById("new_loader").style.display = "none";
   });
 
-  allSessionReq.fail(function (jqXHR, textStatus) { 
+  allSessionReq.fail(function (jqXHR, textStatus) {
     document.getElementById("new_loader").style.display = "none";
-    handleNetworkIssues(textStatus) 
+    handleNetworkIssues(textStatus)
   });
 
 }
@@ -170,6 +171,59 @@ function checkReportType() {
         });
       }
       isFirstDateReportView = false;
+      document.getElementById("botHR").style.display = "block";
+    }
+
+    else if (FeeRepostType == "bySchool") {
+      document.getElementById('feeSessionDiv').style.display = "block";
+      document.getElementById("feeSessionDiv").className = "col-md-5";
+      document.getElementById('filterImg').style.display = "none";
+      document.getElementById('receiptIdBox').style.display = "none";
+      document.getElementById('receiptGoBox').style.display = "none";
+      document.getElementById('FeeReportHolder').innerHTML = ``;
+      document.getElementById("errorMessage").style.display = "none";
+      document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-2" style="text-align: end">
+                                                            <label for="dateFrom">Select School:</label>
+                                                          </div>
+                                                          <div class="col-md-4">
+                                                          <select class="form-control" id="schoolSelect" onchange="reportBySchool()"></select>
+                                                          </div>
+                                                         
+                                                          <div class="col-md-4">
+                                                          </div>
+
+                                                          <div class="col-md-1">
+                                                          <button id="printBtn" style="float:right" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                          </div>
+                                                         `;
+      document.getElementById("new_loader").style.display = "block";
+      let schoolreq = $.post(baseUrl + "/apis/classList.php", {
+        type: "getAllSchools"
+      });
+
+      schoolreq.done(function (responce) {
+        let schoolArray = JSON.parse(responce);
+        $('#schoolSelect').empty();
+        $('#schoolSelect').append($('<option>', {
+          value: "",
+          text: "Select School",
+          selected: true,
+          disabled: true
+        }, '</option>'));
+        for (var index in schoolArray) {
+          $('#schoolSelect')
+            .append($('<option>', {
+              value: schoolArray[index].schoolId,
+              text: schoolArray[index].schoolName,
+            }, '</option>'));
+        }
+        document.getElementById("new_loader").style.display = "none";
+      });
+
+      schoolreq.fail(function (jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+      });
       document.getElementById("botHR").style.display = "block";
     }
 
@@ -219,7 +273,6 @@ function checkReportType() {
       document.getElementById('receiptGoBox').style.display = "block";
       document.getElementById("errorMessage").style.display = "none";
     }
-
 
     else {
 
@@ -272,9 +325,9 @@ function classSummeryReport() {
     }
   });
 
-  classSummeryReportReq.fail(function (jqXHR, textStatus) { 
+  classSummeryReportReq.fail(function (jqXHR, textStatus) {
     document.getElementById("new_loader").style.display = "none";
-    handleNetworkIssues(textStatus) 
+    handleNetworkIssues(textStatus)
   });
 }
 
@@ -380,9 +433,9 @@ function ReportByDates() {
       document.getElementById("new_loader").style.display = "none";
     });
 
-    reportByDateReq.fail(function (jqXHR, textStatus) { 
+    reportByDateReq.fail(function (jqXHR, textStatus) {
       document.getElementById("new_loader").style.display = "none";
-      handleNetworkIssues(textStatus) 
+      handleNetworkIssues(textStatus)
     });
   }
 }
@@ -400,12 +453,17 @@ function getMonthWiseReport() {
     catch (e) {
       showNotification("Error", "Failed to get data", "danger");
     }
+    document.getElementById("new_loader").style.display = "none";
   });
 
-  monthWiseReportReq.fail(function (jqXHR, textStatus) { 
+  monthWiseReportReq.fail(function (jqXHR, textStatus) {
     document.getElementById("new_loader").style.display = "none";
-    handleNetworkIssues(textStatus) 
+    handleNetworkIssues(textStatus)
   });
+}
+
+function reportBySchool(){
+
 }
 
 function UpdateFilter() {
