@@ -21,6 +21,8 @@ function manageClassList() {
     document.getElementById('adminActionHolder').innerHTML = manageClassListHTML;
 
     getClassListToShow();
+    setValuesInSchoolListSelect();
+
 }
 
 function getClassListToShow() {
@@ -37,7 +39,8 @@ function getClassListToShow() {
             editing: false,
             sorting: false,
             paging: true,
-            fields: [{ name: "className", title: "Class Name", type: "text", width: 140 },
+            fields: [{ name: "schoolName", title: "School Name", type: "text", width: 120 },
+            { name: "className", title: "Class Name", type: "text", width: 140 },
             { name: "section", title: "Section", type: "text", width: 120 },
             { name: "displayName", title: "Class Teacher", type: "text", width: 120 },
             ],
@@ -72,6 +75,7 @@ function showClassListDetailsDialog(args, forEdit) {
             document.getElementById("newClassSection").value = args.section;
             document.getElementById("newClassSection").disabled = true;
             document.getElementById('newClassTeacher').value = args.uid;
+            document.getElementById("newSchoolId").value = args.schoolId;
             document.getElementById("classDeleteBtn").style.display = "block";
         }
         else {
@@ -107,6 +111,38 @@ function setValuesInClassTeacherSelect(teacherList) {
     }
 }
 
+function setValuesInSchoolListSelect() {
+    document.getElementById("new_loader").style.display = "block";
+    let schoolreq = $.post(baseUrl + "/apis/classList.php", {
+        type: "getAllSchools"
+    });
+
+    schoolreq.done(function (responce) {
+        let schoolArray = JSON.parse(responce);
+        $('#newSchoolId').empty();
+        $('#newSchoolId').append($('<option>', {
+            value: "",
+            text: "Select School",
+            selected: true,
+            disabled: true
+        }, '</option>'));
+        for (var index in schoolArray) {
+            $('#newSchoolId')
+                .append($('<option>', {
+                    value: schoolArray[index].schoolId,
+                    text: schoolArray[index].schoolName,
+                }, '</option>'));
+        }
+        document.getElementById("new_loader").style.display = "none";           
+    });
+
+    schoolreq.fail(function (jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
+}
+
+
 function deleteClassListItem() {
     document.getElementById("new_loader").style.display = "block";
     let deleteClassListItemReq = $.post(baseUrl + "/apis/classList.php", {
@@ -129,9 +165,9 @@ function deleteClassListItem() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    deleteClassListItemReq.fail(function (jqXHR, textStatus) { 
+    deleteClassListItemReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
-        handleNetworkIssues(textStatus) 
+        handleNetworkIssues(textStatus)
     });
 }
 
@@ -140,14 +176,15 @@ function createOrUpdateClass() {
 
         let classListVal = document.getElementById("newClassName").value;
         let sectionVal = document.getElementById("newClassSection").value;
-        let teacherIdVal = document.getElementById('newClassTeacher').value
-
+        let teacherIdVal = document.getElementById('newClassTeacher').value;
+        let schoolIdVal = document.getElementById("newSchoolId").value;
         if (classListVal != "" && sectionVal != "" && teacherIdVal != "") {
             document.getElementById("new_loader").style.display = "block";
             let insertClassReq = $.post(baseUrl + "/apis/classList.php", {
                 type: "insertClass",
                 className: classListVal,
                 section: sectionVal,
+                schoolId: schoolIdVal,
                 teacherId: teacherIdVal
             });
 
@@ -163,9 +200,9 @@ function createOrUpdateClass() {
                 document.getElementById("new_loader").style.display = "none";
             });
 
-            insertClassReq.fail(function (jqXHR, textStatus) { 
+            insertClassReq.fail(function (jqXHR, textStatus) {
                 document.getElementById("new_loader").style.display = "none";
-                handleNetworkIssues(textStatus) 
+                handleNetworkIssues(textStatus)
             });
         }
 
@@ -179,12 +216,14 @@ function createOrUpdateClass() {
         let classListVal = document.getElementById("newClassName").value;
         let sectionVal = document.getElementById("newClassSection").value;
         let teacherIdVal = document.getElementById('newClassTeacher').value
+        let schoolIdVal = document.getElementById("newSchoolId").value;
 
         document.getElementById("new_loader").style.display = "block";
         let updateClassTeacherReq = $.post(baseUrl + "/apis/classList.php", {
-            type: "updateClassTeacher",
+            type: "updateClass",
             className: classListVal,
             teacherId: teacherIdVal,
+            schoolId: schoolIdVal,
             section: sectionVal
         });
 
@@ -194,14 +233,15 @@ function createOrUpdateClass() {
                 manageClassList();
             }
             else {
+                console.log(responce);
                 showNotification("Error!", "Failed to delete Class", "danger");
             }
             document.getElementById("new_loader").style.display = "none";
         });
 
-        updateClassTeacherReq.fail(function (jqXHR, textStatus) { 
+        updateClassTeacherReq.fail(function (jqXHR, textStatus) {
             document.getElementById("new_loader").style.display = "none";
-            handleNetworkIssues(textStatus) 
+            handleNetworkIssues(textStatus)
         });
     }
 }
