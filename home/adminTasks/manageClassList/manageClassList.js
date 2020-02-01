@@ -6,7 +6,6 @@ function manageClassList() {
           <h5>Manage Class List</h5>
           <hr>
     </div>
-
     <div class="container" style="padding: 1%">
     
     <div id="jsGrid" style = "display:none" ></div>
