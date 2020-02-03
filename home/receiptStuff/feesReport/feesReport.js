@@ -512,7 +512,6 @@ function clearFilter() {
   document.getElementById("filterSection").value = "";
 }
 
-
 function printReport() {
   document.body.innerHTML = document.getElementById("jsGrid").innerHTML;
   window.print();
