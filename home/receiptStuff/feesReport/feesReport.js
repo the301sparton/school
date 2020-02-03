@@ -449,6 +449,7 @@ function getMonthWiseReport() {
     sessionName: FeeSessionSelect
   });
   
+  
   monthWiseReportReq.done(function (reportRes) {
     
     try {
