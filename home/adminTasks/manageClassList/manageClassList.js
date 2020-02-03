@@ -194,7 +194,6 @@ function createOrUpdateClass() {
                     getClassListToShow();
                 }
                 else {
-                    console.log(responce);
                     showNotification("Error!", "Class & Section together must be unique", "danger");
                 }
                 document.getElementById("new_loader").style.display = "none";
@@ -233,7 +232,6 @@ function createOrUpdateClass() {
                 manageClassList();
             }
             else {
-                console.log(responce);
                 showNotification("Error!", "Failed to delete Class", "danger");
             }
             document.getElementById("new_loader").style.display = "none";
