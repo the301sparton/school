@@ -72,6 +72,9 @@ function sendSearchUserRequest() {
   else {
     if ((queryString != "" && queryString != null) || userSearchMeathord == "ALL") {
       document.getElementById("errorMessage").style.display = "none";
+      if(userSearchMeathord == "ALL"){
+        document.getElementById("new_loader").style.display = "block";
+      }
       let searchUserReq = $.post(baseUrl + "/apis/User.php", {
         type: "searchUser",
         searchType: userSearchMeathord,
@@ -87,9 +90,13 @@ function sendSearchUserRequest() {
         catch (e) {
           showNotification("Error", "Failed to get data", "danger");
         }
+        document.getElementById("new_loader").style.display = "block";
       });
 
-      searchUserReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
+      searchUserReq.fail(function(jqXHR, textStatus){
+        document.getElementById("new_loader").style.display = "block";
+        handleNetworkIssues(textStatus)
+      });
     }
     else {
       document.getElementById('allUserHolder').innerHTML = `<div class="row collapsible">

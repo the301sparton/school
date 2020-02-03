@@ -385,15 +385,16 @@ function buildFeeReport(report, type) {
       }
       var ctx = document.getElementById('myChart').getContext('2d');
       var myChart = new Chart(ctx, {
-        type: 'line',
+        type: 'doughnut',
+        
         data: {
-          labels: months,
+          labels: months,          
           datasets: [{
             label: 'Earnings By School',
-            data: totals,
-            borderColor: '#2e86c1',
-            fill: false,
-          }]
+            data: totals,            
+            borderColor: '#2e86c1',  
+            backgroundColor:["#7fb3d5", "#a9cce3", "#fadbd8"],          
+        }]
         }
       });
     }
@@ -426,7 +427,7 @@ function ReportByDates() {
     reportByDateReq.done(function (reportRes) {
       try {
         var report = JSON.parse(reportRes);
-        buildDateReport(report, "ByDate");
+        buildFeeReport(report, "ByDate");
       }
       catch (e) {
         showNotification("Error", "Failed to get data", "danger");
@@ -447,10 +448,11 @@ function getMonthWiseReport() {
     type: "byMonth",
     sessionName: FeeSessionSelect
   });
+  
   monthWiseReportReq.done(function (reportRes) {
-    console.log(reportRes)
+    
     try {
-      buildDateReport(JSON.parse(reportRes),"ByMonth");
+      buildFeeReport(JSON.parse(reportRes),"ByMonth");
     }
     catch (e) {
       console.log("Err")
