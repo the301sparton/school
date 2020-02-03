@@ -182,49 +182,16 @@ function checkReportType() {
       document.getElementById('receiptGoBox').style.display = "none";
       document.getElementById('FeeReportHolder').innerHTML = ``;
       document.getElementById("errorMessage").style.display = "none";
-      document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-2" style="text-align: end">
-                                                            <label for="dateFrom">Select School:</label>
-                                                          </div>
-                                                          <div class="col-md-4">
-                                                          <select class="form-control" id="schoolSelect" onchange="reportBySchool()"></select>
-                                                          </div>
-                                                         
-                                                          <div class="col-md-4">
-                                                          </div>
+      document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
+                                                              </div>
+                                                              <div class="col-md-1">
+                                                                <button id="printBtn" style="float:right" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                              </div>`;
+      document.getElementById("errorMessage").style.display = "none";
 
-                                                          <div class="col-md-1">
-                                                          <button id="printBtn" style="float:right" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
-                                                          </div>
-                                                         `;
-      document.getElementById("new_loader").style.display = "block";
-      let schoolreq = $.post(baseUrl + "/apis/classList.php", {
-        type: "getAllSchools"
-      });
-
-      schoolreq.done(function (responce) {
-        let schoolArray = JSON.parse(responce);
-        $('#schoolSelect').empty();
-        $('#schoolSelect').append($('<option>', {
-          value: "",
-          text: "Select School",
-          selected: true,
-          disabled: true
-        }, '</option>'));
-        for (var index in schoolArray) {
-          $('#schoolSelect')
-            .append($('<option>', {
-              value: schoolArray[index].schoolId,
-              text: schoolArray[index].schoolName,
-            }, '</option>'));
-        }
-        document.getElementById("new_loader").style.display = "none";
-      });
-
-      schoolreq.fail(function (jqXHR, textStatus) {
-        document.getElementById("new_loader").style.display = "none";
-        handleNetworkIssues(textStatus)
-      });
-      document.getElementById("botHR").style.display = "block";
+      if (FeeSessionSelect != "") {
+        reportBySchool();
+      }
     }
 
     else if (FeeRepostType == "byMonth") {
@@ -331,7 +298,7 @@ function classSummeryReport() {
   });
 }
 
-function buildDateReport(report, byDate) {
+function buildFeeReport(report, type) {
   document.getElementById('printBtn').disabled = true;
   document.getElementById('FeeReportHolder').innerHTML = `
   <div class="row" style="margin-bottom:3%">
@@ -352,7 +319,7 @@ function buildDateReport(report, byDate) {
       fieldsArr[i] = { name: key, type: "number", width: 120 };
       i++;
     }
-    if (byDate) {
+    if (type == "ByDate") {
       document.getElementById('FeeReportHolder').innerHTML = ` <div class="row">
       <div id="jsGrid" style = "display:none; text-align:center"></div>
     </div>`;
@@ -364,7 +331,7 @@ function buildDateReport(report, byDate) {
       }
     }
     //Month Wise Report
-    else {
+    else if(type == "ByMonth"){
       document.getElementById('FeeReportHolder').innerHTML = `
       <div class="row">
         <div class="col-md-12">
@@ -389,6 +356,39 @@ function buildDateReport(report, byDate) {
           labels: months,
           datasets: [{
             label: 'Earnings by month',
+            data: totals,
+            borderColor: '#2e86c1',
+            fill: false,
+          }]
+        }
+      });
+    }
+
+    else if(type == "BySchool"){
+      document.getElementById('FeeReportHolder').innerHTML = `
+      <div class="row">
+        <div class="col-md-12">
+          <canvas id="myChart" width="100" height="40"></canvas>
+        </div>
+      </div>
+      <div class="row" style="margin-top:5%">
+        <div id="jsGrid" style = "display:none; text-align:center"></div>
+      </div>`;
+      var months = [];
+      var totals = [];
+      for (var itr in report) {
+        if (itr != (report.length - 1)) {
+          months.push(report[itr].schoolName);
+          totals.push(report[itr].Total);
+        }
+      }
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [{
+            label: 'Earnings By School',
             data: totals,
             borderColor: '#2e86c1',
             fill: false,
@@ -425,7 +425,7 @@ function ReportByDates() {
     reportByDateReq.done(function (reportRes) {
       try {
         var report = JSON.parse(reportRes);
-        buildDateReport(report, true);
+        buildDateReport(report, "ByDate");
       }
       catch (e) {
         showNotification("Error", "Failed to get data", "danger");
@@ -448,7 +448,7 @@ function getMonthWiseReport() {
   });
   monthWiseReportReq.done(function (reportRes) {
     try {
-      buildDateReport(JSON.parse(reportRes));
+      buildDateReport(JSON.parse(reportRes),"ByMonth");
     }
     catch (e) {
       showNotification("Error", "Failed to get data", "danger");
@@ -463,7 +463,26 @@ function getMonthWiseReport() {
 }
 
 function reportBySchool(){
+document.getElementById("new_loader").style.display = "block";
+  var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
+    type: "bySchool",
+    sessionName: FeeSessionSelect
+  });
+  monthWiseReportReq.done(function (reportRes) {
+    console.log(reportRes)
+    try {
+      buildFeeReport(JSON.parse(reportRes), "BySchool");
+    }
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
+    }
+    document.getElementById("new_loader").style.display = "none";
+  });
 
+  monthWiseReportReq.fail(function (jqXHR, textStatus) {
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+  });
 }
 
 function UpdateFilter() {
