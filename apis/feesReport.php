@@ -19,5 +19,11 @@ else{
         $sql = "CALL get_monthwise_headwise_list('$sessionName')";
         getOutputFromQueary($sql);
     }
+
+    else if($type == "bySchool"){
+        $sessionName = $_POST['sessionName'];
+        $sql = "CALL get_headwise_schoolwise_sum('$sessionName')";
+        getOutputFromQueary($sql);
+    }
 }
 ?>
