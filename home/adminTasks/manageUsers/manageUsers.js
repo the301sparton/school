@@ -90,11 +90,11 @@ function sendSearchUserRequest() {
         catch (e) {
           showNotification("Error", "Failed to get data", "danger");
         }
-        document.getElementById("new_loader").style.display = "block";
+        document.getElementById("new_loader").style.display = "none";
       });
 
       searchUserReq.fail(function(jqXHR, textStatus){
-        document.getElementById("new_loader").style.display = "block";
+        document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
       });
     }
