@@ -225,6 +225,7 @@ function createOrUpdateClass() {
             section: sectionVal
         });
 
+        
         updateClassTeacherReq.done(function (responce) {
             if (responce == 200) {
                 showNotification("Success!", "Class Teacher Updated Successfully", "success");
