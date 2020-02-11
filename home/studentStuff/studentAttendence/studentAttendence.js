@@ -267,6 +267,7 @@ function saveAttendenceRecords(){
   saveAttendenceReq.done(function(response){
     if(response == 200){
       showNotification("<strong>Success</strong>", "Attendence Saved", "success");
+      getStudentListForAttendence();
     }
     else{
       console.log(response);
