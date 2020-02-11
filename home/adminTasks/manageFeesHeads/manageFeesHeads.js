@@ -19,7 +19,8 @@ function manageFeesHeads() {
 function makeViewForFeeHeads() {
     document.getElementById("new_loader").style.display = "block";
     let getAllfeeData = $.post(baseUrl + "/apis/feesHeads.php", {
-        type: "getAllHeads"
+        type: "getAllHeads",
+        uid: me_data.uid
     });
 
     getAllfeeData.done(function (responce) {
@@ -85,6 +86,7 @@ function updateFeeHeadDetails(FeeHeadItem) {
     document.getElementById("new_loader").style.display = "block";
         let updateHeadItemReq = $.post(baseUrl + "/apis/feesHeads.php", {
             type: "updateById",
+            uid: me_data.uid,
             id: FeeHeadItem.headId,
             headName: FeeHeadItem.headName,
             amount_KG1: FeeHeadItem.amount_KG1,

@@ -1,18 +1,37 @@
+
 $(document).ready(function () {
     var url = new URL(document.location.href);
     var studentId = url.searchParams.get("studentId");
     var sessionName = url.searchParams.get("sessionName");
 
-    if(studentId == null || sessionName == null){
-        document.location = baseUrl+"/home";
+    if (studentId == null || sessionName == null) {
+        document.location = baseUrl + "/home";
     }
 
-    currentSession = sessionName;
-    document.getElementById("studID").innerText = studentId;
-    stepOne();
-    document.getElementById('loader').style.display = "none";  //HIDE LOADER
+    firebase.auth().onAuthStateChanged(function (usr) {
+        if (usr) {
+            $.post("../apis/User.php", { type: "getById", uid: usr.uid }, function (user_dat) {
+                me_data = JSON.parse(user_dat)[0];
+                if (me_data == null) {
+                    throwBack();
+                }
+                else {
+                    currentSession = sessionName;
+                    document.getElementById("studID").innerText = studentId;
+                    stepOne();
+                    document.getElementById('loader').style.display = "none";  //HIDE LOADER
+                }
+            })
+        }
+    });
+
 });
 
-function pg_back(){
+
+function throwBack() {
+    document.location = baseUrl + "/home";
+}
+
+function pg_back() {
     window.history.back();
 }

@@ -29,7 +29,8 @@ function getClassListToShow() {
     document.getElementById("new_loader").style.display = "block";
     document.getElementById('jsGrid').style.display = "none";
     let classListReq = $.post(baseUrl + "/apis/classList.php", {
-        type: "getClassList"
+        type: "getClassList",
+        uid: me_data.uid
     });
     classListReq.done(function (responce) {
         document.getElementById('jsGrid').style.display = "block";
@@ -60,7 +61,8 @@ function getClassListToShow() {
 
 function showClassListDetailsDialog(args, forEdit) {
     let getTeacherList = $.post(baseUrl + "/apis/classList.php", {
-        type: "getUserList"
+        type: "getUserList",
+        uid: me_data.uid
     });
 
     getTeacherList.done(function (responce) {
@@ -114,7 +116,8 @@ function setValuesInClassTeacherSelect(teacherList) {
 function setValuesInSchoolListSelect() {
     document.getElementById("new_loader").style.display = "block";
     let schoolreq = $.post(baseUrl + "/apis/classList.php", {
-        type: "getAllSchools"
+        type: "getAllSchools",
+        uid: me_data.uid
     });
 
     schoolreq.done(function (responce) {
@@ -147,6 +150,7 @@ function deleteClassListItem() {
     document.getElementById("new_loader").style.display = "block";
     let deleteClassListItemReq = $.post(baseUrl + "/apis/classList.php", {
         type: "deleteClassItem",
+        uid: me_data.uid,
         className: document.getElementById("newClassName").value,
         section: document.getElementById("newClassSection").value
     });
@@ -183,6 +187,7 @@ function createOrUpdateClass() {
             let insertClassReq = $.post(baseUrl + "/apis/classList.php", {
                 type: "insertClass",
                 className: classListVal,
+                uid: me_data.uid,
                 section: sectionVal,
                 schoolId: schoolIdVal,
                 teacherId: teacherIdVal
@@ -220,6 +225,7 @@ function createOrUpdateClass() {
         document.getElementById("new_loader").style.display = "block";
         let updateClassTeacherReq = $.post(baseUrl + "/apis/classList.php", {
             type: "updateClass",
+            uid: me_data.uid,
             className: classListVal,
             teacherId: teacherIdVal,
             schoolId: schoolIdVal,

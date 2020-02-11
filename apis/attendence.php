@@ -2,6 +2,8 @@
 require_once 'db.php';
 require_once 'commonFunctions.php';
 $type = $_POST['type'];
+$reqType = "attendence:".$type;
+$uid = $_POST['uid'];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -21,15 +23,16 @@ else{
         $result = mysqli_query($GLOBALS['conn'],$sqlforAlready);  
         if (mysqli_num_rows($result) == 0) { 
             $sql = "SELECT sessionName, class, section, studentid, firstName, middleName, lastName FROM searchstudent WHERE `sessionName` = '$sessionName' AND `class` = '$class'AND `section` = '$section' ORDER BY `firstName`";
-            getOutputFromQueary($sql);
+            getOutputFromQueary($sql,$uid,$reqType);
         }
         else{
-            getOutputFromQueary($sqlforAlready);
+            getOutputFromQueary($sqlforAlready,$uid,$reqType);
         }    
     }
 
     else if($type == "saveAttendenceRecords"){
         $dataArray = $_POST["data"];
+        
         $sql = "INSERT into attendencerecords (`studentId`, `sessionName`, `date`, `state`) values ";
         $counter = 0;
         foreach($dataArray as $student){
@@ -50,7 +53,7 @@ else{
             }
             $counter = $counter + 1;
         }
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
 
     else if($type == "updateAttendenceRecords"){
@@ -81,7 +84,7 @@ else{
             }  
             $counter = $counter + 1;          
         }
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
 }
 

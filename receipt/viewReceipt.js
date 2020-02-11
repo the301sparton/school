@@ -38,12 +38,12 @@ function pg_main() {
                 }),
 
 
-                $.post(baseUrl + "/apis/receiptStuff.php", { type: "getReceipt", receiptId: receiptId }, function (receiptStr) {
+                $.post(baseUrl + "/apis/receiptStuff.php", { type: "getReceipt",uid: user.uid, receiptId: receiptId }, function (receiptStr) {
                     thisReceipt = JSON.parse(receiptStr);
 
                 }),
 
-                $.post(baseUrl + "/apis/receiptStuff.php", { type: "getReceiptDetails", receiptId: receiptId }, function (feesHeadValStr) {
+                $.post(baseUrl + "/apis/receiptStuff.php", { type: "getReceiptDetails",uid: user.uid, receiptId: receiptId }, function (feesHeadValStr) {
                     feeHeadVal = JSON.parse(feesHeadValStr);
                 })
 
@@ -55,6 +55,7 @@ function pg_main() {
 
                 $.post(baseUrl + "/apis/studentInfo.php", {
                     type: "onlyNameNsessionDetals",
+                    uid: user.uid,
                     studentId: thisReceipt.studentId,
                     sessionName: thisReceipt.sessionName
                 },

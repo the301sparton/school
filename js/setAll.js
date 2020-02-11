@@ -27,6 +27,7 @@ $("#contactForm").submit(function(event) {
     event.preventDefault();
     console.log("hel");
     var newMessageReq = $.post(baseUrl+"/apis/connectUs.php",{type:"newMessage",
+    uid: me_data.uid,
                             name:document.getElementById("feedbackName").value,
                             email:document.getElementById("feedbackEmail").value,
                             subject:document.getElementById("feedbackSubject").value,

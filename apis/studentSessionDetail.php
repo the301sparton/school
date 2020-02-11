@@ -3,6 +3,8 @@ require_once 'db.php';
 require_once 'commonFunctions.php';
 
 $type = $_POST['type'];
+$reqType = "studentSessionDetail:".$type;
+$uid = $_POST['uid'];
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -39,7 +41,7 @@ else{
 
         $sql = "INSERT INTO `$tbl_name`(`sessionName`, `studentId`, `class`, `section`, `medium`, `totalFees`, `photo`) VALUES ('$sessionName','$studentId','$class','$section','$medium','$totalFees','$photo')"; 
 
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
 
     else if($type == "updateSessionDetailsById"){
@@ -61,7 +63,7 @@ else{
         $id = mysqli_real_escape_string($conn,$id);
         
         $sql = "UPDATE `$tbl_name` SET class = '$class', section = '$section', medium = '$medium', totalFees = '$totalFees', photo = '$photo' WHERE id = '$id'";
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
 
     else if($type == "getByStudentId"){

@@ -193,6 +193,7 @@ function stepTwo() {
 function loadContactDetails() {
   var loadContactDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "getContactDetailsById",
+    uid: me_data.uid,
     studentId: document.getElementById("studID").innerText
   });
 
@@ -254,6 +255,7 @@ function setContactDetails(toReturn) {
   document.getElementById("new_loader").style.display = "none";
   var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "updateContactDetails",
+    uid: me_data.uid,
     localAddress: document.getElementById('localAddress').value,
     localState: document.getElementById('localState').value,
     localCity: document.getElementById('localCity').value,

@@ -2,6 +2,8 @@
 require_once 'db.php';
 require_once 'commonFunctions.php';
 $type = $_POST['type'];
+$reqType = "connectUs:".$type;
+$uid = $_POST['uid'];
    
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -17,6 +19,6 @@ else{
         $message = $_POST['message'];
 
         $sql = "INSERT INTO `clientmessage`(`name`, `email`, `subject`, `message`) VALUES ('$name', '$email', '$subject', '$message')";
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
 }

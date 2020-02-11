@@ -101,7 +101,8 @@ function feesReport() {
 function loadAllSessionsAndSetListeners() {
   document.getElementById("new_loader").style.display = "block";
   var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
-    type: "getAllSessions"
+    type: "getAllSessions",
+    uid: me_data.uid
   });
 
   allSessionReq.done(function (allSessions) {
@@ -253,6 +254,7 @@ function classSummeryReport() {
   document.getElementById("new_loader").style.display = "block";
   var classSummeryReportReq = $.post(baseUrl + "/apis/receiptStuff.php", {
     type: "classSummeryReport",
+    uid: me_data.uid,
     class: document.getElementById("filterClass").value,
     section: document.getElementById("filterSection").value,
     sessionName: FeeSessionSelect
@@ -419,6 +421,7 @@ function ReportByDates() {
     document.getElementById("new_loader").style.display = "block";
     var reportByDateReq = $.post(baseUrl + "/apis/feesReport.php", {
       type: "byDay",
+      uid: me_data.uid,
       dateFrom: document.getElementById("dateFrom").value,
       dateTo: document.getElementById("dateTo").value,
     });
@@ -445,6 +448,7 @@ function getMonthWiseReport() {
   document.getElementById("new_loader").style.display = "block";
   var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
     type: "byMonth",
+    uid: me_data.uid,
     sessionName: FeeSessionSelect
   });
   
@@ -469,6 +473,7 @@ function reportBySchool(){
 document.getElementById("new_loader").style.display = "block";
   var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
     type: "bySchool",
+    uid: me_data.uid,
     sessionName: FeeSessionSelect
   });
   monthWiseReportReq.done(function (reportRes) {

@@ -68,6 +68,7 @@ function getFeesDetails(studentId, classId) {
 function setAmountPaid(studentId) {
     var AmountRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
         type: "getMyPaidAmount",
+        uid: me_data.uid,
         studentId: studentId,
         sessionName: sessionSelect
     });
@@ -85,6 +86,7 @@ function setAmountPaid(studentId) {
 function setTotalFees(studentId) {
     var AmountRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
         type: "getTotalFees",
+        uid: me_data.uid,
         studentId: studentId,
         sessionName: sessionSelect
     });
@@ -102,6 +104,7 @@ function newReceiptView() {
     document.getElementById("new_loader").style.display = "block";
     var getHeadsReq = $.post(baseUrl + "/apis/feesHeads.php", {
         type: "getActiveFeesHeads",
+        uid: me_data.uid,
         classId: ReceiptClassId,
         sessionName: sessionSelect,
         studentId: ReceiptForStudentId
@@ -175,6 +178,7 @@ $('#newReceiptForm').submit(function (event) {
         document.getElementById("new_loader").style.display = "block";
         var newReceiptRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
             type: "newReceipt",
+            uid: me_data.uid,
             userId: me_data.uid,
             studentId: ReceiptForStudentId,
             sessionName: sessionSelect,
@@ -226,6 +230,7 @@ function showReceiptList() {
     document.getElementById("new_loader").style.display = "block";
     let getReceiptListReq = $.post(baseUrl + "/apis/receiptStuff.php", {
         type: "receiptListBySessionAndStudentId",
+        uid: me_data.uid,
         studentId: ReceiptForStudentId,
         sessionName: sessionSelect
     });

@@ -25,7 +25,8 @@ function manageRoles() {
 function getRoleList() {
     document.getElementById("new_loader").style.display = "block";
     var userRoleReq = $.post(baseUrl + "/apis/userGroup.php", {
-        type: "getAllRolesWithId"
+        type: "getAllRolesWithId",
+        uid: me_data.uid
     });
 
     userRoleReq.done(function (responce) {
@@ -232,7 +233,7 @@ function updateGroupDetails(view) {
     document.getElementById("new_loader").style.display = "block";
     var updateGroupReq = $.post(baseUrl + "/apis/userGroup.php", {
         type: "updateUserGroup",
-
+        uid: me_data.uid,
         userType: userType,
 
         manageUsers: manageUsers,
@@ -273,6 +274,7 @@ function deleteGroup(view) {
     document.getElementById("new_loader").style.display = "block";
     var deleteGroupReq = $.post(baseUrl + "/apis/userGroup.php", {
         type: "deleteUserGroup",
+        uid: me_data.uid,
         userType: userType
     });
     deleteGroupReq.done(function (responce) {
@@ -353,6 +355,7 @@ function createNewUserGroupForSure() {
         document.getElementById("new_loader").style.display = "block";
         var createNewRoleRequest = $.post(baseUrl + "/apis/userGroup.php", {
             type: "createNewRole",
+            uid: me_data.uid,
             newGroupName: newGroupName,
             NewNanageUsers: NewNanageUsers,
             NewManageRoles: NewManageRoles,

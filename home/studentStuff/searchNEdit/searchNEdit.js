@@ -93,7 +93,8 @@ function searchNEdit(forReceiptTemp) {
 function loadAllSessions() {
   document.getElementById("new_loader").style.display = "block";
   var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
-    type: "getAllSessions"
+    type: "getAllSessions",
+    uid: me_data.uid
   });
 
   allSessionReq.done(function (allSessions) {
@@ -138,6 +139,7 @@ function makeSearchRequest() {
   if (allFieldsAreSet(searchQuery)) {
     var searchByNameReq = $.post(baseUrl + "/apis/searchStudent.php", {
       type: searchBy,
+      uid: me_data.uid,
       inputKeyWord: searchQuery,
       limit: maxRows,
       sessionName: sessionSelect

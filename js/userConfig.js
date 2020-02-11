@@ -1,3 +1,4 @@
+
 let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canManageClass; let canGenerateReceipt; let canStudentAttendence; let canStudentReport;
 $(document).ready(function () {
     firebase.auth().onAuthStateChanged(function (usr) {

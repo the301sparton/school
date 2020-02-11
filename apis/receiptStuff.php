@@ -3,6 +3,9 @@ require_once 'db.php';
 require_once 'commonFunctions.php';
 
 $type = $_POST['type'];
+$reqType = "receiptStuff:".$type;
+$uid = $_POST['uid'];
+
 $amount = 0;
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -150,6 +153,7 @@ else{
             }
         }
         echo json_encode($headArray);
+        logRequest($uid,$type,$sql,json_encode($headArray));
     }
 
     else if($type  == "classSummeryReport"){
@@ -157,17 +161,17 @@ else{
         $section = $_POST['section'];
         $sessionName = $_POST['sessionName'];
         $sql = "SELECT studentId, fullname, totalFees, paidFees FROM studentfees WHERE class = '$class' AND section = '$section'";
-        getOutputFromQueary($sql);
+        getOutputFromQueary($sql,$uid,$reqType);
     }
     else if($type=="headWiseSumm"){ 
         $sql = "SELECT * from headwisesumm";
-        getOutputFromQueary($sql);
+        getOutputFromQueary($sql,$uid,$reqType);
     }
     else if($type == "receiptListBySessionAndStudentId"){
         $studentId = $_POST['studentId'];
         $sessionName = $_POST['sessionName'];
         $sql = "SELECT `receiptId`, `recamt` from vreceiptamount WHERE `studentId` = '$studentId' AND `sessionName` = '$sessionName'";
-        getOutputFromQueary($sql);
+        getOutputFromQueary($sql,$uid,$reqType);
     }
 
 }

@@ -3,6 +3,8 @@ require_once 'db.php';
 require_once 'commonFunctions.php';
 
 $type = $_POST['type'];
+$reqType = "User:".$type;
+$uid = $_POST['uid'];
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -21,7 +23,7 @@ else{
         $mobileNumber = $_POST['mobileNumber'];
         $photo = $_POST['photo'];
         $sql = "INSERT INTO `users`(`uid`, `displayName`, `eid`, `mobileNumber`, `photo`) VALUES ('$uid','$displayName','$eid','$mobileNumber', '$photo')";
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
 
     else if($type == "searchUser"){
@@ -42,19 +44,19 @@ else{
         else if($searchType == "ALL"){
             $sql = "SELECT * from users LIMIT $limit";
         }
-        getOutputFromQueary($sql);
+        getOutputFromQueary($sql,$uid,$reqType);
     }
 
     else if($type == "getById"){
         $uid = $_POST['uid'];
-    
+        $_SESSION["uid"] = $uid;
         $sql = "SELECT * FROM users WHERE uid='$uid'";
-        getOutputFromQueary($sql); 
+        getOutputFromQueary($sql,$uid,$reqType); 
     }
 
     else if($type == "getAllUsers"){
         $sql = "SELECT * FROM users";
-        getOutputFromQueary($sql);
+        getOutputFromQueary($sql,$uid,$reqType);
     }
 
     else if($type == "updateUser"){
@@ -64,7 +66,7 @@ else{
         $mobileNumber = $_POST['mobileNumber'];
         $photo = $_POST['photo'];
         $sql = "UPDATE users SET `displayName` = '$displayName', `eid` = '$eid', `mobileNumber` = '$mobileNumber', `photo` = '$photo' WHERE `uid` = '$uid'";
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
 
     else if($type == "deleteUserByUid"){
