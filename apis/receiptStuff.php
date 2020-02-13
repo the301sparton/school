@@ -49,7 +49,7 @@ else{
 
     else if($type == "getReceipt"){
         $receiptId = $_POST['receiptId'];
-        $sql = "SELECT receiptId, sessionName, studentId, receiptDate, remark, userId FROM receiptslist WHERE receiptId = $receiptId";
+        $sql = "SELECT * FROM receiptslist WHERE receiptId = $receiptId";
         $result=mysqli_query($conn,$sql);
             
         $r = mysqli_fetch_assoc($result);
@@ -80,11 +80,12 @@ else{
         $rDate = date('Y-m-d', strtotime($receiptDate));
         $class = "amount_".$classId;
 
-        $sqlNewReceipt = "INSERT INTO `receiptslist`(`sessionName`, `studentId`, `receiptDate`, `remark`, `userId`) VALUES ('$sessionName', '$studentId', '$rDate', '$remark', '$userId')";
-        if($conn->query($sqlNewReceipt) == TRUE) {
-            $receiptId = $conn->insert_id;
+        $sqlNewReceipt = "addNewReceipt('$sessionName', '$studentId', '$rDate', '$remark', '$userId')";
+        $result=mysqli_query($GLOBALS['conn'],"SELECT ".$sqlNewReceipt);
+        $r = mysqli_fetch_assoc($result);
+        $receiptId = $r[$sqlNewReceipt];
 
-            $sqlForHeads = "SELECT  headId, headName, `$class` FROM feesheads WHERE `$class` > 0 ORDER BY headId";
+           $sqlForHeads = "SELECT  headId, headName, `$class` FROM feesheads WHERE `$class` > 0 ORDER BY headId";
             $result=mysqli_query($conn,$sqlForHeads);
             
             $itr = 0;
@@ -122,7 +123,7 @@ else{
             else{
                 echo $FinalSql;
             }
-        }
+       
     }
 
     else if($type == "reportByDate"){

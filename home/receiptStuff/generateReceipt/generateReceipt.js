@@ -189,6 +189,7 @@ $('#newReceiptForm').submit(function (event) {
         });
 
         newReceiptRequest.done(function (newReceiptRes) {
+            console.log(newReceiptRes);
             try {
                 var resjson = JSON.parse(newReceiptRes);
                 if (resjson.resCode == 200) {
@@ -208,7 +209,7 @@ $('#newReceiptForm').submit(function (event) {
 
         newReceiptRequest.fail(function (jqXHR, textStatus) {
             document.getElementById("new_loader").style.display = "none";
-            handleNetworkIssues(textStatus)
+            //handleNetworkIssues(textStatus)
         });
     }
     else {

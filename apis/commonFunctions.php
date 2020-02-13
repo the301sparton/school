@@ -35,7 +35,7 @@ function get200AsYes($sql, $uid, $type){
 
 function printOnlyRowFromQueary($sql){
         $result=mysqli_query($GLOBALS['conn'],$sql);
-        $rows = array();    
+          
         $r = mysqli_fetch_assoc($result);
         print json_encode($r);
 }
