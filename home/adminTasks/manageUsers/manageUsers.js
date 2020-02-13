@@ -77,6 +77,7 @@ function sendSearchUserRequest() {
       }
       let searchUserReq = $.post(baseUrl + "/apis/User.php", {
         type: "searchUser",
+        uid: me_data.uid,
         searchType: userSearchMeathord,
         limit: maxCols,
         inputSearch: queryString
@@ -199,6 +200,7 @@ function getUserDetails(usersView) {
 
   myRolesListReq.done(function (myRoleList) {
     try {
+      console.log(myRoleList)
       let myRoleListArray = JSON.parse(myRoleList);
       document.getElementById('userDetailsHolder').innerHTML = `<div class="text-center">
           <h6>Edit User Groups</h6>
@@ -317,6 +319,7 @@ function deleteRoleItem(roleItemView) {
     document.getElementById("new_loader").style.display = "block";
     let deleteRoleReq = $.post(baseUrl + "/apis/userGroup.php", {
       type: "deleteUserGroupById",
+      uid: me_data.uid,
       id: roleId
     });
 

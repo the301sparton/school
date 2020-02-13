@@ -81,6 +81,7 @@ function setSessionEntry() {
   document.getElementById("new_loader").style.display = "block";
   var setSessionEntryReq = $.post(baseUrl + "/apis/studentSessionDetail.php", {
     type: "getByStudentId",
+    uid: me_data.uid,
     sessionName: currentSession,
     studentId: document.getElementById("studID").innerText
   });
@@ -134,6 +135,7 @@ function updateSessionEntry(toReturn) {
   document.getElementById("new_loader").style.display = "block";
   var newSessionEntryReq = $.post(baseUrl + "/apis/studentSessionDetail.php", {
     type: "updateSessionDetailsById",
+    uid: me_data.uid,
     id: document.getElementById("detId").innerText,
     class: document.getElementById("sessionClass").value,
     section: document.getElementById("sessionSection").value,

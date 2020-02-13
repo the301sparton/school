@@ -3,6 +3,8 @@ require_once 'db.php';
 require_once 'commonFunctions.php';
 
 $type = $_POST['type'];
+$reqType = "feesHeads:".$type;
+$uid = $_POST['uid'];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -37,11 +39,12 @@ else{
             $rows[] = $r;
         }
         print json_encode($rows); 
+        logRequest($uid,$type,$sql,json_encode($rows));
     }
 
     else if($type == "getAllHeads"){
         $sql = "SELECT * FROM `feesheads`";
-        getOutputFromQueary($sql);
+        getOutputFromQueary($sql,$uid,$reqType);
     }
 
     else if($type == "updateById"){
@@ -62,7 +65,7 @@ else{
         $amount_10th = $_POST['amount_10th'];
 
         $sql = "UPDATE `feesheads` SET headName = '$headName', amount_KG1 = '$amount_KG1', amount_KG2 = '$amount_KG2', amount_Nursery = '$amount_Nursery', amount_1st = '$amount_1st', amount_2nd = '$amount_2nd', amount_3rd = '$amount_3rd', amount_4th = '$amount_4th', amount_5th = '$amount_5th', amount_6th = '$amount_6th', amount_7th = '$amount_7th', amount_8th = '$amount_8th', amount_9th = '$amount_9th', amount_10th = '$amount_10th' WHERE headId = '$id'";
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
 
 }

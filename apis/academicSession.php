@@ -2,6 +2,8 @@
 require_once 'db.php';
 require_once 'commonFunctions.php';
 $type = $_POST['type'];
+$reqType = "academicSession:".$type;
+$uid = $_POST['uid'];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -19,7 +21,7 @@ else{
     }
     else if($type == "getAllSessions"){
         $sql = "SELECT sessionName FROM sessionlist";
-        getOutputFromQueary($sql);
+        getOutputFromQueary($sql,$uid,$reqType);
     }
 }
 

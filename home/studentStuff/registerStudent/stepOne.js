@@ -242,11 +242,13 @@ function setStudentDetails() {
   document.getElementById("new_loader").style.display = "block";
   var setStudentDetailsReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "getStudentDetailsById",
+    uid: me_data.uid,
     studentId: document.getElementById('studID').innerText
   });
 
   setStudentDetailsReq.done(function (setStudentDetailsRes) {
     try {
+      console.log(setStudentDetails);
       studentDetail = JSON.parse(setStudentDetailsRes);
       document.getElementById('formNumber').value = studentDetail.formNumber;
       document.getElementById('admissionNumber').value = studentDetail.admissionNumber;
@@ -305,6 +307,7 @@ function CreateNewStudent() {
   document.getElementById("new_loader").style.display = "block";
   var newStudentDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "newStudentDetails",
+    uid: me_data.uid,
     formNumber: document.getElementById('formNumber').value,
     admissionNumber: document.getElementById('admissionNumber').value,
     govermentId: document.getElementById('govermentId').value,
@@ -363,6 +366,7 @@ function updateStudentDetails() {
   document.getElementById("new_loader").style.display = "block";
   var newStudentDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "updateStudentId",
+    uid: me_data.uid,
     studentId: document.getElementById('studID').innerText,
     formNumber: document.getElementById('formNumber').value,
     admissionNumber: document.getElementById('admissionNumber').value,

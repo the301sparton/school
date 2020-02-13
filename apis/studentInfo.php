@@ -3,6 +3,8 @@ require_once 'db.php';
 require_once 'commonFunctions.php';
 
 $type = $_POST['type'];
+$reqType = "studentInfo:".$type;
+$uid = $_POST['uid'];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -93,10 +95,12 @@ else{
             $sqlforSession = "INSERT INTO studentdetails (studentId, sessionName) VALUES ('$studentId', '$sessionName')";
             if($conn->query($sqlforSession) == TRUE){
                 echo $res;
+                logRequest($uid,$type,$sqlforSession,json_encode($res));
             }
         }
         else{
             echo $sql;
+            logRequest($uid,$type,$sql,"WRITE_FAILED");
         }
     }
 
@@ -182,13 +186,13 @@ else{
         $doa = date('Y-m-d', strtotime($doa_temp));
 
         $sql = "UPDATE studentinfo SET formNumber = '$formNumber',admissionNumber = '$admissionNumber', govermentId = '$govermentId', firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', motherName = '$motherName', fatherName = '$fatherName', gender='$gender', aadharNumber = '$aadharNumber', dob = '$dob', pob_city='$pob_city', pob_dist='$pob_dist', pob_state='$pob_state', religion = '$religion', caste = '$caste', category = '$category', nationality = '$nationality', motherTounge = '$motherTounge', lastSchool = '$lastSchool', lastClass = '$lastClass', doa = '$doa', submittedTC = '$submittedTC', rte='$rte' WHERE studentId = $studentId"; 
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
 
     else if($type == "getContactDetailsById"){
         $studentId = $_POST["studentId"];
         $sql = "SELECT `localAddress`, `localState`, `localCity`, `localPincode`, `permanentAddress`, `permanentState`, `permanentCity`, `permanentPincode`, `guardianName`, `guardianPhone`, `guardianEmail` FROM studentinfo WHERE studentId = $studentId";
-        printOnlyRowFromQueary($sql);
+        printOnlyRowFromQueary($sql,$uid,$reqType);
     }
 
     else if($type == "updateContactDetails"){
@@ -230,7 +234,7 @@ else{
         
 
         $sql = "UPDATE `studentinfo` SET `localAddress`='$localAddress',`localState`='$localState',`localCity`='$localCity',`localPincode`='$localPincode',`permanentAddress`='$permanentAddress',`permanentState`='$permanentState',`permanentCity`='$permanentCity',`permanentPincode`='$permanentPincode',`guardianName`='$guardianName',`guardianPhone`='$guardianPhone', `guardianEmail` = '$guardianEmail' WHERE studentId = $studentId";
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
 
     else if($type = "onlyNameNsessionDetals"){
@@ -246,6 +250,6 @@ else{
         $result1=mysqli_query($conn,$sql1);
         $r1 = mysqli_fetch_assoc($result1);
         echo json_encode(array_merge($r, $r1));
-
+        logRequest($uid,$type,$sql,"UNKNOWN");
     }
 }

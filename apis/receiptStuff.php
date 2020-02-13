@@ -3,6 +3,9 @@ require_once 'db.php';
 require_once 'commonFunctions.php';
 
 $type = $_POST['type'];
+$reqType = "receiptStuff:".$type;
+$uid = $_POST['uid'];
+
 $amount = 0;
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -46,7 +49,7 @@ else{
 
     else if($type == "getReceipt"){
         $receiptId = $_POST['receiptId'];
-        $sql = "SELECT receiptId, sessionName, studentId, receiptDate, remark, userId FROM receiptslist WHERE receiptId = $receiptId";
+        $sql = "SELECT * FROM receiptslist WHERE receiptId = $receiptId";
         $result=mysqli_query($conn,$sql);
             
         $r = mysqli_fetch_assoc($result);
@@ -77,11 +80,12 @@ else{
         $rDate = date('Y-m-d', strtotime($receiptDate));
         $class = "amount_".$classId;
 
-        $sqlNewReceipt = "INSERT INTO `receiptslist`(`sessionName`, `studentId`, `receiptDate`, `remark`, `userId`) VALUES ('$sessionName', '$studentId', '$rDate', '$remark', '$userId')";
-        if($conn->query($sqlNewReceipt) == TRUE) {
-            $receiptId = $conn->insert_id;
+        $sqlNewReceipt = "addNewReceipt('$sessionName', '$studentId', '$rDate', '$remark', '$userId')";
+        $result=mysqli_query($GLOBALS['conn'],"SELECT ".$sqlNewReceipt);
+        $r = mysqli_fetch_assoc($result);
+        $receiptId = $r[$sqlNewReceipt];
 
-            $sqlForHeads = "SELECT  headId, headName, `$class` FROM feesheads WHERE `$class` > 0 ORDER BY headId";
+           $sqlForHeads = "SELECT  headId, headName, `$class` FROM feesheads WHERE `$class` > 0 ORDER BY headId";
             $result=mysqli_query($conn,$sqlForHeads);
             
             $itr = 0;
@@ -119,7 +123,7 @@ else{
             else{
                 echo $FinalSql;
             }
-        }
+       
     }
 
     else if($type == "reportByDate"){
@@ -150,6 +154,7 @@ else{
             }
         }
         echo json_encode($headArray);
+        logRequest($uid,$type,$sql,json_encode($headArray));
     }
 
     else if($type  == "classSummeryReport"){
@@ -157,17 +162,17 @@ else{
         $section = $_POST['section'];
         $sessionName = $_POST['sessionName'];
         $sql = "SELECT studentId, fullname, totalFees, paidFees FROM studentfees WHERE class = '$class' AND section = '$section'";
-        getOutputFromQueary($sql);
+        getOutputFromQueary($sql,$uid,$reqType);
     }
     else if($type=="headWiseSumm"){ 
         $sql = "SELECT * from headwisesumm";
-        getOutputFromQueary($sql);
+        getOutputFromQueary($sql,$uid,$reqType);
     }
     else if($type == "receiptListBySessionAndStudentId"){
         $studentId = $_POST['studentId'];
         $sessionName = $_POST['sessionName'];
         $sql = "SELECT `receiptId`, `recamt` from vreceiptamount WHERE `studentId` = '$studentId' AND `sessionName` = '$sessionName'";
-        getOutputFromQueary($sql);
+        getOutputFromQueary($sql,$uid,$reqType);
     }
 
 }

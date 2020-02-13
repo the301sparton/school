@@ -82,7 +82,8 @@ function loadAttendenceViewData() {
 
 function loadAllSessionsForAttendence() {
  var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
-    type: "getAllSessions"
+    type: "getAllSessions",
+    uid: me_data.uid
   });
 
   allSessionReq.done(function (allSessions) {
@@ -157,12 +158,14 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
   document.getElementById("new_loader").style.display = "block";
   let getAttendenceListReq = $.post(baseUrl + "/apis/attendence.php", {
     type: "getList",
+    uid: me_data.uid,
     sessionName: sessionName,
     class: classNSection,
     dateForAttendence: dateForAttendence
   });
 
   getAttendenceListReq.done(function (response) {
+    console.log(response);
     studList = JSON.parse(response);
     document.getElementById("myListHolder").innerHTML = `<div class = "row" style="background: #ebdef0; border-radius:6px; margin-bottom:2%; padding:2%"> 
     <div class="col-md-3" style="text-align:center">Roll Num.</div>
@@ -258,13 +261,16 @@ function saveAttendenceRecords(){
   var saveAttendenceReq = $.post(baseUrl + "/apis/attendence.php",{
     type: type,
     data: dataArray,
+    uid: me_data.uid
   });
 
   saveAttendenceReq.done(function(response){
     if(response == 200){
       showNotification("<strong>Success</strong>", "Attendence Saved", "success");
+      getStudentListForAttendence();
     }
     else{
+      console.log(response);
       showNotification("Error", "Failed to save attendence", "danger");
     }
     document.getElementById("new_loader").style.display = "none";

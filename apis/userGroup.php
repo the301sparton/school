@@ -4,6 +4,8 @@ require 'commonFunctions.php';
 
 
 $type = $_POST['type'];
+$reqType = "userGroup:".$type;
+$uid = $_POST['uid'];
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -26,17 +28,19 @@ else{
                 }            
         }
        print json_encode($rows);
+       logRequest($uid,$type,$sql,"READ_UNKNOWN");
+
     }
     else if($type == "getAllRolesForUser"){
         $uid = $_POST["uid"];
         $sql = "SELECT `id`, `userType` FROM usergrouplist WHERE `uid` = '$uid'";
-        getOutputFromQueary($sql);
+        getOutputFromQueary($sql,$uid,$reqType);
     }
 
     else if($type == "deleteUserGroupById"){
         $id = $_POST["id"];
         $sql = "DELETE FROM usergrouplist WHERE `id` = '$id'";
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
 
     else if($type == "getUserGroupsToAdd"){
@@ -57,6 +61,8 @@ else{
             }   
         }
         print json_encode($rowsFinal);
+        logRequest($uid,$type,$sql2,"READ_UNKNOWN");
+
     }
 
     else if($type == "addNewRoles"){
@@ -74,13 +80,15 @@ else{
             }
         }
         echo $toReturn;
+        logRequest($uid,$type,$sql,$toReturn);
+
     }
 
     
 
     else if($type == "getAllRolesWithId"){
         $sql = "SELECT * from usergroup";
-        getOutputFromQueary($sql);
+        getOutputFromQueary($sql,$uid,$reqType);
     }
     else if($type == "updateUserGroup"){
         $userType = $_POST["userType"];
@@ -97,17 +105,19 @@ else{
         $studentReport = $_POST["studentReport"];
 
         $sql = "UPDATE usergroup SET `manageUsers` = '$manageUsers', `manageRoles` = '$manageRoles', `manageFeesHeads` = '$manageFeesHeads', `newAccadamicYear` = '$newAccadamicYear', `registerStudent` = '$registerStudent', `searchNEdit` = '$searchNEdit', `manageClass` = '$manageClass', `generateReceipt` = '$generateReceipt', `feesReport` = '$feesReport', `studentAttendence` = '$studentAttendence', `studentReport` = '$studentReport' WHERE `userType` = '$userType'";
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
     else if($type == "deleteUserGroup"){
         $userType = $_POST["userType"];
         $sql = "DELETE FROM usergroup WHERE userType = '$userType'";
         if($conn->query($sql) == TRUE) {
            $sql1 = "DELETE FROM usergrouplist WHERE userType = '$userType'";
-           get200AsYes($sql1);
+           get200AsYes($sql1,$uid,$reqType);
         }
         else{
             echo 500;
+            logRequest($uid,$type,$sqlforSession,"");
+
         }
     }
 
@@ -125,7 +135,7 @@ else{
         $studentAttendence = $_POST['NewStudentAttendence'];
         $studentReport = $_POST['NewStudentReport'];
         $sql = "INSERT INTO `usergroup`(`userType`, `manageUsers`, `manageRoles`, `manageFeesHeads`, `newAccadamicYear`, `registerStudent`, `searchNEdit`, `manageClass`, `generateReceipt`, `feesReport`, `studentAttendence`, `studentReport`) VALUES ('$userType', '$manageUsers', '$manageRoles', '$manageFeesHeads', '$newAccadamicYear', '$registerStudent', '$searchNEdit', '$manageClass', '$generateReceipt', '$feesReport', '$studentAttendence', '$studentReport')";
-        get200AsYes($sql);
+        get200AsYes($sql,$uid,$reqType);
     }
 }
 ?>
