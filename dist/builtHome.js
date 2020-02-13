@@ -28,7 +28,8 @@ function getClassListToShow() {
     document.getElementById("new_loader").style.display = "block";
     document.getElementById('jsGrid').style.display = "none";
     let classListReq = $.post(baseUrl + "/apis/classList.php", {
-        type: "getClassList"
+        type: "getClassList",
+        uid: me_data.uid
     });
     classListReq.done(function (responce) {
         document.getElementById('jsGrid').style.display = "block";
@@ -59,7 +60,8 @@ function getClassListToShow() {
 
 function showClassListDetailsDialog(args, forEdit) {
     let getTeacherList = $.post(baseUrl + "/apis/classList.php", {
-        type: "getUserList"
+        type: "getUserList",
+        uid: me_data.uid
     });
 
     getTeacherList.done(function (responce) {
@@ -113,7 +115,8 @@ function setValuesInClassTeacherSelect(teacherList) {
 function setValuesInSchoolListSelect() {
     document.getElementById("new_loader").style.display = "block";
     let schoolreq = $.post(baseUrl + "/apis/classList.php", {
-        type: "getAllSchools"
+        type: "getAllSchools",
+        uid: me_data.uid
     });
 
     schoolreq.done(function (responce) {
@@ -146,6 +149,7 @@ function deleteClassListItem() {
     document.getElementById("new_loader").style.display = "block";
     let deleteClassListItemReq = $.post(baseUrl + "/apis/classList.php", {
         type: "deleteClassItem",
+        uid: me_data.uid,
         className: document.getElementById("newClassName").value,
         section: document.getElementById("newClassSection").value
     });
@@ -182,6 +186,7 @@ function createOrUpdateClass() {
             let insertClassReq = $.post(baseUrl + "/apis/classList.php", {
                 type: "insertClass",
                 className: classListVal,
+                uid: me_data.uid,
                 section: sectionVal,
                 schoolId: schoolIdVal,
                 teacherId: teacherIdVal
@@ -219,6 +224,7 @@ function createOrUpdateClass() {
         document.getElementById("new_loader").style.display = "block";
         let updateClassTeacherReq = $.post(baseUrl + "/apis/classList.php", {
             type: "updateClass",
+            uid: me_data.uid,
             className: classListVal,
             teacherId: teacherIdVal,
             schoolId: schoolIdVal,
@@ -266,7 +272,8 @@ function manageFeesHeads() {
 function makeViewForFeeHeads() {
     document.getElementById("new_loader").style.display = "block";
     let getAllfeeData = $.post(baseUrl + "/apis/feesHeads.php", {
-        type: "getAllHeads"
+        type: "getAllHeads",
+        uid: me_data.uid
     });
 
     getAllfeeData.done(function (responce) {
@@ -332,6 +339,7 @@ function updateFeeHeadDetails(FeeHeadItem) {
     document.getElementById("new_loader").style.display = "block";
         let updateHeadItemReq = $.post(baseUrl + "/apis/feesHeads.php", {
             type: "updateById",
+            uid: me_data.uid,
             id: FeeHeadItem.headId,
             headName: FeeHeadItem.headName,
             amount_KG1: FeeHeadItem.amount_KG1,
@@ -392,7 +400,8 @@ function updateFeeHeadDetails(FeeHeadItem) {
 function getRoleList() {
     document.getElementById("new_loader").style.display = "block";
     var userRoleReq = $.post(baseUrl + "/apis/userGroup.php", {
-        type: "getAllRolesWithId"
+        type: "getAllRolesWithId",
+        uid: me_data.uid
     });
 
     userRoleReq.done(function (responce) {
@@ -599,7 +608,7 @@ function updateGroupDetails(view) {
     document.getElementById("new_loader").style.display = "block";
     var updateGroupReq = $.post(baseUrl + "/apis/userGroup.php", {
         type: "updateUserGroup",
-
+        uid: me_data.uid,
         userType: userType,
 
         manageUsers: manageUsers,
@@ -640,6 +649,7 @@ function deleteGroup(view) {
     document.getElementById("new_loader").style.display = "block";
     var deleteGroupReq = $.post(baseUrl + "/apis/userGroup.php", {
         type: "deleteUserGroup",
+        uid: me_data.uid,
         userType: userType
     });
     deleteGroupReq.done(function (responce) {
@@ -720,6 +730,7 @@ function createNewUserGroupForSure() {
         document.getElementById("new_loader").style.display = "block";
         var createNewRoleRequest = $.post(baseUrl + "/apis/userGroup.php", {
             type: "createNewRole",
+            uid: me_data.uid,
             newGroupName: newGroupName,
             NewNanageUsers: NewNanageUsers,
             NewManageRoles: NewManageRoles,
@@ -825,6 +836,7 @@ function sendSearchUserRequest() {
       }
       let searchUserReq = $.post(baseUrl + "/apis/User.php", {
         type: "searchUser",
+        uid: me_data.uid,
         searchType: userSearchMeathord,
         limit: maxCols,
         inputSearch: queryString
@@ -947,6 +959,7 @@ function getUserDetails(usersView) {
 
   myRolesListReq.done(function (myRoleList) {
     try {
+      console.log(myRoleList)
       let myRoleListArray = JSON.parse(myRoleList);
       document.getElementById('userDetailsHolder').innerHTML = `<div class="text-center">
           <h6>Edit User Groups</h6>
@@ -1065,6 +1078,7 @@ function deleteRoleItem(roleItemView) {
     document.getElementById("new_loader").style.display = "block";
     let deleteRoleReq = $.post(baseUrl + "/apis/userGroup.php", {
       type: "deleteUserGroupById",
+      uid: me_data.uid,
       id: roleId
     });
 
@@ -1373,7 +1387,8 @@ function feesReport() {
 function loadAllSessionsAndSetListeners() {
   document.getElementById("new_loader").style.display = "block";
   var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
-    type: "getAllSessions"
+    type: "getAllSessions",
+    uid: me_data.uid
   });
 
   allSessionReq.done(function (allSessions) {
@@ -1525,6 +1540,7 @@ function classSummeryReport() {
   document.getElementById("new_loader").style.display = "block";
   var classSummeryReportReq = $.post(baseUrl + "/apis/receiptStuff.php", {
     type: "classSummeryReport",
+    uid: me_data.uid,
     class: document.getElementById("filterClass").value,
     section: document.getElementById("filterSection").value,
     sessionName: FeeSessionSelect
@@ -1691,6 +1707,7 @@ function ReportByDates() {
     document.getElementById("new_loader").style.display = "block";
     var reportByDateReq = $.post(baseUrl + "/apis/feesReport.php", {
       type: "byDay",
+      uid: me_data.uid,
       dateFrom: document.getElementById("dateFrom").value,
       dateTo: document.getElementById("dateTo").value,
     });
@@ -1717,6 +1734,7 @@ function getMonthWiseReport() {
   document.getElementById("new_loader").style.display = "block";
   var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
     type: "byMonth",
+    uid: me_data.uid,
     sessionName: FeeSessionSelect
   });
   
@@ -1743,6 +1761,7 @@ function reportBySchool(){
 document.getElementById("new_loader").style.display = "block";
   var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
     type: "bySchool",
+    uid: me_data.uid,
     sessionName: FeeSessionSelect
   });
   monthWiseReportReq.done(function (reportRes) {
@@ -1860,6 +1879,7 @@ function getFeesDetails(studentId, classId) {
 function setAmountPaid(studentId) {
     var AmountRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
         type: "getMyPaidAmount",
+        uid: me_data.uid,
         studentId: studentId,
         sessionName: sessionSelect
     });
@@ -1877,6 +1897,7 @@ function setAmountPaid(studentId) {
 function setTotalFees(studentId) {
     var AmountRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
         type: "getTotalFees",
+        uid: me_data.uid,
         studentId: studentId,
         sessionName: sessionSelect
     });
@@ -1894,6 +1915,7 @@ function newReceiptView() {
     document.getElementById("new_loader").style.display = "block";
     var getHeadsReq = $.post(baseUrl + "/apis/feesHeads.php", {
         type: "getActiveFeesHeads",
+        uid: me_data.uid,
         classId: ReceiptClassId,
         sessionName: sessionSelect,
         studentId: ReceiptForStudentId
@@ -1967,6 +1989,7 @@ $('#newReceiptForm').submit(function (event) {
         document.getElementById("new_loader").style.display = "block";
         var newReceiptRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
             type: "newReceipt",
+            uid: me_data.uid,
             userId: me_data.uid,
             studentId: ReceiptForStudentId,
             sessionName: sessionSelect,
@@ -1976,7 +1999,9 @@ $('#newReceiptForm').submit(function (event) {
             receiptRemark: document.getElementById('receiptRemark').value
         });
 
+        
         newReceiptRequest.done(function (newReceiptRes) {
+            console.log(newReceiptRes);
             try {
                 var resjson = JSON.parse(newReceiptRes);
                 if (resjson.resCode == 200) {
@@ -1996,7 +2021,7 @@ $('#newReceiptForm').submit(function (event) {
 
         newReceiptRequest.fail(function (jqXHR, textStatus) {
             document.getElementById("new_loader").style.display = "none";
-            handleNetworkIssues(textStatus)
+            //handleNetworkIssues(textStatus)
         });
     }
     else {
@@ -2018,6 +2043,7 @@ function showReceiptList() {
     document.getElementById("new_loader").style.display = "block";
     let getReceiptListReq = $.post(baseUrl + "/apis/receiptStuff.php", {
         type: "receiptListBySessionAndStudentId",
+        uid: me_data.uid,
         studentId: ReceiptForStudentId,
         sessionName: sessionSelect
     });
@@ -2350,11 +2376,13 @@ function setStudentDetails() {
   document.getElementById("new_loader").style.display = "block";
   var setStudentDetailsReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "getStudentDetailsById",
+    uid: me_data.uid,
     studentId: document.getElementById('studID').innerText
   });
 
   setStudentDetailsReq.done(function (setStudentDetailsRes) {
     try {
+      console.log(setStudentDetails);
       studentDetail = JSON.parse(setStudentDetailsRes);
       document.getElementById('formNumber').value = studentDetail.formNumber;
       document.getElementById('admissionNumber').value = studentDetail.admissionNumber;
@@ -2413,6 +2441,7 @@ function CreateNewStudent() {
   document.getElementById("new_loader").style.display = "block";
   var newStudentDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "newStudentDetails",
+    uid: me_data.uid,
     formNumber: document.getElementById('formNumber').value,
     admissionNumber: document.getElementById('admissionNumber').value,
     govermentId: document.getElementById('govermentId').value,
@@ -2471,6 +2500,7 @@ function updateStudentDetails() {
   document.getElementById("new_loader").style.display = "block";
   var newStudentDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "updateStudentId",
+    uid: me_data.uid,
     studentId: document.getElementById('studID').innerText,
     formNumber: document.getElementById('formNumber').value,
     admissionNumber: document.getElementById('admissionNumber').value,
@@ -2598,6 +2628,7 @@ function setSessionEntry() {
   document.getElementById("new_loader").style.display = "block";
   var setSessionEntryReq = $.post(baseUrl + "/apis/studentSessionDetail.php", {
     type: "getByStudentId",
+    uid: me_data.uid,
     sessionName: currentSession,
     studentId: document.getElementById("studID").innerText
   });
@@ -2651,6 +2682,7 @@ function updateSessionEntry(toReturn) {
   document.getElementById("new_loader").style.display = "block";
   var newSessionEntryReq = $.post(baseUrl + "/apis/studentSessionDetail.php", {
     type: "updateSessionDetailsById",
+    uid: me_data.uid,
     id: document.getElementById("detId").innerText,
     class: document.getElementById("sessionClass").value,
     section: document.getElementById("sessionSection").value,
@@ -2882,6 +2914,7 @@ function stepTwo() {
 function loadContactDetails() {
   var loadContactDetailReq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "getContactDetailsById",
+    uid: me_data.uid,
     studentId: document.getElementById("studID").innerText
   });
 
@@ -2943,6 +2976,7 @@ function setContactDetails(toReturn) {
   document.getElementById("new_loader").style.display = "none";
   var setContactDetailsreq = $.post(baseUrl + "/apis/studentInfo.php", {
     type: "updateContactDetails",
+    uid: me_data.uid,
     localAddress: document.getElementById('localAddress').value,
     localState: document.getElementById('localState').value,
     localCity: document.getElementById('localCity').value,
@@ -3074,7 +3108,8 @@ function searchNEdit(forReceiptTemp) {
 function loadAllSessions() {
   document.getElementById("new_loader").style.display = "block";
   var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
-    type: "getAllSessions"
+    type: "getAllSessions",
+    uid: me_data.uid
   });
 
   allSessionReq.done(function (allSessions) {
@@ -3120,6 +3155,7 @@ function makeSearchRequest() {
   if (allFieldsAreSet(searchQuery)) {
     var searchByNameReq = $.post(baseUrl + "/apis/searchStudent.php", {
       type: searchBy,
+      uid: me_data.uid,
       inputKeyWord: searchQuery,
       limit: maxRows,
       sessionName: sessionSelect
@@ -3364,7 +3400,8 @@ function loadAttendenceViewData() {
 
 function loadAllSessionsForAttendence() {
  var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
-    type: "getAllSessions"
+    type: "getAllSessions",
+    uid: me_data.uid
   });
 
   allSessionReq.done(function (allSessions) {
@@ -3439,12 +3476,14 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
   document.getElementById("new_loader").style.display = "block";
   let getAttendenceListReq = $.post(baseUrl + "/apis/attendence.php", {
     type: "getList",
+    uid: me_data.uid,
     sessionName: sessionName,
     class: classNSection,
     dateForAttendence: dateForAttendence
   });
 
   getAttendenceListReq.done(function (response) {
+    console.log(response);
     studList = JSON.parse(response);
     document.getElementById("myListHolder").innerHTML = `<div class = "row" style="background: #ebdef0; border-radius:6px; margin-bottom:2%; padding:2%"> 
     <div class="col-md-3" style="text-align:center">Roll Num.</div>
@@ -3540,13 +3579,16 @@ function saveAttendenceRecords(){
   var saveAttendenceReq = $.post(baseUrl + "/apis/attendence.php",{
     type: type,
     data: dataArray,
+    uid: me_data.uid
   });
 
   saveAttendenceReq.done(function(response){
     if(response == 200){
       showNotification("<strong>Success</strong>", "Attendence Saved", "success");
+      getStudentListForAttendence();
     }
     else{
+      console.log(response);
       showNotification("Error", "Failed to save attendence", "danger");
     }
     document.getElementById("new_loader").style.display = "none";
@@ -3598,6 +3640,7 @@ $("#contactForm").submit(function(event) {
     event.preventDefault();
     console.log("hel");
     var newMessageReq = $.post(baseUrl+"/apis/connectUs.php",{type:"newMessage",
+    uid: me_data.uid,
                             name:document.getElementById("feedbackName").value,
                             email:document.getElementById("feedbackEmail").value,
                             subject:document.getElementById("feedbackSubject").value,
@@ -3635,7 +3678,6 @@ function Logout(){
   });
 }
 ;let user;
-let me_data;
 let myRoleList;
 let currentSession;
 let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canManageClass; let canGenerateReceipt; let canStudentAttendence; let canStudentReport; let canFeesReport; let canManageUsers; let canManageRoles; let canManageFeesHeads; let canNewAccadamicYear;
@@ -3651,12 +3693,13 @@ $(document).ready(function () {
       
       var getUserReq = $.post("../apis/User.php", { type: "getById", uid: user.uid });
       getUserReq.done(function (user_dat) {
-        console.log(user_dat)
+        console.log(user_dat);
         me_data = JSON.parse(user_dat)[0];
         if (me_data != null) {
           setMyImage(me_data.photo);
           var myRoleListReq = $.post("../apis/userGroup.php", { type: "getRoleList", uid: me_data.uid });
           myRoleListReq.done(function (myRoleListRes) {
+            console.log(myRoleListRes)
             var temp = "Welcome " + me_data.displayName.split(" ")[0] + "\nyou have ";
             myRoleList = JSON.parse(myRoleListRes);
             if (myRoleList.length > 0) {
@@ -3680,7 +3723,8 @@ $(document).ready(function () {
 
 
             var currentSessionReq = $.post("../apis/academicSession.php", {
-              type: "getCurrentSession"
+              type: "getCurrentSession",
+              uid: me_data.uid
             });
             currentSessionReq.done(function (currentSessionRes) {
               if (currentSessionRes != "") {
@@ -4270,7 +4314,8 @@ function loadClassForSelectId(idofSelect, idofSectionSelect) {
     });
 
     let classNameReq = $.post(baseUrl + "/apis/classList.php", {
-      type: "getOnlyClassName"
+      type: "getOnlyClassName",
+      uid: me_data.uid
     });
 
     classNameReq.done(function (response) {
@@ -4303,6 +4348,7 @@ function loadClassForSelectId(idofSelect, idofSectionSelect) {
 function loadSectionForClassName(idofSelect, idofSectionSelect) {
   sectionNameRequest = $.post(baseUrl + "/apis/classList.php", {
       type: "getSectionForClassName",
+      uid: me_data.uid,
       className: document.getElementById(idofSelect).value
     });
 

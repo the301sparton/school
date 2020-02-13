@@ -206,7 +206,8 @@ function loadClassForSelectId(idofSelect, idofSectionSelect) {
     });
 
     let classNameReq = $.post(baseUrl + "/apis/classList.php", {
-      type: "getOnlyClassName"
+      type: "getOnlyClassName",
+      uid: me_data.uid
     });
 
     classNameReq.done(function (response) {
@@ -239,6 +240,7 @@ function loadClassForSelectId(idofSelect, idofSectionSelect) {
 function loadSectionForClassName(idofSelect, idofSectionSelect) {
   sectionNameRequest = $.post(baseUrl + "/apis/classList.php", {
       type: "getSectionForClassName",
+      uid: me_data.uid,
       className: document.getElementById(idofSelect).value
     });
 

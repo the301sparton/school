@@ -188,6 +188,7 @@ $('#newReceiptForm').submit(function (event) {
             receiptRemark: document.getElementById('receiptRemark').value
         });
 
+        
         newReceiptRequest.done(function (newReceiptRes) {
             console.log(newReceiptRes);
             try {
