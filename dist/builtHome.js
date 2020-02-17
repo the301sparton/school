@@ -1370,7 +1370,7 @@ function feesReport() {
       </div>
     </div>
 
-    <div class="container backgroundDefiner" id="FeeReportHolder" background:var(--btnColor3); border-radius: 20px; margin:1%">
+    <div class="container backgroundDefiner" id="FeeReportHolder" style="background:var(--btnColor3); border-radius: 20px; margin:1%">
 
     </div>
   </div>`;
@@ -1564,6 +1564,7 @@ function classSummeryReport() {
         handleNetworkIssues(textStatus)
     });
 }
+
 
 function buildFeeReport(report, type) {
     document.getElementById('printBtn').disabled = true;
@@ -3102,9 +3103,9 @@ function loadAllSessions() {
     document.getElementById("new_loader").style.display = "none";
   });
 
-  allSessionReq.fail(function (jqXHR, textStatus) { 
+  allSessionReq.fail(function (jqXHR, textStatus) {
     document.getElementById("new_loader").style.display = "none";
-    handleNetworkIssues(textStatus) 
+    handleNetworkIssues(textStatus)
   });
 }
 
@@ -3266,7 +3267,14 @@ function removeResults() {
 
 function viewStudent(parent) {
   let id = parent.childNodes[1].innerText;
-  document.location = baseUrl + "/studentView?studentId=" + id + "&sessionName=" + sessionSelect;
+  var mode;
+  if (document.getElementById("darkModeSwitch").innerText == "ON") {
+    mode = "dark";
+  }
+  else{
+    mode = "light";
+  }
+  document.location = baseUrl + "/studentView?studentId=" + id + "&sessionName=" + sessionSelect + "&mode=" + mode;
 }
 
 function selectedStudent(parent) {
