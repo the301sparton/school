@@ -207,7 +207,7 @@ stepOneHTML = `<div class="row">
         <div class="row" style="margin-top: 2%">
           <div class="col-md-10"></div>
           <div class="col-md-2">
-            <button class="btn btn-primary" type="submit" id="step_one_next" disabled>Next</button>
+            <button class="btn btn-primary" style="`+CSSbtnPrimary+`" type="submit" id="step_one_next" disabled>Next</button>
           </div>
         </div>
       </form>

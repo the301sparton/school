@@ -31,8 +31,7 @@ module.exports = function (grunt) {
     obfuscator: {
       options: {
         banner: '// Copyright vaicomp.com 2019 India.\n',
-        debugProtection: true,
-        debugProtectionInterval: true
+        disableConsoleOutput: true,
       },
 
       homeObfuscator: {

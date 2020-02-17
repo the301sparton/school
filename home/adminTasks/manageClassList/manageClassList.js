@@ -8,7 +8,7 @@ function manageClassList() {
     </div>
     <div class="container" style="padding: 1%">
     
-    <div id="jsGrid" style = "display:none" ></div>
+    <div id="jsGrid" style = "display:none;" ></div>
     <div class="row" style="margin-top:2%">
     <div class="col-md-11"></div>
     <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="showClassListDetailsDialog()"></i>

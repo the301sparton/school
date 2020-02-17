@@ -1,109 +1,170 @@
+.dark,
+.dark * {
+    /* background-color: #222;
+    color: #e6e6e6; */
+    border-color: #e6e6e6;
+    --textColor: #e6e6e6;
+    --primaryColor: #222;
+    --textColor: #e6e6e6;
+    --btnColor0: #1b2631;
+    --btnColor1: #222c36;
+    --btnColor2: #2e2f31;
+    --btnColor3: #37434e;
+    --btnColor4: #0f2466;
+    --btnColor5: #503433;
+}
 
-.col-rmd-1 {width: 8.33%;}
-.col-rmd-2 {width: 16.66%;}
-.col-rmd-3 {width: 25%;}
-.col-rmd-4 {width: 33.33%;}
-.col-rmd-5 {width: 41.66%;}
-.col-rmd-6 {width: 50%;}
-.col-rmd-7 {width: 58.33%;}
-.col-rmd-8 {width: 66.66%;}
-.col-rmd-9 {width: 75%;}
-.col-rmd-10 {width: 83.33%;}
-.col-rmd-11 {width: 91.66%;}
-.col-rmd-12 {width: 100%;}
+.backgroundDefiner * {
+    background: var(--btnColor3);
+}
+
+.elementDefinerDark * {
+    background: var(--btnColor1);
+}
+
+.elementDefiner *{
+    background: var(--btnColor2);
+}
+
+
+.light,
+.light * {
+    /* background-color: #fff; */
+    /* /* color: #1b2631; */
+    /* border-color: #1b2631;  */
+    --primaryColor: #fff;
+    --textColor: #1b2631;
+    --btnColor0: #D6E2E7;
+    --btnColor1: #E0E3EB;
+    --btnColor2: #B0CBD4;
+    --btnColor3: #EFF3FC;
+    --btnColor4: #F4ECF7;
+    --btnColor5: #aed6f1;
+}
+
+.col-rmd-1 {
+    width: 8.33%;
+}
+
+.col-rmd-2 {
+    width: 16.66%;
+}
+
+.col-rmd-3 {
+    width: 25%;
+}
+
+.col-rmd-4 {
+    width: 33.33%;
+}
+
+.col-rmd-5 {
+    width: 41.66%;
+}
+
+.col-rmd-6 {
+    width: 50%;
+}
+
+.col-rmd-7 {
+    width: 58.33%;
+}
+
+.col-rmd-8 {
+    width: 66.66%;
+}
+
+.col-rmd-9 {
+    width: 75%;
+}
+
+.col-rmd-10 {
+    width: 83.33%;
+}
+
+.col-rmd-11 {
+    width: 91.66%;
+}
+
+.col-rmd-12 {
+    width: 100%;
+}
+
+.switch {
+    /* align-self: flex-end; */
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.inner-switch {
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid #555;
+    border-radius: 1rem;
+    width: 3.125rem;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.1875rem;
+    margin-left: 0.3125rem;
+}
+
 .button {
     border-radius: 15px;
     cursor: pointer;
     padding: 1%;
-    background-color: #4CAF50; /* Green */
     border: none;
-    color: white;
+    color: var(--textColor);
     text-decoration: none;
-    -webkit-transition-duration: 0.4s; /* Safari */
+    -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
-  }
-  .myLink{
+}
+.button:hover {
+    background-color: var(--primaryColor);
+    color: var(--textColor);
+}
+
+.myLink {
     color: #000;
-    cursor:pointer;
-  }
+    cursor: pointer;
+}
 
-  .myLink:hover{
+.myLink:hover {
     color: #f77e65;
-  }
-  
-  .button1 {
-    background-color: #D6E2E7; 
-    color: black; 
-    border: 2px solid #D6E2E7;
-    cursor: pointer;
-  }
-  
-  .button1:hover {
-    background-color: white;
-    color: black;
-  }
-  .button2 {
-    background-color: #E0E3EB; 
-    color: black; 
-    border: 2px solid #E0E3EB;
-    cursor: pointer;
-  }
-  
-  .button2:hover {
-    background-color: white;
-    color: black;
-  }
-  
-  .button3 {
-    background-color: #B0CBD4; 
-    color: black; 
-    border: 2px solid #B0CBD4;
-    cursor: pointer;
-  }
-  
-  .button3:hover {
-    background-color: white;
-    color: black;
-  }
-  
-  .button4 {
-    background-color: #C7D4F3; 
-    color: black; 
-    border: 2px solid #C7D4F3;
-    cursor: pointer;
-  }
-  
-  .button4:hover {
-    background-color: white;
-    color: black;
-  }
+}
 
-  .button5 {
-    background-color: #F4ECF7; 
-    color: black; 
-    border: 2px solid #F4ECF7;
+.button1 {
+    background-color: var(--btnColor0);
+    border: 2px solid var(--btnColor0);
     cursor: pointer;
-  }
-  
-  .button5:hover {
-    background-color: white;
-    color: black;
-  }
+}
 
-  .button6 {
-    background-color:  #aed6f1 ; 
-    color: black; 
-    border: 2px solid #aed6f1  ;
+.button2 {
+    background-color: var(--btnColor1);
+    border: 2px solid var(--btnColor1);
     cursor: pointer;
-  }
-  
-  .button6:hover {
-    background-color: white;
-    color: black;
-  }
+}
+.button3 {
+    background-color: var(--btnColor2);
+    border: 2px solid var(--btnColor2);
+    cursor: pointer;
+}
+.button4 {
+    background-color: var(--btnColor3);
+    border: 2px solid var(--btnColor3);
+    cursor: pointer;
+}
+.button5 {
+    background-color: var(--btnColor4);
+    border: 2px solid var(--btnColor4);
+    cursor: pointer;
+}
+.button6 {
+    background-color: var(--btnColor5);
+    border: 2px solid var(--btnColor5);
+    cursor: pointer;
+}
 
-
-  .checklabel {
+.checklabel {
     display: block;
     position: relative;
     padding-left: 35px;
@@ -113,54 +174,71 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
-  
-  /* Hide the browser's default checkbox */
-  .checklabel input {
+}
+
+
+/* Hide the browser's default checkbox */
+
+.checklabel input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .checkmark {
+}
+
+
+/* Create a custom checkbox */
+
+.checkmark {
     position: absolute;
     border-radius: 25%;
+    border:1px solid;
     top: 0;
     left: 0;
     height: 25px;
     width: 25px;
-    background-color: #BCC2D2;
-  }
-  
-  /* On mouse-over, add a grey background color */
-  .checklabel:hover input ~ .checkmark {
-    background-color: #ccc;
+    background-color: var(--primaryColor);
+}
+
+
+/* On mouse-over, add a grey background color */
+
+.checklabel:hover input~.checkmark {
+    background-color: var(--btnColor1);;
     border-radius: 25%;
-  }
-  
-  /* When the checkbox is checked, add a blue background */
-  .checklabel input:checked ~ .checkmark {
-    background-color: #428bca;
+    border:1px solid;
+}
+
+
+/* When the checkbox is checked, add a blue background */
+
+.checklabel input:checked~.checkmark {
+    background-color: var(--btnColor1);
+    border:1px solid;
     border-radius: 25%;
-  }
-  
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark:after {
+}
+
+
+/* Create the checkmark/indicator (hidden when not checked) */
+
+.checkmark:after {
     content: "";
     position: absolute;
     display: none;
-  }
-  
-  /* Show the checkmark when checked */
-  .checklabel input:checked ~ .checkmark:after {
+}
+
+
+/* Show the checkmark when checked */
+
+.checklabel input:checked~.checkmark:after {
     display: block;
-  }
-  
-  /* Style the checkmark/indicator */
-  .checklabel .checkmark:after {
+}
+
+
+/* Style the checkmark/indicator */
+
+.checklabel .checkmark:after {
     left: 9px;
     top: 5px;
     width: 5px;
@@ -170,34 +248,32 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-  }
+}
 
-  .alertMine {
+.alertMine {
     padding: 10px;
-    background-color: #f77e65;
+    background-color: var(--btnColor1);
     color: white;
-    border-radius:6px;
-  }
-  
-  .collapsible {
-    background-color: #D6D9DB;
-     margin: 1%;
+    border:1px solid;
+    border-radius: 6px;
+}
+
+.collapsible {
+    background-color: var(--btnColor1);
+    margin: 1%;
     cursor: pointer;
     text-align: start;
     padding: 18px;
     width: 100%;
     border-radius: 10px;
     outline: none;
-  }
-  
-  
-  
-  .content {
+}
+
+.content {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
-    background-color: #f1f1f1;
+    background-color: var(--btnColor1);
     width: 100%;
     border-radius: 10px;
-  }
-  
+}

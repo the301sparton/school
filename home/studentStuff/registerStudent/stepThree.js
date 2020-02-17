@@ -51,10 +51,10 @@ function stepThree() {
     </div>
     <div class="row" style="margin-top: 2%">
         <div class="col-md-2">
-        <button class="btn btn-secondary" type="button" onclick="sessionDetailBack()" disabled id="step_three_back">Back</button>
+        <button class="btn btn-secondary" style="`+CSSbtnSecondary+`" type="button" onclick="sessionDetailBack()" disabled id="step_three_back">Back</button>
         </div>
       <div class="col-md-4">
-        <button type="submit" class="btn btn-primary" disabled id="step_three_save">Save</button>
+        <button type="submit" class="btn btn-primary" style="`+CSSbtnPrimary+`" disabled id="step_three_save">Save</button>
       </div>
 
     </div>

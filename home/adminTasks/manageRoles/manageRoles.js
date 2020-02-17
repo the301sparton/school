@@ -29,20 +29,19 @@ function getRoleList() {
         uid: me_data.uid
     });
 
-    userRoleReq.done(function (responce) {
-        try{
+    userRoleReq.done(function(responce) {
+        try {
             var RoleArray = JSON.parse(responce);
             if (RoleArray.length > 0) {
                 makeRoleEditView(RoleArray);
             }
-        }
-        catch(e){
+        } catch (e) {
             showNotification("Error", "Failed to get data", "danger");
         }
         document.getElementById("new_loader").style.display = "none";
     });
 
-    userRoleReq.fail(function(jqXHR, textStatus){
+    userRoleReq.fail(function(jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -52,39 +51,39 @@ function makeRoleEditView(roleArray) {
     document.getElementById("manageRolesHolder").innerHTML = "";
     for (var itr in roleArray) {
         var itemHtml = `<div class="container">
-        <div class="row collapsible" style="padding:2%" id="item`+ itr + `" data-toggle="collapse" data-target="#data` + itr + `">
-            <div class="col-md-6" style="text-align:left" id="groupName`+ itr + `"></div>
-            <div class="col-md-6" style="text-align:right"><i class="fa fa-arrow-down" style="display:block"></i></div>
+        <div class="row collapsible" style="padding:2%" id="item` + itr + `" data-toggle="collapse" data-target="#data` + itr + `">
+            <div class="col-md-6" style="background:var(--btnColor1); text-align:left" id="groupName` + itr + `"></div>
+            <div class="col-md-6" style="background:var(--btnColor1); text-align:right"><i class="fa fa-arrow-down" style="background:var(--btnColor1); display:block"></i></div>
             </div>
 
-            <div id="data`+ itr + `" class="collapse" style="background:#d4e6f1; padding:2%; border-radius: 15px; margin-left:2%; margin-right:2%">
+            <div id="data` + itr + `" class="collapse" style="padding:2%; border-radius: 15px; margin-left:2%; margin-right:2%">
                    <h6>Group Properties</h6>
                    <hr>
                    <div class="row" style="padding:2%">
                         <div class="col-md-3">
-                        <label for="manageUsers`+ itr + `" class="checklabel">Manage Users
-                            <input type="checkbox" id="manageUsers`+ itr + `">
+                        <label for="manageUsers` + itr + `" class="checklabel">Manage Users
+                            <input type="checkbox" id="manageUsers` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="manageRoles`+ itr + `" class="checklabel">Manage Role Groups
-                            <input type="checkbox" id="manageRoles`+ itr + `">
+                        <label for="manageRoles` + itr + `" class="checklabel">Manage Role Groups
+                            <input type="checkbox" id="manageRoles` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="manageFeesHeads`+ itr + `" class="checklabel">Manage Fees
-                            <input type="checkbox" id="manageFeesHeads`+ itr + `">
+                        <label for="manageFeesHeads` + itr + `" class="checklabel">Manage Fees
+                            <input type="checkbox" id="manageFeesHeads` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="newAccadamicYear`+ itr + `" class="checklabel">Start New Accadamic Year
-                            <input type="checkbox" id="newAccadamicYear`+ itr + `">
+                        <label for="newAccadamicYear` + itr + `" class="checklabel">Start New Accadamic Year
+                            <input type="checkbox" id="newAccadamicYear` + itr + `">
                             <span class="checkmark"></span>
                          </label>
                         </div>
@@ -92,22 +91,22 @@ function makeRoleEditView(roleArray) {
 
                    <div class="row" style="padding:2%">
                         <div class="col-md-4">
-                        <label for="registerStudent`+ itr + `" class="checklabel">Register Student
-                            <input type="checkbox" id="registerStudent`+ itr + `">
+                        <label for="registerStudent` + itr + `" class="checklabel">Register Student
+                            <input type="checkbox" id="registerStudent` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-4">
-                        <label for="searchNEdit`+ itr + `" class="checklabel">Search and edit student data
-                            <input type="checkbox" id="searchNEdit`+ itr + `">
+                        <label for="searchNEdit` + itr + `" class="checklabel">Search and edit student data
+                            <input type="checkbox" id="searchNEdit` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-4">
-                        <label for="manageClass`+ itr + `" class="checklabel">Manage Class List
-                            <input type="checkbox" id="manageClass`+ itr + `">
+                        <label for="manageClass` + itr + `" class="checklabel">Manage Class List
+                            <input type="checkbox" id="manageClass` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
@@ -115,29 +114,29 @@ function makeRoleEditView(roleArray) {
 
                    <div class="row" style="padding:2%">
                         <div class="col-md-3">
-                        <label for="generateReceipt`+ itr + `" class="checklabel">Generate Receipt
-                            <input type="checkbox" id="generateReceipt`+ itr + `">
+                        <label for="generateReceipt` + itr + `" class="checklabel">Generate Receipt
+                            <input type="checkbox" id="generateReceipt` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="feesReport`+ itr + `" class="checklabel">View Fees Reports
-                            <input type="checkbox" id="feesReport`+ itr + `">
+                        <label for="feesReport` + itr + `" class="checklabel">View Fees Reports
+                            <input type="checkbox" id="feesReport` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="studentAttendence`+ itr + `" class="checklabel">Enter Student Attendence
-                            <input type="checkbox" id="studentAttendence`+ itr + `">
+                        <label for="studentAttendence` + itr + `" class="checklabel">Enter Student Attendence
+                            <input type="checkbox" id="studentAttendence` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="studentReport`+ itr + `" class="checklabel">Student Report
-                            <input type="checkbox" id="studentReport`+ itr + `">
+                        <label for="studentReport` + itr + `" class="checklabel">Student Report
+                            <input type="checkbox" id="studentReport` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
@@ -145,8 +144,8 @@ function makeRoleEditView(roleArray) {
 
                    <div class="row" style="padding:1%">
                     <div class="col-md-12">
-                          <button class="btn btn-primary" style="float:right" onclick="updateGroupDetails(this.parentNode.parentNode.parentNode)">Update</button>
-                           <button class="btn btn-danger" style="float:right; margin-right:2%" onclick="deleteGroup(this.parentNode.parentNode.parentNode)">Delete Group</button> 
+                          <button class="btn btn-primary" style="float:right; `+CSSbtnPrimary+`" onclick="updateGroupDetails(this.parentNode.parentNode.parentNode)">Update</button>
+                          <button class="btn btn-danger" style="float:right; margin-right:2%; `+CSSbtnDanger+`" onclick="deleteGroup(this.parentNode.parentNode.parentNode)">Delete Group</button> 
                     </div>
                    </div>
             </div>
@@ -251,19 +250,18 @@ function updateGroupDetails(view) {
         studentReport: studentReport
     });
 
-    updateGroupReq.done(function (responce) {
+    updateGroupReq.done(function(responce) {
         if (responce == 200) {
-            showNotification("Success","User Group Updated", "success");
+            showNotification("Success", "User Group Updated", "success");
             getRoleList();
-        }
-        else {
+        } else {
             console.log(responce)
-            showNotification("<strong>Error</strong>","Failed to update group", "danger");
+            showNotification("<strong>Error</strong>", "Failed to update group", "danger");
         }
         document.getElementById("new_loader").style.display = "none";
     });
 
-    updateGroupReq.fail(function(jqXHR, textStatus){
+    updateGroupReq.fail(function(jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -277,18 +275,17 @@ function deleteGroup(view) {
         uid: me_data.uid,
         userType: userType
     });
-    deleteGroupReq.done(function (responce) {
+    deleteGroupReq.done(function(responce) {
         if (responce == 200) {
-            showNotification("Success","User Group Deleted", "success");
+            showNotification("Success", "User Group Deleted", "success");
             view.parentNode.parentNode.removeChild(view.parentNode);
-        }
-        else {
-            showNotification("<strong>Error</strong>","Failed to delete group", "danger");
+        } else {
+            showNotification("<strong>Error</strong>", "Failed to delete group", "danger");
         }
         document.getElementById("new_loader").style.display = "none";
     })
 
-    deleteGroupReq.fail(function(jqXHR, textStatus){
+    deleteGroupReq.fail(function(jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -297,8 +294,7 @@ function deleteGroup(view) {
 function isCheckedGeneric(isChecked) {
     if (isChecked) {
         temp = 1;
-    }
-    else {
+    } else {
         temp = 0;
     }
     return temp;
@@ -312,8 +308,7 @@ function createNewUserGroupForSure() {
     let newGroupName = document.getElementById("newUserGroupName").value;
     if (newGroupName == null || newGroupName == "") {
         document.getElementById("groupNotUniqueAlert").style.display = "block";
-    }
-    else {
+    } else {
         document.getElementById("groupNotUniqueAlert").style.display = "none";
 
 
@@ -351,7 +346,7 @@ function createNewUserGroupForSure() {
         NewStudentReport = isCheckedGeneric(NewStudentReport);
 
 
-       
+
         document.getElementById("new_loader").style.display = "block";
         var createNewRoleRequest = $.post(baseUrl + "/apis/userGroup.php", {
             type: "createNewRole",
@@ -370,14 +365,14 @@ function createNewUserGroupForSure() {
             NewStudentReport: NewStudentReport
         });
 
-        createNewRoleRequest.done(function (responce) {
+        createNewRoleRequest.done(function(responce) {
             if (responce == 200) {
                 manageRoles();
             }
             document.getElementById("new_loader").style.display = "none";
         });
 
-        createNewRoleRequest.fail(function(jqXHR, textStatus){
+        createNewRoleRequest.fail(function(jqXHR, textStatus) {
             document.getElementById("new_loader").style.display = "none";
             handleNetworkIssues(textStatus)
         });

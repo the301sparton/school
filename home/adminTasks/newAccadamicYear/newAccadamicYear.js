@@ -17,7 +17,7 @@ function newAccadamicYear() {
 
     <div class="row" style="padding-bottom: 2%">
       <div class="col-md-12">
-          <button class="btn btn-primary" onclick="newAccedamicYearContinue()">Continue</button>
+          <button class="btn btn-primary" style="`+CSSbtnPrimary+`" onclick="newAccedamicYearContinue()">Continue</button>
       </div>
     </div>
 

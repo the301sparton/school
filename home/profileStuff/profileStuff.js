@@ -2,9 +2,10 @@
 let isFirstUpdateProfileListener = true;
 let updatedProfileImage = '';
 let imageDataChanged = false;
+
 function profileSettings() {
-  $('#toggleNav').dropdown('toggle');
-  profileSettingsHTML = `<div class="container" id="profileSettingsHTML" style="margin-top:3%; margin-bottom: 3%; background: #f2f3f4; width: 50%; border-radius: 15px; padding: 1%">
+    $('#toggleNav').dropdown('toggle');
+    profileSettingsHTML = `<div class="backgroundDefiner container" id="profileSettingsHTML" style="background: var(--btnColor3); margin-top:3%; margin-bottom: 3%; width: 50%; border-radius: 15px; padding: 1%">
   <form id="profileUpdateForm">  
   <div class="row" style="margin-top:3%">
       <div class="col-rmd-2"></div>
@@ -68,75 +69,73 @@ function profileSettings() {
     <div class="row" style="margin-top:2%">
     <div class="col-rmd-2"></div>
     <div class="col-rmd-8">
-        <button type="submit" style="float: left" class="btn btn-primary">Update</button>
+        <button type="submit" style="float: left; `+CSSbtnPrimary+`" class="btn btn-primary">Update</button>
       </div>
     </div>
     </form>
   </div>`;
 
-  document.getElementById("section_main").innerHTML = profileSettingsHTML;
-  setProfileDetails();
-  updatedProfileImage = me_data.photo;
-  if (isFirstUpdateProfileListener) {
-    updateProfileListener();
-    isFirstUpdateProfileListener = false;
-  }
+    document.getElementById("section_main").innerHTML = profileSettingsHTML;
+    setProfileDetails();
+    updatedProfileImage = me_data.photo;
+    if (isFirstUpdateProfileListener) {
+        updateProfileListener();
+        isFirstUpdateProfileListener = false;
+    }
 }
 
 function setProfileDetails() {
-  document.getElementById("up_displayName").value = me_data.displayName;
-  document.getElementById("up_mobileNumber").value = me_data.mobileNumber;
-  document.getElementById("up_emailId").value = me_data.eid;
-  document.getElementById("myProfileImgForUpdate").src = me_data.photo;
+    document.getElementById("up_displayName").value = me_data.displayName;
+    document.getElementById("up_mobileNumber").value = me_data.mobileNumber;
+    document.getElementById("up_emailId").value = me_data.eid;
+    document.getElementById("myProfileImgForUpdate").src = me_data.photo;
 }
 
 function updateProfileListener() {
 
-  $("#img_pickerUpdateProfileImage").change(function () {
-    let input = document.getElementById("img_pickerUpdateProfileImage");
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        $('#img_pickerUpdateProfileImage').attr('src', e.target.result);
-        updatedProfileImage = e.target.result;
-        document.getElementById('myProfileImgForUpdate').src = updatedProfileImage;
-        imageDataChanged = true;
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  });
-
-
-  $('#profileUpdateForm').submit(function (event) {
-    event.preventDefault();
-    if (document.getElementById("up_displayName").value != me_data.displayName || document.getElementById("up_emailId").value != me_data.eid || document.getElementById("up_mobileNumber").value != me_data.mobileNumber || imageDataChanged == true) {
-      document.getElementById("new_loader").style.display = "block";
-      let updateProfileReq = $.post(baseUrl + "/apis/User.php", {
-        type: "updateUser",
-        uid: me_data.uid,
-        displayName: document.getElementById("up_displayName").value,
-        eid: document.getElementById("up_emailId").value,
-        mobileNumber: document.getElementById("up_mobileNumber").value,
-        photo: updatedProfileImage
-      });
-      updateProfileReq.done(function (updateMeRes) {
-        if (updateMeRes == 200) {
-          showNotification("<strong>Suceess</strong>", "Page will refresh", "success");
-          location.reload();
+    $("#img_pickerUpdateProfileImage").change(function() {
+        let input = document.getElementById("img_pickerUpdateProfileImage");
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#img_pickerUpdateProfileImage').attr('src', e.target.result);
+                updatedProfileImage = e.target.result;
+                document.getElementById('myProfileImgForUpdate').src = updatedProfileImage;
+                imageDataChanged = true;
+            };
+            reader.readAsDataURL(input.files[0]);
         }
-        else {
-          showNotification("<strong>Error</strong>", "Failed to update profile", "danger");
-        }
-        document.getElementById("new_loader").style.display = "none";
-      });
-      updateProfileReq.fail(function(jqXHR, textStatus){
-        document.getElementById("new_loader").style.display = "none";
-        handleNetworkIssues(textStatus)
-      });
+    });
 
-    }
-    else {
-      showNotification("<strong>!!</strong>", "No data was changed", "info");
-    }
-  });
+
+    $('#profileUpdateForm').submit(function(event) {
+        event.preventDefault();
+        if (document.getElementById("up_displayName").value != me_data.displayName || document.getElementById("up_emailId").value != me_data.eid || document.getElementById("up_mobileNumber").value != me_data.mobileNumber || imageDataChanged == true) {
+            document.getElementById("new_loader").style.display = "block";
+            let updateProfileReq = $.post(baseUrl + "/apis/User.php", {
+                type: "updateUser",
+                uid: me_data.uid,
+                displayName: document.getElementById("up_displayName").value,
+                eid: document.getElementById("up_emailId").value,
+                mobileNumber: document.getElementById("up_mobileNumber").value,
+                photo: updatedProfileImage
+            });
+            updateProfileReq.done(function(updateMeRes) {
+                if (updateMeRes == 200) {
+                    showNotification("<strong>Suceess</strong>", "Page will refresh", "success");
+                    location.reload();
+                } else {
+                    showNotification("<strong>Error</strong>", "Failed to update profile", "danger");
+                }
+                document.getElementById("new_loader").style.display = "none";
+            });
+            updateProfileReq.fail(function(jqXHR, textStatus) {
+                document.getElementById("new_loader").style.display = "none";
+                handleNetworkIssues(textStatus)
+            });
+
+        } else {
+            showNotification("<strong>!!</strong>", "No data was changed", "info");
+        }
+    });
 }

@@ -1,8 +1,8 @@
-
 let searchBarViewReceipt;
 let feeHeads;
 let ReceiptForStudentId;
 let ReceiptClassId;
+
 function generateReceipt() {
     setActiveColorsfees("generateReceipt");
     searchNEdit(true);
@@ -11,7 +11,7 @@ function generateReceipt() {
 function getFeesDetails(studentId, classId) {
     ReceiptForStudentId = studentId;
     ReceiptClassId = classId;
-    let feesDetailHTML = ` <div class="container" style="background: #e9f1ff; border-radius: 15px; padding: 1%; margin-bottom: 2%">
+    let feesDetailHTML = ` <div class="container backgroundDefiner" style="background:var(--btnColor3); border-radius: 15px; padding: 1%; margin-bottom: 2%">
     <div class="row">
       <div class="col-md-5" style="text-align: start">
        <h5 style="margin-bottom: 10px">Total Fees</h5> 
@@ -51,7 +51,7 @@ function getFeesDetails(studentId, classId) {
 
     <div class="row" style="margin-top:2%;">
     <div class="col-md-11"></div>
-    <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="newReceiptView()"></i>
+    <div class="col-md-1"> <i class="fa fa-plus button button6" style="border:1px solid; border-radius:50%; padding:20%" onclick="newReceiptView()"></i>
     </div>
    
     </div>
@@ -59,7 +59,7 @@ function getFeesDetails(studentId, classId) {
 </div>`;
     document.getElementById("new_loader").style.display = "block";
     document.getElementById("feeInfoHolder").innerHTML = feesDetailHTML;
-    $.when(setAmountPaid(studentId), setTotalFees(studentId)).then(function () {
+    $.when(setAmountPaid(studentId), setTotalFees(studentId)).then(function() {
         document.getElementById("new_loader").style.display = "none";
     });
 
@@ -73,14 +73,14 @@ function setAmountPaid(studentId) {
         sessionName: sessionSelect
     });
 
-    AmountRequest.done(function (amount) {
+    AmountRequest.done(function(amount) {
         if (amount != "E500") {
             document.getElementById('feesPaidValue').innerText = amount + " ₹";
         }
 
     });
 
-    AmountRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    AmountRequest.fail(function(jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 function setTotalFees(studentId) {
@@ -91,13 +91,13 @@ function setTotalFees(studentId) {
         sessionName: sessionSelect
     });
 
-    AmountRequest.done(function (amount) {
+    AmountRequest.done(function(amount) {
         if (amount != null) {
             document.getElementById('totalFeesValue').innerText = amount + " ₹";
         }
     });
 
-    AmountRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    AmountRequest.fail(function(jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 function newReceiptView() {
@@ -110,7 +110,7 @@ function newReceiptView() {
         studentId: ReceiptForStudentId
     });
 
-    getHeadsReq.done(function (HeadList) {
+    getHeadsReq.done(function(HeadList) {
         document.getElementById('headHolder').innerHTML = '';
         document.getElementById('totalFees').value = 0;
         var today = new Date();
@@ -122,13 +122,13 @@ function newReceiptView() {
             for (var itr in feeHeads) {
                 FeeHeadHTML = `<div class="row" style="margin-top: 2%">
                 <div class="col-md-6">
-                  <label id = "headName`+ itr + `"></label>
+                  <label id = "headName` + itr + `"></label>
                 </div>
                 <div class="col-md-1" style="display:none">
-                  <label id = "headId`+ itr + `"></label>
+                  <label id = "headId` + itr + `"></label>
                 </div>
                 <div class="col-md-6">
-                  <input class="form-control" type="number" id="headValue`+ itr + `" onchange="setSum(this.value)" value="0">
+                  <input class="form-control" type="number" id="headValue` + itr + `" onchange="setSum(this.value)" value="0">
                 </div>
               </div>`;
 
@@ -140,21 +140,20 @@ function newReceiptView() {
             }
             $('#newReceiptModal').modal();
 
-        }
-        catch (e) {
+        } catch (e) {
             showNotification("Error", "Failed to get data", "danger");
         }
         document.getElementById("new_loader").style.display = "none";
     });
 
-    getHeadsReq.fail(function (jqXHR, textStatus) {
+    getHeadsReq.fail(function(jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
 
 }
 
-$('#newReceiptForm').submit(function (event) {
+$('#newReceiptForm').submit(function(event) {
     event.preventDefault();
     $('#newReceiptModal').modal('toggle');
     let shouldSendReq = false;
@@ -188,32 +187,28 @@ $('#newReceiptForm').submit(function (event) {
             receiptRemark: document.getElementById('receiptRemark').value
         });
 
-        
-        newReceiptRequest.done(function (newReceiptRes) {
+        newReceiptRequest.done(function(newReceiptRes) {
             console.log(newReceiptRes);
             try {
                 var resjson = JSON.parse(newReceiptRes);
                 if (resjson.resCode == 200) {
                     getFeesDetails(ReceiptForStudentId);
                     viewReceipt(resjson.id, ReceiptForStudentId, sessionSelect);
-                }
-                else {
+                } else {
                     showNotification("<strong>Error</strong>", "Failed to generate receipt", "danger");
                     console.log(newReceiptRes);
                 }
-            }
-            catch (e) {
+            } catch (e) {
                 showNotification("Error", "Failed to get data", "danger");
             }
             document.getElementById("new_loader").style.display = "none";
         });
 
-        newReceiptRequest.fail(function (jqXHR, textStatus) {
+        newReceiptRequest.fail(function(jqXHR, textStatus) {
             document.getElementById("new_loader").style.display = "none";
             //handleNetworkIssues(textStatus)
         });
-    }
-    else {
+    } else {
         showNotification("<strong>Error</strong>", "Invalid Amount - Receipt not created", "danger");
     }
 });
@@ -236,14 +231,14 @@ function showReceiptList() {
         studentId: ReceiptForStudentId,
         sessionName: sessionSelect
     });
-    getReceiptListReq.done(function (receiptListData) {
+    getReceiptListReq.done(function(receiptListData) {
         try {
             let receiptListJSON = JSON.parse(receiptListData);
             for (itr in receiptListJSON) {
                 let receiptListHTML = `<div class="row button button4" style="margin:1%" onclick="viewReceiptFromList(this)">
-                <div class="col-rmd-6" id="receiptIdforList`+ itr + `">
+                <div class="col-rmd-6" id="receiptIdforList` + itr + `">
                 </div>
-                <div class="col-rmd-6" id="amountforList`+ itr + `">
+                <div class="col-rmd-6" id="amountforList` + itr + `">
                 </div>          
                 </div>`;
 
@@ -259,7 +254,7 @@ function showReceiptList() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    getReceiptListReq.fail(function (jqXHR, textStatus) {
+    getReceiptListReq.fail(function(jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
