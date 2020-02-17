@@ -91,7 +91,7 @@ function feesReport() {
       </div>
     </div>
 
-    <div class="container backgroundDefiner" id="FeeReportHolder" background:var(--btnColor3); border-radius: 20px; margin:1%">
+    <div class="container backgroundDefiner" id="FeeReportHolder" style="background:var(--btnColor3); border-radius: 20px; margin:1%">
 
     </div>
   </div>`;
