@@ -8,7 +8,7 @@ function manageClassList() {
     </div>
     <div class="container" style="padding: 1%">
     
-    <div id="jsGrid" style = "display:none" ></div>
+    <div id="jsGrid" style = "display:none;" ></div>
     <div class="row" style="margin-top:2%">
     <div class="col-md-11"></div>
     <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="showClassListDetailsDialog()"></i>
@@ -404,20 +404,19 @@ function getRoleList() {
         uid: me_data.uid
     });
 
-    userRoleReq.done(function (responce) {
-        try{
+    userRoleReq.done(function(responce) {
+        try {
             var RoleArray = JSON.parse(responce);
             if (RoleArray.length > 0) {
                 makeRoleEditView(RoleArray);
             }
-        }
-        catch(e){
+        } catch (e) {
             showNotification("Error", "Failed to get data", "danger");
         }
         document.getElementById("new_loader").style.display = "none";
     });
 
-    userRoleReq.fail(function(jqXHR, textStatus){
+    userRoleReq.fail(function(jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -427,39 +426,39 @@ function makeRoleEditView(roleArray) {
     document.getElementById("manageRolesHolder").innerHTML = "";
     for (var itr in roleArray) {
         var itemHtml = `<div class="container">
-        <div class="row collapsible" style="padding:2%" id="item`+ itr + `" data-toggle="collapse" data-target="#data` + itr + `">
-            <div class="col-md-6" style="text-align:left" id="groupName`+ itr + `"></div>
-            <div class="col-md-6" style="text-align:right"><i class="fa fa-arrow-down" style="display:block"></i></div>
+        <div class="row collapsible" style="padding:2%" id="item` + itr + `" data-toggle="collapse" data-target="#data` + itr + `">
+            <div class="col-md-6" style="background:var(--btnColor1); text-align:left" id="groupName` + itr + `"></div>
+            <div class="col-md-6" style="background:var(--btnColor1); text-align:right"><i class="fa fa-arrow-down" style="background:var(--btnColor1); display:block"></i></div>
             </div>
 
-            <div id="data`+ itr + `" class="collapse" style="background:#d4e6f1; padding:2%; border-radius: 15px; margin-left:2%; margin-right:2%">
+            <div id="data` + itr + `" class="collapse" style="padding:2%; border-radius: 15px; margin-left:2%; margin-right:2%">
                    <h6>Group Properties</h6>
                    <hr>
                    <div class="row" style="padding:2%">
                         <div class="col-md-3">
-                        <label for="manageUsers`+ itr + `" class="checklabel">Manage Users
-                            <input type="checkbox" id="manageUsers`+ itr + `">
+                        <label for="manageUsers` + itr + `" class="checklabel">Manage Users
+                            <input type="checkbox" id="manageUsers` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="manageRoles`+ itr + `" class="checklabel">Manage Role Groups
-                            <input type="checkbox" id="manageRoles`+ itr + `">
+                        <label for="manageRoles` + itr + `" class="checklabel">Manage Role Groups
+                            <input type="checkbox" id="manageRoles` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="manageFeesHeads`+ itr + `" class="checklabel">Manage Fees
-                            <input type="checkbox" id="manageFeesHeads`+ itr + `">
+                        <label for="manageFeesHeads` + itr + `" class="checklabel">Manage Fees
+                            <input type="checkbox" id="manageFeesHeads` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="newAccadamicYear`+ itr + `" class="checklabel">Start New Accadamic Year
-                            <input type="checkbox" id="newAccadamicYear`+ itr + `">
+                        <label for="newAccadamicYear` + itr + `" class="checklabel">Start New Accadamic Year
+                            <input type="checkbox" id="newAccadamicYear` + itr + `">
                             <span class="checkmark"></span>
                          </label>
                         </div>
@@ -467,22 +466,22 @@ function makeRoleEditView(roleArray) {
 
                    <div class="row" style="padding:2%">
                         <div class="col-md-4">
-                        <label for="registerStudent`+ itr + `" class="checklabel">Register Student
-                            <input type="checkbox" id="registerStudent`+ itr + `">
+                        <label for="registerStudent` + itr + `" class="checklabel">Register Student
+                            <input type="checkbox" id="registerStudent` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-4">
-                        <label for="searchNEdit`+ itr + `" class="checklabel">Search and edit student data
-                            <input type="checkbox" id="searchNEdit`+ itr + `">
+                        <label for="searchNEdit` + itr + `" class="checklabel">Search and edit student data
+                            <input type="checkbox" id="searchNEdit` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-4">
-                        <label for="manageClass`+ itr + `" class="checklabel">Manage Class List
-                            <input type="checkbox" id="manageClass`+ itr + `">
+                        <label for="manageClass` + itr + `" class="checklabel">Manage Class List
+                            <input type="checkbox" id="manageClass` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
@@ -490,29 +489,29 @@ function makeRoleEditView(roleArray) {
 
                    <div class="row" style="padding:2%">
                         <div class="col-md-3">
-                        <label for="generateReceipt`+ itr + `" class="checklabel">Generate Receipt
-                            <input type="checkbox" id="generateReceipt`+ itr + `">
+                        <label for="generateReceipt` + itr + `" class="checklabel">Generate Receipt
+                            <input type="checkbox" id="generateReceipt` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="feesReport`+ itr + `" class="checklabel">View Fees Reports
-                            <input type="checkbox" id="feesReport`+ itr + `">
+                        <label for="feesReport` + itr + `" class="checklabel">View Fees Reports
+                            <input type="checkbox" id="feesReport` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="studentAttendence`+ itr + `" class="checklabel">Enter Student Attendence
-                            <input type="checkbox" id="studentAttendence`+ itr + `">
+                        <label for="studentAttendence` + itr + `" class="checklabel">Enter Student Attendence
+                            <input type="checkbox" id="studentAttendence` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="studentReport`+ itr + `" class="checklabel">Student Report
-                            <input type="checkbox" id="studentReport`+ itr + `">
+                        <label for="studentReport` + itr + `" class="checklabel">Student Report
+                            <input type="checkbox" id="studentReport` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
@@ -520,8 +519,8 @@ function makeRoleEditView(roleArray) {
 
                    <div class="row" style="padding:1%">
                     <div class="col-md-12">
-                          <button class="btn btn-primary" style="float:right" onclick="updateGroupDetails(this.parentNode.parentNode.parentNode)">Update</button>
-                           <button class="btn btn-danger" style="float:right; margin-right:2%" onclick="deleteGroup(this.parentNode.parentNode.parentNode)">Delete Group</button> 
+                          <button class="btn btn-primary" style="float:right; `+CSSbtnPrimary+`" onclick="updateGroupDetails(this.parentNode.parentNode.parentNode)">Update</button>
+                          <button class="btn btn-danger" style="float:right; margin-right:2%; `+CSSbtnDanger+`" onclick="deleteGroup(this.parentNode.parentNode.parentNode)">Delete Group</button> 
                     </div>
                    </div>
             </div>
@@ -626,19 +625,18 @@ function updateGroupDetails(view) {
         studentReport: studentReport
     });
 
-    updateGroupReq.done(function (responce) {
+    updateGroupReq.done(function(responce) {
         if (responce == 200) {
-            showNotification("Success","User Group Updated", "success");
+            showNotification("Success", "User Group Updated", "success");
             getRoleList();
-        }
-        else {
+        } else {
             console.log(responce)
-            showNotification("<strong>Error</strong>","Failed to update group", "danger");
+            showNotification("<strong>Error</strong>", "Failed to update group", "danger");
         }
         document.getElementById("new_loader").style.display = "none";
     });
 
-    updateGroupReq.fail(function(jqXHR, textStatus){
+    updateGroupReq.fail(function(jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -652,18 +650,17 @@ function deleteGroup(view) {
         uid: me_data.uid,
         userType: userType
     });
-    deleteGroupReq.done(function (responce) {
+    deleteGroupReq.done(function(responce) {
         if (responce == 200) {
-            showNotification("Success","User Group Deleted", "success");
+            showNotification("Success", "User Group Deleted", "success");
             view.parentNode.parentNode.removeChild(view.parentNode);
-        }
-        else {
-            showNotification("<strong>Error</strong>","Failed to delete group", "danger");
+        } else {
+            showNotification("<strong>Error</strong>", "Failed to delete group", "danger");
         }
         document.getElementById("new_loader").style.display = "none";
     })
 
-    deleteGroupReq.fail(function(jqXHR, textStatus){
+    deleteGroupReq.fail(function(jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -672,8 +669,7 @@ function deleteGroup(view) {
 function isCheckedGeneric(isChecked) {
     if (isChecked) {
         temp = 1;
-    }
-    else {
+    } else {
         temp = 0;
     }
     return temp;
@@ -687,8 +683,7 @@ function createNewUserGroupForSure() {
     let newGroupName = document.getElementById("newUserGroupName").value;
     if (newGroupName == null || newGroupName == "") {
         document.getElementById("groupNotUniqueAlert").style.display = "block";
-    }
-    else {
+    } else {
         document.getElementById("groupNotUniqueAlert").style.display = "none";
 
 
@@ -726,7 +721,7 @@ function createNewUserGroupForSure() {
         NewStudentReport = isCheckedGeneric(NewStudentReport);
 
 
-       
+
         document.getElementById("new_loader").style.display = "block";
         var createNewRoleRequest = $.post(baseUrl + "/apis/userGroup.php", {
             type: "createNewRole",
@@ -745,14 +740,14 @@ function createNewUserGroupForSure() {
             NewStudentReport: NewStudentReport
         });
 
-        createNewRoleRequest.done(function (responce) {
+        createNewRoleRequest.done(function(responce) {
             if (responce == 200) {
                 manageRoles();
             }
             document.getElementById("new_loader").style.display = "none";
         });
 
-        createNewRoleRequest.fail(function(jqXHR, textStatus){
+        createNewRoleRequest.fail(function(jqXHR, textStatus) {
             document.getElementById("new_loader").style.display = "none";
             handleNetworkIssues(textStatus)
         });
@@ -860,7 +855,7 @@ function sendSearchUserRequest() {
     }
     else {
       document.getElementById('allUserHolder').innerHTML = `<div class="row collapsible">
-    <div class="text-center"><h5>No Result Found</h5>
+    <div class="text-center" style="background:var(--btnColor1)"><h5 style="background:var(--btnColor1)">No Result Found</h5>
     </div>
     </div>`;
     }
@@ -873,21 +868,21 @@ function makeUserView(allUserArray) {
   if (allUserArray.length > 0) {
     for (var itr in allUserArray) {
       userItemHtml = `<div class="row collapsible" onclick="getUserDetails(this)">
-               <div class="col-rmd-1">
+               <div class="col-rmd-1" style="background:var(--btnColor1)">
                  <img style="width: 50px; height: 50px; border-radius: 50%" id="userImg`+ itr + `">
                </div>
-               <div class="col-rmd-11">
+               <div class="col-rmd-11" style="background:var(--btnColor1)">
                  <div class="row" style="font-size: 18px">
-                   <div class="col-rmd-8" id="displayName`+ itr + `">
+                   <div class="col-rmd-8" style="background:var(--btnColor1)" id="displayName`+ itr + `">
                    </div>
-                   <div class="col-rmd-4" style="text-align: right; padding-right:1%" id="mobileNumber`+ itr + `"> 
+                   <div class="col-rmd-4" style="background:var(--btnColor1)" style="text-align: right; padding-right:1%" id="mobileNumber`+ itr + `"> 
                    </div>
                  </div>
                  <div class="row" style="margin-top:1%">
-                   <div class="col-rmd-10" id="emailId`+ itr + `">
+                   <div class="col-rmd-10" style="background:var(--btnColor1)" id="emailId`+ itr + `">
                    </div>
                    <div style="display: none;" id="userId`+ itr + `"></div>
-                   <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteUser(this)"></i></div>
+                   <div class="col-md-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteUser(this)"></i></div>
                  </div>
                </div> 
             </div>`;
@@ -970,8 +965,8 @@ function getUserDetails(usersView) {
         for (var itr in myRoleListArray) {
           let roleItemHTML = `<div class="row collapsible" style="cursor:default">
             <div class="col" id="roleId`+ itr + `" style="display:none"></div>
-            <div class="col-md-10" id="roleName`+ itr + `"></div>
-            <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
+            <div class="col-md-10" style="background:var(--btnColor1)" id="roleName`+ itr + `"></div>
+            <div class="col-md-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
             </div>`;
           document.getElementById('userDetailsHolder').innerHTML += roleItemHTML;
           document.getElementById('roleId' + itr).innerText = myRoleListArray[itr].id;
@@ -1124,7 +1119,7 @@ function newAccadamicYear() {
 
     <div class="row" style="padding-bottom: 2%">
       <div class="col-md-12">
-          <button class="btn btn-primary" onclick="newAccedamicYearContinue()">Continue</button>
+          <button class="btn btn-primary" style="`+CSSbtnPrimary+`" onclick="newAccedamicYearContinue()">Continue</button>
       </div>
     </div>
 
@@ -1146,9 +1141,10 @@ function newAccedamicYearContinue(){
 let isFirstUpdateProfileListener = true;
 let updatedProfileImage = '';
 let imageDataChanged = false;
+
 function profileSettings() {
-  $('#toggleNav').dropdown('toggle');
-  profileSettingsHTML = `<div class="container" id="profileSettingsHTML" style="margin-top:3%; margin-bottom: 3%; background: #f2f3f4; width: 50%; border-radius: 15px; padding: 1%">
+    $('#toggleNav').dropdown('toggle');
+    profileSettingsHTML = `<div class="backgroundDefiner container" id="profileSettingsHTML" style="background: var(--btnColor3); margin-top:3%; margin-bottom: 3%; width: 50%; border-radius: 15px; padding: 1%">
   <form id="profileUpdateForm">  
   <div class="row" style="margin-top:3%">
       <div class="col-rmd-2"></div>
@@ -1212,77 +1208,75 @@ function profileSettings() {
     <div class="row" style="margin-top:2%">
     <div class="col-rmd-2"></div>
     <div class="col-rmd-8">
-        <button type="submit" style="float: left" class="btn btn-primary">Update</button>
+        <button type="submit" style="float: left; `+CSSbtnPrimary+`" class="btn btn-primary">Update</button>
       </div>
     </div>
     </form>
   </div>`;
 
-  document.getElementById("section_main").innerHTML = profileSettingsHTML;
-  setProfileDetails();
-  updatedProfileImage = me_data.photo;
-  if (isFirstUpdateProfileListener) {
-    updateProfileListener();
-    isFirstUpdateProfileListener = false;
-  }
+    document.getElementById("section_main").innerHTML = profileSettingsHTML;
+    setProfileDetails();
+    updatedProfileImage = me_data.photo;
+    if (isFirstUpdateProfileListener) {
+        updateProfileListener();
+        isFirstUpdateProfileListener = false;
+    }
 }
 
 function setProfileDetails() {
-  document.getElementById("up_displayName").value = me_data.displayName;
-  document.getElementById("up_mobileNumber").value = me_data.mobileNumber;
-  document.getElementById("up_emailId").value = me_data.eid;
-  document.getElementById("myProfileImgForUpdate").src = me_data.photo;
+    document.getElementById("up_displayName").value = me_data.displayName;
+    document.getElementById("up_mobileNumber").value = me_data.mobileNumber;
+    document.getElementById("up_emailId").value = me_data.eid;
+    document.getElementById("myProfileImgForUpdate").src = me_data.photo;
 }
 
 function updateProfileListener() {
 
-  $("#img_pickerUpdateProfileImage").change(function () {
-    let input = document.getElementById("img_pickerUpdateProfileImage");
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        $('#img_pickerUpdateProfileImage').attr('src', e.target.result);
-        updatedProfileImage = e.target.result;
-        document.getElementById('myProfileImgForUpdate').src = updatedProfileImage;
-        imageDataChanged = true;
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  });
-
-
-  $('#profileUpdateForm').submit(function (event) {
-    event.preventDefault();
-    if (document.getElementById("up_displayName").value != me_data.displayName || document.getElementById("up_emailId").value != me_data.eid || document.getElementById("up_mobileNumber").value != me_data.mobileNumber || imageDataChanged == true) {
-      document.getElementById("new_loader").style.display = "block";
-      let updateProfileReq = $.post(baseUrl + "/apis/User.php", {
-        type: "updateUser",
-        uid: me_data.uid,
-        displayName: document.getElementById("up_displayName").value,
-        eid: document.getElementById("up_emailId").value,
-        mobileNumber: document.getElementById("up_mobileNumber").value,
-        photo: updatedProfileImage
-      });
-      updateProfileReq.done(function (updateMeRes) {
-        if (updateMeRes == 200) {
-          showNotification("<strong>Suceess</strong>", "Page will refresh", "success");
-          location.reload();
+    $("#img_pickerUpdateProfileImage").change(function() {
+        let input = document.getElementById("img_pickerUpdateProfileImage");
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#img_pickerUpdateProfileImage').attr('src', e.target.result);
+                updatedProfileImage = e.target.result;
+                document.getElementById('myProfileImgForUpdate').src = updatedProfileImage;
+                imageDataChanged = true;
+            };
+            reader.readAsDataURL(input.files[0]);
         }
-        else {
-          showNotification("<strong>Error</strong>", "Failed to update profile", "danger");
-        }
-        document.getElementById("new_loader").style.display = "none";
-      });
-      updateProfileReq.fail(function(jqXHR, textStatus){
-        document.getElementById("new_loader").style.display = "none";
-        handleNetworkIssues(textStatus)
-      });
+    });
 
-    }
-    else {
-      showNotification("<strong>!!</strong>", "No data was changed", "info");
-    }
-  });
+
+    $('#profileUpdateForm').submit(function(event) {
+        event.preventDefault();
+        if (document.getElementById("up_displayName").value != me_data.displayName || document.getElementById("up_emailId").value != me_data.eid || document.getElementById("up_mobileNumber").value != me_data.mobileNumber || imageDataChanged == true) {
+            document.getElementById("new_loader").style.display = "block";
+            let updateProfileReq = $.post(baseUrl + "/apis/User.php", {
+                type: "updateUser",
+                uid: me_data.uid,
+                displayName: document.getElementById("up_displayName").value,
+                eid: document.getElementById("up_emailId").value,
+                mobileNumber: document.getElementById("up_mobileNumber").value,
+                photo: updatedProfileImage
+            });
+            updateProfileReq.done(function(updateMeRes) {
+                if (updateMeRes == 200) {
+                    showNotification("<strong>Suceess</strong>", "Page will refresh", "success");
+                    location.reload();
+                } else {
+                    showNotification("<strong>Error</strong>", "Failed to update profile", "danger");
+                }
+                document.getElementById("new_loader").style.display = "none";
+            });
+            updateProfileReq.fail(function(jqXHR, textStatus) {
+                document.getElementById("new_loader").style.display = "none";
+                handleNetworkIssues(textStatus)
+            });
+
+        } else {
+            showNotification("<strong>!!</strong>", "No data was changed", "info");
+        }
+    });
 };
 let FeeRepostType;
 let FeeSessionSelect;
@@ -1291,27 +1285,27 @@ let isClassAndSectionFirst = true;
 let dateFrom, dateTo;
 
 function FeeRepostTypehangeFun() {
-  FeeRepostType = document.getElementById('FeeRepostType').value;
-  checkReportType();
+    FeeRepostType = document.getElementById('FeeRepostType').value;
+    checkReportType();
 }
 
 function FeeSessionSelectOnChange() {
-  FeeSessionSelect = document.getElementById('FeeSessionSelect').value;
-  document.getElementById("errorMessage").style.display = "none";
-  checkReportType();
+    FeeSessionSelect = document.getElementById('FeeSessionSelect').value;
+    document.getElementById("errorMessage").style.display = "none";
+    checkReportType();
 }
 
 function feesReport() {
 
-  clearFilter();
-  FeeRepostType = "";
-  FeeSessionSelect = "";
-  isFirstDateReportView = true;
-  isClassAndSectionFirst = true;
+    clearFilter();
+    FeeRepostType = "";
+    FeeSessionSelect = "";
+    isFirstDateReportView = true;
+    isClassAndSectionFirst = true;
 
 
-  setActiveColorsfees("feesReport");
-  searchcNEditHTML = `<div class="container" id="registerStudent">
+    setActiveColorsfees("feesReport");
+    searchcNEditHTML = `<div class="container" id="registerStudent">
     <div class="text-center">
       <h4 id="searchHeading">Fees Report</h4>
       <hr>
@@ -1343,7 +1337,7 @@ function feesReport() {
         <input type = "number" placeholder = "Receipt Id" class = "form-control" id = "receiptIdToGet"> 
       </div>
       <div class="col-md-2" id="receiptGoBox" style = "display:none">
-        <button class= "btn btn-secondary" onclick="viewReceipt(this.parentNode.parentNode.childNodes[9].childNodes[1].value)">GO</button> 
+        <button class= "btn btn-secondary" style="`+CSSbtnPrimary+`" onclick="viewReceipt(this.parentNode.parentNode.childNodes[9].childNodes[1].value)">GO</button> 
       </div>
     </div>
 
@@ -1376,63 +1370,60 @@ function feesReport() {
       </div>
     </div>
 
-    <div class="container" id="FeeReportHolder" style="background: #e3f1fd; border-radius: 20px; margin:1%">
+    <div class="container backgroundDefiner" id="FeeReportHolder" background:var(--btnColor3); border-radius: 20px; margin:1%">
 
     </div>
   </div>`;
-  document.getElementById('feesActionHolder').innerHTML = searchcNEditHTML;
-  loadAllSessionsAndSetListeners();
+    document.getElementById('feesActionHolder').innerHTML = searchcNEditHTML;
+    loadAllSessionsAndSetListeners();
 }
 
 function loadAllSessionsAndSetListeners() {
-  document.getElementById("new_loader").style.display = "block";
-  var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
-    type: "getAllSessions",
-    uid: me_data.uid
-  });
+    document.getElementById("new_loader").style.display = "block";
+    var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
+        type: "getAllSessions",
+        uid: me_data.uid
+    });
 
-  allSessionReq.done(function (allSessions) {
-    try {
-      allSessions = JSON.parse(allSessions);
-      for (var index in allSessions) {
-        $('#FeeSessionSelect')
-          .append($('<option>', { value: allSessions[index].sessionName })
-            .text(allSessions[index].sessionName
-            ));
-      }
+    allSessionReq.done(function(allSessions) {
+        try {
+            allSessions = JSON.parse(allSessions);
+            for (var index in allSessions) {
+                $('#FeeSessionSelect')
+                    .append($('<option>', { value: allSessions[index].sessionName })
+                        .text(allSessions[index].sessionName));
+            }
 
-      FeeSessionSelect = currentSession;
-      document.getElementById("FeeSessionSelect").value = currentSession;
-    }
-    catch (e) {
-      showNotification("Error", "Failed to get data", "danger");
-    }
-    document.getElementById("new_loader").style.display = "none";
-  });
+            FeeSessionSelect = currentSession;
+            document.getElementById("FeeSessionSelect").value = currentSession;
+        } catch (e) {
+            showNotification("Error", "Failed to get data", "danger");
+        }
+        document.getElementById("new_loader").style.display = "none";
+    });
 
-  allSessionReq.fail(function (jqXHR, textStatus) {
-    document.getElementById("new_loader").style.display = "none";
-    handleNetworkIssues(textStatus)
-  });
+    allSessionReq.fail(function(jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 
 }
 
 function checkReportType() {
-  if (FeeSessionSelect == null || FeeSessionSelect == "") {
-    document.getElementById("errorMessage").innerText = "Please select accedamic year";
-    document.getElementById("errorMessage").style.display = "block";
-  }
-  else {
+    if (FeeSessionSelect == null || FeeSessionSelect == "") {
+        document.getElementById("errorMessage").innerText = "Please select accedamic year";
+        document.getElementById("errorMessage").style.display = "block";
+    } else {
 
-    if (FeeRepostType == "byDate") {
-      document.getElementById('feeSessionDiv').style.display = "block";
-      document.getElementById("feeSessionDiv").className = "col-md-5";
-      document.getElementById('filterImg').style.display = "none";
-      document.getElementById('receiptIdBox').style.display = "none";
-      document.getElementById('receiptGoBox').style.display = "none";
-      document.getElementById('FeeReportHolder').innerHTML = ``;
-      document.getElementById("errorMessage").style.display = "none";
-      document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-2" style="text-align: end">
+        if (FeeRepostType == "byDate") {
+            document.getElementById('feeSessionDiv').style.display = "block";
+            document.getElementById("feeSessionDiv").className = "col-md-5";
+            document.getElementById('filterImg').style.display = "none";
+            document.getElementById('receiptIdBox').style.display = "none";
+            document.getElementById('receiptGoBox').style.display = "none";
+            document.getElementById('FeeReportHolder').innerHTML = ``;
+            document.getElementById("errorMessage").style.display = "none";
+            document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-2" style="text-align: end">
                                                             <label for="dateFrom">Date From - To:</label>
                                                           </div>
                                                           <div class="col-md-4">
@@ -1444,151 +1435,139 @@ function checkReportType() {
                                                           </div>
 
                                                           <div class="col-md-1">
-                                                          <button id="printBtn" style="float:right" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                          <button id="printBtn" style="float:right; `+CSSbtnSecondary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                           </div>
                                                          `;
-      if (isFirstDateReportView) {
-        $(document).on('change', '#dateFrom', function () {
-          dateFrom = document.getElementById('dateFrom').value;
-          ReportByDates();
-        });
-        $(document).on('change', '#dateTo', function () {
-          dateTo = document.getElementById('dateTo').value;
-          ReportByDates();
-        });
-      }
-      isFirstDateReportView = false;
-      document.getElementById("botHR").style.display = "block";
-    }
-
-    else if (FeeRepostType == "bySchool") {
-      document.getElementById('feeSessionDiv').style.display = "block";
-      document.getElementById("feeSessionDiv").className = "col-md-5";
-      document.getElementById('filterImg').style.display = "none";
-      document.getElementById('receiptIdBox').style.display = "none";
-      document.getElementById('receiptGoBox').style.display = "none";
-      document.getElementById('FeeReportHolder').innerHTML = ``;
-      document.getElementById("errorMessage").style.display = "none";
-      document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
+            if (isFirstDateReportView) {
+                $(document).on('change', '#dateFrom', function() {
+                    dateFrom = document.getElementById('dateFrom').value;
+                    ReportByDates();
+                });
+                $(document).on('change', '#dateTo', function() {
+                    dateTo = document.getElementById('dateTo').value;
+                    ReportByDates();
+                });
+            }
+            isFirstDateReportView = false;
+            document.getElementById("botHR").style.display = "block";
+        } else if (FeeRepostType == "bySchool") {
+            document.getElementById('feeSessionDiv').style.display = "block";
+            document.getElementById("feeSessionDiv").className = "col-md-5";
+            document.getElementById('filterImg').style.display = "none";
+            document.getElementById('receiptIdBox').style.display = "none";
+            document.getElementById('receiptGoBox').style.display = "none";
+            document.getElementById('FeeReportHolder').innerHTML = ``;
+            document.getElementById("errorMessage").style.display = "none";
+            document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
                                                               </div>
                                                               <div class="col-md-1">
-                                                                <button id="printBtn" style="float:right" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                                <button id="printBtn" style="float:right; `+CSSbtnSecondary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                               </div>`;
-      document.getElementById("errorMessage").style.display = "none";
+            document.getElementById("errorMessage").style.display = "none";
 
-      if (FeeSessionSelect != "") {
-        reportBySchool();
-      }
-    }
-
-    else if (FeeRepostType == "byMonth") {
-      document.getElementById("feeSessionDiv").className = "col-md-5";
-      document.getElementById('filterImg').style.display = "none";
-      document.getElementById('receiptIdBox').style.display = "none";
-      document.getElementById('receiptGoBox').style.display = "none";
-      document.getElementById('feeSessionDiv').style.display = "block";
-      document.getElementById('FeeReportHolder').innerHTML = ``;
-      document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
+            if (FeeSessionSelect != "") {
+                reportBySchool();
+            }
+        } else if (FeeRepostType == "byMonth") {
+            document.getElementById("feeSessionDiv").className = "col-md-5";
+            document.getElementById('filterImg').style.display = "none";
+            document.getElementById('receiptIdBox').style.display = "none";
+            document.getElementById('receiptGoBox').style.display = "none";
+            document.getElementById('feeSessionDiv').style.display = "block";
+            document.getElementById('FeeReportHolder').innerHTML = ``;
+            document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
                                                               </div>
                                                               <div class="col-md-1">
-                                                                <button id="printBtn" style="float:right" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                                <button id="printBtn" style="float:right; `+CSSbtnPrimary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                               </div>`;
-      document.getElementById("errorMessage").style.display = "none";
+            document.getElementById("errorMessage").style.display = "none";
 
-      if (FeeSessionSelect != "") {
-        getMonthWiseReport();
-      }
-    }
+            if (FeeSessionSelect != "") {
+                getMonthWiseReport();
+            }
+        } else if (FeeRepostType == "classSummeryReport") {
+            document.getElementById("feeSessionDiv").className = "col-md-4";
+            document.getElementById('filterImg').style.display = "block";
+            document.getElementById('feeSessionDiv').style.display = "block";
+            document.getElementById('receiptIdBox').style.display = "none";
+            document.getElementById('receiptGoBox').style.display = "none";
+            document.getElementById('FeeReportHolder').innerHTML = ``;
+            document.getElementById("feeInfoHolder").innerHTML = ``;
+            if (document.getElementById("filterClass").value == "" || document.getElementById("filterClass").value == null || document.getElementById("filterSection").value == "" || document.getElementById("filterSection").value == null) {
+                document.getElementById("errorMessage").innerText = "Set values of Class And Section from filter";
+                document.getElementById("errorMessage").style.display = "block";
+            } else {
+                UpdateFilter();
+            }
+            document.getElementById("botHR").style.display = "block";
+        } else if (FeeRepostType == "receiptById") {
+            document.getElementById('feeInfoHolder').innerHTML = ``;
+            document.getElementById('FeeReportHolder').innerHTML = ``;
+            document.getElementById('feeSessionDiv').style.display = "none";
+            document.getElementById('filterImg').style.display = "none";
+            document.getElementById('receiptIdBox').style.display = "block";
+            document.getElementById('receiptGoBox').style.display = "block";
+            document.getElementById("errorMessage").style.display = "none";
+        } else {
 
-    else if (FeeRepostType == "classSummeryReport") {
-      document.getElementById("feeSessionDiv").className = "col-md-4";
-      document.getElementById('filterImg').style.display = "block";
-      document.getElementById('feeSessionDiv').style.display = "block";
-      document.getElementById('receiptIdBox').style.display = "none";
-      document.getElementById('receiptGoBox').style.display = "none";
-      document.getElementById('FeeReportHolder').innerHTML = ``;
-      document.getElementById("feeInfoHolder").innerHTML = ``;
-      if (document.getElementById("filterClass").value == "" || document.getElementById("filterClass").value == null || document.getElementById("filterSection").value == "" || document.getElementById("filterSection").value == null) {
-        document.getElementById("errorMessage").innerText = "Set values of Class And Section from filter";
-        document.getElementById("errorMessage").style.display = "block";
-      }
-      else {
-        UpdateFilter();
-      }
-      document.getElementById("botHR").style.display = "block";
-    }
+        }
 
-    else if (FeeRepostType == "receiptById") {
-      document.getElementById('feeInfoHolder').innerHTML = ``;
-      document.getElementById('FeeReportHolder').innerHTML = ``;
-      document.getElementById('feeSessionDiv').style.display = "none";
-      document.getElementById('filterImg').style.display = "none";
-      document.getElementById('receiptIdBox').style.display = "block";
-      document.getElementById('receiptGoBox').style.display = "block";
-      document.getElementById("errorMessage").style.display = "none";
-    }
-
-    else {
 
     }
-
-
-  }
 }
 
 function classSummeryReport() {
-  document.getElementById("new_loader").style.display = "block";
-  var classSummeryReportReq = $.post(baseUrl + "/apis/receiptStuff.php", {
-    type: "classSummeryReport",
-    uid: me_data.uid,
-    class: document.getElementById("filterClass").value,
-    section: document.getElementById("filterSection").value,
-    sessionName: FeeSessionSelect
-  });
-  classSummeryReportReq.done(function (responseReport) {
-    try {
-      var reportJSON = JSON.parse(responseReport);
+    document.getElementById("new_loader").style.display = "block";
+    var classSummeryReportReq = $.post(baseUrl + "/apis/receiptStuff.php", {
+        type: "classSummeryReport",
+        uid: me_data.uid,
+        class: document.getElementById("filterClass").value,
+        section: document.getElementById("filterSection").value,
+        sessionName: FeeSessionSelect
+    });
+    classSummeryReportReq.done(function(responseReport) {
+        try {
+            var reportJSON = JSON.parse(responseReport);
 
-      for (var itr in reportJSON) {
-        reportJSON[itr].balenceFees = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
-      }
+            for (var itr in reportJSON) {
+                reportJSON[itr].balenceFees = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
+            }
 
-      console.log(reportJSON);
-      document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
-      $("#jsGrid").jsGrid({
-        width: "100%",
-        inserting: false,
-        editing: false,
-        sorting: true,
-        paging: true,
+            console.log(reportJSON);
+            document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
+            $("#jsGrid").jsGrid({
+                width: "100%",
+                inserting: false,
+                editing: false,
+                sorting: true,
+                paging: true,
 
-        data: reportJSON,
+                data: reportJSON,
 
-        fields: [
-          { name: "studentId", type: "number", width: 80 },
-          { name: "fullname", type: "text", width: 150, validate: "required" },
-          { name: "totalFees", type: "number", width: 80 },
-          { name: "paidFees", type: "number", width: 80 },
-          { name: "balenceFees", type: "number", width: 80 }
-        ]
-      });
-      document.getElementById('jsGrid').style.display = "block";
-      document.getElementById("new_loader").style.display = "none";
-    }
-    catch (e) {
-      showNotification("Error", "Failed to get data", "danger");
-    }
-  });
+                fields: [
+                    { name: "studentId", type: "number", width: 80 },
+                    { name: "fullname", type: "text", width: 150, validate: "required" },
+                    { name: "totalFees", type: "number", width: 80 },
+                    { name: "paidFees", type: "number", width: 80 },
+                    { name: "balenceFees", type: "number", width: 80 }
+                ]
+            });
+            document.getElementById('jsGrid').style.display = "block";
+            document.getElementById("new_loader").style.display = "none";
+        } catch (e) {
+            showNotification("Error", "Failed to get data", "danger");
+        }
+    });
 
-  classSummeryReportReq.fail(function (jqXHR, textStatus) {
-    document.getElementById("new_loader").style.display = "none";
-    handleNetworkIssues(textStatus)
-  });
+    classSummeryReportReq.fail(function(jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 }
 
 function buildFeeReport(report, type) {
-  document.getElementById('printBtn').disabled = true;
-  document.getElementById('FeeReportHolder').innerHTML = `
+    document.getElementById('printBtn').disabled = true;
+    document.getElementById('FeeReportHolder').innerHTML = `
   <div class="row" style="margin-bottom:3%">
   <div class="col-md-12">
     <canvas id="myChart" width="100" height="40"></canvas>
@@ -1599,28 +1578,29 @@ function buildFeeReport(report, type) {
     <div id="jsGrid" style = "display:none;"></div>
   </div>`;
 
-  let reportHeads = [];
-  let fieldsArr = [], i = 0;
-  if (report.length >= 1) {
-    reportHeads = report[0];
-    for (var key in reportHeads) {
-      fieldsArr[i] = { name: key, type: "number", width: 120 };
-      i++;
-    }
-    if (type == "ByDate") {
-      document.getElementById('FeeReportHolder').innerHTML = ` <div class="row">
+    let reportHeads = [];
+    let fieldsArr = [],
+        i = 0;
+    if (report.length >= 1) {
+        reportHeads = report[0];
+        for (var key in reportHeads) {
+            fieldsArr[i] = { name: key, type: "number", width: 120 };
+            i++;
+        }
+        if (type == "ByDate") {
+            document.getElementById('FeeReportHolder').innerHTML = ` <div class="row">
       <div id="jsGrid" style = "display:none; text-align:center"></div>
     </div>`;
-      for (var itr in report) {
-        let finalDateArr = report[itr].receiptDate.split("-");
-        if (itr != report.length - 1) {
-          report[itr].receiptDate = finalDateArr[2] + "-" + finalDateArr[1] + "-" + finalDateArr[0];
+            for (var itr in report) {
+                let finalDateArr = report[itr].receiptDate.split("-");
+                if (itr != report.length - 1) {
+                    report[itr].receiptDate = finalDateArr[2] + "-" + finalDateArr[1] + "-" + finalDateArr[0];
+                }
+            }
         }
-      }
-    }
-    //Month Wise Report
-    else if(type == "ByMonth"){
-      document.getElementById('FeeReportHolder').innerHTML = `
+        //Month Wise Report
+        else if (type == "ByMonth") {
+            document.getElementById('FeeReportHolder').innerHTML = `
       <div class="row">
         <div class="col-md-12">
           <canvas id="myChart" width="100" height="40"></canvas>
@@ -1629,31 +1609,29 @@ function buildFeeReport(report, type) {
       <div class="row" style="margin-top:5%">
         <div id="jsGrid" style = "display:none; text-align:center"></div>
       </div>`;
-      var months = [];
-      var totals = [];
-      for (var itr in report) {
-        if (itr != (report.length - 1)) {
-          months.push(report[itr].month);
-          totals.push(report[itr].Total);
-        }
-      }
-      var ctx = document.getElementById('myChart').getContext('2d');
-      var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: months,
-          datasets: [{
-            label: 'Earnings by month',
-            data: totals,
-            borderColor: '#2e86c1',
-            fill: false,
-          }]
-        }
-      });
-    }
-
-    else if(type == "BySchool"){
-      document.getElementById('FeeReportHolder').innerHTML = `
+            var months = [];
+            var totals = [];
+            for (var itr in report) {
+                if (itr != (report.length - 1)) {
+                    months.push(report[itr].month);
+                    totals.push(report[itr].Total);
+                }
+            }
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Earnings by month',
+                        data: totals,
+                        borderColor: '#2e86c1',
+                        fill: false,
+                    }]
+                }
+            });
+        } else if (type == "BySchool") {
+            document.getElementById('FeeReportHolder').innerHTML = `
       <div class="row">
         <div class="col-md-12">
           <canvas id="myChart" width="100" height="40"></canvas>
@@ -1662,158 +1640,154 @@ function buildFeeReport(report, type) {
       <div class="row" style="margin-top:5%">
         <div id="jsGrid" style = "display:none; text-align:center"></div>
       </div>`;
-      var months = [];
-      var totals = [];
-      for (var itr in report) {
-        if (itr != (report.length - 1)) {
-          months.push(report[itr].schoolName);
-          totals.push(report[itr].Total);
+            var months = [];
+            var totals = [];
+            for (var itr in report) {
+                if (itr != (report.length - 1)) {
+                    months.push(report[itr].schoolName);
+                    totals.push(report[itr].Total);
+                }
+            }
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Earnings By School',
+                        data: totals,
+                        borderColor: '#2e86c1',
+                        backgroundColor: ["#7fb3d5", "#a9cce3", "#fadbd8"],
+                    }]
+                }
+            });
         }
-      }
-      var ctx = document.getElementById('myChart').getContext('2d');
-      var myChart = new Chart(ctx, {
-        type: 'doughnut',
-        
-        data: {
-          labels: months,          
-          datasets: [{
-            label: 'Earnings By School',
-            data: totals,            
-            borderColor: '#2e86c1',  
-            backgroundColor:["#7fb3d5", "#a9cce3", "#fadbd8"],          
-        }]
-        }
-      });
+
     }
 
-  }
-
-  $("#jsGrid").jsGrid({
-    width: "100%",
-    inserting: false,
-    editing: false,
-    sorting: true,
-    paging: true,
-    data: report,
-    fields: fieldsArr
-  });
-  document.getElementById('jsGrid').style.display = "block";
-  document.getElementById('printBtn').disabled = false;
+    $("#jsGrid").jsGrid({
+        width: "100%",
+        inserting: false,
+        editing: false,
+        sorting: true,
+        paging: true,
+        data: report,
+        fields: fieldsArr
+    });
+    document.getElementById('jsGrid').style.display = "block";
+    document.getElementById('printBtn').disabled = false;
 }
 
 function ReportByDates() {
 
-  if (document.getElementById("dateFrom").value != "" && document.getElementById("dateTo").value != "") {
-    document.getElementById("new_loader").style.display = "block";
-    var reportByDateReq = $.post(baseUrl + "/apis/feesReport.php", {
-      type: "byDay",
-      uid: me_data.uid,
-      dateFrom: document.getElementById("dateFrom").value,
-      dateTo: document.getElementById("dateTo").value,
-    });
+    if (document.getElementById("dateFrom").value != "" && document.getElementById("dateTo").value != "") {
+        document.getElementById("new_loader").style.display = "block";
+        var reportByDateReq = $.post(baseUrl + "/apis/feesReport.php", {
+            type: "byDay",
+            uid: me_data.uid,
+            dateFrom: document.getElementById("dateFrom").value,
+            dateTo: document.getElementById("dateTo").value,
+        });
 
-    reportByDateReq.done(function (reportRes) {
-      try {
-        var report = JSON.parse(reportRes);
-        buildFeeReport(report, "ByDate");
-      }
-      catch (e) {
-        showNotification("Error", "Failed to get data", "danger");
-      }
-      document.getElementById("new_loader").style.display = "none";
-    });
+        reportByDateReq.done(function(reportRes) {
+            try {
+                var report = JSON.parse(reportRes);
+                buildFeeReport(report, "ByDate");
+            } catch (e) {
+                showNotification("Error", "Failed to get data", "danger");
+            }
+            document.getElementById("new_loader").style.display = "none";
+        });
 
-    reportByDateReq.fail(function (jqXHR, textStatus) {
-      document.getElementById("new_loader").style.display = "none";
-      handleNetworkIssues(textStatus)
-    });
-  }
+        reportByDateReq.fail(function(jqXHR, textStatus) {
+            document.getElementById("new_loader").style.display = "none";
+            handleNetworkIssues(textStatus)
+        });
+    }
 }
 
 function getMonthWiseReport() {
-  document.getElementById("new_loader").style.display = "block";
-  var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
-    type: "byMonth",
-    uid: me_data.uid,
-    sessionName: FeeSessionSelect
-  });
-  
-  
-  monthWiseReportReq.done(function (reportRes) {
-    
-    try {
-      buildFeeReport(JSON.parse(reportRes),"ByMonth");
-    }
-    catch (e) {
-      console.log("Err")
-      showNotification("Error", "Failed to get data", "danger");
-    }
-    document.getElementById("new_loader").style.display = "none";
-  });
+    document.getElementById("new_loader").style.display = "block";
+    var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
+        type: "byMonth",
+        uid: me_data.uid,
+        sessionName: FeeSessionSelect
+    });
 
-  monthWiseReportReq.fail(function (jqXHR, textStatus) {
-    document.getElementById("new_loader").style.display = "none";
-    handleNetworkIssues(textStatus)
-  });
+    monthWiseReportReq.done(function(reportRes) {
+
+        try {
+            buildFeeReport(JSON.parse(reportRes), "ByMonth");
+        } catch (e) {
+            showNotification("Error", "Failed to get data", "danger");
+        }
+        document.getElementById("new_loader").style.display = "none";
+    });
+
+    monthWiseReportReq.fail(function(jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 }
 
-function reportBySchool(){
-document.getElementById("new_loader").style.display = "block";
-  var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
-    type: "bySchool",
-    uid: me_data.uid,
-    sessionName: FeeSessionSelect
-  });
-  monthWiseReportReq.done(function (reportRes) {
-    console.log(reportRes)
-    try {
-      buildFeeReport(JSON.parse(reportRes), "BySchool");
-    }
-    catch (e) {
-      showNotification("Error", "Failed to get data", "danger");
-    }
-    document.getElementById("new_loader").style.display = "none";
-  });
+function reportBySchool() {
+    document.getElementById("new_loader").style.display = "block";
+    var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
+        type: "bySchool",
+        uid: me_data.uid,
+        sessionName: FeeSessionSelect
+    });
+    monthWiseReportReq.done(function(reportRes) {
+        console.log(reportRes)
+        try {
+            buildFeeReport(JSON.parse(reportRes), "BySchool");
+        } catch (e) {
+            showNotification("Error", "Failed to get data", "danger");
+        }
+        document.getElementById("new_loader").style.display = "none";
+    });
 
-  monthWiseReportReq.fail(function (jqXHR, textStatus) {
-    document.getElementById("new_loader").style.display = "none";
-    handleNetworkIssues(textStatus)
-  });
+    monthWiseReportReq.fail(function(jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 }
 
 function UpdateFilter() {
-  if (FeeRepostType == "byDate") {
-    ReportByDates();
-  }
-  else if (FeeRepostType == "classSummeryReport") {
-    if (document.getElementById("filterClass").value != "" && document.getElementById("filterClass").value != null && document.getElementById("filterSection").value != "" && document.getElementById("filterSection").value != null) {
-      document.getElementById("errorMessage").style.display = "none";
-      classSummeryReport();
-    }
+    if (FeeRepostType == "byDate") {
+        ReportByDates();
+    } else if (FeeRepostType == "classSummeryReport") {
+        if (document.getElementById("filterClass").value != "" && document.getElementById("filterClass").value != null && document.getElementById("filterSection").value != "" && document.getElementById("filterSection").value != null) {
+            document.getElementById("errorMessage").style.display = "none";
+            classSummeryReport();
+        }
 
-  }
+    } else {
+
+    }
 }
 
 function showFilters() {
-  $.when(loadClassForSelectId("filterClass", "filterSection")).then(function () {
-    $("#filterModal").modal({ backdrop: 'static', keyboard: false });
-  });
+    $.when(loadClassForSelectId("filterClass", "filterSection")).then(function() {
+        $("#filterModal").modal({ backdrop: 'static', keyboard: false });
+    });
 }
 
 function clearFilter() {
-  document.getElementById("filterClass").value = "";
-  document.getElementById("filterSection").value = "";
+    document.getElementById("filterClass").value = "";
+    document.getElementById("filterSection").value = "";
 }
 
 function printReport() {
-  document.body.innerHTML = document.getElementById("jsGrid").innerHTML;
-  window.print();
-  document.location.reload();
-};
-let searchBarViewReceipt;
+    document.body.innerHTML = document.getElementById("jsGrid").innerHTML;
+    window.print();
+    document.location.reload();
+};let searchBarViewReceipt;
 let feeHeads;
 let ReceiptForStudentId;
 let ReceiptClassId;
+
 function generateReceipt() {
     setActiveColorsfees("generateReceipt");
     searchNEdit(true);
@@ -1822,7 +1796,7 @@ function generateReceipt() {
 function getFeesDetails(studentId, classId) {
     ReceiptForStudentId = studentId;
     ReceiptClassId = classId;
-    let feesDetailHTML = ` <div class="container" style="background: #e9f1ff; border-radius: 15px; padding: 1%; margin-bottom: 2%">
+    let feesDetailHTML = ` <div class="container backgroundDefiner" style="background:var(--btnColor3); border-radius: 15px; padding: 1%; margin-bottom: 2%">
     <div class="row">
       <div class="col-md-5" style="text-align: start">
        <h5 style="margin-bottom: 10px">Total Fees</h5> 
@@ -1862,7 +1836,7 @@ function getFeesDetails(studentId, classId) {
 
     <div class="row" style="margin-top:2%;">
     <div class="col-md-11"></div>
-    <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="newReceiptView()"></i>
+    <div class="col-md-1"> <i class="fa fa-plus button button6" style="border:1px solid; border-radius:50%; padding:20%" onclick="newReceiptView()"></i>
     </div>
    
     </div>
@@ -1870,7 +1844,7 @@ function getFeesDetails(studentId, classId) {
 </div>`;
     document.getElementById("new_loader").style.display = "block";
     document.getElementById("feeInfoHolder").innerHTML = feesDetailHTML;
-    $.when(setAmountPaid(studentId), setTotalFees(studentId)).then(function () {
+    $.when(setAmountPaid(studentId), setTotalFees(studentId)).then(function() {
         document.getElementById("new_loader").style.display = "none";
     });
 
@@ -1884,14 +1858,14 @@ function setAmountPaid(studentId) {
         sessionName: sessionSelect
     });
 
-    AmountRequest.done(function (amount) {
+    AmountRequest.done(function(amount) {
         if (amount != "E500") {
             document.getElementById('feesPaidValue').innerText = amount + " ₹";
         }
 
     });
 
-    AmountRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    AmountRequest.fail(function(jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 function setTotalFees(studentId) {
@@ -1902,13 +1876,13 @@ function setTotalFees(studentId) {
         sessionName: sessionSelect
     });
 
-    AmountRequest.done(function (amount) {
+    AmountRequest.done(function(amount) {
         if (amount != null) {
             document.getElementById('totalFeesValue').innerText = amount + " ₹";
         }
     });
 
-    AmountRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    AmountRequest.fail(function(jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 function newReceiptView() {
@@ -1921,7 +1895,7 @@ function newReceiptView() {
         studentId: ReceiptForStudentId
     });
 
-    getHeadsReq.done(function (HeadList) {
+    getHeadsReq.done(function(HeadList) {
         document.getElementById('headHolder').innerHTML = '';
         document.getElementById('totalFees').value = 0;
         var today = new Date();
@@ -1933,13 +1907,13 @@ function newReceiptView() {
             for (var itr in feeHeads) {
                 FeeHeadHTML = `<div class="row" style="margin-top: 2%">
                 <div class="col-md-6">
-                  <label id = "headName`+ itr + `"></label>
+                  <label id = "headName` + itr + `"></label>
                 </div>
                 <div class="col-md-1" style="display:none">
-                  <label id = "headId`+ itr + `"></label>
+                  <label id = "headId` + itr + `"></label>
                 </div>
                 <div class="col-md-6">
-                  <input class="form-control" type="number" id="headValue`+ itr + `" onchange="setSum(this.value)" value="0">
+                  <input class="form-control" type="number" id="headValue` + itr + `" onchange="setSum(this.value)" value="0">
                 </div>
               </div>`;
 
@@ -1951,21 +1925,21 @@ function newReceiptView() {
             }
             $('#newReceiptModal').modal();
 
-        }
-        catch (e) {
+        } catch (e) {
             showNotification("Error", "Failed to get data", "danger");
         }
         document.getElementById("new_loader").style.display = "none";
     });
 
-    getHeadsReq.fail(function (jqXHR, textStatus) {
+    getHeadsReq.fail(function(jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
 
 }
 
-$('#newReceiptForm').submit(function (event) {
+
+$('#newReceiptForm').submit(function(event) {
     event.preventDefault();
     $('#newReceiptModal').modal('toggle');
     let shouldSendReq = false;
@@ -1999,32 +1973,28 @@ $('#newReceiptForm').submit(function (event) {
             receiptRemark: document.getElementById('receiptRemark').value
         });
 
-        
-        newReceiptRequest.done(function (newReceiptRes) {
+        newReceiptRequest.done(function(newReceiptRes) {
             console.log(newReceiptRes);
             try {
                 var resjson = JSON.parse(newReceiptRes);
                 if (resjson.resCode == 200) {
                     getFeesDetails(ReceiptForStudentId);
                     viewReceipt(resjson.id, ReceiptForStudentId, sessionSelect);
-                }
-                else {
+                } else {
                     showNotification("<strong>Error</strong>", "Failed to generate receipt", "danger");
                     console.log(newReceiptRes);
                 }
-            }
-            catch (e) {
+            } catch (e) {
                 showNotification("Error", "Failed to get data", "danger");
             }
             document.getElementById("new_loader").style.display = "none";
         });
 
-        newReceiptRequest.fail(function (jqXHR, textStatus) {
+        newReceiptRequest.fail(function(jqXHR, textStatus) {
             document.getElementById("new_loader").style.display = "none";
             //handleNetworkIssues(textStatus)
         });
-    }
-    else {
+    } else {
         showNotification("<strong>Error</strong>", "Invalid Amount - Receipt not created", "danger");
     }
 });
@@ -2047,14 +2017,14 @@ function showReceiptList() {
         studentId: ReceiptForStudentId,
         sessionName: sessionSelect
     });
-    getReceiptListReq.done(function (receiptListData) {
+    getReceiptListReq.done(function(receiptListData) {
         try {
             let receiptListJSON = JSON.parse(receiptListData);
             for (itr in receiptListJSON) {
                 let receiptListHTML = `<div class="row button button4" style="margin:1%" onclick="viewReceiptFromList(this)">
-                <div class="col-rmd-6" id="receiptIdforList`+ itr + `">
+                <div class="col-rmd-6" id="receiptIdforList` + itr + `">
                 </div>
-                <div class="col-rmd-6" id="amountforList`+ itr + `">
+                <div class="col-rmd-6" id="amountforList` + itr + `">
                 </div>          
                 </div>`;
 
@@ -2070,7 +2040,7 @@ function showReceiptList() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    getReceiptListReq.fail(function (jqXHR, textStatus) {
+    getReceiptListReq.fail(function(jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -2341,7 +2311,7 @@ function readURL(input) {
         <div class="row" style="margin-top: 2%">
           <div class="col-md-10"></div>
           <div class="col-md-2">
-            <button class="btn btn-primary" type="submit" id="step_one_next" disabled>Next</button>
+            <button class="btn btn-primary" style="`+CSSbtnPrimary+`" type="submit" id="step_one_next" disabled>Next</button>
           </div>
         </div>
       </form>
@@ -2598,10 +2568,10 @@ function stepThree() {
     </div>
     <div class="row" style="margin-top: 2%">
         <div class="col-md-2">
-        <button class="btn btn-secondary" type="button" onclick="sessionDetailBack()" disabled id="step_three_back">Back</button>
+        <button class="btn btn-secondary" style="`+CSSbtnSecondary+`" type="button" onclick="sessionDetailBack()" disabled id="step_three_back">Back</button>
         </div>
       <div class="col-md-4">
-        <button type="submit" class="btn btn-primary" disabled id="step_three_save">Save</button>
+        <button type="submit" class="btn btn-primary" style="`+CSSbtnPrimary+`" disabled id="step_three_save">Save</button>
       </div>
 
     </div>
@@ -2886,10 +2856,10 @@ stepTwoHTML = `<div class="row">
       <div class="row" style="margin-top: 2%">
         <div class="col-md-8"></div>
         <div class="col-md-2">
-            <button class="btn btn-secondary" type="button" onclick="contactDetailBack()" id="step_two_back" disabled>Back</button>
+            <button class="btn btn-secondary" style="`+CSSbtnSecondary+`" type="button" onclick="contactDetailBack()" id="step_two_back" disabled>Back</button>
         </div>
         <div class="col-md-2">
-          <button type="submit" class="btn btn-primary" disabled id="step_two_next">Next</button>
+          <button type="submit" class="btn btn-primary" style="`+CSSbtnPrimary+`" disabled id="step_two_next">Next</button>
         </div>
       </div>
 
@@ -3205,7 +3175,7 @@ function createResultView(searchResult, searchStr) {
   removeResults();
   if (searchResult.length == 0 || searchStr == "") {
     resultView = `<div class="row collapsible">
-                      <div class="text-center"><h4>No Result Found</h4>
+                      <div class="text-center" style="background:var(--btnColor1)"><h4 style="background:var(--btnColor1)">No Result Found</h4>
                       </div>
                   </div>`;
     document.getElementById("searchResultHolder").innerHTML = resultView;
@@ -3219,20 +3189,20 @@ function createResultView(searchResult, searchStr) {
         resultView = `<div class="row collapsible" onclick="viewStudent(this)">
         <div style="display: none;" id="studID`+ itr + `"></div>
         <div style="display: none;" id="studClassId`+ itr + `"></div>
-           <div class="col-rmd-1">
+           <div class="col-rmd-1" style="background:var(--btnColor1)">
              <img style="width: 50px; height: 50px; border-radius: 50%" id="studentImg`+ itr + `">
            </div>
-           <div class="col-rmd-11">
+           <div class="col-rmd-11" style="background:var(--btnColor1)">
              <div class="row" style="font-size: 18px">
-               <div class="col-rmd-8" id="studentName`+ itr + `">
+               <div class="col-rmd-8" id="studentName`+ itr + `" style="background:var(--btnColor1)">
                  
                </div>
-               <div class="col-rmd-4" style="text-align: right; padding-right:1%" id="studentClassNSection`+ itr + `">
+               <div class="col-rmd-4" style="background:var(--btnColor1); text-align: right; padding-right:1%" id="studentClassNSection`+ itr + `">
                 
                </div>
              </div>
-             <div class="row">
-               <div class="col-rmd-8" id="admissionNumber`+ itr + `">
+             <div class="row" style="background:var(--btnColor1)">
+               <div class="col-rmd-8" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `" >
                </div>
               
              </div>
@@ -3246,20 +3216,20 @@ function createResultView(searchResult, searchStr) {
         resultView = `<div class="row collapsible" onclick="selectedStudent(this)">
       <div style="display: none;" id="studID`+ itr + `"></div>
       <div style="display: none;" id="studClassId`+ itr + `"></div>
-         <div class="col-rmd-1">
+         <div class="col-rmd-1" style="background:var(--btnColor1)">
            <img style="width: 50px; height: 50px; border-radius: 50%" id="studentImg`+ itr + `">
          </div>
-         <div class="col-rmd-11">
+         <div class="col-rmd-11" style="background:var(--btnColor1)">
            <div class="row" style="font-size: 18px">
-             <div class="col-rmd-8" id="studentName`+ itr + `">
+             <div class="col-rmd-8" id="studentName`+ itr + `" style="background:var(--btnColor1)">
                
              </div>
-             <div class="col-rmd-4" style="text-align: right; padding-right:1%" id="studentClassNSection`+ itr + `">
+             <div class="col-rmd-4" style="background:var(--btnColor1);text-align: right; padding-right:1%" id="studentClassNSection`+ itr + `">
               
              </div>
            </div>
-           <div class="row">
-             <div class="col-rmd-8" id="admissionNumber`+ itr + `">
+           <div class="row" style="background:var(--btnColor1)">
+             <div class="col-rmd-8" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `">
              </div>
             
            </div>
@@ -3316,12 +3286,12 @@ function selectedStudent(parent) {
 
 
 // EXtras
-;
-var studList;
+;var studList;
+
 function studentAttendence() {
-  currentStudentOption = "studentAttendence";
-  setActiveColorsStudent("studentAttendence");
-  document.getElementById('studentActionHolder').innerHTML = `<div class="container" id="registerStudent">
+    currentStudentOption = "studentAttendence";
+    setActiveColorsStudent("studentAttendence");
+    document.getElementById('studentActionHolder').innerHTML = `<div class="container" id="registerStudent">
     <div class="text-center">
       <h4 id="searchHeading">Student Attendence</h4>
       <hr>
@@ -3329,7 +3299,7 @@ function studentAttendence() {
 
     <div class="row" style="margin:1%">
         <div class="col-md-3"
-            <h4>Select Class Details</h4>
+            <h4>Select Class Details : </h4>
         </div>
 
         <div class="col-md-9">
@@ -3387,105 +3357,101 @@ function studentAttendence() {
 
     </div>`;
 
-  loadAttendenceViewData();
+    loadAttendenceViewData();
 }
 
 function loadAttendenceViewData() {
-  document.getElementById("new_loader").style.display = "block";
-  $.when(loadAllSessionsForAttendence(), loadClassListWithAccess()).then(function () {
-    document.getElementById("new_loader").style.display = "none";
-  });
+    document.getElementById("new_loader").style.display = "block";
+    $.when(loadAllSessionsForAttendence(), loadClassListWithAccess()).then(function() {
+        document.getElementById("new_loader").style.display = "none";
+    });
 }
 
 
 function loadAllSessionsForAttendence() {
- var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
-    type: "getAllSessions",
-    uid: me_data.uid
-  });
+    var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
+        type: "getAllSessions",
+        uid: me_data.uid
+    });
 
-  allSessionReq.done(function (allSessions) {
-    allSessions = JSON.parse(allSessions);
-    for (var index in allSessions) {
+    allSessionReq.done(function(allSessions) {
+        allSessions = JSON.parse(allSessions);
+        for (var index in allSessions) {
 
-      $('#attendence_sessionName')
-        .append($('<option>', { value: allSessions[index].sessionName })
-          .text(allSessions[index].sessionName
-          ));
-    }
+            $('#attendence_sessionName')
+                .append($('<option>', { value: allSessions[index].sessionName })
+                    .text(allSessions[index].sessionName));
+        }
 
-    document.getElementById("attendence_sessionName").value = currentSession;
-    sessionSelect = currentSession;
-   
-  });
+        document.getElementById("attendence_sessionName").value = currentSession;
+        sessionSelect = currentSession;
 
-  allSessionReq.fail(function (jqXHR, textStatus) {
-    handleNetworkIssues(textStatus) 
-  });
+    });
+
+    allSessionReq.fail(function(jqXHR, textStatus) {
+        handleNetworkIssues(textStatus)
+    });
 }
 
 function loadClassListWithAccess() {
-  var allClassReq = $.post(baseUrl + "/apis/classList.php", {
-    type: "getAllCLassWithAccess",
-    uid: me_data.uid
-  });
+    var allClassReq = $.post(baseUrl + "/apis/classList.php", {
+        type: "getAllCLassWithAccess",
+        uid: me_data.uid
+    });
 
-  allClassReq.done(function (res) {
-    allClass = JSON.parse(res);
-    for (var index in allClass) {
+    allClassReq.done(function(res) {
+        allClass = JSON.parse(res);
+        for (var index in allClass) {
 
-      $('#attendence_className')
-        .append($('<option>', { value: allClass[index].className + ":" + allClass[index].section })
-          .text(allClass[index].className + " " + allClass[index].section
-          ));
-    }
-  });
+            $('#attendence_className')
+                .append($('<option>', { value: allClass[index].className + ":" + allClass[index].section })
+                    .text(allClass[index].className + " " + allClass[index].section));
+        }
+    });
 
-  allClassReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    allClassReq.fail(function(jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 
 function getStudentListForAttendence() {
-  let sessionName = document.getElementById("attendence_sessionName").value;
-  let classNSection = document.getElementById("attendence_className").value;
-  let dateForAttendence = document.getElementById("attendence_date").value;
+    let sessionName = document.getElementById("attendence_sessionName").value;
+    let classNSection = document.getElementById("attendence_className").value;
+    let dateForAttendence = document.getElementById("attendence_date").value;
 
-  if (sessionName != "" && classNSection != "" && dateForAttendence != "") {
-    var date = new Date(dateForAttendence);
-    if (date.setHours(0, 0, 0, 0) > new Date().setHours(0, 0, 0, 0)) {
-      document.getElementById("attendence_alert").innerText = "Can not set attendence for future dates";
-      document.getElementById("attendence_alert").style.display = "block";
-      document.getElementById("myListHolder").innerHTML = "";
+    if (sessionName != "" && classNSection != "" && dateForAttendence != "") {
+        var date = new Date(dateForAttendence);
+        if (date.setHours(0, 0, 0, 0) > new Date().setHours(0, 0, 0, 0)) {
+            document.getElementById("attendence_alert").innerText = "Can not set attendence for future dates";
+            document.getElementById("attendence_alert").style.display = "block";
+            document.getElementById("myListHolder").innerHTML = "";
+        } else {
+            document.getElementById("attendence_alert").style.display = "none";
+            getAttendenceList(sessionName, classNSection, dateForAttendence);
+        }
+
+
+    } else {
+        document.getElementById("myListHolder").innerHTML = "";
+        document.getElementById("attendence_alert").innerText = "Please Select All Values";
+        document.getElementById("attendence_alert").style.display = "block";
     }
-    else {
-      document.getElementById("attendence_alert").style.display = "none";
-      getAttendenceList(sessionName, classNSection, dateForAttendence);
-    }
-
-
-  }
-  else {
-    document.getElementById("myListHolder").innerHTML = "";
-    document.getElementById("attendence_alert").innerText = "Please Select All Values";
-    document.getElementById("attendence_alert").style.display = "block";
-  }
 }
 
 
 function getAttendenceList(sessionName, classNSection, dateForAttendence) {
-  document.getElementById("new_loader").style.display = "block";
-  let getAttendenceListReq = $.post(baseUrl + "/apis/attendence.php", {
-    type: "getList",
-    uid: me_data.uid,
-    sessionName: sessionName,
-    class: classNSection,
-    dateForAttendence: dateForAttendence
-  });
+    document.getElementById("new_loader").style.display = "block";
+    let getAttendenceListReq = $.post(baseUrl + "/apis/attendence.php", {
+        type: "getList",
+        uid: me_data.uid,
+        sessionName: sessionName,
+        class: classNSection,
+        dateForAttendence: dateForAttendence
+    });
 
-  getAttendenceListReq.done(function (response) {
-    console.log(response);
-    studList = JSON.parse(response);
-    document.getElementById("myListHolder").innerHTML = `<div class = "row" style="background: #ebdef0; border-radius:6px; margin-bottom:2%; padding:2%"> 
+    getAttendenceListReq.done(function(response) {
+        console.log(response);
+        studList = JSON.parse(response);
+        document.getElementById("myListHolder").innerHTML = `<div class = "row elementDefinerDark" style="background:var(--btnColor1); border-radius:6px; margin-bottom:2%; padding:2%"> 
     <div class="col-md-3" style="text-align:center">Roll Num.</div>
     <div class="col-md-6" style="text-align:center">Full Name</div>
     <div class="col-md-3">
@@ -3496,110 +3462,106 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
         </div>
     </div>`;
 
-    if(studList.length == 0){
-      document.getElementById("myListHolder").innerHTML += `<div class = "row" style="background:#d4e6f1; border-radius:6px; margin-bottom:2%; padding:2%"> 
+        if (studList.length == 0) {
+            document.getElementById("myListHolder").innerHTML += `<div class = "row elementDefinerDark" style="background:var(--btnColor1); border-radius:6px; margin-bottom:2%; padding:2%"> 
       <div class="col-md-3" style="text-align:center"></div>
       <div class="col-md-6" style="text-align:center">NO DATA</div>
       <div class="col-md-3"> 
       </div>
       </div>`;
-    }
+        }
 
-    for (student in studList) {
-      var obj = new Object;
-      obj.fullname = studList[student].firstName + " " + studList[student].middleName + " " + studList[student].lastName;
-      if(studList[student].state != null && studList[student].state != ""){
-        if(studList[student].state == "1"){
-          obj.state = true;
-        }
-        else{
-          obj.state = false;
-        }
-       
-      }
-      else{
-        obj.state = false;
-      }
-     document.getElementById("myListHolder").innerHTML += `<div class = "row" style="background:#d4e6f1; border-radius:6px; margin-bottom:2%; padding:2%"> 
-      <div class="col-md-3" id="studRoll`+ student + `" style="text-align:center"></div>
-      <div class="col-md-6" id="nameStud`+ student + `" style="text-align:center"></div>
+        for (student in studList) {
+            var obj = new Object;
+            obj.fullname = studList[student].firstName + " " + studList[student].middleName + " " + studList[student].lastName;
+            if (studList[student].state != null && studList[student].state != "") {
+                if (studList[student].state == "1") {
+                    obj.state = true;
+                } else {
+                    obj.state = false;
+                }
+
+            } else {
+                obj.state = false;
+            }
+            document.getElementById("myListHolder").innerHTML += `<div class = "row elementDefiner" style="background: var(--btnColor2); border-radius:6px; margin-bottom:2%; padding:2%"> 
+      <div class="col-md-3" id="studRoll` + student + `" style="text-align:center"></div>
+      <div class="col-md-6" id="nameStud` + student + `" style="text-align:center"></div>
       <div class="col-md-3" style="text-align:center">  
-        <label for="studState`+ student + `" class="checklabel">P/A
-            <input type="checkbox" id="studState`+ student + `">
+        <label for="studState` + student + `" class="checklabel">P/A
+            <input type="checkbox" id="studState` + student + `">
             <span class="checkmark" style = "left:85%;"></span>
         </label>
       </div>
       </div>`;
-      document.getElementById("studRoll"+student).innerText = (parseInt(student) + 1);
-      document.getElementById("nameStud"+student).innerText = obj.fullname;
-      if(studList[student].state == 1){
-        $('#studState'+student).attr('checked', true);
-      } 
-    }
-    
-    
-    document.getElementById("myListHolder").innerHTML += `<div class = "row" style="margin-bottom:2%; padding:2%"> 
-      <div class="col-md-11"><Button class="btn btn-primary" style="position: relative; left:60%" onclick="saveAttendenceRecords()">SAVE</Button></div></div>`;
-      document.getElementById("new_loader").style.display = "none";
+            document.getElementById("studRoll" + student).innerText = (parseInt(student) + 1);
+            document.getElementById("nameStud" + student).innerText = obj.fullname;
+            if (studList[student].state == 1) {
+                $('#studState' + student).attr('checked', true);
+            }
+        }
+
+
+        document.getElementById("myListHolder").innerHTML += `<div class = "row" style="margin-bottom:2%; padding:2%"> 
+      <div class="col-md-11"><Button class="btn btn-primary" style="position: relative; left:60%; `+CSSbtnPrimary+`" onclick="saveAttendenceRecords()">SAVE</Button></div></div>`;
+        document.getElementById("new_loader").style.display = "none";
     });
 
-  getAttendenceListReq.fail(function (jqXHR, textStatus) {
-    document.getElementById("new_loader").style.display = "none";
-    handleNetworkIssues(textStatus) 
-  });
+    getAttendenceListReq.fail(function(jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 
 }
 
-function checkAllForAttendence(checkbox){
-  let arrayView = document.getElementById("myListHolder").childNodes;
-  for(itr = 0; itr<(arrayView.length - 1); itr++){
-    if(itr != 0){      
-      arrayView[itr].childNodes[5].childNodes[1].childNodes[1].checked = checkbox.checked;
+function checkAllForAttendence(checkbox) {
+    let arrayView = document.getElementById("myListHolder").childNodes;
+    for (itr = 0; itr < (arrayView.length - 1); itr++) {
+        if (itr != 0) {
+            arrayView[itr].childNodes[5].childNodes[1].childNodes[1].checked = checkbox.checked;
+        }
     }
-  }
 }
 
 
-function saveAttendenceRecords(){
-  let dataArray = new Array();
-  var type = "saveAttendenceRecords";
-  for(itr in studList){
-    let obj = new Object;
-    obj.attendenceId = studList[itr].attendenceId;
-    obj.studentId = studList[itr].studentId;
-    obj.sessionName = studList[itr].sessionName;
-    obj.date = document.getElementById("attendence_date").value;
-    obj.state = document.getElementById("studState"+itr).checked;
-    dataArray.push(obj);
-  }
-  if(dataArray[0].attendenceId != null){
-    type = "updateAttendenceRecords";
-  }
-  document.getElementById("new_loader").style.display = "block";
-  var saveAttendenceReq = $.post(baseUrl + "/apis/attendence.php",{
-    type: type,
-    data: dataArray,
-    uid: me_data.uid
-  });
-
-  saveAttendenceReq.done(function(response){
-    if(response == 200){
-      showNotification("<strong>Success</strong>", "Attendence Saved", "success");
-      getStudentListForAttendence();
+function saveAttendenceRecords() {
+    let dataArray = new Array();
+    var type = "saveAttendenceRecords";
+    for (itr in studList) {
+        let obj = new Object;
+        obj.attendenceId = studList[itr].attendenceId;
+        obj.studentId = studList[itr].studentId;
+        obj.sessionName = studList[itr].sessionName;
+        obj.date = document.getElementById("attendence_date").value;
+        obj.state = document.getElementById("studState" + itr).checked;
+        dataArray.push(obj);
     }
-    else{
-      console.log(response);
-      showNotification("Error", "Failed to save attendence", "danger");
+    if (dataArray[0].attendenceId != null) {
+        type = "updateAttendenceRecords";
     }
-    document.getElementById("new_loader").style.display = "none";
-  });
+    document.getElementById("new_loader").style.display = "block";
+    var saveAttendenceReq = $.post(baseUrl + "/apis/attendence.php", {
+        type: type,
+        data: dataArray,
+        uid: me_data.uid
+    });
 
-  saveAttendenceReq.fail(function (jqXHR, textStatus) { 
-    document.getElementById("new_loader").style.display = "none";
-    handleNetworkIssues(textStatus) 
-  });
-}
-;function studentReport(){
+    saveAttendenceReq.done(function(response) {
+        if (response == 200) {
+            showNotification("<strong>Success</strong>", "Attendence Saved", "success");
+            getStudentListForAttendence();
+        } else {
+            console.log(response);
+            showNotification("Error", "Failed to save attendence", "danger");
+        }
+        document.getElementById("new_loader").style.display = "none";
+    });
+
+    saveAttendenceReq.fail(function(jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
+};function studentReport(){
     currentStudentOption = "studentReport";
     setActiveColorsStudent("studentReport");
     document.getElementById('studentActionHolder').innerHTML = `<div class="container" id="registerStudent">
@@ -3677,255 +3639,261 @@ function Logout(){
     window.location = logOutUrl;
   });
 }
-;let user;
+;
+let user;
 let myRoleList;
 let currentSession;
-let canRegisterStudent; let canSearchNEdit; let canUpdateStudent; let canManageClass; let canGenerateReceipt; let canStudentAttendence; let canStudentReport; let canFeesReport; let canManageUsers; let canManageRoles; let canManageFeesHeads; let canNewAccadamicYear;
+let canRegisterStudent;
+let canSearchNEdit;
+let canUpdateStudent;
+let canManageClass;
+let canGenerateReceipt;
+let canStudentAttendence;
+let canStudentReport;
+let canFeesReport;
+let canManageUsers;
+let canManageRoles;
+let canManageFeesHeads;
+let canNewAccadamicYear;
 let currentStudentOption = '';
-let optionColors = ["D6E2E7", "E0E3EB", "B0CBD4", "C7D4F3", "F4ECF7"];
+let optionColors;
 let currentUprMenu = "top";
 
-$(document).ready(function () {
-  showNotification("<strong>Welcome</strong>", "to School "+ verName, "success");
-  firebase.auth().onAuthStateChanged(function (usr) {
-    if (usr) {
-      user = usr;
-      
-      var getUserReq = $.post("../apis/User.php", { type: "getById", uid: user.uid });
-      getUserReq.done(function (user_dat) {
-        console.log(user_dat);
-        me_data = JSON.parse(user_dat)[0];
-        if (me_data != null) {
-          setMyImage(me_data.photo);
-          var myRoleListReq = $.post("../apis/userGroup.php", { type: "getRoleList", uid: me_data.uid });
-          myRoleListReq.done(function (myRoleListRes) {
-            console.log(myRoleListRes)
-            var temp = "Welcome " + me_data.displayName.split(" ")[0] + "\nyou have ";
-            myRoleList = JSON.parse(myRoleListRes);
-            if (myRoleList.length > 0) {
-              for (var i in myRoleList) {
-                currentRole = myRoleList[i];
-                if (i > 0 && i != myRoleList.length-1) {
-                  temp += ", ";
-                }
-                else if (i == myRoleList.length - 1 && i>=1) {
-                  temp += " & ";
-                }
-                temp += currentRole.userType;
-                setPermissions(currentRole);
-              }
-              temp += " powers.";
-              document.getElementById('home_msg').innerText = temp;
-            }
-            else {
-              document.getElementById('home_msg').innerText = temp + " no powers.";
-            }
-
-
-            var currentSessionReq = $.post("../apis/academicSession.php", {
-              type: "getCurrentSession",
-              uid: me_data.uid
-            });
-            currentSessionReq.done(function (currentSessionRes) {
-              if (currentSessionRes != "") {
-                currentSession = JSON.parse(currentSessionRes).sessionName;
-              }
-              else {
-                showNotification("<strong>Error</strong>","No session found - contact admin", "warning");
-              }
-              document.getElementById('loader').style.display = "none";  //HIDE LOADER
-            });
-            currentSessionReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
-          });
-          myRoleListReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
-
+$(document).ready(function() {
+    $("body").addClass("dark");
+    $(".inner-switch").text("ON");
+    $(".inner-switch").on("click", function() {
+        if ($("body").hasClass("dark")) {
+            $("body").removeClass("dark");
+            $("body").addClass("light");
+            $(".inner-switch").text("OFF");
+        } else {
+            $("body").addClass("dark");
+            $("body").removeClass("light");
+            $(".inner-switch").text("ON");
         }
-        else {
-          window.location = "../register";
+    });
+
+    //showNotification("<strong>Welcome</strong>", "to School "+ verName, "success");
+    firebase.auth().onAuthStateChanged(function(usr) {
+        if (usr) {
+            user = usr;
+
+            var getUserReq = $.post("../apis/User.php", { type: "getById", uid: user.uid });
+            getUserReq.done(function(user_dat) {
+                console.log(user_dat);
+                me_data = JSON.parse(user_dat)[0];
+                if (me_data != null) {
+                    setMyImage(me_data.photo);
+                    var myRoleListReq = $.post("../apis/userGroup.php", { type: "getRoleList", uid: me_data.uid });
+                    myRoleListReq.done(function(myRoleListRes) {
+                        console.log(myRoleListRes)
+                        var temp = "Welcome " + me_data.displayName.split(" ")[0] + "\nyou have ";
+                        myRoleList = JSON.parse(myRoleListRes);
+                        if (myRoleList.length > 0) {
+                            for (var i in myRoleList) {
+                                currentRole = myRoleList[i];
+                                if (i > 0 && i != myRoleList.length - 1) {
+                                    temp += ", ";
+                                } else if (i == myRoleList.length - 1 && i >= 1) {
+                                    temp += " & ";
+                                }
+                                temp += currentRole.userType;
+                                setPermissions(currentRole);
+                            }
+                            temp += " powers.";
+                            document.getElementById('home_msg').innerText = temp;
+                        } else {
+                            document.getElementById('home_msg').innerText = temp + " no powers.";
+                        }
+
+
+                        var currentSessionReq = $.post("../apis/academicSession.php", {
+                            type: "getCurrentSession",
+                            uid: me_data.uid
+                        });
+                        currentSessionReq.done(function(currentSessionRes) {
+                            if (currentSessionRes != "") {
+                                currentSession = JSON.parse(currentSessionRes).sessionName;
+                            } else {
+                                showNotification("<strong>Error</strong>", "No session found - contact admin", "warning");
+                            }
+                            document.getElementById('loader').style.display = "none"; //HIDE LOADER
+                        });
+                        currentSessionReq.fail(function(jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+                    });
+                    myRoleListReq.fail(function(jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+
+                } else {
+                    window.location = "../register";
+                }
+            });
+            getUserReq.fail(function(jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+        } else {
+            document.location = "../";
         }
-      });
-      getUserReq.fail(function(jqXHR, textStatus){handleNetworkIssues(textStatus)});
-    }
-    else {
-      document.location = "../";
-    }
-  });
+    });
 
 });
 
-function setMyImage(myImgBase){
-  document.getElementById("me_img").src = myImgBase;
+function setMyImage(myImgBase) {
+    document.getElementById("me_img").src = myImgBase;
 }
 
 function setPermissions(currentRole) {
-  if (currentRole.registerStudent == 1) {
-    canRegisterStudent = 1;
-  }
-  else if (canRegisterStudent == null) {
-    canRegisterStudent = 0;
-  }
-  if (currentRole.searchNEdit == 1) {
-    canSearchNEdit = 1;
-  }
-  else if (canSearchNEdit == null) {
-    canSearchNEdit = 0;
-  }
-  if (currentRole.updateStudent == 1) {
-    canUpdateStudent = 1;
-  }
-  else if (canUpdateStudent == null) {
-    canUpdateStudent = 0;
-  }
-  if (currentRole.manageClass == 1) {
-    canManageClass = 1;
-  }
-  else if (canManageClass == null) {
-    canManageClass = 0;
-  }
-  if (currentRole.generateReceipt == 1) {
-    canGenerateReceipt = 1;
-  }
-  else if (canGenerateReceipt == null) {
-    canGenerateReceipt = 0;
-  }
-  if (currentRole.feesReport == 1) {
-    canFeesReport = 1;
-  }
-  else if (canFeesReport == null) {
-    canFeesReport = 0;
-  }
-  if (currentRole.studentAttendence == 1) {
-    canStudentAttendence = 1;
-  }
-  else if (canStudentAttendence == null) {
-    canStudentAttendence = 0;
-  }
-  if (currentRole.studentReport == 1) {
-    canStudentReport = 1;
-  }
-  else if (canStudentReport == null) {
-    canStudentReport = 0;
-  }
+    if (currentRole.registerStudent == 1) {
+        canRegisterStudent = 1;
+    } else if (canRegisterStudent == null) {
+        canRegisterStudent = 0;
+    }
+    if (currentRole.searchNEdit == 1) {
+        canSearchNEdit = 1;
+    } else if (canSearchNEdit == null) {
+        canSearchNEdit = 0;
+    }
+    if (currentRole.updateStudent == 1) {
+        canUpdateStudent = 1;
+    } else if (canUpdateStudent == null) {
+        canUpdateStudent = 0;
+    }
+    if (currentRole.manageClass == 1) {
+        canManageClass = 1;
+    } else if (canManageClass == null) {
+        canManageClass = 0;
+    }
+    if (currentRole.generateReceipt == 1) {
+        canGenerateReceipt = 1;
+    } else if (canGenerateReceipt == null) {
+        canGenerateReceipt = 0;
+    }
+    if (currentRole.feesReport == 1) {
+        canFeesReport = 1;
+    } else if (canFeesReport == null) {
+        canFeesReport = 0;
+    }
+    if (currentRole.studentAttendence == 1) {
+        canStudentAttendence = 1;
+    } else if (canStudentAttendence == null) {
+        canStudentAttendence = 0;
+    }
+    if (currentRole.studentReport == 1) {
+        canStudentReport = 1;
+    } else if (canStudentReport == null) {
+        canStudentReport = 0;
+    }
 
-  if (currentRole.manageUsers == 1) {
-    canManageUsers = 1;
-  }
-  else if (canManageUsers == null) {
-    canManageUsers = 0;
-  }
+    if (currentRole.manageUsers == 1) {
+        canManageUsers = 1;
+    } else if (canManageUsers == null) {
+        canManageUsers = 0;
+    }
 
-  if (currentRole.manageRoles == 1) {
-    canManageRoles = 1;
-  }
-  else if (canManageRoles == null) {
-    canManageRoles = 0;
-  }
+    if (currentRole.manageRoles == 1) {
+        canManageRoles = 1;
+    } else if (canManageRoles == null) {
+        canManageRoles = 0;
+    }
 
-  if (currentRole.manageFeesHeads == 1) {
-    canManageFeesHeads = 1;
-  }
-  else if (canManageFeesHeads == null) {
-    canManageFeesHeads = 0;
-  }
+    if (currentRole.manageFeesHeads == 1) {
+        canManageFeesHeads = 1;
+    } else if (canManageFeesHeads == null) {
+        canManageFeesHeads = 0;
+    }
 
-  if (currentRole.newAccadamicYear == 1) {
-    canNewAccadamicYear = 1;
-  }
-  else if (canNewAccadamicYear == null) {
-    canNewAccadamicYear = 0;
-  }
+    if (currentRole.newAccadamicYear == 1) {
+        canNewAccadamicYear = 1;
+    } else if (canNewAccadamicYear == null) {
+        canNewAccadamicYear = 0;
+    }
 }
 
 function setActiveColorsStudent(toSet) {
-  limit = getlimitStudent();
-  for (i = 0; i < limit.length; i++) {
-    temp = limit[i];
-    itr = document.getElementById(temp);
-    if (temp == toSet) {
-      itr.style.background = "WHITE";
+    limit = getlimitStudent();
+    for (i = 0; i < limit.length; i++) {
+        temp = limit[i];
+        itr = document.getElementById(temp);
+        if (temp == toSet) {
+            itr.style.background = "var(--primaryColor)";
+        } else {
+            itr.style.background = "var(--btnColor"+i+")";
+        }
     }
-    else {
-      itr.style.background = "#" + optionColors[i];
-    }
-  }
 }
 
 function setActiveColorsfees(toSet) {
-  limit = getlimitFees();
-  for (i = 0; i < limit.length; i++) {
-    temp = limit[i];
-    itr = document.getElementById(temp);
-    if (temp == toSet) {
-      itr.style.background = "WHITE";
+    limit = getlimitFees();
+    for (i = 0; i < limit.length; i++) {
+        temp = limit[i];
+        itr = document.getElementById(temp);
+        if (temp == toSet) {
+            itr.style.background = "var(--primaryColor)";
+        } else {
+            itr.style.background = "var(--btnColor"+i+")";
+        }
     }
-    else {
-      itr.style.background = "#" + optionColors[i];
-    }
-  }
 }
 
 function setActiveColorsAdminTasks(toSet) {
-  limit = getlimitAdminTasks();
-  for (i = 0; i < limit.length; i++) {
-    temp = limit[i];
-    itr = document.getElementById(temp);
-    if (temp == toSet) {
-      itr.style.background = "WHITE";
+    limit = getlimitAdminTasks();
+    for (i = 0; i < limit.length; i++) {
+        temp = limit[i];
+        itr = document.getElementById(temp);
+        if (temp == toSet) {
+            itr.style.background = "var(--primaryColor)";
+        } else {
+            itr.style.background = "var(--btnColor"+i+")";
+        }
     }
-    else {
-      itr.style.background = "#" + optionColors[i];
-    }
-  }
 }
 
 
 
 function getlimitStudent() {
-  let limit = [];
-  if (canRegisterStudent == 1) {
-    limit.push("registerStudent");
-  }
-  if (canSearchNEdit == 1) {
-    limit.push("searchNEdit");
-  }
-  if (canStudentAttendence == 1) {
-    limit.push("studentAttendence");
-  }
-  if (canStudentReport == 1) {
-    limit.push("studentReport");
-  }
-  return limit;
+    let limit = [];
+    if (canRegisterStudent == 1) {
+        limit.push("registerStudent");
+    }
+    if (canSearchNEdit == 1) {
+        limit.push("searchNEdit");
+    }
+    if (canStudentAttendence == 1) {
+        limit.push("studentAttendence");
+    }
+    if (canStudentReport == 1) {
+        limit.push("studentReport");
+    }
+    return limit;
 }
 
 function getlimitFees() {
-  let limit = [];
-  if (canFeesReport == 1) {
-    limit.push("feesReport");
-  }
-  if (canGenerateReceipt == 1) {
-    limit.push("generateReceipt");
-  }
-  return limit;
+    let limit = [];
+    if (canFeesReport == 1) {
+        limit.push("feesReport");
+    }
+    if (canGenerateReceipt == 1) {
+        limit.push("generateReceipt");
+    }
+    return limit;
 }
 
 function getlimitAdminTasks() {
-  let limit = [];
-  if (canManageUsers == 1) {
-    limit.push("manageUsers");
-  }
-  if(canManageRoles){
-    limit.push("manageRoles");
-  }
-  if(canManageFeesHeads == 1){
-    limit.push("manageFeesHeads");
-  }
-  if(canNewAccadamicYear == 1){
-    limit.push("newAccadamicYear");
-  }
-  if(canManageClass == 1){
-    limit.push("manageClassList");
-  }
-  return limit;
+    let limit = [];
+    if (canManageUsers == 1) {
+        limit.push("manageUsers");
+    }
+    if (canManageRoles) {
+        limit.push("manageRoles");
+    }
+    if (canManageFeesHeads == 1) {
+        limit.push("manageFeesHeads");
+    }
+    if (canNewAccadamicYear == 1) {
+        limit.push("newAccadamicYear");
+    }
+    if (canManageClass == 1) {
+        limit.push("manageClassList");
+    }
+    return limit;
 }
 
 
@@ -3933,9 +3901,9 @@ function getlimitAdminTasks() {
 
 
 function studentOptionsView() {
-  var StudentOptionHTML = ``;
-  if (canRegisterStudent == 1 && canSearchNEdit == 1) {
-    StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
+    var StudentOptionHTML = ``;
+    if (canRegisterStudent == 1 && canSearchNEdit == 1) {
+        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               <div class="col-rmd-5 button button1" id="registerStudent" onclick="registerStudent()">Register Student</div>
@@ -3944,9 +3912,8 @@ function studentOptionsView() {
               </div>
               <div class="col-rmd-5 button button2" id="searchNEdit" onclick="searchNEdit()">Search & Edit</div>
           </div>`;
-  }
-  else if (canRegisterStudent == 1 && canSearchNEdit == 0) {
-    StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
+    } else if (canRegisterStudent == 1 && canSearchNEdit == 0) {
+        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               
@@ -3956,9 +3923,8 @@ function studentOptionsView() {
               <div class="col-rmd-4 button button1" id="registerStudent" onclick="registerStudent()">Register Student</div>
               </div> 
           `;
-  }
-  else if (canRegisterStudent == 0 && canSearchNEdit == 1) {
-    StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
+    } else if (canRegisterStudent == 0 && canSearchNEdit == 1) {
+        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               
@@ -3968,57 +3934,53 @@ function studentOptionsView() {
               <div class="col-rmd-4 button button2" id="searchNEdit" onclick="searchNEdit()">Search & Edit</div>
           </div> 
           `;
-  }
-  else {
-    StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
+    } else {
+        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
     <div class="text-center">`;
-  }
-  if (canStudentAttendence == 0 && canStudentReport == 0) {
-    StudentOptionHTML += ``;
-  }
-  else if (canStudentAttendence == 1 && canStudentReport == 0) {
-    StudentOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
+    }
+    if (canStudentAttendence == 0 && canStudentReport == 0) {
+        StudentOptionHTML += ``;
+    } else if (canStudentAttendence == 1 && canStudentReport == 0) {
+        StudentOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
         <div class="col-rmd-4">
               
         </div>
           <div class="col-rmd-4 button button3" id="studentAttendence" onclick="studentAttendence()">Student Attendence</div>             
       </div>`;
-  }
-  else if (canStudentAttendence == 0 && canStudentReport == 1) {
-    StudentOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
+    } else if (canStudentAttendence == 0 && canStudentReport == 1) {
+        StudentOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
               
         <div class="col-rmd-4">
             
         </div>
         <div class="col-rmd-4 button button4" id="studentReport" onclick="studentReport()">Student Report</div>
     </div>`;
-  }
-  else if (canStudentAttendence == 1 && canStudentReport == 1) {
-    StudentOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
+    } else if (canStudentAttendence == 1 && canStudentReport == 1) {
+        StudentOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
         <div class="col-rmd-5 button button3" id="studentAttendence" onclick="studentAttendence()">Student Attendence</div>
         <div class="col-rmd-2">
             
         </div>
         <div class="col-rmd-5 button button4" id="studentReport" onclick="studentReport()">Student Report</div>
       </div>`;
-  }
+    }
 
-  StudentOptionHTML += `<div class="row" style="margin-top:3%;margin-bottom:3%">
-  <div class="col" id="studentActionHolder" style="background: #EFF3FC; border-radius:10px; padding-top:2%">
+    StudentOptionHTML += `<div class="row" style="margin-top:3%;margin-bottom:3%">
+  <div class="col backgroundDefiner" id="studentActionHolder" style="background: var(--btnColor3); border-radius:10px; padding-top:2%">
       <h5 id="StudentSelectionHeading">Select one of above operations</h5>
   </div>                  
   </div>
   </div>  
   <div>`;
-  document.getElementById(currentUprMenu).className = "";
-  document.getElementById("student").className = "active";
-  document.getElementById("section_main").innerHTML = StudentOptionHTML;
+    document.getElementById(currentUprMenu).className = "";
+    document.getElementById("student").className = "active";
+    document.getElementById("section_main").innerHTML = StudentOptionHTML;
 }
 
 function feesOptionView() {
-  FeesOptionHTML = ``;
-  if (canGenerateReceipt == 1 && canFeesReport == 1) {
-    FeesOptionHTML += `<div class="container" id="feesHTML" style="padding-top:5%">
+    FeesOptionHTML = ``;
+    if (canGenerateReceipt == 1 && canFeesReport == 1) {
+        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding-top:5%">
           <div class="text-center">
             <div class="row" id="studentOptionsRow1"style="margin-top:3%">
                 <div class="col-rmd-5 button button1" id="generateReceipt" onclick="generateReceipt()">Generate Receipt</div>
@@ -4027,9 +3989,8 @@ function feesOptionView() {
                 </div>
                 <div class="col-rmd-5 button button2" id="feesReport" onclick="feesReport()">Fees Report</div>
             </div>`;
-  }
-  else if (canGenerateReceipt == 1 && canFeesReport == 0) {
-    FeesOptionHTML += `<div class="container" id="feesHTML" style="padding-top:5%">
+    } else if (canGenerateReceipt == 1 && canFeesReport == 0) {
+        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding-top:5%">
           <div class="text-center">
             <div class="row" id="studentOptionsRow1"style="margin-top:3%">
                 
@@ -4039,9 +4000,8 @@ function feesOptionView() {
                 <div class="col-rmd-4 button button1" id="generateReceipt" onclick="generateReceipt()">Generate Receipt</div>
                 </div> 
             `;
-  }
-  else if (canGenerateReceipt == 0 && canFeesReport == 1) {
-    FeesOptionHTML += `<div class="container" id="feesHTML" style="padding-top:5%">
+    } else if (canGenerateReceipt == 0 && canFeesReport == 1) {
+        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding-top:5%">
           <div class="text-center">
             <div class="row" id="studentOptionsRow1"style="margin-top:3%">
                 
@@ -4051,26 +4011,24 @@ function feesOptionView() {
                 <div class="col-rmd-4 button button2" id="feesReport" onclick="feesReport()">Fees Report</div>
             </div> 
             `;
-  }
-  else {
-  }
-  FeesOptionHTML += `<div class="row" style="margin-top:3%;margin-bottom:3%">
-                    <div class="col" id="feesActionHolder" style="background: #EFF3FC; border-radius:10px; padding-top:2%">
+    } else {}
+    FeesOptionHTML += `<div class="row" style="margin-top:3%;margin-bottom:3%">
+                    <div class="col backgroundDefiner" id="feesActionHolder" style="background: var(--btnColor3); border-radius:10px; padding-top:2%">
                         <h5 id="StudentSelectionHeading">Select one of above operations</h5>
                     </div>                  
                     </div>
                     </div>  
                     <div>`;
-  document.getElementById(currentUprMenu).className = "";
-  document.getElementById("fees").className = "active";
-  document.getElementById("section_main").innerHTML = FeesOptionHTML;
+    document.getElementById(currentUprMenu).className = "";
+    document.getElementById("fees").className = "active";
+    document.getElementById("section_main").innerHTML = FeesOptionHTML;
 }
 
 function adminTasksView() {
-  
-  var AdminOptionHTML = ``;
-  if (canManageUsers == 1 && canManageRoles == 1) {
-    AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+
+    var AdminOptionHTML = ``;
+    if (canManageUsers == 1 && canManageRoles == 1) {
+        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               <div class="col-rmd-5 button button1" id="manageUsers" onclick="manageUsers()">Manage Users</div>
@@ -4079,9 +4037,8 @@ function adminTasksView() {
               </div>
               <div class="col-rmd-5 button button2" id="manageRoles" onclick="manageRoles()">Manage User Groups</div>
           </div>`;
-  }
-  else if (canManageUsers == 1 && canManageRoles == 0) {
-    AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+    } else if (canManageUsers == 1 && canManageRoles == 0) {
+        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               
@@ -4091,9 +4048,8 @@ function adminTasksView() {
               <div class="col-rmd-4 button button1" id="manageUsers" onclick="manageUsers()">Manage Users</div>
               </div> 
           `;
-  }
-  else if (canManageUsers == 0 && canManageRoles == 1) {
-    AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+    } else if (canManageUsers == 0 && canManageRoles == 1) {
+        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               
@@ -4103,69 +4059,65 @@ function adminTasksView() {
               <div class="col-rmd-4 button button2" id="manageRoles" onclick="manageRoles()">Manage User Groups</div>
           </div> 
           `;
-  }
-  else {
-    AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+    } else {
+        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
     <div class="text-center">`;
-  }
+    }
 
 
 
-  if (canManageFeesHeads == 0 && canNewAccadamicYear == 0) {
-    AdminOptionHTML += ``;
-  }
-  else if (canManageFeesHeads == 1 && canNewAccadamicYear == 0) {
-    AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow2">
+    if (canManageFeesHeads == 0 && canNewAccadamicYear == 0) {
+        AdminOptionHTML += ``;
+    } else if (canManageFeesHeads == 1 && canNewAccadamicYear == 0) {
+        AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow2">
         <div class="col-rmd-4">
               
         </div>
           <div class="col-rmd-4 button button3" id="manageFeesHeads" onclick="manageFeesHeads()">Manage Fees Heads</div>             
       </div>`;
-  }
-  else if (canManageFeesHeads == 0 && canNewAccadamicYear == 1) {
-    AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
+    } else if (canManageFeesHeads == 0 && canNewAccadamicYear == 1) {
+        AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
               
         <div class="col-rmd-4">
             
         </div>
         <div class="col-rmd-4 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
     </div>`;
-  }
-  else {
-    AdminOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
+    } else {
+        AdminOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
         <div class="col-rmd-5 button button3" id="manageFeesHeads" onclick="manageFeesHeads()">Manage Fees Heads</div>
         <div class="col-rmd-2">
             
         </div>
         <div class="col-rmd-5 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
       </div>`;
-  }
+    }
 
 
 
-  if(canManageClass){
-    AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow3">
+    if (canManageClass) {
+        AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow3">
     <div class="col-rmd-4">
           
     </div>
       <div class="col-rmd-4 button button5" id="manageClassList" onclick="manageClassList()">Manage Class List</div>             
   </div>`;
-  }
+    }
 
 
 
-  AdminOptionHTML += ` <div class="row" style="margin-top:3%;margin-bottom:3%">
-  <div class="col" id="adminActionHolder" style="background: #EFF3FC; border-radius:10px; padding-top:2%">
+    AdminOptionHTML += ` <div class="row" style="margin-top:3%;margin-bottom:3%">
+  <div class="col backgroundDefiner" id="adminActionHolder" style="background:var(--btnColor3); border-radius:10px; padding-top:2%">
       <h5 id="StudentSelectionHeading">Select one of above operations</h5>
   </div>                  
   </div>
   </div>  
   <div>`;
-  document.getElementById(currentUprMenu).className = "";
-  document.getElementById("admin").className = "active";
-  document.getElementById("section_main").innerHTML = AdminOptionHTML;
-  
- 
+    document.getElementById(currentUprMenu).className = "";
+    document.getElementById("admin").className = "active";
+    document.getElementById("section_main").innerHTML = AdminOptionHTML;
+
+
 
 };
 var sectionNameRequest;
