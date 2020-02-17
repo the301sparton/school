@@ -1,4 +1,4 @@
-let verName = "1.5.0";
+let verName = "1.6.0";
 let baseUrl = "/school";
 let logOutUrl = "/school";
 let websiteTitle = "BES Gondia";

@@ -101,7 +101,7 @@ function sendSearchUserRequest() {
     }
     else {
       document.getElementById('allUserHolder').innerHTML = `<div class="row collapsible">
-    <div class="text-center"><h5>No Result Found</h5>
+    <div class="text-center" style="background:var(--btnColor1)"><h5 style="background:var(--btnColor1)">No Result Found</h5>
     </div>
     </div>`;
     }
@@ -113,21 +113,21 @@ function makeUserView(allUserArray) {
   if (allUserArray.length > 0) {
     for (var itr in allUserArray) {
       userItemHtml = `<div class="row collapsible" onclick="getUserDetails(this)">
-               <div class="col-rmd-1">
+               <div class="col-rmd-1" style="background:var(--btnColor1)">
                  <img style="width: 50px; height: 50px; border-radius: 50%" id="userImg`+ itr + `">
                </div>
-               <div class="col-rmd-11">
+               <div class="col-rmd-11" style="background:var(--btnColor1)">
                  <div class="row" style="font-size: 18px">
-                   <div class="col-rmd-8" id="displayName`+ itr + `">
+                   <div class="col-rmd-8" style="background:var(--btnColor1)" id="displayName`+ itr + `">
                    </div>
-                   <div class="col-rmd-4" style="text-align: right; padding-right:1%" id="mobileNumber`+ itr + `"> 
+                   <div class="col-rmd-4" style="background:var(--btnColor1)" style="text-align: right; padding-right:1%" id="mobileNumber`+ itr + `"> 
                    </div>
                  </div>
                  <div class="row" style="margin-top:1%">
-                   <div class="col-rmd-10" id="emailId`+ itr + `">
+                   <div class="col-rmd-10" style="background:var(--btnColor1)" id="emailId`+ itr + `">
                    </div>
                    <div style="display: none;" id="userId`+ itr + `"></div>
-                   <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteUser(this)"></i></div>
+                   <div class="col-md-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteUser(this)"></i></div>
                  </div>
                </div> 
             </div>`;
@@ -210,8 +210,8 @@ function getUserDetails(usersView) {
         for (var itr in myRoleListArray) {
           let roleItemHTML = `<div class="row collapsible" style="cursor:default">
             <div class="col" id="roleId`+ itr + `" style="display:none"></div>
-            <div class="col-md-10" id="roleName`+ itr + `"></div>
-            <div class="col-md-2"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
+            <div class="col-md-10" style="background:var(--btnColor1)" id="roleName`+ itr + `"></div>
+            <div class="col-md-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
             </div>`;
           document.getElementById('userDetailsHolder').innerHTML += roleItemHTML;
           document.getElementById('roleId' + itr).innerText = myRoleListArray[itr].id;

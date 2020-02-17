@@ -1855,6 +1855,7 @@ pre code {
 }
 
 .form-control {
+  all: initial;
   display: block;
   width: 100%;
   height: calc(1.5em + 0.75rem + 2px);
@@ -1890,27 +1891,27 @@ pre code {
 }
 
 .form-control::-webkit-input-placeholder {
-  color: #6c757d;
+  color: var(--textColor);
   opacity: 1;
 }
 
 .form-control::-moz-placeholder {
-  color: #6c757d;
+  color: var(--textColor);
   opacity: 1;
 }
 
 .form-control:-ms-input-placeholder {
-  color: #6c757d;
+  color: var(--textColor);
   opacity: 1;
 }
 
 .form-control::-ms-input-placeholder {
-  color: #6c757d;
+  color: var(--textColor);
   opacity: 1;
 }
 
 .form-control::placeholder {
-  color: #6c757d;
+  color: var(--textColor);
   opacity: 1;
 }
 
@@ -2374,8 +2375,7 @@ textarea.form-control {
     margin-bottom: 0;
   }
 }
-
-.btn {
+.btn {   
   display: inline-block;
   font-weight: 400;
   color: #212529;
@@ -2453,7 +2453,7 @@ fieldset:disabled a.btn {
   box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 }
 
-.btn-secondary {
+.btn-secondary * {
   color: #fff;
   background-color: #6c757d;
   border-color: #6c757d;
@@ -5822,7 +5822,7 @@ a.close.disabled {
   flex-direction: column;
   width: 100%;
   pointer-events: auto;
-  background-color: #fff;
+  background-color: var(--primaryColor);
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.3rem;

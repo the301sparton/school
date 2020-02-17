@@ -165,10 +165,10 @@ stepTwoHTML = `<div class="row">
       <div class="row" style="margin-top: 2%">
         <div class="col-md-8"></div>
         <div class="col-md-2">
-            <button class="btn btn-secondary" type="button" onclick="contactDetailBack()" id="step_two_back" disabled>Back</button>
+            <button class="btn btn-secondary" style="`+CSSbtnSecondary+`" type="button" onclick="contactDetailBack()" id="step_two_back" disabled>Back</button>
         </div>
         <div class="col-md-2">
-          <button type="submit" class="btn btn-primary" disabled id="step_two_next">Next</button>
+          <button type="submit" class="btn btn-primary" style="`+CSSbtnPrimary+`" disabled id="step_two_next">Next</button>
         </div>
       </div>
 

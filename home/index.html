@@ -10,6 +10,7 @@
   <meta content="" name="keywords">
   <meta content="" name="description">
   <!-- Favicons -->
+  
   <link href="../img/favicon.png" rel="icon">
   <link href="../img/apple-touch-icon.png" rel="apple-touch-icon">
 
@@ -30,11 +31,8 @@
   <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
   <link href="./home.css" rel="stylesheet">
-
-
-  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
-  <link type="text/css" rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+  <link type="text/css" rel="stylesheet" href="../css/jsgrid.css" />
+  <link type="text/css" rel="stylesheet" href="../css/js-grid-theme.css" />
 
 
 
@@ -49,17 +47,23 @@
 
 </head>
 
-<body>
+<body style="background-color: var(--primaryColor); color: var(--textColor);">
   <div class="preloader" id="loader"></div>
-  <div class="new_loader" id="new_loader"></div>
+  <div class="new_loader" style="background-color: rgba(255, 255, 255, 0);" id="new_loader"></div>
   <!--==========================
   Header
   ============================-->
   <header id="header">
 
     <div id="topbar">
+      
       <div class="container">
         <div class="social-links">
+         
+            <div class="switch">Dark mode:
+              <span class="inner-switch">OFF</span>
+            </div>
+          
           <a href="#" class="twitter" id="header_twitterLink"><i class="fa fa-twitter"></i></a>
           <a href="#" class="facebook" id="header_facebookLink"><i class="fa fa-facebook"></i></a>
           <a href="#" class="linkedin" id="header_linkedinLink"><i class="fa fa-linkedin"></i></a>
@@ -83,6 +87,9 @@
           <li id="student"><a href="#studentHTML" onclick="studentOptionsView()">Student</a></li>
           <li id="fees"><a href="#feesHTML" onclick="feesOptionView()">Fees</a></li>
           <li id="admin"><a href="#adminHTML" onclick="adminTasksView()">Admin Tasks</a></li>
+
+         
+
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" id="toggleNav"><img
                 id="me_img" style="all:unset; border-radius: 50%; height: 40px; width: 40px" src="../img/me.png">
               <span class="caret"></span></a>
@@ -444,7 +451,7 @@
             </div>
 
             <div class="row" style="margin-top: 2%;">
-              
+
               <div class="col-md-2">
                 <label for="newClassSection">Class Teacher</label>
               </div>
@@ -465,8 +472,10 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-          <button id="classDeleteBtn" type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteClassListItem()" style="display: none;">Delete</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="createOrUpdateClass()">Save</button>
+          <button id="classDeleteBtn" type="button" class="btn btn-danger" data-dismiss="modal"
+            onclick="deleteClassListItem()" style="display: none;">Delete</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            onclick="createOrUpdateClass()">Save</button>
         </div>
 
       </div>
@@ -591,6 +600,7 @@
   <script src="../js/setAll.js"></script>
   <script src="../js/firebaseAuth.js"></script>
   <script src="../js/home_main.js"></script>
+  <script src="../js/CSS_Styles.js"></script>
 
   <script src="./studentStuff/registerStudent/registerStudent.js"></script>
   <script src="./studentStuff/registerStudent/stepOne.js"></script>
