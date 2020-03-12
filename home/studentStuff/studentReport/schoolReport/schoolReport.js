@@ -1,7 +1,7 @@
 
 function showSchoolReport(){
     setActiveColorsStudentReport("showSchoolReport");
-
+    document.getElementById("new_loader").style.display = "block";
     document.getElementById("studentReportHolder").innerHTML = `
     <div class="row">
         <div class="col-md-12">
@@ -37,14 +37,14 @@ function showSchoolReport(){
                 datasets: [{   
                     label: "Student Count By School",                 
                     barPercentage: 0.5,
-                    barThickness: 8,
-                    maxBarThickness: 10,
-                    minBarLength: 2,
+                    barThickness: 20,
+                    maxBarThickness: 20,
+                    minBarLength: 20,
                     data: studentCounts,
                 }]
             }
         });
-       
+        document.getElementById("new_loader").style.display = "none";
     });
 
     schoolStudentCountReq.fail(function(jqXHR, textStatus) {
