@@ -108,7 +108,6 @@ function sendSearchUserRequest() {
   }
 }
 
-
 function makeUserView(allUserArray) {
   document.getElementById('allUserHolder').innerHTML = '';
   if (allUserArray.length > 0) {

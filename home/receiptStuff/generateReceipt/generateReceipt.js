@@ -153,7 +153,6 @@ function newReceiptView() {
 
 }
 
-
 $('#newReceiptForm').submit(function(event) {
     event.preventDefault();
     $('#newReceiptModal').modal('toggle');

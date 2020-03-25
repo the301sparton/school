@@ -1,10 +1,8 @@
-
 var searchBy;
 var maxRows = 5;
 var sessionSelect;
 var ErrorIsVisible;
 var forReceipt;
-
 
 let searchBarView;
 searchNEditHTML = `<div class="container" id="registerStudent">
@@ -136,7 +134,6 @@ function studentSearch(event) {
   }
 }
 
-
 function makeSearchRequest() {
   let searchQuery = $("#searchBarView").val();
   if (allFieldsAreSet(searchQuery)) {
@@ -176,7 +173,6 @@ function allFieldsAreSet(searchQuery) {
     ErrorIsVisible = false;
     return true;
   }
-  
   else {
     if (ErrorIsVisible == null || ErrorIsVisible == false) {
       document.getElementById('errorMessage').style.display = "block";

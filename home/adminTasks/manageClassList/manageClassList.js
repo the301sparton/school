@@ -6,6 +6,7 @@ function manageClassList() {
           <h5>Manage Class List</h5>
           <hr>
     </div>
+
     <div class="container" style="padding: 1%">
     
     <div id="jsGrid" style = "display:none;" ></div>
@@ -231,7 +232,6 @@ function createOrUpdateClass() {
             section: sectionVal
         });
 
-        
         updateClassTeacherReq.done(function (responce) {
             if (responce == 200) {
                 showNotification("Success!", "Class Teacher Updated Successfully", "success");

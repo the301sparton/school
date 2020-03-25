@@ -1,11 +1,9 @@
-
 let user;
 let me_data;
 let receiptId;
 let thisReceipt;
 let feeHeadVal;
 let stuentData;
-
 
 $(document).ready(function () {
     $.when(pg_main()).then(function () {
