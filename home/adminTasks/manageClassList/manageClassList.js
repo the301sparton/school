@@ -249,5 +249,3 @@ function createOrUpdateClass() {
         });
     }
 }
-
-//Handle UPDATE CREATE
