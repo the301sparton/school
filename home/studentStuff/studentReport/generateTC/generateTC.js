@@ -1,0 +1,4 @@
+
+function generateTC(){
+    setActiveColorsStudentReport("generateTC");
+}

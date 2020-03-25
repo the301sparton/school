@@ -7,7 +7,31 @@ function studentReport(){
       <hr>
     </div>
     
-    <h6>Coming Soon ..!</h6>
+    <div class="row" style = "text-align: center; padding: 1%">
+        <div class="col-rmd-3 button button1" style = "margin: auto; border-radius: 8px" onclick="showSchoolReport()" id="showSchoolReport">School Report</div>
+        <div class="col-rmd-1"></div>
+        <div class="col-rmd-3 button button2" style = "margin: auto; border-radius: 8px" onclick="showAttendenceReport()" id="showAttendenceReport">Attendence Report</div>
+        <div class="col-rmd-1"></div>
+        <div class="col-rmd-3 button button3" style = "margin: auto; border-radius: 8px" onclick="generateTC()" id="generateTC">Generate TC</div>
+    </div>
+
+    <hr>
+
+    <div class="row" id="studentReportHolder">
+    </div>
 
     </div>`;
+}
+
+function setActiveColorsStudentReport(toSet) {
+  limit = ["showSchoolReport","showAttendenceReport","generateTC"];
+  for (i = 0; i < limit.length; i++) {
+      temp = limit[i];
+      itr = document.getElementById(temp);
+      if (temp == toSet) {
+          itr.style.background = "var(--primaryColor)";
+      } else {
+          itr.style.background = "var(--btnColor"+i+")";
+      }
+  }
 }

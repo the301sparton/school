@@ -3,8 +3,7 @@
     /* background-color: #222; */
     color: #e6e6e6;
     border-color: #e6e6e6;
-    --textColor: #e6e6e6;
-    --primaryColor: #222;
+    --primaryColor: rgb(34, 34, 34);
     --textColor: #e6e6e6;
     --btnColor0: #1b2631;
     --btnColor1: #222c36;
@@ -12,6 +11,10 @@
     --btnColor3: #37434e;
     --btnColor4: #0f2466;
     --btnColor5: #503433;
+
+    --colorSuccess: #152b1a;
+    --colorDanger: #3b1c1e;
+    --colorWarning: #443d26;
 }
 
 .backgroundDefiner * {
@@ -32,7 +35,7 @@
     /* background-color: #fff; */
     /* /* color: #1b2631; */
     /* border-color: #1b2631;  */
-    --primaryColor: #fff;
+    --primaryColor: rgb(255, 255, 255);
     --textColor: #1b2631;
     --btnColor0: #D6E2E7;
     --btnColor1: #E0E3EB;
@@ -40,6 +43,10 @@
     --btnColor3: #EFF3FC;
     --btnColor4: #F4ECF7;
     --btnColor5: #aed6f1;
+
+    --colorSuccess: #28a745;
+    --colorDanger: #f8d7da;
+    --colorWarning: #fff3cd;
 }
 
 .col-rmd-1 {

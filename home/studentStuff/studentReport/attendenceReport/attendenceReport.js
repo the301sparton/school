@@ -1,0 +1,4 @@
+
+function showAttendenceReport(){
+    setActiveColorsStudentReport("showAttendenceReport");
+}
