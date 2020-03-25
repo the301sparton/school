@@ -343,6 +343,3 @@ function removeOtherUserViews(usersView) {
   document.getElementById("allUserHolder").innerHTML = '';
   document.getElementById("allUserHolder").appendChild(usersView);
 }
-
-
-//TODO replace getUserList With searchUserForList
