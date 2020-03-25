@@ -3569,6 +3569,66 @@ function saveAttendenceRecords() {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
+};
+function showAttendenceReport(){
+    setActiveColorsStudentReport("showAttendenceReport");
+};
+function generateTC(){
+    setActiveColorsStudentReport("generateTC");
+};
+function showSchoolReport(){
+    setActiveColorsStudentReport("showSchoolReport");
+    document.getElementById("new_loader").style.display = "block";
+    document.getElementById("studentReportHolder").innerHTML = `
+    <div class="row">
+        <div class="col-md-12">
+            <canvas id="myChart" height="350px" width="550px"></canvas>
+        </div>
+    </div>`;
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    let schoolStudentCountReq = $.post(baseUrl + "/apis/studentReports.php",{
+        type: "getSchoolStudentCOunt",
+        uid: me_data.uid
+    });
+
+    schoolStudentCountReq.done(function(responseReport) {
+        //console.log(responseReport);
+       
+           var reportJSON = JSON.parse(responseReport);
+           var schoolNames = new Array();
+           var studentCounts = new Array();
+           for(itr in reportJSON){
+               console.log(reportJSON[itr].studentCount)
+                schoolNames.push(reportJSON[itr].schoolName);
+                studentCounts.push(reportJSON[itr].studentCount);
+           }
+           
+           //console.log(studentCount);
+           
+           var myChart = new Chart(ctx, {
+            type: 'bar',            
+            data: {
+                labels: schoolNames,
+                datasets: [{   
+                    label: "Student Count By School",                 
+                    barPercentage: 0.5,
+                    barThickness: 20,
+                    maxBarThickness: 20,
+                    minBarLength: 20,
+                    data: studentCounts,
+                }]
+            }
+        });
+        document.getElementById("new_loader").style.display = "none";
+    });
+
+    schoolStudentCountReq.fail(function(jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
+           
 };function studentReport(){
     currentStudentOption = "studentReport";
     setActiveColorsStudent("studentReport");
@@ -3578,9 +3638,33 @@ function saveAttendenceRecords() {
       <hr>
     </div>
     
-    <h6>Coming Soon ..!</h6>
+    <div class="row" style = "text-align: center; padding: 1%">
+        <div class="col-rmd-3 button button1" style = "margin: auto; border-radius: 8px" onclick="showSchoolReport()" id="showSchoolReport">School Report</div>
+        <div class="col-rmd-1"></div>
+        <div class="col-rmd-3 button button2" style = "margin: auto; border-radius: 8px" onclick="showAttendenceReport()" id="showAttendenceReport">Attendence Report</div>
+        <div class="col-rmd-1"></div>
+        <div class="col-rmd-3 button button3" style = "margin: auto; border-radius: 8px" onclick="generateTC()" id="generateTC">Generate TC</div>
+    </div>
+
+    <hr>
+
+    <div class="row" id="studentReportHolder">
+    </div>
 
     </div>`;
+}
+
+function setActiveColorsStudentReport(toSet) {
+  limit = ["showSchoolReport","showAttendenceReport","generateTC"];
+  for (i = 0; i < limit.length; i++) {
+      temp = limit[i];
+      itr = document.getElementById(temp);
+      if (temp == toSet) {
+          itr.style.background = "var(--primaryColor)";
+      } else {
+          itr.style.background = "var(--btnColor"+i+")";
+      }
+  }
 };
 
 $(document).ready(function() { 
