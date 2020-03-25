@@ -1,4 +1,3 @@
-
 function manageFeesHeads() {
     setActiveColorsAdminTasks("manageFeesHeads");
 

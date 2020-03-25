@@ -1,4 +1,3 @@
-
 let FeeRepostType;
 let FeeSessionSelect;
 let isFirstDateReportView = true;
@@ -286,7 +285,6 @@ function classSummeryReport() {
     });
 }
 
-
 function buildFeeReport(report, type) {
     document.getElementById('printBtn').disabled = true;
     document.getElementById('FeeReportHolder').innerHTML = `
@@ -500,6 +498,7 @@ function clearFilter() {
     document.getElementById("filterClass").value = "";
     document.getElementById("filterSection").value = "";
 }
+
 
 function printReport() {
     document.body.innerHTML = document.getElementById("jsGrid").innerHTML;

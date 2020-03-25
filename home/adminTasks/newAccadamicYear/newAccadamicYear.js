@@ -1,4 +1,3 @@
-
 function newAccadamicYear() {
     setActiveColorsAdminTasks("newAccadamicYear");
 
