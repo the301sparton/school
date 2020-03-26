@@ -74,6 +74,22 @@ else{
         $sql = "SELECT * FROM `$tbl_name` WHERE studentId = $studentId AND sessionName = '$tbl'";
         printOnlyRowFromQueary($sql);
     }
+
+    else if($type = "enableDisable"){
+        $sessionName = $_POST['sessionName'];
+        $sessionName = mysqli_real_escape_string($conn,$sessionName);
+        
+        $tbl_name = "studentdetails";
+
+        $studentId = $_POST['studentId'];
+        $studentId = mysqli_real_escape_string($conn,$studentId);
+
+        $param = $_POST['param'];
+        $param = mysqli_real_escape_string($conn,$param);
+
+        $sql = "UPDATE $tbl_name SET isDisabled = $param WHERE `studentId` = $studentId AND `sessionName` = '$sessionName'";
+        get200AsYes($sql,$uid,$reqType);        
+    }
    
 }
 ?>

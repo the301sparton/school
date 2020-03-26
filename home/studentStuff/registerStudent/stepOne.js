@@ -248,7 +248,6 @@ function setStudentDetails() {
 
   setStudentDetailsReq.done(function (setStudentDetailsRes) {
     try {
-      console.log(setStudentDetails);
       studentDetail = JSON.parse(setStudentDetailsRes);
       document.getElementById('formNumber').value = studentDetail.formNumber;
       document.getElementById('admissionNumber').value = studentDetail.admissionNumber;

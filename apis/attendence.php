@@ -22,7 +22,7 @@ else{
         $sqlforAlready = "SELECT * FROM attendencedetails WHERE `sessionName` = '$sessionName' AND `date`= '$dateForAttendenceFinal' AND `class` = '$class'AND `section` = '$section' ORDER BY `firstName`";
         $result = mysqli_query($GLOBALS['conn'],$sqlforAlready);  
         if (mysqli_num_rows($result) == 0) { 
-            $sql = "SELECT sessionName, class, section, studentid, firstName, middleName, lastName FROM searchstudent WHERE `sessionName` = '$sessionName' AND `class` = '$class'AND `section` = '$section' ORDER BY `firstName`";
+            $sql = "SELECT sessionName, class, section, studentid, firstName, middleName, lastName FROM searchstudent WHERE `sessionName` = '$sessionName' AND `class` = '$class'AND `section` = '$section' AND `isDisabled` = 0 ORDER BY `firstName`";
             getOutputFromQueary($sql,$uid,$reqType);
         }
         else{
