@@ -13,6 +13,10 @@ function stepThree() {
             <div style="display:none" id="detId"></div>
             <img id="studentImg" style="border-radius: 50%; height: 100px; width: 100px"> 
         </div>
+
+        <div class="col-md-2">
+            <img style="border-radius: 50%; height: 30px; width: 30px; cursor:pointer" src="`+baseUrl+`/img/ic_cross.svg" onclick="removeImg()"> 
+        </div>
         
       </div>
       <div class="row" style="margin-top:3%">
@@ -57,6 +61,10 @@ function stepThree() {
         <button type="submit" class="btn btn-primary" style="`+CSSbtnPrimary+`" disabled id="step_three_save">Save</button>
       </div>
 
+      <div class="col-md-4">
+        <button type="button" id="isEnabledBtn" class="btn btn-success" style="`+CSSbtnSuccess+`" onclick="disableEnable()">Student Enabled</button>
+      </div>
+
     </div>
   </form>
 </div>
@@ -71,6 +79,46 @@ function stepThree() {
     event.preventDefault();
     updateSessionEntry(false);
   });
+}
+
+function disableEnable(){
+  console.log("yo")
+  var param;
+  if(document.getElementById("isEnabledBtn").innerText == "Student Enabled"){
+    param = 1;
+  }
+  else{
+    param = 0;
+  }
+  document.getElementById("new_loader").style.display = "block";
+  var enableDisableReq = $.post(baseUrl + "/apis/studentSessionDetail.php", {
+    type: "enableDisable",
+    uid: me_data.uid,
+    sessionName: currentSession,
+    studentId: document.getElementById("studID").innerText,
+    param: param
+  });
+
+  enableDisableReq.done(function(data){
+    if(data == 200){
+      showNotification("<strong>Success</strong>", "Data Saved Successfully", "success");
+      setSessionEntry();
+    }
+    else {
+      //showNotification("<strong>Error</strong>", "Failed to save data", "danger");
+    }
+    document.getElementById("new_loader").style.display = "none";
+  });
+
+  enableDisableReq.fail(function (jqXHR, textStatus) {
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus);
+  });
+}
+
+function removeImg(){
+  imgBase = '';
+  $('#studentImg').attr('src', baseUrl+"/img/me.png");
 }
 
 function setSessionEntry() {
@@ -93,7 +141,16 @@ function setSessionEntry() {
         document.getElementById("studID").innerText = responce.studentId; document.getElementById("sessionClass").value = responce.class;
         $("#sessionClass").trigger("change"); sectionNameRequest.done(function () {
           if (document.getElementById("sessionSection") != null) {
-            console.log("doing")
+            if(responce.isDisabled == 1){
+              document.getElementById("isEnabledBtn").innerText = "Student Disabled";
+              document.getElementById("isEnabledBtn").className = "btn btn-danger";
+              document.getElementById("isEnabledBtn").style = CSSbtnDanger+"cursor:pointer"; 
+            }
+            else{
+              document.getElementById("isEnabledBtn").innerText = "Student Enabled";
+              document.getElementById("isEnabledBtn").className = "btn btn-success";
+              document.getElementById("isEnabledBtn").style = CSSbtnSuccess+"cursor:pointer"; 
+            }            
             document.getElementById("sessionSection").value = responce.section;
             document.getElementById('loader').style.display = "none";
           }

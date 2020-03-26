@@ -10,3 +10,7 @@ border-color: #6c757d;`;
 let CSSbtnDanger = `color: #fff;
 background-color: #dc3545;
 border-color: #dc3545;`;
+
+let CSSbtnSuccess = `color: #fff;
+background-color: #28a745;
+border-color: #28a745;`;

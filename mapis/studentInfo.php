@@ -14,7 +14,7 @@ else{
         $studentId = $conn->real_escape_string($studentId);
         $sessionName = $conn->real_escape_string($sessionName);
 
-        $sql = "SELECT  `middleName`, `motherName`, `fatherName`, `gender`, `aadharNumber`, `dob`, `pob_city`, `pob_dist`,`pob_state`, `religion`, `category`, `caste`, `nationality`, `motherTounge`, `lastSchool`, `lastClass`, `doa`, `submittedTC`, `rte`, `lolocalAddress`, `localState`, `localCity`, `localPincode`, `permanentAddress`, `permanentState`, `permanentCity` `permanentPincode` `guardianName`, `guardianPhone`, `guardianEmail` FROM `studentinfo` WHERE studentId = $studentId";
+        $sql = "SELECT  `middleName`, `motherName`, `fatherName`, `gender`, `aadharNumber`, `dob`, `pob_city`, `pob_dist`,`pob_state`, `religion`, `category`, `caste`, `nationality`, `motherTounge`, `lastSchool`, `lastClass`, `doa`, `submittedTC`, `rte`, `localAddress`, `localState`, `localCity`, `localPincode`, `permanentAddress`, `permanentState`, `permanentCity`, `permanentPincode`, `guardianName`, `guardianPhone`, `guardianEmail` FROM `studentinfo` WHERE studentId = $studentId";
         //printOnlyRowFromQueary($sql);
         $result=mysqli_query($conn,$sql);          
         $r = mysqli_fetch_assoc($result);

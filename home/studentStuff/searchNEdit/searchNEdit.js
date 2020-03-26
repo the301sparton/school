@@ -215,8 +215,8 @@ function createResultView(searchResult, searchStr) {
                </div>
              </div>
              <div class="row" style="background:var(--btnColor1)">
-               <div class="col-rmd-8" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `" >
-               </div>
+               <div class="col-rmd-1" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `" ></div>
+               <div class="col-rmd-2" style="background:var(--btnColor1)" id="isDisabled`+ itr + `" ></div>
               
              </div>
            </div> 
@@ -225,7 +225,7 @@ function createResultView(searchResult, searchStr) {
            
         </div>`;
       }
-      else {
+      else if(forReceipt && searchResult[itr].isDisabled == 0){
         resultView = `<div class="row collapsible" onclick="selectedStudent(this)">
       <div style="display: none;" id="studID`+ itr + `"></div>
       <div style="display: none;" id="studClassId`+ itr + `"></div>
@@ -242,7 +242,8 @@ function createResultView(searchResult, searchStr) {
              </div>
            </div>
            <div class="row" style="background:var(--btnColor1)">
-             <div class="col-rmd-8" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `">
+             <div class="col-rmd-1" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `">
+             <div class="col-rmd-2" style="background:var(--btnColor1)" id="isDisabled`+ itr + `" >
              </div>
             
            </div>
@@ -251,6 +252,9 @@ function createResultView(searchResult, searchStr) {
       <div class="row content" id="searchContent`+ itr + `">
          
       </div>`;
+      }
+      else{
+        continue;
       }
 
       document.getElementById("searchResultHolder").innerHTML += resultView;
@@ -262,6 +266,11 @@ function createResultView(searchResult, searchStr) {
       }
 
       document.getElementById('studID' + itr).innerText = searchResult[itr].studentId;
+      if(searchResult[itr].isDisabled == 1){
+        console.log(searchResult[itr].isDisabled)
+        document.getElementById('isDisabled' + itr).innerText = "Disabled"
+        document.getElementById('isDisabled' + itr).style.color = "var(--colorDanger)";
+      }      
       document.getElementById('studClassId' + itr).innerText = searchResult[itr].class;
       document.getElementById('studentName' + itr).innerHTML = searchResult[itr].firstName + " " + searchResult[itr].middleName + " " + searchResult[itr].lastName;
       document.getElementById('studentClassNSection' + itr).innerHTML = "Class " + searchResult[itr].class + " Section " + searchResult[itr].section;
