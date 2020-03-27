@@ -344,6 +344,9 @@ function createNewUserGroupForSure() {
         let NwSearchNEdit = document.getElementById("NwSearchNEdit").checked;
         NwSearchNEdit = isCheckedGeneric(NwSearchNEdit);
 
+        let NwSchoolDiary = document.getElementById("NwSchoolDiary").checked;
+        NwSchoolDiary = isCheckedGeneric(NwSchoolDiary);
+
         let NewManageClass = document.getElementById("NewManageClass").checked;
         NewManageClass = isCheckedGeneric(NewManageClass);
 
@@ -372,6 +375,7 @@ function createNewUserGroupForSure() {
             NewNewAccadamicYear: NewNewAccadamicYear,
             NewRegisterStudent: NewRegisterStudent,
             NwSearchNEdit: NwSearchNEdit,
+            NwSchoolDiary:NwSchoolDiary,
             NewManageClass: NewManageClass,
             NewGenerateReceipt: NewGenerateReceipt,
             NewFeesReport: NewFeesReport,

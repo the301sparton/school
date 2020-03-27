@@ -133,9 +133,10 @@ else{
         $manageClass = $_POST['NewManageClass'];
         $generateReceipt = $_POST['NewGenerateReceipt'];
         $feesReport = $_POST['NewFeesReport'];
+        $NwSchoolDiary = $_POST["NwSchoolDiary"];
         $studentAttendence = $_POST['NewStudentAttendence'];
         $studentReport = $_POST['NewStudentReport'];
-        $sql = "INSERT INTO `usergroup`(`userType`, `manageUsers`, `manageRoles`, `manageFeesHeads`, `newAccadamicYear`, `registerStudent`, `searchNEdit`, `manageClass`, `generateReceipt`, `feesReport`, `studentAttendence`, `studentReport`) VALUES ('$userType', '$manageUsers', '$manageRoles', '$manageFeesHeads', '$newAccadamicYear', '$registerStudent', '$searchNEdit', '$manageClass', '$generateReceipt', '$feesReport', '$studentAttendence', '$studentReport')";
+        $sql = "INSERT INTO `usergroup`(`userType`, `manageUsers`, `manageRoles`, `manageFeesHeads`, `newAccadamicYear`, `registerStudent`, `searchNEdit`, `schoolDairy`, `manageClass`, `generateReceipt`, `feesReport`, `studentAttendence`, `studentReport`) VALUES ('$userType', '$manageUsers', '$manageRoles', '$manageFeesHeads', '$newAccadamicYear', '$registerStudent', '$searchNEdit', '$NwSchoolDiary','$manageClass', '$generateReceipt', '$feesReport', '$studentAttendence', '$studentReport')";
         get200AsYes($sql,$uid,$reqType);
     }
 }
