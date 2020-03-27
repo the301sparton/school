@@ -90,26 +90,34 @@ function makeRoleEditView(roleArray) {
                    </div>
 
                    <div class="row" style="padding:2%">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                         <label for="registerStudent` + itr + `" class="checklabel">Register Student
                             <input type="checkbox" id="registerStudent` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                         <label for="searchNEdit` + itr + `" class="checklabel">Search and edit student data
                             <input type="checkbox" id="searchNEdit` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                         <label for="manageClass` + itr + `" class="checklabel">Manage Class List
                             <input type="checkbox" id="manageClass` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
+
+                        <div class="col-md-3">
+                        <label for="schoolDiary` + itr + `" class="checklabel">School Diary
+                            <input type="checkbox" id="schoolDiary` + itr + `">
+                            <span class="checkmark"></span>
+                        </label>
+                        </div>
+
                    </div>
 
                    <div class="row" style="padding:2%">
@@ -177,6 +185,9 @@ function makeRoleEditView(roleArray) {
         if (roleArray[itr].searchNEdit == 1) {
             document.getElementById("searchNEdit" + itr).checked = true;
         }
+        if (roleArray[itr].schoolDairy == 1) {
+            document.getElementById("schoolDiary" + itr).checked = true;
+        }
         if (roleArray[itr].manageClass == 1) {
             document.getElementById("manageClass" + itr).checked = true;
         }
@@ -214,6 +225,8 @@ function updateGroupDetails(view) {
     searchNEdit = isCheckedGeneric(searchNEdit);
     let manageClass = view.childNodes[7].childNodes[5].childNodes[1].childNodes[1].checked;
     manageClass = isCheckedGeneric(manageClass);
+    let schoolDiary = view.childNodes[7].childNodes[7].childNodes[1].childNodes[1].checked;
+    schoolDiary = isCheckedGeneric(schoolDiary);
 
     //row three
     let generateReceipt = view.childNodes[9].childNodes[1].childNodes[1].childNodes[1].checked;
@@ -243,6 +256,7 @@ function updateGroupDetails(view) {
         registerStudent: registerStudent,
         searchNEdit: searchNEdit,
         manageClass: manageClass,
+        schoolDiary: schoolDiary,
 
         generateReceipt: generateReceipt,
         feesReport: feesReport,

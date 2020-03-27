@@ -13,6 +13,7 @@ let canFeesReport;
 let canManageUsers;
 let canManageRoles;
 let canManageFeesHeads;
+let canSchoolDiary;
 let canNewAccadamicYear;
 let currentStudentOption = '';
 let optionColors;
@@ -164,6 +165,12 @@ function setPermissions(currentRole) {
     } else if (canNewAccadamicYear == null) {
         canNewAccadamicYear = 0;
     }
+
+    if (currentRole.schoolDairy == 1) {
+        canSchoolDiary = 1;
+    } else if (canNewAccadamicYear == null) {
+        canSchoolDiary = 0;
+    }
 }
 
 function setActiveColorsStudent(toSet) {
@@ -220,6 +227,9 @@ function getlimitStudent() {
     }
     if (canStudentReport == 1) {
         limit.push("studentReport");
+    }
+    if (canSchoolDiary == 1) {
+        limit.push("schoolDiary");
     }
     return limit;
 }
@@ -322,6 +332,15 @@ function studentOptionsView() {
         </div>
         <div class="col-rmd-5 button button4" id="studentReport" onclick="studentReport()">Student Report</div>
       </div>`;
+    }
+
+    if (canSchoolDiary) {
+        StudentOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow3">
+    <div class="col-rmd-4">
+          
+    </div>
+      <div class="col-rmd-4 button button5" id="schoolDiary" onclick="schoolDiary()">School Diary</div>             
+  </div>`;
     }
 
     StudentOptionHTML += `<div class="row" style="margin-top:3%;margin-bottom:3%">
