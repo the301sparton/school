@@ -5,5 +5,126 @@ function schoolDiary(){
     <div class="text-center">
       <h4 id="searchHeading">School Dairy</h4>
       <hr>
-    </div>`;
+    </div>
+    
+    <div class="container" style="padding:1%">
+       <div class="row">
+          <div class="col-md-5">
+              <input id="noticeSearchBar" class="form-control" placeholder="Search by title.." type="text" onkeyup="shouldSearchSchoolDiary(event)">
+          </div>
+          <div class="col-md-3"></div>
+          <div class="col-md-4">
+              <div class="switch" onclick="switchDiary()">Show Only Active Notices:
+                <span class="inner-switch" id="studentDiarySwitch">ON</span>
+              </div>
+          </div>
+       </div>
+    </div>
+    
+    <div class="container" id="studentDiaryHolder" style="padding:1%"></div>`; 
+
+    makeStudentDiaryGetCall();
+}
+
+function switchDiary(){
+  if(document.getElementById("studentDiarySwitch").innerText == "OFF"){
+    document.getElementById("studentDiarySwitch").innerText = "ON";
+  }
+  else{
+    document.getElementById("studentDiarySwitch").innerText = "OFF";
+  }
+
+  makeStudentDiaryGetCall();
+}
+
+function makeStudentDiaryGetCall(){
+    var StudentDairyReq = $.post(baseUrl + "/apis/schoolDairy.php",{
+      type : "getItems",
+      uid: me_data.uid,
+      noticeSearchBar: document.getElementById("noticeSearchBar").value,
+      onlyActive: document.getElementById("studentDiarySwitch").innerText
+    });
+
+    StudentDairyReq.done(function(res){
+      try{
+        let resArray = JSON.parse(res);
+        document.getElementById("studentDiaryHolder").innerHTML = '';
+        if (resArray.length == 0) {
+          resultView = `<div class="row collapsible">
+                            <div class="text-center" style="background:var(--btnColor1)"><h4 style="background:var(--btnColor1)">No Result Found</h4>
+                            </div>
+                        </div>`;
+                        document.getElementById("studentDiaryHolder").innerHTML = resultView;
+        }
+        else{
+          for(itr in resArray){
+            resultView = `<div class="container">
+            <div class="container collapsible" style="padding:2%" id="item` + itr + `" data-toggle="collapse" data-target="#data` + itr + `">
+            <div class = "row">
+                <div class="col-md-10" style="background:var(--btnColor1); text-align:left; font-size:large" id="noticeTitle` + itr + `"></div>
+                <div class="col-md-2" style="background:var(--btnColor1); text-align:right" id="noticeDate` + itr + `"></div>
+            </div>
+            <div class = "row" style="margin-top:1%">
+                <div class="col-md-10" style="background:var(--btnColor1); text-align:left; color:var(--textSecondary);" id="noticeDetails` + itr + `"></div>
+                <div class="col-md-2" style="background:var(--btnColor1); text-align:right"><i class="fa fa-arrow-down" style="background:var(--btnColor1); display:block"></i></div>
+            </div>
+            </div>
+    
+                <div id="data` + itr + `" class="collapse" style="padding:2%; border-radius: 15px; margin-left:2%; margin-right:2%">
+                       <h6>Notice Message</h6>
+                       <hr>
+
+                       <div class="row" id="messageBox` + itr + `"></div>
+    
+                       <div class="row" style="padding:1%">
+                        <div class="col-md-12">
+                              <button class="btn btn-success" style="float:right; `+CSSbtnSuccess+`" onclick="" id="enableBtn` + itr + `">Enabled</button>
+                        </div>
+                       </div>
+                </div>
+                </div>
+            `;
+            document.getElementById("studentDiaryHolder").innerHTML += resultView;
+            document.getElementById("noticeTitle" + itr).innerText = resArray[itr].title;
+            document.getElementById("noticeDate" + itr).innerText = resArray[itr].createdOn;
+            document.getElementById("messageBox" + itr).innerText = resArray[itr].message;
+
+
+            if(resArray[itr].isActive == 0){
+              document.getElementById("enableBtn"+itr).innerText = "Notice Disabled";
+              document.getElementById("enableBtn"+itr).className = "btn btn-danger";
+              document.getElementById("enableBtn"+itr).style = CSSbtnDanger+"cursor:pointer; float:right;"; 
+            }
+            else{
+              document.getElementById("enableBtn"+itr).innerText = "Notice Enabled";
+              document.getElementById("enableBtn"+itr).className = "btn btn-success";
+              document.getElementById("enableBtn"+itr).style = CSSbtnSuccess+"cursor:pointer; float:right;"; 
+            }
+            
+            if(resArray[itr].scope == 1){
+              document.getElementById("noticeDetails"+itr).innerText = "Created by "+resArray[itr].displayName+" for "+resArray[itr].schoolName;
+            }
+            else{
+              document.getElementById("noticeDetails"+itr).innerText = "Created by "+resArray[itr].displayName+" for "+resArray[itr].className+" "+resArray[itr].sectionName;
+            }
+          }
+        }
+      }
+      catch(e){
+        console.log(e)
+        showNotification("Error", "Failed to get data", "danger");
+      }
+    });
+
+    StudentDairyReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+}
+
+function shouldSearchSchoolDiary(event){
+  clearTimeout($.data(this, 'timer1'));
+  if (event.keyCode == 13) {
+    makeStudentDiaryGetCall();
+  }
+  else {
+    $(this).data('timer1', setTimeout(makeStudentDiaryGetCall, 500));
+  }
 }

@@ -153,7 +153,6 @@ function makeSearchRequest() {
         createResultView(searchResult, searchQuery);
       }
       catch (e) {
-        console.log("LOL");
         showNotification("Error", "Failed to get data", "danger");
       }
     });

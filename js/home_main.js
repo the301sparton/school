@@ -21,16 +21,16 @@ let currentUprMenu = "top";
 
 $(document).ready(function() {
     $("body").addClass("dark");
-    $(".inner-switch").text("ON");
-    $(".inner-switch").on("click", function() {
+    $("#darkModeSwitch").text("ON");
+    $("#darkModeSwitch").on("click", function() {
         if ($("body").hasClass("dark")) {
             $("body").removeClass("dark");
             $("body").addClass("light");
-            $(".inner-switch").text("OFF");
+            $("#darkModeSwitch").text("OFF");
         } else {
             $("body").addClass("dark");
             $("body").removeClass("light");
-            $(".inner-switch").text("ON");
+            $("#darkModeSwitch").text("ON");
         }
     });
 
