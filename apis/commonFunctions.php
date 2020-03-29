@@ -27,7 +27,6 @@ function get200AsYes($sql, $uid, $type){
         logRequest($uid,$type,$sql,"WRITE_SUCCESS");
     }
     else{
-        echo $sql;
         logRequest($uid,$type,$sql,"WRITE_FAILED");
     }
     

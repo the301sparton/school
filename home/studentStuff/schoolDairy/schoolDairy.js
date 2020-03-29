@@ -78,13 +78,15 @@ function makeStudentDiaryGetCall(){
     
                        <div class="row" style="padding:1%">
                         <div class="col-md-12">
-                              <button class="btn btn-success" style="float:right; `+CSSbtnSuccess+`" onclick="" id="enableBtn` + itr + `">Enabled</button>
+                              <div id="noticeId` + itr + `" style="display:none"></div>
+                              <button class="btn btn-success" style="float:right; `+CSSbtnSuccess+`" id="enableBtn` + itr + `" onclick="disableNotice(this.parentNode.childNodes[1].innerText, this)">Enabled</button>
                         </div>
                        </div>
                 </div>
                 </div>
             `;
             document.getElementById("studentDiaryHolder").innerHTML += resultView;
+            document.getElementById("noticeId"+itr).innerText = resArray[itr].msgId;
             document.getElementById("noticeTitle" + itr).innerText = resArray[itr].title;
             document.getElementById("noticeDate" + itr).innerText = resArray[itr].createdOn;
             document.getElementById("messageBox" + itr).innerText = resArray[itr].message;
@@ -127,4 +129,39 @@ function shouldSearchSchoolDiary(event){
   else {
     $(this).data('timer1', setTimeout(makeStudentDiaryGetCall, 500));
   }
+}
+
+function disableNotice(msgId, btn){
+  var isActive;
+  if(btn.innerText == "Notice Enabled"){
+    isActive = 0;
+    
+  }
+  else{
+    isActive = 1;    
+  }
+
+  document.getElementById("new_loader").style.display = "block";
+  var disableEnableNoticeReq = $.post(baseUrl + "/apis/schoolDairy.php", {
+      type: "disableEnableReq",
+      uid: me_data.uid,
+      msgId: msgId,
+      isActive: isActive
+  });
+
+  disableEnableNoticeReq.done(function(data){
+    if(data == 200){
+      showNotification("Success", "Notice Updated", "success");
+      makeStudentDiaryGetCall();
+    }
+    else{
+      showNotification("Error", "Failed to save data", "danger");
+    }
+    document.getElementById("new_loader").style.display = "none";
+  });
+
+  disableEnableNoticeReq.fail(function(jqXHR, textStatus) {
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+});
 }
