@@ -335,7 +335,6 @@ function CreateNewStudent() {
   });
 
   newStudentDetailReq.done(function (newStudentDetailRes) {
-    console.log(newStudentDetailRes)
     try {
       var responce = JSON.parse(newStudentDetailRes);
 
@@ -398,7 +397,6 @@ function updateStudentDetails() {
       stepTwo(false);
     }
     else {
-      console.log(newStudentDetailRes)
       showNotification("<strong>Error</strong>", "Failed to save data", "danger");
     }
     document.getElementById("new_loader").style.display = "none";

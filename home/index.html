@@ -143,10 +143,10 @@
             <div class="row">
 
               <div class="col-md-6">
-                <input class="form-control" id="receiptDate" type="date" required>
+                <input class="form-control" style="background-color: var(--colorPrimary);" id="receiptDate" type="date" required>
               </div>
               <div class="col-md-6">
-                <input class="form-control" id="receiptRemark" placeholder="Remark" type="text">
+                <input class="form-control" style="background-color: var(--colorPrimary);" id="receiptRemark" placeholder="Remark" type="text">
               </div>
 
             </div>
@@ -172,7 +172,7 @@
                 <label>Total Fee </label>
               </div>
               <div class="col-md-6">
-                <input class="form-control" type="number" id="totalFees">
+                <input class="form-control" style="background-color: var(--colorPrimary);" type="number" id="totalFees">
               </div>
             </div>
 
@@ -311,7 +311,7 @@
               <h5 style="text-align: center">Group Name</h5>
             </div>
             <div class="col-md-8">
-              <input class="form-control" type="text" id="newUserGroupName">
+              <input style="background-color: var(--colorPrimary);" class="form-control" type="text" id="newUserGroupName">
             </div>
           </div>
           <hr>
@@ -346,23 +346,30 @@
           </div>
 
           <div class="row" style="padding:2%">
-            <div class="col-md-4">
+            <div class="col-md-3">
               <label for="NewRegisterStudent" class="checklabel">Register Student
                 <input type="checkbox" id="NewRegisterStudent">
                 <span class="checkmark"></span>
               </label>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
               <label for="NwSearchNEdit" class="checklabel">Search and edit student data
                 <input type="checkbox" id="NwSearchNEdit">
                 <span class="checkmark"></span>
               </label>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
               <label for="NewManageClass" class="checklabel">Manage class list
                 <input type="checkbox" id="NewManageClass">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+
+            <div class="col-md-3">
+              <label for="NwSchoolDiary" class="checklabel">School Diary
+                <input type="checkbox" id="NwSchoolDiary">
                 <span class="checkmark"></span>
               </label>
             </div>
@@ -439,14 +446,14 @@
                 <label for="newClassName">Class Name</label>
               </div>
               <div class="col-md-3">
-                <input type="text" class="form-control" id="newClassName">
+                <input style="background-color: var(--colorPrimary);" type="text" class="form-control" id="newClassName">
               </div>
 
               <div class="col-md-3">
                 <label for="newClassSection">Section Name</label>
               </div>
               <div class="col-md-3">
-                <input type="text" class="form-control" id="newClassSection">
+                <input style="background-color: var(--colorPrimary);" type="text" class="form-control" id="newClassSection">
               </div>
             </div>
 
@@ -456,14 +463,14 @@
                 <label for="newClassSection">Class Teacher</label>
               </div>
               <div class="col-md-3">
-                <Select class="form-control" id="newClassTeacher"></Select>
+                <Select style="background-color: var(--colorPrimary);" class="form-control" id="newClassTeacher"></Select>
               </div>
 
               <div class="col-md-3">
                 <label for="newClassSection">School</label>
               </div>
               <div class="col-md-3">
-                <Select class="form-control" id="newSchoolId"></Select>
+                <Select style="background-color: var(--colorPrimary);" class="form-control" id="newSchoolId"></Select>
               </div>
             </div>
           </div>
@@ -481,6 +488,60 @@
       </div>
     </div>
   </div>
+
+
+
+  <div class="modal" id="newNoticeModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add to student dairy</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body" style="padding:2%">
+          <div class="row" style="margin:3%">
+            <div class="col-md-6">
+              <select id="noticeScopeSelect" class="form-control" style="background-color: var(--colorPrimany);" onchange="loadClassOrSchoolList(this)">
+                <option selected disabled value="">Select scope</option>
+                <option value="1">For a school</option>
+                <option value="2">For a class</option>
+              </select>
+            </div>
+            
+            <div class="col-md-6">
+              <select class="form-control" style="background-color: var(--colorPrimany);" id="classorschoolselect">
+                <option selected disabled value="">Select school / class</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row" style="margin:3%">
+            <div class="col-md-12">
+              <input class="form-control" style="background-color: var(--colorPrimany);" id="noticeTitle" placeholder="Notice Title.">
+            </div>
+          </div>
+
+          <div class="row" style="margin:3%">
+            <div class="col-md-12">
+              <textarea class="form-control" style="background-color: var(--colorPrimany);" id="noticeMessage" placeholder="Message.."></textarea>
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="createNewNotice()">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 
   <!--==========================
     Footer
@@ -542,22 +603,22 @@
                 as soon as possible.</p>
               <form class="contactForm" id="contactForm">
                 <div class="form-group">
-                  <input type="text" name="name" class="form-control" id="feedbackName" placeholder="Your Name"
+                  <input style="background-color: var(--colorPrimary);" type="text" name="name" class="form-control" id="feedbackName" placeholder="Your Name"
                     data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
                   <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                  <input type="email" class="form-control" name="email" id="feedbackEmail" placeholder="Your Email"
+                  <input style="background-color: var(--colorPrimary);" type="email" class="form-control" name="email" id="feedbackEmail" placeholder="Your Email"
                     data-rule="email" data-msg="Please enter a valid email" />
                   <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" name="subject" id="feedbackSubject" placeholder="Subject"
+                  <input style="background-color: var(--colorPrimary);" type="text" class="form-control" name="subject" id="feedbackSubject" placeholder="Subject"
                     data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
                   <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                  <textarea class="form-control" name="message" id="feedbackMessgae" rows="5" data-rule="required"
+                  <textarea style="background-color: var(--colorPrimary);" class="form-control" name="message" id="feedbackMessgae" rows="5" data-rule="required"
                     data-msg="Please write something for us" placeholder="Message"></textarea>
                   <div class="validation"></div>
                 </div>

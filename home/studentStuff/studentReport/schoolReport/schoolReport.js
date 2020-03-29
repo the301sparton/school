@@ -17,18 +17,13 @@ function showSchoolReport(){
     });
 
     schoolStudentCountReq.done(function(responseReport) {
-        //console.log(responseReport);
-       
            var reportJSON = JSON.parse(responseReport);
            var schoolNames = new Array();
            var studentCounts = new Array();
            for(itr in reportJSON){
-               console.log(reportJSON[itr].studentCount)
                 schoolNames.push(reportJSON[itr].schoolName);
                 studentCounts.push(reportJSON[itr].studentCount);
            }
-           
-           //console.log(studentCount);
            
            var myChart = new Chart(ctx, {
             type: 'bar',            

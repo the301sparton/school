@@ -13,6 +13,7 @@ let canFeesReport;
 let canManageUsers;
 let canManageRoles;
 let canManageFeesHeads;
+let canSchoolDiary;
 let canNewAccadamicYear;
 let currentStudentOption = '';
 let optionColors;
@@ -20,16 +21,16 @@ let currentUprMenu = "top";
 
 $(document).ready(function() {
     $("body").addClass("dark");
-    $(".inner-switch").text("ON");
-    $(".inner-switch").on("click", function() {
+    $("#darkModeSwitch").text("ON");
+    $("#darkModeSwitch").on("click", function() {
         if ($("body").hasClass("dark")) {
             $("body").removeClass("dark");
             $("body").addClass("light");
-            $(".inner-switch").text("OFF");
+            $("#darkModeSwitch").text("OFF");
         } else {
             $("body").addClass("dark");
             $("body").removeClass("light");
-            $(".inner-switch").text("ON");
+            $("#darkModeSwitch").text("ON");
         }
     });
 
@@ -40,13 +41,11 @@ $(document).ready(function() {
 
             var getUserReq = $.post("../apis/User.php", { type: "getById", uid: user.uid });
             getUserReq.done(function(user_dat) {
-                console.log(user_dat);
                 me_data = JSON.parse(user_dat)[0];
                 if (me_data != null) {
                     setMyImage(me_data.photo);
                     var myRoleListReq = $.post("../apis/userGroup.php", { type: "getRoleList", uid: me_data.uid });
                     myRoleListReq.done(function(myRoleListRes) {
-                        console.log(myRoleListRes)
                         var temp = "Welcome " + me_data.displayName.split(" ")[0] + "\nyou have ";
                         myRoleList = JSON.parse(myRoleListRes);
                         if (myRoleList.length > 0) {
@@ -164,6 +163,12 @@ function setPermissions(currentRole) {
     } else if (canNewAccadamicYear == null) {
         canNewAccadamicYear = 0;
     }
+
+    if (currentRole.schoolDairy == 1) {
+        canSchoolDiary = 1;
+    } else if (canNewAccadamicYear == null) {
+        canSchoolDiary = 0;
+    }
 }
 
 function setActiveColorsStudent(toSet) {
@@ -220,6 +225,9 @@ function getlimitStudent() {
     }
     if (canStudentReport == 1) {
         limit.push("studentReport");
+    }
+    if (canSchoolDiary == 1) {
+        limit.push("schoolDiary");
     }
     return limit;
 }
@@ -322,6 +330,15 @@ function studentOptionsView() {
         </div>
         <div class="col-rmd-5 button button4" id="studentReport" onclick="studentReport()">Student Report</div>
       </div>`;
+    }
+
+    if (canSchoolDiary) {
+        StudentOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow3">
+    <div class="col-rmd-4">
+          
+    </div>
+      <div class="col-rmd-4 button button5" id="schoolDiary" onclick="schoolDiary()">School Diary</div>             
+  </div>`;
     }
 
     StudentOptionHTML += `<div class="row" style="margin-top:3%;margin-bottom:3%">

@@ -81,7 +81,6 @@ function searchNEdit(forReceiptTemp) {
   });
   $(document).on('change', '#maxRows', function () {
     maxRows = document.getElementById('maxRows').value;
-    console.log(maxRows);
     studentSearch(searchBarView);
   });
   $(document).on('change', '#sessionSelect', function () {
@@ -147,13 +146,11 @@ function makeSearchRequest() {
 
 
     searchByNameReq.done(function (searchByNameRes) {
-      console.log(searchByNameRes)
       try {
         var searchResult = JSON.parse(searchByNameRes);
         createResultView(searchResult, searchQuery);
       }
       catch (e) {
-        console.log("LOL");
         showNotification("Error", "Failed to get data", "danger");
       }
     });
@@ -267,7 +264,6 @@ function createResultView(searchResult, searchStr) {
 
       document.getElementById('studID' + itr).innerText = searchResult[itr].studentId;
       if(searchResult[itr].isDisabled == 1){
-        console.log(searchResult[itr].isDisabled)
         document.getElementById('isDisabled' + itr).innerText = "Disabled"
         document.getElementById('isDisabled' + itr).style.color = "var(--colorDanger)";
       }      
@@ -300,7 +296,6 @@ function viewStudent(parent) {
 
 function selectedStudent(parent) {
   removeResults();
-  //console.log(parent);
   document.getElementById("searchResultHolder").appendChild(parent);
   let classId = parent.childNodes[3].innerText;
   let id = parent.childNodes[1].innerText;

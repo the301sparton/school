@@ -102,7 +102,6 @@ function handleNetworkIssues(textStatus){
   if(textStatus == "error"){
     showNotification("<strong>Error!</strong>","Network Issue", "warning");
   }
- console.log(textStatus);
 }
 
 

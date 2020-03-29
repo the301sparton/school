@@ -5,12 +5,16 @@
     border-color: #e6e6e6;
     --primaryColor: rgb(34, 34, 34);
     --textColor: #e6e6e6;
+    --colorHighlight:#34495e;
+    --textSecondary: #f7f7;
     --btnColor0: #1b2631;
     --btnColor1: #222c36;
     --btnColor2: #2e2f31;
     --btnColor3: #37434e;
     --btnColor4: #0f2466;
     --btnColor5: #503433;
+
+    --checkMark:#222c36;
 
     --colorSuccess: #152b1a;
     --colorDanger: #aa3941;
@@ -37,12 +41,16 @@
     /* border-color: #1b2631;  */
     --primaryColor: rgb(255, 255, 255);
     --textColor: #1b2631;
+    --colorHighlight:#aed6f1;
+    --textSecondary: #581845;
     --btnColor0: #D6E2E7;
     --btnColor1: #E0E3EB;
     --btnColor2: #B0CBD4;
     --btnColor3: #EFF3FC;
     --btnColor4: #F4ECF7;
     --btnColor5: #aed6f1;
+
+    --checkMark: #007bff;
 
     --colorSuccess: #28a745;
     --colorDanger: #f8d7da;
@@ -212,7 +220,7 @@
 /* On mouse-over, add a grey background color */
 
 .checklabel:hover input~.checkmark {
-    background-color: var(--btnColor1);;
+    background-color: var(--checkMark);;
     border-radius: 25%;
     border:1px solid;
 }
@@ -221,7 +229,7 @@
 /* When the checkbox is checked, add a blue background */
 
 .checklabel input:checked~.checkmark {
-    background-color: var(--btnColor1);
+    background-color: var(--checkMark);
     border:1px solid;
     border-radius: 25%;
 }
