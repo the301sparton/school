@@ -128,7 +128,7 @@ function newReceiptView() {
                   <label id = "headId` + itr + `"></label>
                 </div>
                 <div class="col-md-6">
-                  <input class="form-control" type="number" id="headValue` + itr + `" onchange="setSum(this.value)" value="0">
+                  <input style = "background: var(--colorPrimary)" class="form-control" type="number" id="headValue` + itr + `" onchange="setSum(this.value)" value="0">
                 </div>
               </div>`;
 
