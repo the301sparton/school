@@ -407,4 +407,3 @@ function updateStudentDetails() {
     handleNetworkIssues(textStatus)
   });
 }
-//StepOne End
