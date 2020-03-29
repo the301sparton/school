@@ -407,3 +407,4 @@ function updateStudentDetails() {
     handleNetworkIssues(textStatus)
   });
 }
+

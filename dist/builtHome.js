@@ -463,26 +463,34 @@ function makeRoleEditView(roleArray) {
                    </div>
 
                    <div class="row" style="padding:2%">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                         <label for="registerStudent` + itr + `" class="checklabel">Register Student
                             <input type="checkbox" id="registerStudent` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                         <label for="searchNEdit` + itr + `" class="checklabel">Search and edit student data
                             <input type="checkbox" id="searchNEdit` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                         <label for="manageClass` + itr + `" class="checklabel">Manage Class List
                             <input type="checkbox" id="manageClass` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
+
+                        <div class="col-md-3">
+                        <label for="schoolDiary` + itr + `" class="checklabel">School Diary
+                            <input type="checkbox" id="schoolDiary` + itr + `">
+                            <span class="checkmark"></span>
+                        </label>
+                        </div>
+
                    </div>
 
                    <div class="row" style="padding:2%">
@@ -550,6 +558,9 @@ function makeRoleEditView(roleArray) {
         if (roleArray[itr].searchNEdit == 1) {
             document.getElementById("searchNEdit" + itr).checked = true;
         }
+        if (roleArray[itr].schoolDairy == 1) {
+            document.getElementById("schoolDiary" + itr).checked = true;
+        }
         if (roleArray[itr].manageClass == 1) {
             document.getElementById("manageClass" + itr).checked = true;
         }
@@ -587,6 +598,8 @@ function updateGroupDetails(view) {
     searchNEdit = isCheckedGeneric(searchNEdit);
     let manageClass = view.childNodes[7].childNodes[5].childNodes[1].childNodes[1].checked;
     manageClass = isCheckedGeneric(manageClass);
+    let schoolDiary = view.childNodes[7].childNodes[7].childNodes[1].childNodes[1].checked;
+    schoolDiary = isCheckedGeneric(schoolDiary);
 
     //row three
     let generateReceipt = view.childNodes[9].childNodes[1].childNodes[1].childNodes[1].checked;
@@ -616,6 +629,7 @@ function updateGroupDetails(view) {
         registerStudent: registerStudent,
         searchNEdit: searchNEdit,
         manageClass: manageClass,
+        schoolDiary: schoolDiary,
 
         generateReceipt: generateReceipt,
         feesReport: feesReport,
@@ -628,7 +642,6 @@ function updateGroupDetails(view) {
             showNotification("Success", "User Group Updated", "success");
             getRoleList();
         } else {
-            console.log(responce)
             showNotification("<strong>Error</strong>", "Failed to update group", "danger");
         }
         document.getElementById("new_loader").style.display = "none";
@@ -703,6 +716,9 @@ function createNewUserGroupForSure() {
         let NwSearchNEdit = document.getElementById("NwSearchNEdit").checked;
         NwSearchNEdit = isCheckedGeneric(NwSearchNEdit);
 
+        let NwSchoolDiary = document.getElementById("NwSchoolDiary").checked;
+        NwSchoolDiary = isCheckedGeneric(NwSchoolDiary);
+
         let NewManageClass = document.getElementById("NewManageClass").checked;
         NewManageClass = isCheckedGeneric(NewManageClass);
 
@@ -731,6 +747,7 @@ function createNewUserGroupForSure() {
             NewNewAccadamicYear: NewNewAccadamicYear,
             NewRegisterStudent: NewRegisterStudent,
             NwSearchNEdit: NwSearchNEdit,
+            NwSchoolDiary:NwSchoolDiary,
             NewManageClass: NewManageClass,
             NewGenerateReceipt: NewGenerateReceipt,
             NewFeesReport: NewFeesReport,
@@ -836,7 +853,6 @@ function sendSearchUserRequest() {
       });
 
       searchUserReq.done(function (responce) {
-        console.log(responce);
         try {
           makeUserView(JSON.parse(responce));
         }
@@ -951,7 +967,6 @@ function getUserDetails(usersView) {
 
   myRolesListReq.done(function (myRoleList) {
     try {
-      console.log(myRoleList)
       let myRoleListArray = JSON.parse(myRoleList);
       document.getElementById('userDetailsHolder').innerHTML = `<div class="text-center">
           <h6>Edit User Groups</h6>
@@ -1525,7 +1540,6 @@ function classSummeryReport() {
                 reportJSON[itr].balenceFees = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
             }
 
-            console.log(reportJSON);
             document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
             $("#jsGrid").jsGrid({
                 width: "100%",
@@ -1731,7 +1745,6 @@ function reportBySchool() {
         sessionName: FeeSessionSelect
     });
     monthWiseReportReq.done(function(reportRes) {
-        console.log(reportRes)
         try {
             buildFeeReport(JSON.parse(reportRes), "BySchool");
         } catch (e) {
@@ -1906,7 +1919,7 @@ function newReceiptView() {
                   <label id = "headId` + itr + `"></label>
                 </div>
                 <div class="col-md-6">
-                  <input class="form-control" type="number" id="headValue` + itr + `" onchange="setSum(this.value)" value="0">
+                  <input style = "background: var(--colorPrimary)" class="form-control" type="number" id="headValue` + itr + `" onchange="setSum(this.value)" value="0">
                 </div>
               </div>`;
 
@@ -1949,8 +1962,6 @@ $('#newReceiptForm').submit(function(event) {
         }
         feesHeadVal[itr] = document.getElementById('headValue' + itr).value;
     }
-    console.log(shouldSendReq);
-    console.log(superBreaksOFF);
     if (shouldSendReq && superBreaksOFF) {
         document.getElementById("new_loader").style.display = "block";
         var newReceiptRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
@@ -1966,7 +1977,6 @@ $('#newReceiptForm').submit(function(event) {
         });
 
         newReceiptRequest.done(function(newReceiptRes) {
-            console.log(newReceiptRes);
             try {
                 var resjson = JSON.parse(newReceiptRes);
                 if (resjson.resCode == 200) {
@@ -1974,7 +1984,6 @@ $('#newReceiptForm').submit(function(event) {
                     viewReceipt(resjson.id, ReceiptForStudentId, sessionSelect);
                 } else {
                     showNotification("<strong>Error</strong>", "Failed to generate receipt", "danger");
-                    console.log(newReceiptRes);
                 }
             } catch (e) {
                 showNotification("Error", "Failed to get data", "danger");
@@ -2026,7 +2035,6 @@ function showReceiptList() {
             }
 
         } catch (e) {
-            console.log(e)
             showNotification("<strong>Error</strong>", "Failed to get data", "danger");
         }
         document.getElementById("new_loader").style.display = "none";
@@ -2039,7 +2047,6 @@ function showReceiptList() {
 }
 
 function viewReceiptFromList(div) {
-    console.log(":", (div.childNodes[1].innerText).split(": "));
     viewReceipt(div.childNodes[1].innerText.split(": ")[1]);
 };function registerStudent(){
     currentStudentOption = "registerStudent";
@@ -2431,7 +2438,6 @@ function CreateNewStudent() {
   });
 
   newStudentDetailReq.done(function (newStudentDetailRes) {
-    console.log(newStudentDetailRes)
     try {
       var responce = JSON.parse(newStudentDetailRes);
 
@@ -2494,7 +2500,6 @@ function updateStudentDetails() {
       stepTwo(false);
     }
     else {
-      console.log(newStudentDetailRes)
       showNotification("<strong>Error</strong>", "Failed to save data", "danger");
     }
     document.getElementById("new_loader").style.display = "none";
@@ -2505,7 +2510,7 @@ function updateStudentDetails() {
     handleNetworkIssues(textStatus)
   });
 }
-//StepOne End
+
 ;
 let imgBase;
 //StepThree Start
@@ -2590,7 +2595,6 @@ function stepThree() {
 }
 
 function disableEnable(){
-  console.log("yo")
   var param;
   if(document.getElementById("isEnabledBtn").innerText == "Student Enabled"){
     param = 1;
@@ -2734,10 +2738,7 @@ function sessionDetailBack() {
   updateSessionEntry(true);
   stepTwo();
 
-}
-//StepThree End
-
-;
+};
 stepTwoHTML = `<div class="row">
   <div class="col-md-2">
     Contact Detail
@@ -3028,8 +3029,258 @@ function setContactDetails(toReturn) {
 function contactDetailBack() {
   setContactDetails();
   stepOne();
+};function schoolDiary() {
+  currentStudentOption = "schoolDiary";
+  setActiveColorsStudent("schoolDiary");
+  document.getElementById('studentActionHolder').innerHTML = `<div class="container" id="registerStudent">
+    <div class="text-center">
+      <h4 id="searchHeading">School Dairy</h4>
+      <hr>
+    </div>
+    
+    <div class="container" style="padding:1%">
+       <div class="row">
+          <div class="col-md-5">
+              <input id="noticeSearchBar" class="form-control" placeholder="Search by title.." type="text" onkeyup="shouldSearchSchoolDiary(event)">
+          </div>
+          <div class="col-md-3"></div>
+          <div class="col-md-4">
+              <div class="switch" onclick="switchDiary()">Show Only Active Notices:
+                <span class="inner-switch" id="studentDiarySwitch">ON</span>
+              </div>
+          </div>
+       </div>
+    </div>
+    
+    <div class="container" id="studentDiaryHolder" style="padding:1%"></div>
+    
+    <div class="container" style = "margin:2%">
+      <div class="row">
+        <div class="col-md-11"></div>
+        <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="triggerNewNoticeModal()"></i></div>
+      </div>    
+    </div>`;
+
+  makeStudentDiaryGetCall();
 }
-//STEPTWO END;var searchBy;
+
+function switchDiary() {
+  if (document.getElementById("studentDiarySwitch").innerText == "OFF") {
+    document.getElementById("studentDiarySwitch").innerText = "ON";
+  }
+  else {
+    document.getElementById("studentDiarySwitch").innerText = "OFF";
+  }
+
+  makeStudentDiaryGetCall();
+}
+
+function makeStudentDiaryGetCall() {
+  var StudentDairyReq = $.post(baseUrl + "/apis/schoolDairy.php", {
+    type: "getItems",
+    uid: me_data.uid,
+    noticeSearchBar: document.getElementById("noticeSearchBar").value,
+    onlyActive: document.getElementById("studentDiarySwitch").innerText
+  });
+
+  StudentDairyReq.done(function (res) {
+    try {
+      let resArray = JSON.parse(res);
+      document.getElementById("studentDiaryHolder").innerHTML = '';
+      if (resArray.length == 0) {
+        resultView = `<div class="row collapsible">
+                            <div class="text-center" style="background:var(--btnColor1)"><h4 style="background:var(--btnColor1)">No Result Found</h4>
+                            </div>
+                        </div>`;
+        document.getElementById("studentDiaryHolder").innerHTML = resultView;
+      }
+      else {
+        for (itr in resArray) {
+          resultView = `<div class="container">
+            <div class="container collapsible" style="padding:2%" id="item` + itr + `" data-toggle="collapse" data-target="#data` + itr + `">
+            <div class = "row">
+                <div class="col-md-10" style="background:var(--btnColor1); text-align:left; font-size:large" id="noticeTitle` + itr + `"></div>
+                <div class="col-md-2" style="background:var(--btnColor1); text-align:right" id="noticeDate` + itr + `"></div>
+            </div>
+            <div class = "row" style="margin-top:1%">
+                <div class="col-md-10" style="background:var(--btnColor1); text-align:left; color:var(--textSecondary);" id="noticeDetails` + itr + `"></div>
+                <div class="col-md-2" style="background:var(--btnColor1); text-align:right"><i class="fa fa-arrow-down" style="background:var(--btnColor1); display:block"></i></div>
+            </div>
+            </div>
+    
+                <div id="data` + itr + `" class="collapse" style="padding:2%; border-radius: 15px; margin-left:2%; margin-right:2%">
+                       <h6>Notice Message</h6>
+                       <hr>
+
+                       <div class="row" id="messageBox` + itr + `"></div>
+    
+                       <div class="row" style="padding:1%">
+                        <div class="col-md-12">
+                              <div id="noticeId` + itr + `" style="display:none"></div>
+                              <button class="btn btn-success" style="float:right; `+ CSSbtnSuccess + `" id="enableBtn` + itr + `" onclick="disableNotice(this.parentNode.childNodes[1].innerText, this)">Enabled</button>
+                        </div>
+                       </div>
+                </div>
+                </div>
+            `;
+          document.getElementById("studentDiaryHolder").innerHTML += resultView;
+          document.getElementById("noticeId" + itr).innerText = resArray[itr].msgId;
+          document.getElementById("noticeTitle" + itr).innerText = resArray[itr].title;
+          document.getElementById("noticeDate" + itr).innerText = resArray[itr].createdOn;
+          document.getElementById("messageBox" + itr).innerText = resArray[itr].message;
+
+
+          if (resArray[itr].isActive == 0) {
+            document.getElementById("enableBtn" + itr).innerText = "Notice Disabled";
+            document.getElementById("enableBtn" + itr).className = "btn btn-danger";
+            document.getElementById("enableBtn" + itr).style = CSSbtnDanger + "cursor:pointer; float:right;";
+          }
+          else {
+            document.getElementById("enableBtn" + itr).innerText = "Notice Enabled";
+            document.getElementById("enableBtn" + itr).className = "btn btn-success";
+            document.getElementById("enableBtn" + itr).style = CSSbtnSuccess + "cursor:pointer; float:right;";
+          }
+
+          if (resArray[itr].scope == 1) {
+            document.getElementById("noticeDetails" + itr).innerText = "Created by " + resArray[itr].displayName + " for " + resArray[itr].schoolName;
+          }
+          else {
+            document.getElementById("noticeDetails" + itr).innerText = "Created by " + resArray[itr].displayName + " for " + resArray[itr].className + " " + resArray[itr].sectionName;
+          }
+        }
+      }
+    }
+    catch (e) {
+      showNotification("Error", "Failed to get data", "danger");
+    }
+  });
+
+  StudentDairyReq.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+}
+
+function shouldSearchSchoolDiary(event) {
+  clearTimeout($.data(this, 'timer1'));
+  if (event.keyCode == 13) {
+    makeStudentDiaryGetCall();
+  }
+  else {
+    $(this).data('timer1', setTimeout(makeStudentDiaryGetCall, 500));
+  }
+}
+
+function disableNotice(msgId, btn) {
+  var isActive;
+  if (btn.innerText == "Notice Enabled") {
+    isActive = 0;
+
+  }
+  else {
+    isActive = 1;
+  }
+
+  document.getElementById("new_loader").style.display = "block";
+  var disableEnableNoticeReq = $.post(baseUrl + "/apis/schoolDairy.php", {
+    type: "disableEnableReq",
+    uid: me_data.uid,
+    msgId: msgId,
+    isActive: isActive
+  });
+
+  disableEnableNoticeReq.done(function (data) {
+    if (data == 200) {
+      showNotification("Success", "Notice Updated", "success");
+      makeStudentDiaryGetCall();
+    }
+    else {
+      showNotification("Error", "Failed to save data", "danger");
+    }
+    document.getElementById("new_loader").style.display = "none";
+  });
+
+  disableEnableNoticeReq.fail(function (jqXHR, textStatus) {
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+  });
+}
+
+function triggerNewNoticeModal() {
+  $("#newNoticeModal").modal();
+}
+
+function loadClassOrSchoolList(scope) {
+  document.getElementById("new_loader").style.display = "block";
+  var getClassOrSchoolReq = $.post(baseUrl + "/apis/schoolDairy.php", {
+    type: "loadClassOrSchoolList",
+    uid: me_data.uid,
+    scope: scope.value
+  });
+
+  getClassOrSchoolReq.done(function (data) {
+    var array = JSON.parse(data);
+    if (scope.value == 1) {
+      $('#classorschoolselect')
+        .find('option')
+        .remove()
+        .end()
+        .append('<option value="" selected disabled>Select School</option>')
+        .val('');
+      for (var index in array) {
+        $('#classorschoolselect')
+          .append($('<option>', { value: array[index].schoolId })
+            .text(array[index].schoolName
+            ));
+      }
+    }
+    else {
+      $('#classorschoolselect')
+        .find('option')
+        .remove()
+        .end()
+        .append('<option value="" selected disabled>Select Class</option>')
+        .val('');
+      for (var index in array) {
+        $('#classorschoolselect')
+          .append($('<option>', { value: array[index].className + "," + array[index].section })
+            .text(array[index].className + " " + array[index].section
+            ));
+      }
+    }
+    document.getElementById("new_loader").style.display = "none";
+  });
+
+  getClassOrSchoolReq.fail(function (jqXHR, textStatus) {
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+  });
+}
+
+function createNewNotice() {
+  document.getElementById("new_loader").style.display = "block";
+  var newNoticeReq = $.post(baseUrl + "/apis/schoolDairy.php", {
+    type: "newItem",
+    uid: me_data.uid,
+    title: document.getElementById("noticeTitle").value,
+    message: document.getElementById("noticeMessage").value,
+    scope: document.getElementById("noticeScopeSelect").value,
+    data: document.getElementById("classorschoolselect").value
+  });
+
+  newNoticeReq.done(function (data) {
+    if (data == 200) {
+      showNotification("Success", "Notice Updated", "success");
+      makeStudentDiaryGetCall();
+    }
+    else {
+      showNotification("Error", "Failed to save data", "danger");
+    }
+    document.getElementById("new_loader").style.display = "none";
+  });
+
+  newNoticeReq.fail(function(jqXHR, textStatus) {
+    document.getElementById("new_loader").style.display = "none";
+    handleNetworkIssues(textStatus)
+});
+};var searchBy;
 var maxRows = 5;
 var sessionSelect;
 var ErrorIsVisible;
@@ -3112,7 +3363,6 @@ function searchNEdit(forReceiptTemp) {
   });
   $(document).on('change', '#maxRows', function () {
     maxRows = document.getElementById('maxRows').value;
-    console.log(maxRows);
     studentSearch(searchBarView);
   });
   $(document).on('change', '#sessionSelect', function () {
@@ -3178,13 +3428,11 @@ function makeSearchRequest() {
 
 
     searchByNameReq.done(function (searchByNameRes) {
-      console.log(searchByNameRes)
       try {
         var searchResult = JSON.parse(searchByNameRes);
         createResultView(searchResult, searchQuery);
       }
       catch (e) {
-        console.log("LOL");
         showNotification("Error", "Failed to get data", "danger");
       }
     });
@@ -3298,7 +3546,6 @@ function createResultView(searchResult, searchStr) {
 
       document.getElementById('studID' + itr).innerText = searchResult[itr].studentId;
       if(searchResult[itr].isDisabled == 1){
-        console.log(searchResult[itr].isDisabled)
         document.getElementById('isDisabled' + itr).innerText = "Disabled"
         document.getElementById('isDisabled' + itr).style.color = "var(--colorDanger)";
       }      
@@ -3331,7 +3578,6 @@ function viewStudent(parent) {
 
 function selectedStudent(parent) {
   removeResults();
-  //console.log(parent);
   document.getElementById("searchResultHolder").appendChild(parent);
   let classId = parent.childNodes[3].innerText;
   let id = parent.childNodes[1].innerText;
@@ -3509,7 +3755,6 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
     });
 
     getAttendenceListReq.done(function(response) {
-        console.log(response);
         studList = JSON.parse(response);
         document.getElementById("myListHolder").innerHTML = `<div class = "row elementDefinerDark" style="background:var(--btnColor1); border-radius:6px; margin-bottom:2%; padding:2%"> 
     <div class="col-md-3" style="text-align:center">Roll Num.</div>
@@ -3611,7 +3856,6 @@ function saveAttendenceRecords() {
             showNotification("<strong>Success</strong>", "Attendence Saved", "success");
             getStudentListForAttendence();
         } else {
-            console.log(response);
             showNotification("Error", "Failed to save attendence", "danger");
         }
         document.getElementById("new_loader").style.display = "none";
@@ -3646,18 +3890,13 @@ function showSchoolReport(){
     });
 
     schoolStudentCountReq.done(function(responseReport) {
-        //console.log(responseReport);
-       
            var reportJSON = JSON.parse(responseReport);
            var schoolNames = new Array();
            var studentCounts = new Array();
            for(itr in reportJSON){
-               console.log(reportJSON[itr].studentCount)
                 schoolNames.push(reportJSON[itr].schoolName);
                 studentCounts.push(reportJSON[itr].studentCount);
            }
-           
-           //console.log(studentCount);
            
            var myChart = new Chart(ctx, {
             type: 'bar',            
@@ -3744,7 +3983,6 @@ $(document).ready(function() {
 
 $("#contactForm").submit(function(event) {         
     event.preventDefault();
-    console.log("hel");
     var newMessageReq = $.post(baseUrl+"/apis/connectUs.php",{type:"newMessage",
     uid: me_data.uid,
                             name:document.getElementById("feedbackName").value,
@@ -3754,7 +3992,6 @@ $("#contactForm").submit(function(event) {
                         });
 
     newMessageReq.done(function(data){
-        console.log(data);
         if(data=="200"){
             showNotification("<strong>Success</strong>","Message sent", "success");
             document.getElementById('contactForm').reset();
@@ -3798,6 +4035,7 @@ let canFeesReport;
 let canManageUsers;
 let canManageRoles;
 let canManageFeesHeads;
+let canSchoolDiary;
 let canNewAccadamicYear;
 let currentStudentOption = '';
 let optionColors;
@@ -3805,16 +4043,16 @@ let currentUprMenu = "top";
 
 $(document).ready(function() {
     $("body").addClass("dark");
-    $(".inner-switch").text("ON");
-    $(".inner-switch").on("click", function() {
+    $("#darkModeSwitch").text("ON");
+    $("#darkModeSwitch").on("click", function() {
         if ($("body").hasClass("dark")) {
             $("body").removeClass("dark");
             $("body").addClass("light");
-            $(".inner-switch").text("OFF");
+            $("#darkModeSwitch").text("OFF");
         } else {
             $("body").addClass("dark");
             $("body").removeClass("light");
-            $(".inner-switch").text("ON");
+            $("#darkModeSwitch").text("ON");
         }
     });
 
@@ -3825,13 +4063,11 @@ $(document).ready(function() {
 
             var getUserReq = $.post("../apis/User.php", { type: "getById", uid: user.uid });
             getUserReq.done(function(user_dat) {
-                console.log(user_dat);
                 me_data = JSON.parse(user_dat)[0];
                 if (me_data != null) {
                     setMyImage(me_data.photo);
                     var myRoleListReq = $.post("../apis/userGroup.php", { type: "getRoleList", uid: me_data.uid });
                     myRoleListReq.done(function(myRoleListRes) {
-                        console.log(myRoleListRes)
                         var temp = "Welcome " + me_data.displayName.split(" ")[0] + "\nyou have ";
                         myRoleList = JSON.parse(myRoleListRes);
                         if (myRoleList.length > 0) {
@@ -3949,6 +4185,12 @@ function setPermissions(currentRole) {
     } else if (canNewAccadamicYear == null) {
         canNewAccadamicYear = 0;
     }
+
+    if (currentRole.schoolDairy == 1) {
+        canSchoolDiary = 1;
+    } else if (canNewAccadamicYear == null) {
+        canSchoolDiary = 0;
+    }
 }
 
 function setActiveColorsStudent(toSet) {
@@ -4005,6 +4247,9 @@ function getlimitStudent() {
     }
     if (canStudentReport == 1) {
         limit.push("studentReport");
+    }
+    if (canSchoolDiary == 1) {
+        limit.push("schoolDiary");
     }
     return limit;
 }
@@ -4107,6 +4352,15 @@ function studentOptionsView() {
         </div>
         <div class="col-rmd-5 button button4" id="studentReport" onclick="studentReport()">Student Report</div>
       </div>`;
+    }
+
+    if (canSchoolDiary) {
+        StudentOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow3">
+    <div class="col-rmd-4">
+          
+    </div>
+      <div class="col-rmd-4 button button5" id="schoolDiary" onclick="schoolDiary()">School Diary</div>             
+  </div>`;
     }
 
     StudentOptionHTML += `<div class="row" style="margin-top:3%;margin-bottom:3%">
@@ -4367,7 +4621,6 @@ function handleNetworkIssues(textStatus){
   if(textStatus == "error"){
     showNotification("<strong>Error!</strong>","Network Issue", "warning");
   }
- console.log(textStatus);
 }
 
 
