@@ -58,7 +58,6 @@ $("#newUserForm").submit(function(event) {
                              photo: imgBase
                         });
     newUserReq.done(function(newUserRes){
-        console.log(newUserRes);
         if(newUserRes == 200){
             window.location = "../home";
         }

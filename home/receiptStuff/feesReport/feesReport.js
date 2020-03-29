@@ -253,7 +253,6 @@ function classSummeryReport() {
                 reportJSON[itr].balenceFees = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
             }
 
-            console.log(reportJSON);
             document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
             $("#jsGrid").jsGrid({
                 width: "100%",
@@ -459,7 +458,6 @@ function reportBySchool() {
         sessionName: FeeSessionSelect
     });
     monthWiseReportReq.done(function(reportRes) {
-        console.log(reportRes)
         try {
             buildFeeReport(JSON.parse(reportRes), "BySchool");
         } catch (e) {

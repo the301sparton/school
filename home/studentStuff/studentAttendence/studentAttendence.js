@@ -161,7 +161,6 @@ function getAttendenceList(sessionName, classNSection, dateForAttendence) {
     });
 
     getAttendenceListReq.done(function(response) {
-        console.log(response);
         studList = JSON.parse(response);
         document.getElementById("myListHolder").innerHTML = `<div class = "row elementDefinerDark" style="background:var(--btnColor1); border-radius:6px; margin-bottom:2%; padding:2%"> 
     <div class="col-md-3" style="text-align:center">Roll Num.</div>
@@ -263,7 +262,6 @@ function saveAttendenceRecords() {
             showNotification("<strong>Success</strong>", "Attendence Saved", "success");
             getStudentListForAttendence();
         } else {
-            console.log(response);
             showNotification("Error", "Failed to save attendence", "danger");
         }
         document.getElementById("new_loader").style.display = "none";

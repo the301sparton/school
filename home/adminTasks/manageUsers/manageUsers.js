@@ -84,7 +84,6 @@ function sendSearchUserRequest() {
       });
 
       searchUserReq.done(function (responce) {
-        console.log(responce);
         try {
           makeUserView(JSON.parse(responce));
         }
@@ -199,7 +198,6 @@ function getUserDetails(usersView) {
 
   myRolesListReq.done(function (myRoleList) {
     try {
-      console.log(myRoleList)
       let myRoleListArray = JSON.parse(myRoleList);
       document.getElementById('userDetailsHolder').innerHTML = `<div class="text-center">
           <h6>Edit User Groups</h6>

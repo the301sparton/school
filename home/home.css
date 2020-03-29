@@ -5,6 +5,7 @@
     border-color: #e6e6e6;
     --primaryColor: rgb(34, 34, 34);
     --textColor: #e6e6e6;
+    --colorHighlight:#34495e;
     --textSecondary: #f7f7;
     --btnColor0: #1b2631;
     --btnColor1: #222c36;
@@ -40,6 +41,7 @@
     /* border-color: #1b2631;  */
     --primaryColor: rgb(255, 255, 255);
     --textColor: #1b2631;
+    --colorHighlight:#aed6f1;
     --textSecondary: #581845;
     --btnColor0: #D6E2E7;
     --btnColor1: #E0E3EB;

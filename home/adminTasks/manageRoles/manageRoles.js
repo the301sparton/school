@@ -269,7 +269,6 @@ function updateGroupDetails(view) {
             showNotification("Success", "User Group Updated", "success");
             getRoleList();
         } else {
-            console.log(responce)
             showNotification("<strong>Error</strong>", "Failed to update group", "danger");
         }
         document.getElementById("new_loader").style.display = "none";

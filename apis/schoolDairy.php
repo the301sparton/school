@@ -12,23 +12,30 @@ if ($conn->connect_error) {
 else{
     if($type == "newItem"){
         $scope = $_POST["scope"];
+        $scope = $conn->real_escape_string($scope);
         $title = $_POST["title"];
+        $title = $conn->real_escape_string($title);
         $message = $_POST["message"];
-        $createdOn = $_POST["createdOn"];
-        $createdOn = date('Y-m-d', strtotime($createdOn));
+        $message = $conn->real_escape_string($message);
+        $data = $_POST["data"];
+        $data = $conn->real_escape_string($data);
         if($scope == 1){
             //SCHOOL WIDE NOTICE
-            $schoolId = $_POST["schoolId"];
-            $sql = "INSERT into `schoolDairy` (`createdOn`, `uid`, `title`, `message`, `scope`, `schoolId`, `isActive`) VALUES ('$createdOn', '$uid', '$title', '$message', $scope, $schoolId, 1)";
+            $schoolId = $data;
+            $sql = "INSERT into `schoolDairy` (`uid`, `title`, `message`, `scope`, `schoolId`, `isActive`) VALUES ('$uid', '$title', '$message', $scope, $schoolId, 1)";
         }
         else if($scope == 2){
             //CLASS NOTICE
-            $className = $_POST["className"];
-            $sectionName = $_POST["sectionName"];
-            $sql = "INSERT into `schoolDairy` (`createdOn`, `uid`, `title`, `message`, `scope`, `className`, `sectionName`, `isActive`) VALUES ('$createdOn', '$uid', '$title', '$message', $scope, '$className', '$sectionName', 1)";
+            $className = explode(",",$data)[0];
+            $sectionName = explode(",",$data)[1];
+            $sql = "INSERT into `schoolDairy` (`uid`, `title`, `message`, `scope`, `className`, `sectionName`, `isActive`) VALUES ('$uid', '$title', '$message', $scope, '$className', '$sectionName', 1)";
         }       
-
-        get200AsYes($sql,$uid,$reqType);
+        if($title != "" && $message != ""){
+            get200AsYes($sql,$uid,$reqType);
+        }
+        else{
+            echo 500;
+        }
     }
 
 
@@ -51,6 +58,17 @@ else{
         }
         
         //echo $sql;
+        getOutputFromQueary($sql,$uid,$reqType);
+    }
+
+    else if($type == "loadClassOrSchoolList"){
+        $scope = $_POST["scope"];
+        if($scope == 1){
+            $sql = "SELECT * from schoolId";
+        }
+        else if($scope == 2){
+            $sql = "SELECT className, section from classlist";
+        }
         getOutputFromQueary($sql,$uid,$reqType);
     }
 

@@ -129,7 +129,7 @@
 }
 
 .jsgrid-selected-row > .jsgrid-cell {
-    background: #c4e2ff;
+    background: var(--colorHighlight);
     border-color: var(--textColor);
 }
 

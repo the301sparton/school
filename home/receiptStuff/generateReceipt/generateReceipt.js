@@ -171,8 +171,6 @@ $('#newReceiptForm').submit(function(event) {
         }
         feesHeadVal[itr] = document.getElementById('headValue' + itr).value;
     }
-    console.log(shouldSendReq);
-    console.log(superBreaksOFF);
     if (shouldSendReq && superBreaksOFF) {
         document.getElementById("new_loader").style.display = "block";
         var newReceiptRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
@@ -188,7 +186,6 @@ $('#newReceiptForm').submit(function(event) {
         });
 
         newReceiptRequest.done(function(newReceiptRes) {
-            console.log(newReceiptRes);
             try {
                 var resjson = JSON.parse(newReceiptRes);
                 if (resjson.resCode == 200) {
@@ -196,7 +193,6 @@ $('#newReceiptForm').submit(function(event) {
                     viewReceipt(resjson.id, ReceiptForStudentId, sessionSelect);
                 } else {
                     showNotification("<strong>Error</strong>", "Failed to generate receipt", "danger");
-                    console.log(newReceiptRes);
                 }
             } catch (e) {
                 showNotification("Error", "Failed to get data", "danger");
@@ -248,7 +244,6 @@ function showReceiptList() {
             }
 
         } catch (e) {
-            console.log(e)
             showNotification("<strong>Error</strong>", "Failed to get data", "danger");
         }
         document.getElementById("new_loader").style.display = "none";
@@ -261,6 +256,5 @@ function showReceiptList() {
 }
 
 function viewReceiptFromList(div) {
-    console.log(":", (div.childNodes[1].innerText).split(": "));
     viewReceipt(div.childNodes[1].innerText.split(": ")[1]);
 }

@@ -82,7 +82,6 @@ function stepThree() {
 }
 
 function disableEnable(){
-  console.log("yo")
   var param;
   if(document.getElementById("isEnabledBtn").innerText == "Student Enabled"){
     param = 1;

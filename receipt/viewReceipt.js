@@ -61,7 +61,6 @@ function pg_main() {
                 },
                     function (studentDataStr) {
                         let totalAmount = 0;
-                        console.log(studentDataStr)
                         stuentData = JSON.parse(studentDataStr);
 
                         let finalDateArr = thisReceipt.receiptDate.split("-");
@@ -83,8 +82,7 @@ function pg_main() {
                                 document.getElementById("id_" + indexHead).style.display = "block";
                                    tempAmt = feeHeadVal[document.getElementById("id_" + indexHead).innerHTML];
                                    if(tempAmt != null){
-                                       console.log(tempAmt.amount)
-                                       document.getElementById("id_" + indexHead).innerText = tempAmt.amount
+                                      document.getElementById("id_" + indexHead).innerText = tempAmt.amount
                                    }
                                    else {
                                        document.getElementById("id_" + indexHead).style.display = "none";
@@ -97,7 +95,6 @@ function pg_main() {
                                 document.getElementById("id_" + indexHead).style.display = "block";
                                    tempAmt = feeHeadVal[document.getElementById("id_" + indexHead).innerHTML];
                                    if(tempAmt != null){
-                                       console.log(tempAmt.amount)
                                        document.getElementById("id_" + indexHead).innerText = "";
                                    }
                                    else {

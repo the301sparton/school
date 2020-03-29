@@ -25,7 +25,6 @@ $(document).ready(function() {
 
 $("#contactForm").submit(function(event) {         
     event.preventDefault();
-    console.log("hel");
     var newMessageReq = $.post(baseUrl+"/apis/connectUs.php",{type:"newMessage",
     uid: me_data.uid,
                             name:document.getElementById("feedbackName").value,
@@ -35,7 +34,6 @@ $("#contactForm").submit(function(event) {
                         });
 
     newMessageReq.done(function(data){
-        console.log(data);
         if(data=="200"){
             showNotification("<strong>Success</strong>","Message sent", "success");
             document.getElementById('contactForm').reset();

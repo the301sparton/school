@@ -489,6 +489,60 @@
     </div>
   </div>
 
+
+
+  <div class="modal" id="newNoticeModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add to student dairy</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body" style="padding:2%">
+          <div class="row" style="margin:3%">
+            <div class="col-md-6">
+              <select id="noticeScopeSelect" class="form-control" style="background-color: var(--colorPrimany);" onchange="loadClassOrSchoolList(this)">
+                <option selected disabled value="">Select scope</option>
+                <option value="1">For a school</option>
+                <option value="2">For a class</option>
+              </select>
+            </div>
+            
+            <div class="col-md-6">
+              <select class="form-control" style="background-color: var(--colorPrimany);" id="classorschoolselect">
+                <option selected disabled value="">Select school / class</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row" style="margin:3%">
+            <div class="col-md-12">
+              <input class="form-control" style="background-color: var(--colorPrimany);" id="noticeTitle" placeholder="Notice Title.">
+            </div>
+          </div>
+
+          <div class="row" style="margin:3%">
+            <div class="col-md-12">
+              <textarea class="form-control" style="background-color: var(--colorPrimany);" id="noticeMessage" placeholder="Message.."></textarea>
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="createNewNotice()">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
   <!--==========================
     Footer
   ============================-->

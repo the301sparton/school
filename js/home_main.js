@@ -41,13 +41,11 @@ $(document).ready(function() {
 
             var getUserReq = $.post("../apis/User.php", { type: "getById", uid: user.uid });
             getUserReq.done(function(user_dat) {
-                console.log(user_dat);
                 me_data = JSON.parse(user_dat)[0];
                 if (me_data != null) {
                     setMyImage(me_data.photo);
                     var myRoleListReq = $.post("../apis/userGroup.php", { type: "getRoleList", uid: me_data.uid });
                     myRoleListReq.done(function(myRoleListRes) {
-                        console.log(myRoleListRes)
                         var temp = "Welcome " + me_data.displayName.split(" ")[0] + "\nyou have ";
                         myRoleList = JSON.parse(myRoleListRes);
                         if (myRoleList.length > 0) {
