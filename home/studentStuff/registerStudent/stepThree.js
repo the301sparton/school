@@ -226,5 +226,3 @@ function sessionDetailBack() {
   stepTwo();
 
 }
-//StepThree End
-
