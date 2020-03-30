@@ -25,8 +25,6 @@ else{
         $result=mysqli_query($conn,$sql); 
     
         $res = mysqli_fetch_assoc($result);
-    
-        logRequest(getUserIpAddr(),$requestType, $sql, $res);
         if($res != null){
             $sql = "SELECT sessionName FROM sessionlist  
             ORDER BY sessionId DESC  
@@ -34,8 +32,14 @@ else{
     
             $result=mysqli_query($conn,$sql);
             $r = mysqli_fetch_assoc($result);
-    
-            print json_encode(array_merge($res,$r));
+
+            $studentId = $res["studentId"];
+            $sessionName = $r["sessionName"];
+            
+            $sql = "SELECT className, section, schoolId, schoolName FROM schoolwisestudents WHERE studentId = '$studentId' AND sessionName = '$sessionName'";            
+            $result1=mysqli_query($conn,$sql);
+            $r1 = mysqli_fetch_assoc($result1);
+            print json_encode(array_merge(array_merge($res,$r), $r1));
         }
         else{
             echo "Invalid Username or Password";
