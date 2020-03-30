@@ -22,7 +22,11 @@ else{
         $r1 = mysqli_fetch_assoc($result1);
         array_push($toPrint,array_merge($r,$r1));
     }
-    print json_encode($toPrint);
+
+    $sql = "SELECT totalFees, paidFees FROM studentfees where studentId = '$studentId' AND sessionName = '$sessionName'";
+    $result2 = mysqli_query($conn,$sql);            
+    $r2 = mysqli_fetch_assoc($result2);
+    print json_encode(array_merge($toPrint, $r2));
 }
 
 ?>
