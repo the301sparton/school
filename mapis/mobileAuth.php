@@ -17,41 +17,55 @@ else{
     if($type == "loginForMobile"){
         $username = $_POST["username"];
         $password = $_POST["password"];
+        $timeSinceEpoc = $_POST["unixTime"];
     
         $username = $conn->real_escape_string($username);
         $password = $conn->real_escape_string($password);
-    
-        $sql = "Select `studentId`, `firstName`, `middleName`, `gender`, `lastName` from studentinfo WHERE `admissionNumber` = '$username' AND `password` = '$password'";
-        $result=mysqli_query($conn,$sql); 
-    
-        $res = mysqli_fetch_assoc($result);
-        if($res != null){
-            $sql = "SELECT sessionName FROM sessionlist  
-            ORDER BY sessionId DESC  
-            LIMIT 1";
-    
-            $result=mysqli_query($conn,$sql);
-            $r = mysqli_fetch_assoc($result);
+        $timeSinceEpoc = $conn->real_escape_string($timeSinceEpoc);
 
-            $studentId = $res["studentId"];
-            $sessionName = $r["sessionName"];
+        $secret = "S1ck39mcb4j91hcb2";
+        $keyId = 'd36c32506-9341-466f-a794-d49fdg54858b';
+        $payload = $timeSinceEpoc.$username.$password."loginForMobile";
+        
+        if(hash_hmac('sha512', $keyId . $payload, $secret) == $header){
             
-            $sql = "SELECT className, section, schoolId, schoolName FROM schoolwisestudents WHERE studentId = '$studentId' AND sessionName = '$sessionName'";            
-            $result1=mysqli_query($conn,$sql);
-            $r1 = mysqli_fetch_assoc($result1);
-            $secret = changeSecret($username, $password);
-            if(!$secret == false){
-                $r1["secret"] = $secret;
-                print json_encode(array_merge(array_merge($res,$r), $r1));   
-            }          
+            $sql = "Select `studentId`, `firstName`, `middleName`, `gender`, `lastName` from studentinfo WHERE `admissionNumber` = '$username' AND `password` = '$password'";
+            $result=mysqli_query($conn,$sql); 
+        
+            $res = mysqli_fetch_assoc($result);
+            if($res != null){
+                $sql = "SELECT sessionName FROM sessionlist  
+                ORDER BY sessionId DESC  
+                LIMIT 1";
+        
+                $result=mysqli_query($conn,$sql);
+                $r = mysqli_fetch_assoc($result);
+    
+                $studentId = $res["studentId"];
+                $sessionName = $r["sessionName"];
+                
+                $sql = "SELECT className, section, schoolId, schoolName FROM schoolwisestudents WHERE studentId = '$studentId' AND sessionName = '$sessionName'";            
+                $result1=mysqli_query($conn,$sql);
+                $r1 = mysqli_fetch_assoc($result1);
+                $secret = changeSecret($username, $password);
+                if(!$secret == false){
+                    $r1["secret"] = $secret;
+                    print json_encode(array_merge(array_merge($res,$r), $r1));   
+                }          
+                else{
+                    echo 500;
+                }        
+                
+            }
             else{
-                echo 500;
-            }        
-            
+                echo "Invalid Username or Password";
+            } 
         }
         else{
-            echo "Invalid Username or Password";
+            echo "501";
         }
+    
+        
     }
     else if($type == "changePassword"){
         $username = $_POST["uid"];
