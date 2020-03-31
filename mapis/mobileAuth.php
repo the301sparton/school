@@ -54,41 +54,53 @@ else{
         }
     }
     else if($type == "changePassword"){
-        $username = $_POST["username"];
+        $username = $_POST["uid"];
+        $timeSinceEpoc = $_POST["unixTime"];
         $passwordOld = $_POST["passwordOld"];
         $passwordNew = $_POST["passwordNew"];
     
         $username = $conn->real_escape_string($username);
+        $timeSinceEpoc = $conn->real_escape_string($timeSinceEpoc);
         $passwordOld = $conn->real_escape_string($passwordOld);
         $passwordNew = $conn->real_escape_string($passwordNew);
 
-        $sql = "Select `studentId` from studentinfo WHERE `admissionNumber` = '$username' AND `password` = '$passwordOld'";
-        $result=mysqli_query($conn,$sql); 
-    
-        $res = mysqli_fetch_assoc($result);
-        $studentId = $res["studentId"];
-    
-        logRequest(getUserIpAddr(),$requestType, $sql, $res);
-        if($res != null){
-            $sql = "UPDATE studentinfo SET `password` = '$passwordNew' WHERE `studentId` = $studentId";
-            if($conn->query($sql) == TRUE) {
-                $secret = changeSecret($username, $password);
-                if(!$secret == false){
-                    echo $secret;
-                }          
+        $headerStringValue = $_SERVER['HTTP_HMAC'];
+        $payload = $timeSinceEpoc.$type.$username.$passwordOld.$passwordNew;
+
+        if(checkAuth($payload, $uid, $headerStringValue)){
+            $sql = "Select `studentId` from studentinfo WHERE `admissionNumber` = '$username' AND `password` = '$passwordOld'";
+            $result=mysqli_query($conn,$sql); 
+        
+            $res = mysqli_fetch_assoc($result);
+            $studentId = $res["studentId"];
+        
+            logRequest(getUserIpAddr(),$requestType, $sql, $res);
+            if($res != null){
+                $sql = "UPDATE studentinfo SET `password` = '$passwordNew' WHERE `studentId` = $studentId";
+                if($conn->query($sql) == TRUE) {
+                    $secret = changeSecret($username, $password);
+                    if(!$secret == false){
+                        echo $secret;
+                    }          
+                    else{
+                        echo 500;
+                    } 
+                    logRequest($uid,$type,$sql,"WRITE_SUCCESS");
+                }
                 else{
                     echo 500;
-                } 
-                logRequest($uid,$type,$sql,"WRITE_SUCCESS");
+                    logRequest($uid,$type,$sql,"WRITE_FAILED");
+                }
             }
             else{
-                echo 500;
-                logRequest($uid,$type,$sql,"WRITE_FAILED");
+                echo "Wrong Password";
             }
         }
         else{
-            echo "Wrong Password";
+            echo "501";
         }
+
+        
     }    
 }
 
