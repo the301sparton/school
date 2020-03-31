@@ -67,7 +67,7 @@ else{
         $headerStringValue = $_SERVER['HTTP_HMAC'];
         $payload = $timeSinceEpoc.$type.$username.$passwordOld.$passwordNew;
 
-        if(checkAuth($payload, $uid, $headerStringValue)){
+        if(checkAuth($payload, $username, $headerStringValue)){
             $sql = "Select `studentId` from studentinfo WHERE `admissionNumber` = '$username' AND `password` = '$passwordOld'";
             $result=mysqli_query($conn,$sql); 
         
