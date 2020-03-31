@@ -63,9 +63,9 @@ else{
             } 
         }
         else{
-            echo "501";
-        }
-    
+            header('WWW-Authenticate: Basic realm="Top Secret Files"');
+            header('HTTP/1.0 401 Unauthorized'); 
+        }   
         
     }
     else if($type == "changePassword"){
@@ -110,10 +110,7 @@ else{
             else{
                 echo "499";
             }
-        }
-        else{
-            echo "501";
-        }      
+        }     
     }    
 }
 

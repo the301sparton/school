@@ -41,11 +41,7 @@ else{
         $r2 = mysqli_fetch_assoc($result2);
         $toPrint["details"] = $r2;
         print json_encode($toPrint);
-    }
-
-    else{
-        echo 501;
-    }    
+    }   
 }
 
 ?>

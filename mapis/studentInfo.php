@@ -36,11 +36,6 @@ else{
             logRequest(getUserIpAddr(),$requestType, $sql, $res);
             print json_encode($r);
         }
-        else{
-            echo 501;
-        }
-
-        
 }
 
 ?>
