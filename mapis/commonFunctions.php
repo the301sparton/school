@@ -76,11 +76,13 @@ function checkAuth($payload, $uid, $header){
             return true;
         }
         else{
-            return false;
+            header('WWW-Authenticate: Basic realm="Top Secret Files"');
+            header('HTTP/1.0 401 Unauthorized'); 
         }
     }
     else{
-        return false;
+        header('WWW-Authenticate: Basic realm="Top Secret Files"'); 
+        header('HTTP/1.0 401 Unauthorized');
     }
 }
 

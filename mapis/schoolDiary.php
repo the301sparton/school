@@ -27,10 +27,6 @@ else{
         $sql = "SELECT * FROM studentDairyView WHERE (`schoolId` = '$schoolId' AND `isActive` = 1) OR (`className` = '$className' AND `sectionName` = '$section' AND `isActive` = 1)";
         getOutputFromQueary($sql,$uid,$reqType);
     }
-    else{
-        echo "501";
-    }  
-
 }
 
 ?>
