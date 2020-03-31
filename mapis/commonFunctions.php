@@ -64,4 +64,24 @@ function getUserIpAddr(){
     return $ip;
 }
 
+
+function checkAuth($payload, $uid, $header){
+    $sql = "SELECT `secret` from studentinfo where admissionNumber = '$uid'";
+    $result=mysqli_query($GLOBALS['conn'],$sql);
+    $r = mysqli_fetch_assoc($result);
+    if($r != null){
+        $secret = $r["secret"];
+        $keyId = 'd36c32506-9341-466f-a794-d49fdg54858b';
+        if(hash_hmac('sha512', $keyId . $payload, $secret) == $header){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    else{
+        return false;
+    }
+}
+
 ?>
