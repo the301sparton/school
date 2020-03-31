@@ -72,7 +72,7 @@ else{
         if($res != null){
             $sql = "UPDATE studentinfo SET `password` = '$passwordNew' WHERE `studentId` = $studentId";
             if($conn->query($sql) == TRUE) {
-                $secret = changeSecret($username, $password);
+                $secret = changeSecret($username, $passwordNew);
                 if(!$secret == false){
                     echo $secret;
                 }          
@@ -87,7 +87,7 @@ else{
             }
         }
         else{
-            echo "Wrong Password";
+            echo 499;
         }
     }    
 }
