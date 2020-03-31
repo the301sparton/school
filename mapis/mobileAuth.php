@@ -26,8 +26,9 @@ else{
         $secret = "S1ck39mcb4j91hcb2";
         $keyId = 'd36c32506-9341-466f-a794-d49fdg54858b';
         $payload = $timeSinceEpoc.$username.$password."loginForMobile";
+        $headerStringValue = $_SERVER['HTTP_HMAC'];
         
-        if(hash_hmac('sha512', $keyId . $payload, $secret) == $header){
+        if(hash_hmac('sha512', $keyId . $payload, $secret) == $headerStringValue){
             
             $sql = "Select `studentId`, `firstName`, `middleName`, `gender`, `lastName` from studentinfo WHERE `admissionNumber` = '$username' AND `password` = '$password'";
             $result=mysqli_query($conn,$sql); 
