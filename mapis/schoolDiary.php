@@ -12,6 +12,25 @@ else{
     $schoolId = $_POST["schoolId"];
     $className = $_POST["className"];
     $section = $_POST["section"];
-    $sql = "SELECT * FROM studentDairyView WHERE (`schoolId` = '$schoolId' AND `isActive` = 1) OR (`className` = '$className' AND `sectionName` = '$section' AND `isActive` = 1)";
-    getOutputFromQueary($sql,$uid,$reqType);
+    $timeSinceEpoc = $_POST["unixTime"];
+
+    $schoolId = $conn->real_escape_string($schoolId);
+    $className = $conn->real_escape_string($className);
+    $uid = $conn->real_escape_string($uid);
+    $section = $conn->real_escape_string($section);
+    $timeSinceEpoc = $conn->real_escape_string($timeSinceEpoc);
+
+    $headerStringValue = $_SERVER['HTTP_HMAC'];
+    $payload = $timeSinceEpoc.$uid.$schoolId.$className.$section;
+
+    if(checkAuth($payload, $uid, $headerStringValue)){
+        $sql = "SELECT * FROM studentDairyView WHERE (`schoolId` = '$schoolId' AND `isActive` = 1) OR (`className` = '$className' AND `sectionName` = '$section' AND `isActive` = 1)";
+        getOutputFromQueary($sql,$uid,$reqType);
+    }
+    else{
+        echo "501";
+    }  
+
 }
+
+?>

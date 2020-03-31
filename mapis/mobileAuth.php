@@ -39,7 +39,15 @@ else{
             $sql = "SELECT className, section, schoolId, schoolName FROM schoolwisestudents WHERE studentId = '$studentId' AND sessionName = '$sessionName'";            
             $result1=mysqli_query($conn,$sql);
             $r1 = mysqli_fetch_assoc($result1);
-            print json_encode(array_merge(array_merge($res,$r), $r1));
+            $secret = changeSecret($username, $password);
+            if(!$secret == false){
+                $r1["secret"] = $secret;
+                print json_encode(array_merge(array_merge($res,$r), $r1));   
+            }          
+            else{
+                echo 500;
+            }        
+            
         }
         else{
             echo "Invalid Username or Password";
@@ -63,7 +71,20 @@ else{
         logRequest(getUserIpAddr(),$requestType, $sql, $res);
         if($res != null){
             $sql = "UPDATE studentinfo SET `password` = '$passwordNew' WHERE `studentId` = $studentId";
-            get200AsYes($sql, $username, $reqType);
+            if($conn->query($sql) == TRUE) {
+                $secret = changeSecret($username, $password);
+                if(!$secret == false){
+                    echo $secret;
+                }          
+                else{
+                    echo 500;
+                } 
+                logRequest($uid,$type,$sql,"WRITE_SUCCESS");
+            }
+            else{
+                echo 500;
+                logRequest($uid,$type,$sql,"WRITE_FAILED");
+            }
         }
         else{
             echo "Wrong Password";
@@ -71,7 +92,16 @@ else{
     }    
 }
 
-
+function changeSecret($username, $password){
+    $secret = bin2hex(random_bytes(10));
+    $sql = "UPDATE studentinfo set `secret` = '$secret' WHERE `admissionNumber` = '$username' AND `password` = '$password'";
+    if($GLOBALS['conn']->query($sql) == TRUE) {
+        return $secret;
+    }
+    else{
+         echo false;
+    }
+}
 
 
 ?>
