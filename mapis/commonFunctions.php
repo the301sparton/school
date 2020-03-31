@@ -76,11 +76,11 @@ function checkAuth($payload, $uid, $header){
             return true;
         }
         else{
-            throw new AuthException('Auth Failed', AuthExceptionCode::501);
+            throw new AuthException('Auth Failed', 501);
         }
     }
     else{
-        throw new AuthException('Auth Failed', AuthExceptionCode::501);
+        throw new AuthException('Auth Failed', 501);
     }
 }
 
