@@ -60,7 +60,7 @@ EOD;
 
                     if (!$publicKey == null) {
                         //$r1["publicKey"] = $publicKey;
-                        $res = array_merge(array_merge($res, $r));
+                        $res = array_merge(array_merge($res, $r),$r1);
 
                         $tokenId    = base64_encode(random_bytes(6));
                         $issuedAt   = time();
