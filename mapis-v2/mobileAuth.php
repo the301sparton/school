@@ -145,17 +145,16 @@ EOD;
                         echo 500;
                     }
                 } else {
-                    echo $sql;
-                    //echo "Invalid Username or Password";
+                    //echo $sql;
+                    echo "Invalid Username or Password";
                 }
                 }
         } catch (Exception $e) {
-            echo $e;
+            echo "Session Expired";
             header('HTTP/1.0 401 Unauthorized');
         }
     } else {
         header('HTTP/1.0 400 Bad Request');
-        echo 'Token not found in request';
     }
 } else {
     header('HTTP/1.0 405 Method Not Allowed');
