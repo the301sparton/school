@@ -74,9 +74,9 @@ EOD;
                             'iss'  => $serverName,       // Issuer
                             'nbf'  => $issuedAt,        // Not before
                             'exp'  => $expire,           // Expire
-                            'data' => $res
                         ];
 
+                       $data = array_merge($data,$res);
 
                         $encryptKey = <<<EOD
 -----BEGIN PRIVATE KEY-----
