@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $sql = "SELECT `state`, `date` from attendencedetails WHERE studentId = '$studentId' and sessionName = '$sessionName' AND month(`date`) = '$month' ORDER By `date`";
                 $rows = array();
                 $result=mysqli_query($GLOBALS['conn'],$sql);  
-                $count = 1.0; $sum = 0;       
+                $count = 0.0; $sum = 0;       
                 while($r = mysqli_fetch_assoc($result)) {
                     $rows[] = $r;
                     $count++;
