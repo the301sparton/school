@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 if($secret != null){
                                     $tokenId    = base64_encode(random_bytes(6));
                                     $issuedAt   = time();
-                                    $notBefore  = $issuedAt - 1;              //Adding 10 seconds
+                                    $notBefore  = $issuedAt - 0.5;              //Adding 10 seconds
                                     $expire     = $notBefore + 1800;            // Adding 60 seconds
                                     $serverName = "SCHOOL-mAPIsV2"; // Retrieve the server name from config file
                                     

@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $r = array_merge($r,$r1);
                 $tokenId    = base64_encode(random_bytes(6));
                 $issuedAt   = time();
-                $notBefore  = $issuedAt - 1.0;    
+                $notBefore  = $issuedAt - 0.5;    
                 $expire     = $notBefore + 10;
                 $serverName = "SCHOOL-mAPIsV2"; 
 
@@ -53,7 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'iss'  => $serverName,       // Issuer
                     'nbf'  => $notBefore,        // Not before
                     'exp'  => $expire,
-                    'avg' => $avg,
+                    'avg'  => $avg,
+                    'pcnt' => $sum,
                     'data' => $rows           // Expire
                 ];
 
