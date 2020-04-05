@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $r = array_merge($r,$r1);
                 $tokenId    = base64_encode(random_bytes(6));
                 $issuedAt   = time();
-                $notBefore  = $issuedAt - 1;    
+                $notBefore  = $issuedAt - 0.5;    
                 $expire     = $notBefore + 10;
                 $serverName = "SCHOOL-mAPIsV2"; 
 
