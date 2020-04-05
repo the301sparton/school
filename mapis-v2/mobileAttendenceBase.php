@@ -22,27 +22,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $studentId = $decoded_array["studentId"];
                 $sessionName = $decoded_array["sessionName"];
-                $month = $_POST["month"];
                 $studentId = $conn->real_escape_string($studentId);
                 $sessionName = $conn->real_escape_string($sessionName);
-                $month = $conn->real_escape_string($month);
 
-                $sql = "SELECT `state`, `date` from attendencedetails WHERE studentId = '$studentId' and sessionName = '$sessionName' AND month(`date`) = '$month' ORDER By `date`";
+                $sql = "SELECT `mon`, `attendancePer` FROM attPerentage WHERE studentId = '$studentId' AND sessionName = '$sessionName'";
                 $rows = array();
-                $result=mysqli_query($conn,$sql);  
-                $count = 0.0; $sum = 0;       
+                $result=mysqli_query($conn,$sql);         
                 while($r = mysqli_fetch_assoc($result)) {
                     $rows[] = $r;
-                    $count++;
-                    if($r['state'] == 1){
-                        $sum++;
-                    }
-                }
-                $avg = ($sum / $count) * 100;
-                if(strval($avg) == "NAN"){
-                    $avg = "0.0";
-                }
-                
+                } 
                 $tokenId    = base64_encode(random_bytes(6));
                 $issuedAt   = time();
                 $notBefore  = $issuedAt - 1.5;    
@@ -55,9 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'iss'  => $serverName,       // Issuer
                     'nbf'  => $notBefore,        // Not before
                     'exp'  => $expire,
-                    'avg'  => strval($avg),
-                    'pcnt' => strval($sum),
-                    'cnt'  => strval($count),
                     'data' => $rows           // Expire
                 ];
 
