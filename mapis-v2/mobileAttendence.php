@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $sum++;
                     }
                 }
-                $avg = $sum / $count;
+                $avg = ($sum / $count) * 100;
 
                 $r = array_merge($r,$r1);
                 $tokenId    = base64_encode(random_bytes(6));
@@ -55,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'exp'  => $expire,
                     'avg'  => $avg,
                     'pcnt' => $sum,
+                    'cnt'  => $count,
                     'data' => $rows           // Expire
                 ];
 
