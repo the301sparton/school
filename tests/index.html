@@ -1,0 +1,235 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>School | Tests</title>
+
+
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+  <!-- Favicons -->
+  
+  <link href="../img/favicon.png" rel="icon">
+  <link href="../img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+    rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="../lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+
+  <link href="../lib/animate/animate.min.css" rel="stylesheet">
+  <link href="../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <link href="./tests.css" rel="stylesheet">
+</head>
+
+<body style="background-color: var(--primaryColor); color: var(--textColor);">
+  <div class="preloader" id="loader"></div>
+  <div class="new_loader" style="background-color: rgba(255, 255, 255, 0);" id="new_loader"></div>
+  <!--==========================
+  Header
+  ============================-->
+  <header id="header">
+
+    <div id="topbar">
+      
+      <div class="container">
+        <div class="social-links">
+         
+            <div class="switch">Dark mode:
+              <span class="inner-switch" id="darkModeSwitch">OFF</span>
+            </div>
+          
+          <a href="#" class="twitter" id="header_twitterLink"><i class="fa fa-twitter"></i></a>
+          <a href="#" class="facebook" id="header_facebookLink"><i class="fa fa-facebook"></i></a>
+          <a href="#" class="linkedin" id="header_linkedinLink"><i class="fa fa-linkedin"></i></a>
+          <a href="#" class="instagram" id="header_instagramLink"><i class="fa fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="logo float-left">
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <h1 class="text-light"><a href="#intro" class="scrollto"><span id="about_websiteTitle">Create Test</span></a></h1>
+        <!-- <a href="#header" class="scrollto"><img src="img/logo.png" alt="" class="img-fluid"></a> -->
+      </div>
+
+      <nav class="main-nav float-right d-none d-lg-block">
+        <ul id="nav_ul">
+          <li id="top" class="active"><a href="#intro">TOP</a></li>
+          <li id="practiceTest"><a href="#footer">Practice</a></li>
+          <li id="contackUs"><a href="#footer">Support</a></li>
+          <li id="login" onclick="Login()"><a href="#footer">Login</a></li>
+        </ul>
+      </nav><!-- .main-nav -->
+    </div>
+  </header><!-- #header -->
+
+
+  <section id="intro" class="clearfix">
+    <div class="container d-flex h-100">
+      <div class="row align-self-center">
+        <div class="col-md-4">
+          <div class="row">
+            <h4 id="home_msg">Enter a test</h4>
+          </div>
+          <div class="row">
+            <input class="form-control" style="background-color: var(--colorPrimary);" type="text" placeholder="Test ID" id="testId">
+          </div>
+          <div class="row" style="margin-top: 3%;">
+            <input class="form-control" style="background-color: var(--colorPrimary);" type="password" placeholder="Test Password" id="testPassword">
+          </div>
+          <div class="row" style="margin-top: 5%;">
+            <button class="btn btn-primary" id="takeTestBtn">Begin</button>
+          </div>
+        </div>
+
+        <div class="col-md-3"></div>
+        <div class="col-md-5">
+          <img src="../img/features-1.svg" alt="" class="img-fluid">
+        </div>
+      </div>
+
+    </div>
+  </section><!-- #intro -->
+
+
+  <section id="section_main">
+
+  </section>
+
+
+  <!--==========================
+    Footer
+  ============================-->
+  <footer id="footer" class="section-bg">
+    <div class="footer-top">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-lg-6">
+
+            <div class="row">
+
+              <div class="col-sm-6">
+
+                <div class="footer-info">
+                  <h3 id="fotter_WebsiteTitle"></h3>
+                  <h6 id="fotter_WebsiteDesc"></h6>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="footer-links">
+                  <h4>Useful Links</h4>
+                  <ul>
+                    <li><a id="footer_tosLink">Terms of service</a></li>
+                    <li><a id="footer_ppLink">Privacy policy</a></li>
+                  </ul>
+                </div>
+
+                <div class="footer-links">
+                  <h4>Contact Us</h4>
+                  <p id="footer_address">
+
+                  </p>
+
+                </div>
+
+                <div class="social-links">
+                  <a href="#" class="twitter" id="footer_twitterLink"><i class="fa fa-twitter"></i></a>
+                  <a href="#" class="facebook" id="footer_facebookLink"><i class="fa fa-facebook"></i></a>
+                  <a href="#" class="instagram" id="footer_instagramLink"><i class="fa fa-instagram"></i></a>
+                  <a href="#" class="linkedin" id="footer_linkedinLink"><i class="fa fa-linkedin"></i></a>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="form">
+
+              <h4>Send us a message</h4>
+              <p>We would be glad to hear your thoughts and suggestions<br>Connect with us and we will get back to you
+                as soon as possible.</p>
+              <form class="contactForm" id="contactForm">
+                <div class="form-group">
+                  <input style="background-color: var(--colorPrimary);" type="text" name="name" class="form-control" id="feedbackName" placeholder="Your Name"
+                    data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input style="background-color: var(--colorPrimary);" type="email" class="form-control" name="email" id="feedbackEmail" placeholder="Your Email"
+                    data-rule="email" data-msg="Please enter a valid email" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input style="background-color: var(--colorPrimary);" type="text" class="form-control" name="subject" id="feedbackSubject" placeholder="Subject"
+                    data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <textarea style="background-color: var(--colorPrimary);" class="form-control" name="message" id="feedbackMessgae" rows="5" data-rule="required"
+                    data-msg="Please write something for us" placeholder="Message"></textarea>
+                  <div class="validation"></div>
+                </div>
+
+                <div id="sendmessage">Your message has been sent. Thank you!</div>
+                <div id="errormessage"></div>
+
+                <div class="text-center"><button type="submit" title="Send Message">Send Message</button></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>Vaikuntha Computers</strong>. All Rights Reserved
+      </div>
+    </div>
+  </footer><!-- #footer -->
+
+
+
+  <script src="../lib/jquery/jquery.min.js"></script>
+  <script src="../lib/jquery/jquery-migrate.min.js"></script>
+  <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../lib/easing/easing.min.js"></script>
+  <script src="../lib/mobile-nav/mobile-nav.js"></script>
+  <script src="../lib/wow/wow.min.js"></script>
+  <script src="../lib/bootstrap-notify.min.js"></script>
+  <script src="../lib/chartjs/chart.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-auth.js"></script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+
+  <!-- My JS Libraries -->
+  <script src="../js/config.js"></script>
+  <script src="../js/firebaseAuth.js"></script>
+  <script src="../js/CSS_Styles.js"></script>
+  <script src="./main.js"></script>
+</body>
+
+</html>
