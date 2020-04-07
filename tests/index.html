@@ -10,7 +10,7 @@
   <meta content="" name="keywords">
   <meta content="" name="description">
   <!-- Favicons -->
-  
+
   <link href="../img/favicon.png" rel="icon">
   <link href="../img/apple-touch-icon.png" rel="apple-touch-icon">
 
@@ -21,6 +21,10 @@
 
   <!-- Bootstrap CSS File -->
   <link href="../lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+  <script src="../lib/firebaseUI/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="../lib/firebaseUI/firebaseui.css" />
+
 
   <!-- Libraries CSS Files -->
 
@@ -42,14 +46,14 @@
   <header id="header">
 
     <div id="topbar">
-      
+
       <div class="container">
         <div class="social-links">
-         
-            <div class="switch">Dark mode:
-              <span class="inner-switch" id="darkModeSwitch">OFF</span>
-            </div>
-          
+
+          <div class="switch">Dark mode:
+            <span class="inner-switch" id="darkModeSwitch">OFF</span>
+          </div>
+
           <a href="#" class="twitter" id="header_twitterLink"><i class="fa fa-twitter"></i></a>
           <a href="#" class="facebook" id="header_facebookLink"><i class="fa fa-facebook"></i></a>
           <a href="#" class="linkedin" id="header_linkedinLink"><i class="fa fa-linkedin"></i></a>
@@ -62,7 +66,8 @@
 
       <div class="logo float-left">
         <!-- Uncomment below if you prefer to use an image logo -->
-        <h1 class="text-light"><a href="#intro" class="scrollto"><span id="about_websiteTitle">Create Test</span></a></h1>
+        <h1 class="text-light"><a href="#intro" class="scrollto"><span id="about_websiteTitle">Create Test</span></a>
+        </h1>
         <!-- <a href="#header" class="scrollto"><img src="img/logo.png" alt="" class="img-fluid"></a> -->
       </div>
 
@@ -71,7 +76,7 @@
           <li id="top" class="active"><a href="#intro">TOP</a></li>
           <li id="practiceTest"><a href="#footer">Practice</a></li>
           <li id="contackUs"><a href="#footer">Support</a></li>
-          <li id="login" onclick="Login()"><a href="#footer">Login</a></li>
+          <li id="login" ><a href="#" onclick="ModalLogin()">Login</a></li>
         </ul>
       </nav><!-- .main-nav -->
     </div>
@@ -81,17 +86,19 @@
   <section id="intro" class="clearfix">
     <div class="container d-flex h-100">
       <div class="row align-self-center">
-        <div class="col-md-4">
+        <div class="col-md-4" style="padding: 4%; border-radius: 10px;  border: 1px; border-style: solid;">
           <div class="row">
             <h4 id="home_msg">Enter a test</h4>
           </div>
-          <div class="row">
-            <input class="form-control" style="background-color: var(--colorPrimary);" type="text" placeholder="Test ID" id="testId">
-          </div>
-          <div class="row" style="margin-top: 3%;">
-            <input class="form-control" style="background-color: var(--colorPrimary);" type="password" placeholder="Test Password" id="testPassword">
+          <div class="row" style="margin-top: 5%;">
+            <input class="form-control" style="background-color: var(--colorPrimary);" type="text" placeholder="Test ID"
+              id="testId">
           </div>
           <div class="row" style="margin-top: 5%;">
+            <input class="form-control" style="background-color: var(--colorPrimary);" type="password"
+              placeholder="Test Password" id="testPassword">
+          </div>
+          <div class="row" style="margin-top: 7%;">
             <button class="btn btn-primary" id="takeTestBtn">Begin</button>
           </div>
         </div>
@@ -109,6 +116,25 @@
   <section id="section_main">
 
   </section>
+
+  <div class="modal fade" id="signInModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>Signin options</h5>
+        </div>
+        <div class="modal-body" id="Signin_Body">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 
   <!--==========================
@@ -171,23 +197,27 @@
                 as soon as possible.</p>
               <form class="contactForm" id="contactForm">
                 <div class="form-group">
-                  <input style="background-color: var(--colorPrimary);" type="text" name="name" class="form-control" id="feedbackName" placeholder="Your Name"
-                    data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <input style="background-color: var(--colorPrimary);" type="text" name="name" class="form-control"
+                    id="feedbackName" placeholder="Your Name" data-rule="minlen:4"
+                    data-msg="Please enter at least 4 chars" />
                   <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                  <input style="background-color: var(--colorPrimary);" type="email" class="form-control" name="email" id="feedbackEmail" placeholder="Your Email"
-                    data-rule="email" data-msg="Please enter a valid email" />
+                  <input style="background-color: var(--colorPrimary);" type="email" class="form-control" name="email"
+                    id="feedbackEmail" placeholder="Your Email" data-rule="email"
+                    data-msg="Please enter a valid email" />
                   <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                  <input style="background-color: var(--colorPrimary);" type="text" class="form-control" name="subject" id="feedbackSubject" placeholder="Subject"
-                    data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <input style="background-color: var(--colorPrimary);" type="text" class="form-control" name="subject"
+                    id="feedbackSubject" placeholder="Subject" data-rule="minlen:4"
+                    data-msg="Please enter at least 8 chars of subject" />
                   <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                  <textarea style="background-color: var(--colorPrimary);" class="form-control" name="message" id="feedbackMessgae" rows="5" data-rule="required"
-                    data-msg="Please write something for us" placeholder="Message"></textarea>
+                  <textarea style="background-color: var(--colorPrimary);" class="form-control" name="message"
+                    id="feedbackMessgae" rows="5" data-rule="required" data-msg="Please write something for us"
+                    placeholder="Message"></textarea>
                   <div class="validation"></div>
                 </div>
 
@@ -226,7 +256,6 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 
   <!-- My JS Libraries -->
-  <script src="../js/config.js"></script>
   <script src="../js/firebaseAuth.js"></script>
   <script src="../js/CSS_Styles.js"></script>
   <script src="./main.js"></script>
