@@ -1,0 +1,3 @@
+function createTest(){
+    setActiveColor("createTest");
+}

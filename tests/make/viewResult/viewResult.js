@@ -1,0 +1,3 @@
+function viewResult(){
+    setActiveColor("viewResult");
+}

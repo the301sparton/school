@@ -11,8 +11,8 @@
   <meta content="" name="description">
   <!-- Favicons -->
 
-  <link href="../img/favicon.png" rel="icon">
-  <link href="../img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="../../img/favicon.png" rel="icon">
+  <link href="../../img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link
@@ -20,21 +20,21 @@
     rel="stylesheet">
 
   <!-- Bootstrap CSS File -->
-  <link href="../lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="../../lib/bootstrap/css/bootstrap.css" rel="stylesheet">
 
-  <script src="../lib/firebaseUI/firebaseui.js"></script>
-  <link type="text/css" rel="stylesheet" href="../lib/firebaseUI/firebaseui.css" />
+  <script src="../../lib/firebaseUI/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="../../lib/firebaseUI/firebaseui.css" />
 
 
   <!-- Libraries CSS Files -->
 
-  <link href="../lib/animate/animate.min.css" rel="stylesheet">
-  <link href="../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-  <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-  <link href="../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-  <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
-  <link href="../css/style.css" rel="stylesheet">
-  <link href="./tests.css" rel="stylesheet">
+  <link href="../../lib/animate/animate.min.css" rel="stylesheet">
+  <link href="../../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="../../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  <link href="../../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
+  <link href="../../css/style.css" rel="stylesheet">
+  <link href="./../tests.css" rel="stylesheet">
 </head>
 
 <body style="background-color: var(--primaryColor); color: var(--textColor);">
@@ -74,38 +74,33 @@
       <nav class="main-nav float-right d-none d-lg-block">
         <ul id="nav_ul">
           <li id="top" class="active"><a href="#intro">TOP</a></li>
-          <li id="practiceTest"><a href="#footer">Practice</a></li>
+          <li id="practiceTest"><a href="#menu">MENU</a></li>
           <li id="contackUs"><a href="#footer">Support</a></li>
-          <li id="login" ><a href="#" onclick="ModalLogin()">Login</a></li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" id="toggleNav"><img
+                id="me_img" style="all:unset; border-radius: 50%; height: 40px; width: 40px" src="../../img/me.png">
+              <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#profileSettingsHTML" style="color:  #413e66 " onclick="profileSettings()">Profile
+                  Settings</a></li>
+              <li><a href="#" onclick="Logout()" style="color:  #413e66 ">Logout</a></li>
+            </ul>
+          </li>
         </ul>
       </nav><!-- .main-nav -->
     </div>
   </header><!-- #header -->
 
 
-  <section id="intro" class="clearfix">
+  <section id="intro" style="height: 100%;">
     <div class="container d-flex h-100">
       <div class="row align-self-center">
-        <div class="col-md-4" style="padding: 4%; border-radius: 10px;  border: 1px; border-style: solid;">
-          <div class="row">
-            <h4 id="home_msg">Enter a test</h4>
-          </div>
-          <div class="row" style="margin-top: 5%;">
-            <input class="form-control" style="background-color: var(--colorPrimary);" type="text" placeholder="Test ID"
-              id="testId">
-          </div>
-          <div class="row" style="margin-top: 5%;">
-            <input class="form-control" style="background-color: var(--colorPrimary);" type="password"
-              placeholder="Test Password" id="testPassword">
-          </div>
-          <div class="row" style="margin-top: 7%;">
-            <button class="btn btn-primary" id="takeTestBtn">Begin</button>
-          </div>
+        <div class="col-md-4" style="padding: 4%;">
+          <h3>Welcome to Admin Section, here you can create and view Tests.</h3>
         </div>
 
         <div class="col-md-3"></div>
         <div class="col-md-5">
-          <img src="../img/features-1.svg" alt="" class="img-fluid">
+          <img src="../../img/features-1.svg" alt="" class="img-fluid">
         </div>
       </div>
 
@@ -113,29 +108,28 @@
   </section><!-- #intro -->
 
 
-  <section id="section_main">
+  <section id="menu" style="margin-bottom: 10%; padding-top: 5%;">
+    <div class="container">
+      <div class="text-center">
 
-  </section>
+        <div class="row">
+          <div class="col-rmd-5 button button1" id="createTest" onclick="createTest()">Create Test</div>
+          <div class="col-rmd-2">
 
-  <div class="modal fade" id="signInModal" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5>Signin options</h5>
+          </div>
+          <div class="col-rmd-5 button button2" id="createSubject" onclick="createSubject()">Create Subjects / Levels</div>
         </div>
-        <div class="modal-body" id="Signin_Body">
 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <div class="row" style="margin-top: 5%;">
+          <div class="col-rmd-5 button button3" id="viewResult" onclick="viewResult()">View Results</div>
+          <div class="col-rmd-2">
+
+          </div>
+          <div class="col-rmd-5 button button4" id="addQuestion" onclick="addQuestion()">Add Questions</div>
         </div>
       </div>
-
     </div>
-  </div>
-
+  </section>
 
   <!--==========================
     Footer
@@ -241,26 +235,30 @@
 
 
 
-  <script src="../lib/jquery/jquery.min.js"></script>
-  <script src="../lib/jquery/jquery-migrate.min.js"></script>
-  <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="../lib/easing/easing.min.js"></script>
-  <script src="../lib/mobile-nav/mobile-nav.js"></script>
-  <script src="../lib/wow/wow.min.js"></script>
-  <script src="../lib/bootstrap-notify.min.js"></script>
-  <script src="../lib/chartjs/chart.js"></script>
-  <script src="../js/main.js"></script>
+  <script src="../../lib/jquery/jquery.min.js"></script>
+  <script src="../../lib/jquery/jquery-migrate.min.js"></script>
+  <script src="../../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../lib/easing/easing.min.js"></script>
+  <script src="../../lib/mobile-nav/mobile-nav.js"></script>
+  <script src="../../lib/wow/wow.min.js"></script>
+  <script src="../../lib/bootstrap-notify.min.js"></script>
+  <script src="../../lib/chartjs/chart.js"></script>
+  <script src="../../js/main.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-auth.js"></script>
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 
   <!-- My JS Libraries -->
-  <script src="../js/firebaseAuth.js"></script>
-  <script src="../js/CSS_Styles.js"></script>
-  <script src="./config.js"></script>
-  <script src="./main.js"></script>
+  <script src="../../js/firebaseAuth.js"></script>
+  <script src="../../js/CSS_Styles.js"></script>
+  <script src="./makeMain.js"></script>
+  <script src="../config.js"></script>
 
+  <script src="./createTest/createTest.js"></script>
+  <script src="./addQuestions/addQuestion.js"></script>
+  <script src="./createSubject/createSubject.js"></script>
+  <script src="./viewResult/viewResult.js"></script>
 </body>
 
 </html>
