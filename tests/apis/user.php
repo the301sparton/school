@@ -1,8 +1,5 @@
 <?php
-require_once '../../vendor/autoload.php';
 require_once '../../apis/db.php';
-
-use \Firebase\JWT\JWT;
 
 $type = $_POST["type"];
 

@@ -1,11 +1,13 @@
 
 let limit = [];
+var user;
 $(document).ready(function() {
     document.getElementById("about_websiteTitle").innerText = "Vaikunth's Eval"
     document.getElementById("loader").style.display = "none";
 
     firebase.auth().onAuthStateChanged(function(usr) {
         if (usr) {
+            user = usr;
            $.ajax({
                type: "POST",
                url: baseUrl+"/apis/user.php",

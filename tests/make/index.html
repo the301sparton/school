@@ -121,6 +121,59 @@
     
   </section>
 
+
+
+  <div class="modal" id="editSubjectModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" id="editSubjectModalTitle"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body" style="margin:1%">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-2">
+                <label for="newSubName">Subject Name</label>
+              </div>
+              <div class="col-md-3">
+                <input style="background-color: var(--colorPrimary);" type="text" class="form-control" id="newSubName">
+              </div>
+              <div class="col-md-3" style="display: none;">
+                <input style="background-color: var(--colorPrimary);" type="text" class="form-control" id="SubId">
+              </div>
+              <div class="col-md-3">
+                <label for="newLevelName">Level Name</label>
+              </div>
+              <div class="col-md-3">
+                <input style="background-color: var(--colorPrimary);" type="text" class="form-control" id="newLevelName">
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 2%;">
+              <textarea placeholder="Remark" style="background-color: var(--colorPrimary);" id="SubRemark" class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" id="btnSubModalClose" class="btn btn-warning" data-dismiss="modal">Close</button>
+          <button id="classDeleteBtn" type="button" class="btn btn-danger" data-dismiss="modal"
+            onclick="deleteClassListItem()" style="display: none;">Delete</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal"
+            onclick="createOrUpdateSubject()" id="btnSubModalSave">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
+
   <!--==========================
     Footer
   ============================-->
