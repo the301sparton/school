@@ -35,6 +35,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql = "INSERT INTO `t_subjects`( `remark`, `subject`, `level`) VALUES ('$remark', '$subject', '$level')";
             get200AsYes($sql);
         }
+
+        else if($type == "getSubNameList"){
+            $sql = "SELECT DISTINCT `subject` from t_subjects";
+            getOutputFromQueary($sql);
+        }
+
+        else if($type == "getLevelNameList"){
+            $subject = $_POST["subject"];
+            $sql = "SELECT `level` from t_subjects WHERE `subject` = '$subject'";
+            getOutputFromQueary($sql);
+        }
+
+        else {
+            echo "TYPE NOT ALLOWED";
+            header('HTTP/1.0 405 Method Not Allowed');
+        }
     }
 }
 
