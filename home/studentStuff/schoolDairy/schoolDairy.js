@@ -324,13 +324,11 @@ function enterMarks(){
               </select>
           </div>
 
-          <div class="col-md-3">
-              <label for="attendence_className">
-                  Class :
-              </label>
+          <div class="col-md-4">
+              <input class="form-control" id="examDate" type="date" placeholder="Select date" >
           </div>
 
-          <div class="col-md-5">
+          <div class="col-md-4">
               <select id="attendence_className" class="form-control">
                   <option disabled selected value="">Select Class</option>
               </select>
@@ -338,21 +336,105 @@ function enterMarks(){
       </div>
         <div class="row">
                 <div class="col-md-4">
-                  <input class="form-control" type="text" placeholder="Subject" >
+                  <input class="form-control" id="subject" type="text" placeholder="Subject" >
                 </div>
-                <div class="col-md-1"></div>
                 <div class="col-md-4">
-                  <input class="form-control" type="number" placeholder="Total Marks">
+                  <input class="form-control" id="totalMarks" type="number" placeholder="Total Marks">
                 </div>
-                <div class="col-md-3">
-                  <Button class="btn btn-primary">Get List</Button>
+                <div class="col-md-4">
+                  <Button class="btn btn-primary" id="getMarkListBtn" onclick="getMarkList()">Get List</Button>
                 </div>
         </div>
-  </div>
- 
+        </div>
+
+        <div class="container" id="myListHolder" style="padding:1%; margin-top:3%"></div>
 </div>
 
   </div>`;
+  document.getElementById("getMarkListBtn").style = CSSbtnPrimary;
   loadAllSessionsForAttendence();
   loadClassOrSchoolList(JSON.parse('{"value": "2"}'),"attendence_className")
+}
+
+function getMarkList(){
+  document.getElementById("new_loader").style.display = "block";
+  if(document.getElementById("totalMarks").value != ""
+  && document.getElementById("examDate").value != ""
+  && document.getElementById("subject").value != ""
+  && document.getElementById("attendence_className").value != ""){
+    var getList = $.post(baseUrl +"/apis/ExamResult.php",{
+      type: "getList",
+      subject: document.getElementById("subject").value,
+      uid: me_data.uid,
+      sessionName: document.getElementById("attendence_sessionName").value,
+      class: document.getElementById("attendence_className").value,
+      date: document.getElementById("examDate").value
+    });
+
+    getList.done(function(response) {
+      studList = JSON.parse(response);
+        document.getElementById("myListHolder").innerHTML = `<div class = "row elementDefinerDark" style="background:var(--btnColor1); border-radius:6px; margin-bottom:2%; padding:2%"> 
+    <div class="col-md-2" style="text-align:center">Roll Num.</div>
+    <div class="col-md-5" style="text-align:center">Full Name</div>
+    <div class="col-md-2" style="text-align:center">Marks</div>
+    <div class="col-md-3" style="text-align:center">Remark</div>
+    </div>`;
+
+        if (studList.length == 0) {
+            document.getElementById("myListHolder").innerHTML += `<div class = "row elementDefinerDark" style="background:var(--btnColor1); border-radius:6px; margin-bottom:2%; padding:2%"> 
+      <div class="col-md-2" style="text-align:center"></div>
+      <div class="col-md-5" style="text-align:center">NO DATA</div>
+      <div class="col-md-2"> 
+      </div>
+      <div class="col-md-3"> 
+      </div>
+      </div>`;
+        }
+
+        for (student in studList) {
+            var obj = new Object;
+            obj.fullname = studList[student].firstName + " " + studList[student].middleName + " " + studList[student].lastName;
+            if (studList[student].state != null && studList[student].state != "") {
+                if (studList[student].state == "1") {
+                    obj.state = true;
+                } else {
+                    obj.state = false;
+                }
+
+            } else {
+                obj.state = false;
+            }
+            document.getElementById("myListHolder").innerHTML += `<div class = "row elementDefiner" style="background: var(--btnColor2); border-radius:6px; margin-bottom:2%; padding:2%"> 
+      <div class="col-md-2" id="studRoll` + student + `" style="text-align:center"></div>
+      <div class="col-md-5" id="nameStud` + student + `" style="text-align:center"></div>
+      <div class="col-md-2" style="text-align:center">  
+        <input class="form-control" style="background: var(--colorPrimary)" placeholder="Marks" type="number" id="markStud` + student + `">
+      </div>
+      <div class="col-md-3" style="text-align:center">  
+        <input class="form-control" placeholder="remarks" type="number" id="RemarkStud` + student + `">
+      </div>
+      </div>`;
+            document.getElementById("studRoll" + student).innerText = (parseInt(student) + 1);
+            document.getElementById("nameStud" + student).innerText = obj.fullname;
+            if (studList[student].state == 1) {
+                $('#studState' + student).attr('checked', true);
+            }
+        }
+
+
+        document.getElementById("myListHolder").innerHTML += `<div class = "row" style="margin-bottom:2%; padding:2%"> 
+      <div class="col-md-11"><Button class="btn btn-primary" style="position: relative; left:60%; `+CSSbtnPrimary+`" onclick="saveAttendenceRecords()">SAVE</Button></div></div>`;
+        document.getElementById("new_loader").style.display = "none";
+    });
+
+    getList.fail(function(jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
+  }
+  else{
+    showNotification("Error", "Please enter all values.", "danger");
+    document.getElementById("new_loader").style.display = "none";
+  }
+  
 }
