@@ -299,8 +299,6 @@ function createNewNotice() {
 
 
 
-// Chlo Marks Dale
-
 
 
 
