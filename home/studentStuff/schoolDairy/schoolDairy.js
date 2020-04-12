@@ -301,7 +301,6 @@ function createNewNotice() {
 
 
 
-
 function enterMarks(){
   setActiveColorsSchoolDiary("enterMarks");
   document.getElementById('studentReportHolder').innerHTML = `<div class="container" id="registerStudent">
