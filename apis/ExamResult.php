@@ -20,6 +20,7 @@ else{
         $section = $classArray[1];
         $dateForAttendence = $_POST["date"];
         $subject = $_POST["subject"];
+        $subject = strtoupper($subject);
         $dateForAttendenceFinal = date('Y-m-d', strtotime($dateForAttendence)); 
         $sqlforAlready = "SELECT * FROM resultdetails WHERE `sessionName` = '$sessionName' AND `date`= '$dateForAttendenceFinal' AND `class` = '$class' AND `section` = '$section' AND `subject` = '$subject' ORDER BY `firstName`";
         $result = mysqli_query($GLOBALS['conn'],$sqlforAlready);  
@@ -45,6 +46,7 @@ else{
             $marks = $student["marks"];
             $remarks = $student["remarks"];
             $subject = $student["subject"];
+            $subject = strtoupper($subject);
             $totalMarks = $student["totalMarks"];
 
             if( $counter == count( $dataArray ) - 1) { 

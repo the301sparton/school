@@ -399,10 +399,10 @@ function getMarkList(){
       <div class="col-md-2" id="studRoll` + itr + `" style="text-align:center"></div>
       <div class="col-md-5" id="nameStud` + itr + `" style="text-align:center"></div>
       <div class="col-md-2" style="text-align:center">  
-      <input class="form-control" type="number" id="markStud` + itr + `" >
+      <input class="form-control" placeholder="Marks" value="0" type="number" id="markStud` + itr + `" >
       </div>
       <div class="col-md-3" style="text-align:center">  
-        <input class="form-control" placeholder="remarks" type="text" id="RemarkStud` + itr + `">
+        <input class="form-control" placeholder="Remarks" type="text" id="RemarkStud` + itr + `">
       </div>
       </div>`;
             document.getElementById("studRoll" + itr).innerText = (parseInt(itr) + 1);
@@ -415,8 +415,10 @@ function getMarkList(){
         }
           document.getElementById("new_loader").style.display = "none";
           for (itr in studList) {
+            if(studList[itr].marks != null){
              document.getElementById("markStud" + itr).value = studList[itr].marks;
              document.getElementById("RemarkStud" + itr).value = studList[itr].remarks;
+            }
           }
     });
 
