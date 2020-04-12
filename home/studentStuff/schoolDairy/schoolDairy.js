@@ -325,7 +325,7 @@ function enterMarks(){
           </div>
 
           <div class="col-md-4">
-              <input class="form-control" id="examDate" type="date" placeholder="Select date" >
+              <input class="form-control" id="examDate" type="date">
           </div>
 
           <div class="col-md-4">
@@ -339,7 +339,7 @@ function enterMarks(){
                   <input class="form-control" id="subject" type="text" placeholder="Subject" >
                 </div>
                 <div class="col-md-4">
-                  <input class="form-control" id="totalMarks" type="number" placeholder="Total Marks">
+                  <input class="form-control" id="totalMarks" type="number" min="0" placeholder="Total Marks">
                 </div>
                 <div class="col-md-4">
                   <Button class="btn btn-primary" id="getMarkListBtn" onclick="getMarkList()">Get List</Button>
@@ -372,7 +372,8 @@ function getMarkList(){
     });
 
     getList.done(function(response) {
-      studList = JSON.parse(response);
+        studList = JSON.parse(response);
+        console.log(studList);
         document.getElementById("myListHolder").innerHTML = `<div class = "row elementDefinerDark" style="background:var(--btnColor1); border-radius:6px; margin-bottom:2%; padding:2%"> 
     <div class="col-md-2" style="text-align:center">Roll Num.</div>
     <div class="col-md-5" style="text-align:center">Full Name</div>
@@ -390,41 +391,33 @@ function getMarkList(){
       </div>
       </div>`;
         }
-
-        for (student in studList) {
+        else{
+          for (itr in studList) {
             var obj = new Object;
-            obj.fullname = studList[student].firstName + " " + studList[student].middleName + " " + studList[student].lastName;
-            if (studList[student].state != null && studList[student].state != "") {
-                if (studList[student].state == "1") {
-                    obj.state = true;
-                } else {
-                    obj.state = false;
-                }
-
-            } else {
-                obj.state = false;
-            }
+            obj.fullname = studList[itr].firstName + " " + studList[itr].middleName + " " + studList[itr].lastName;
             document.getElementById("myListHolder").innerHTML += `<div class = "row elementDefiner" style="background: var(--btnColor2); border-radius:6px; margin-bottom:2%; padding:2%"> 
-      <div class="col-md-2" id="studRoll` + student + `" style="text-align:center"></div>
-      <div class="col-md-5" id="nameStud` + student + `" style="text-align:center"></div>
+      <div class="col-md-2" id="studRoll` + itr + `" style="text-align:center"></div>
+      <div class="col-md-5" id="nameStud` + itr + `" style="text-align:center"></div>
       <div class="col-md-2" style="text-align:center">  
-        <input class="form-control" style="background: var(--colorPrimary)" placeholder="Marks" type="number" id="markStud` + student + `">
+      <input class="form-control" type="number" id="markStud` + itr + `" >
       </div>
       <div class="col-md-3" style="text-align:center">  
-        <input class="form-control" placeholder="remarks" type="number" id="RemarkStud` + student + `">
+        <input class="form-control" placeholder="remarks" type="text" id="RemarkStud` + itr + `">
       </div>
       </div>`;
-            document.getElementById("studRoll" + student).innerText = (parseInt(student) + 1);
-            document.getElementById("nameStud" + student).innerText = obj.fullname;
-            if (studList[student].state == 1) {
-                $('#studState' + student).attr('checked', true);
-            }
+            document.getElementById("studRoll" + itr).innerText = (parseInt(itr) + 1);
+            document.getElementById("nameStud" + itr).innerText = obj.fullname;
+            
         }
-
-
+        
         document.getElementById("myListHolder").innerHTML += `<div class = "row" style="margin-bottom:2%; padding:2%"> 
-      <div class="col-md-11"><Button class="btn btn-primary" style="position: relative; left:60%; `+CSSbtnPrimary+`" onclick="saveAttendenceRecords()">SAVE</Button></div></div>`;
-        document.getElementById("new_loader").style.display = "none";
+      <div class="col-md-11"><Button class="btn btn-primary" style="position: relative; left:60%; `+CSSbtnPrimary+`" onclick="saveResultRecords()">SAVE</Button></div></div>`;
+        }
+          document.getElementById("new_loader").style.display = "none";
+          for (itr in studList) {
+             document.getElementById("markStud" + itr).value = studList[itr].marks;
+             document.getElementById("RemarkStud" + itr).value = studList[itr].remarks;
+          }
     });
 
     getList.fail(function(jqXHR, textStatus) {
@@ -437,4 +430,48 @@ function getMarkList(){
     document.getElementById("new_loader").style.display = "none";
   }
   
+}
+
+function saveResultRecords(){
+  let dataArray = new Array();
+    var type = "saveResultRecords";
+    for (itr in studList) {
+        let obj = new Object;
+        obj.resultId = studList[itr].resultId;
+        obj.studentId = studList[itr].studentId;
+        obj.sessionName = studList[itr].sessionName;
+        obj.date = document.getElementById("examDate").value;
+        obj.marks = document.getElementById("markStud" + itr).value;
+        obj.remarks = document.getElementById("RemarkStud" + itr).value;
+        obj.subject = document.getElementById("subject").value;
+        obj.totalMarks = document.getElementById("totalMarks").value;
+        dataArray.push(obj);
+    }
+
+    if (dataArray[0].resultId != null) {
+      type = "updateResultRecords";
+    }
+
+    document.getElementById("new_loader").style.display = "block";
+    var saveResultReq = $.post(baseUrl + "/apis/ExamResult.php", {
+        type: type,
+        data: dataArray,
+        uid: me_data.uid
+    });
+
+    saveResultReq.done(function(response) {
+      console.log(response);
+        if (response == 200) {
+            showNotification("<strong>Success</strong>", "Results Saved", "success");
+            getMarkList();
+        } else {
+            showNotification("Error", "Failed to save Results", "danger");
+        }
+        document.getElementById("new_loader").style.display = "none";
+    });
+
+    saveResultReq.fail(function(jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 }

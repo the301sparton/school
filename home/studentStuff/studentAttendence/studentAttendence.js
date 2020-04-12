@@ -1,3 +1,4 @@
+
 var studList;
 
 function studentAttendence() {
