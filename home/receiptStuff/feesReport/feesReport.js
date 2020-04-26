@@ -252,7 +252,11 @@ function classSummeryReport() {
             for (var itr in reportJSON) {
                 reportJSON[itr].balenceFees = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
             }
-
+            document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
+            </div>
+            <div class="col-md-1">
+              <button id="printBtn" style="float:right; `+CSSbtnPrimary+`" class="btn btn-secondary" onclick="printReport()">Print</button>
+            </div>`;
             document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
             $("#jsGrid").jsGrid({
                 width: "100%",
@@ -260,7 +264,7 @@ function classSummeryReport() {
                 editing: false,
                 sorting: true,
                 paging: true,
-
+                pageSize: 100,
                 data: reportJSON,
 
                 fields: [
@@ -392,6 +396,7 @@ function buildFeeReport(report, type) {
         sorting: true,
         paging: true,
         data: report,
+        pageSize: 1000,
         fields: fieldsArr
     });
     document.getElementById('jsGrid').style.display = "block";
@@ -499,7 +504,11 @@ function clearFilter() {
 
 
 function printReport() {
-    document.body.innerHTML = document.getElementById("jsGrid").innerHTML;
-    window.print();
-    document.location.reload();
+var prtContent = document.getElementById("jsGrid");
+var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+WinPrint.document.write(prtContent.innerHTML);
+WinPrint.document.close();
+WinPrint.focus();
+WinPrint.print();
+WinPrint.close();
 }
