@@ -152,13 +152,13 @@ stepTwoHTML = `<div class="row">
 
       <div class="row" style="margin-top: 2%">
           <div class="col-md-4">
-            <input id="guardianName" type="text" placeholder="Guardian's Name" class="form-control">
+            <input id="guardianName" type="text" placeholder="Parent's Name" class="form-control">
           </div>
           <div class="col-md-4">
-            <input id="guardianPhone" type="text" placeholder="Guardian's Phone" class="form-control" maxlength="10" pattern="[789][0-9]{9}">
+            <input id="guardianPhone" type="text" placeholder="Parent's Phone" class="form-control" maxlength="10" pattern="[789][0-9]{9}">
           </div>
           <div class="col-md-4">
-            <input id="guardianEmail" type="email" placeholder="Guardian's Email-id" class="form-control">
+            <input id="guardianEmail" type="email" placeholder="Parent's Email-id" class="form-control">
           </div>
         </div>
 

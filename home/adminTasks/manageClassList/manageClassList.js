@@ -194,6 +194,7 @@ function createOrUpdateClass() {
             });
 
             insertClassReq.done(function (responce) {
+                console.log(responce);
                 if (responce == 200) {
                     showNotification("Success!", "Class Created Successfully", "success");
                     getClassListToShow();
