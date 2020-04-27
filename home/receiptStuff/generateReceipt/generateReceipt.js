@@ -214,6 +214,7 @@ function setSum(value) {
 }
 
 function viewReceipt(receiptId) {
+    sessionStorage.setItem('body', document.documentElement.innerHTML);
     document.location = baseUrl + "/receipt?receiptId=" + receiptId;
 }
 

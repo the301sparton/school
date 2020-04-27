@@ -155,7 +155,7 @@ function checkReportType() {
                                                           </div>
 
                                                           <div class="col-md-1">
-                                                          <button id="printBtn" style="float:right; `+CSSbtnSecondary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                          <button id="printBtn" style="float:right; `+CSSbtnPrimary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                           </div>
                                                          `;
             if (isFirstDateReportView) {
@@ -181,7 +181,7 @@ function checkReportType() {
             document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
                                                               </div>
                                                               <div class="col-md-1">
-                                                                <button id="printBtn" style="float:right; `+CSSbtnSecondary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                                <button id="printBtn" style="float:right; `+CSSbtnPrimary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                               </div>`;
             document.getElementById("errorMessage").style.display = "none";
 
