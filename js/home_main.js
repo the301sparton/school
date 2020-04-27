@@ -20,13 +20,6 @@ let optionColors;
 let currentUprMenu = "top";
 
 $(document).ready(function() {
-    var data = sessionStorage.getItem('body');
-    if (data) {
-        document.documentElement.innerHTML = data;
-    }
-    else{
-        console.log("no");
-    }
     $("body").addClass("dark");
     $("#darkModeSwitch").text("ON");
     $("#darkModeSwitch").on("click", function() {

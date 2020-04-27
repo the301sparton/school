@@ -284,7 +284,6 @@ function removeResults() {
 
 function viewStudent(parent) {
   let id = parent.childNodes[1].innerText;
-  sessionStorage.setItem('body', document.documentElement.innerHTML);
   var mode;
   if (document.getElementById("darkModeSwitch").innerText == "ON") {
     mode = "dark";
