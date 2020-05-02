@@ -271,7 +271,7 @@ function getDeletedReceiptReport(){
             fields: [
                 { name: "receiptNo", type: "number", width: 80 },
                 { name: "receiptDate", type: "text", width: 80, validate: "required" },
-                { name: "remarkCreation", type: "text", width: 150 },
+                { name: "remarkCreation", type: "text", width: 80 },
                 { name: "deletionRemark", type: "text", width: 80 },
                 { name: "deletedBy", type: "text", width: 80 },
                 { name: "createdBy", type: "text", width: 80 }
@@ -560,10 +560,28 @@ function clearFilter() {
 
 function printReport() {
 var prtContent = document.getElementById("jsGrid");
-var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-WinPrint.document.write(prtContent.innerHTML);
+var WinPrint = window.open('', '', 'left=0,top=0,width='+screen.width+',height='+screen.height+',toolbar=0,scrollbars=0,status=0');
+var initHTML = `<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>School | Home</title>
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+  <style type="text/css" media="print">
+@page {
+    size: auto;   /* auto is the initial value */
+    margin: 0;  /* this affects the margin in the printer settings */
+}
+</style></head>
+<body>`
+var printJS = `
+<script>
+window.onload = function() {
+    window.print();
+    window.close();
+  };
+  </script>`
+WinPrint.document.write(initHTML+prtContent.innerHTML+printJS+"</body></html>");
 WinPrint.document.close();
 WinPrint.focus();
-WinPrint.print();
-WinPrint.close();
 }
