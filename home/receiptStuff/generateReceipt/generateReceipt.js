@@ -235,7 +235,7 @@ function showReceiptList() {
                 <div class="col-rmd-5" style="background:var(--btnColor2)" id="receiptIdforList` + itr + `">
                 </div>
                 <div class="col-rmd-6" style="background:var(--btnColor2)" id="amountforList` + itr + `"></div>
-                <div class="col-rmd-1" style="background:var(--btnColor2)"><i class="fa fa-trash" onclick="deleteReceiptModal(event, this.parentNode.parentNode)"></i></div>    
+                <div class="col-rmd-1" style="background:var(--btnColor2)"><i class="fa fa-trash" style="background:var(--btnColor2)" onclick="deleteReceiptModal(event, this.parentNode.parentNode)"></i></div>    
                 </div>`;
 
                 document.getElementById("receiptHolder").innerHTML += receiptListHTML;
