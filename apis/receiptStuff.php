@@ -63,7 +63,12 @@ if ($conn->connect_error) {
                 echo 500;
             }
         }
-    } else if ($type == "getTotalFees") {
+    } 
+    else if($type == "getDeletedReceiptList"){
+        $sql = "SELECT * FROM `deleted_receipts_details`";
+        getOutputFromQueary($sql, $uid, $reqType);
+    }
+    else if ($type == "getTotalFees") {
         $studentId = $_POST['studentId'];
         $sessionName = $_POST['sessionName'];
         $tblName = "studentdetails";

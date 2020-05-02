@@ -36,6 +36,7 @@ function feesReport() {
         <select class="form-control" id="FeeRepostType" onchange="FeeRepostTypehangeFun()">
           <option selected disabled value="">Select Report Type</option>
           <option value="receiptById">Get Receipt By Id</option>
+          <option value="deletedReceipt">Get Deleted Receipts</option>
           <option value="byDate">By Date</option>
           <option value="byMonth">By Month</option>
           <option value="bySchool">By School</option>
@@ -228,12 +229,66 @@ function checkReportType() {
             document.getElementById('receiptIdBox').style.display = "block";
             document.getElementById('receiptGoBox').style.display = "block";
             document.getElementById("errorMessage").style.display = "none";
-        } else {
-
+        } else if(FeeRepostType == "deletedReceipt"){
+            document.getElementById("feeSessionDiv").className = "col-md-5";
+            document.getElementById('filterImg').style.display = "none";
+            document.getElementById('receiptIdBox').style.display = "none";
+            document.getElementById('receiptGoBox').style.display = "none";
+            document.getElementById('feeSessionDiv').style.display = "block";
+            document.getElementById('FeeReportHolder').innerHTML = ``;
+            document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
+                                                              </div>
+                                                              <div class="col-md-1">
+                                                                <button id="printBtn" style="float:right; `+CSSbtnPrimary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                              </div>`;
+            document.getElementById("errorMessage").style.display = "none";
+            getDeletedReceiptReport();
         }
 
 
     }
+}
+
+function getDeletedReceiptReport(){
+    document.getElementById("new_loader").style.display = "block";   
+    var deletedReceiptReq = $.post(baseUrl +"/apis/receiptStuff.php",{
+       type: "getDeletedReceiptList",
+       uid: me_data.uid 
+    });
+
+    deletedReceiptReq.done(function(data){
+        try {
+        let receiptArray = JSON.parse(data);
+        document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
+        $("#jsGrid").jsGrid({
+            width: "100%",
+            inserting: false,
+            editing: false,
+            sorting: true,
+            paging: true,
+            pageSize: 100,
+            data: receiptArray,
+            fields: [
+                { name: "receiptNo", type: "number", width: 80 },
+                { name: "receiptDate", type: "text", width: 80, validate: "required" },
+                { name: "remarkCreation", type: "text", width: 150 },
+                { name: "deletionRemark", type: "text", width: 80 },
+                { name: "deletedBy", type: "text", width: 80 },
+                { name: "createdBy", type: "text", width: 80 }
+            ]
+        });
+        document.getElementById('jsGrid').style.display = "block";
+        document.getElementById("new_loader").style.display = "none";
+        document.getElementById('printBtn').disabled = false;
+        }
+        catch(e){
+            showNotification("Error", "Failed to get data", "danger");
+        }
+    });
+    deletedReceiptReq.fail(function(jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 }
 
 function classSummeryReport() {
