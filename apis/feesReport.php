@@ -13,13 +13,25 @@ else{
     if($type == "byDay"){
         $dateFrom = $_POST['dateFrom'];
         $dateTo = $_POST['dateTo'];
-        $sql = "CALL get_datewise_headwise_list('$dateFrom', '$dateTo')";
+        $searchType = $_POST["searchType"];
+        $schoolId = $_POST["schoolId"];
+        $classId = $_POST["classId"];
+        $sectionId = $_POST["sectionId"];
+        $sql = "CALL get_datewise_headwise_list('$dateFrom', '$dateTo', '$searchType', '$schoolId', '$classId', '$sectionId')";
         getOutputFromQueary($sql,$uid,$reqType);
     }
     else if($type == "byMonth"){
         $sessionName = $_POST['sessionName'];
-        $sql = "CALL get_monthwise_headwise_list('$sessionName')";
-        getOutputFromQueary($sql,$uid,$reqType);
+        $searchType = $_POST["searchType"];
+        $schoolId = $_POST["schoolId"];
+        $classId = $_POST["classId"];
+        $sectionId = $_POST["sectionId"];
+        if($schoolId == ""){
+            $schoolId = 0;
+        }
+        $sql = "CALL get_monthwise_headwise_list('$sessionName', '$searchType', '$schoolId', '$classId', '$sectionId')";
+        //getOutputFromQueary($sql,$uid,$reqType);
+        echo $sql;
     }
 
     else if($type == "bySchool"){

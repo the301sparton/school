@@ -22,6 +22,7 @@ function feesReport() {
     FeeSessionSelect = "";
     isFirstDateReportView = true;
     isClassAndSectionFirst = true;
+    document.getElementById("filterType").value = "0";
 
 
     setActiveColorsfees("feesReport");
@@ -30,6 +31,7 @@ function feesReport() {
       <h4 id="searchHeading">Fees Report</h4>
       <hr>
     </div>
+    
     <div class="row" id="typeHolder">
     <div class="col-md-2" style="text-align:right"><label for="FeeRepostType">Report Type: </label></div>
       <div class="col-md-4">
@@ -58,7 +60,7 @@ function feesReport() {
         <input type = "number" placeholder = "Receipt Id" class = "form-control" id = "receiptIdToGet"> 
       </div>
       <div class="col-md-2" id="receiptGoBox" style = "display:none">
-        <button class= "btn btn-secondary" style="`+CSSbtnPrimary+`" onclick="viewReceipt(this.parentNode.parentNode.childNodes[9].childNodes[1].value)">GO</button> 
+        <button class= "btn btn-secondary" style="`+ CSSbtnPrimary + `" onclick="viewReceipt(this.parentNode.parentNode.childNodes[9].childNodes[1].value)">GO</button> 
       </div>
     </div>
 
@@ -106,7 +108,7 @@ function loadAllSessionsAndSetListeners() {
         uid: me_data.uid
     });
 
-    allSessionReq.done(function(allSessions) {
+    allSessionReq.done(function (allSessions) {
         try {
             allSessions = JSON.parse(allSessions);
             for (var index in allSessions) {
@@ -123,7 +125,7 @@ function loadAllSessionsAndSetListeners() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    allSessionReq.fail(function(jqXHR, textStatus) {
+    allSessionReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -138,8 +140,7 @@ function checkReportType() {
 
         if (FeeRepostType == "byDate") {
             document.getElementById('feeSessionDiv').style.display = "block";
-            document.getElementById("feeSessionDiv").className = "col-md-5";
-            document.getElementById('filterImg').style.display = "none";
+            document.getElementById('filterImg').style.display = "block";
             document.getElementById('receiptIdBox').style.display = "none";
             document.getElementById('receiptGoBox').style.display = "none";
             document.getElementById('FeeReportHolder').innerHTML = ``;
@@ -156,15 +157,15 @@ function checkReportType() {
                                                           </div>
 
                                                           <div class="col-md-1">
-                                                          <button id="printBtn" style="float:right; `+CSSbtnPrimary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                          <button id="printBtn" style="float:right; `+ CSSbtnPrimary + `" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                           </div>
                                                          `;
             if (isFirstDateReportView) {
-                $(document).on('change', '#dateFrom', function() {
+                $(document).on('change', '#dateFrom', function () {
                     dateFrom = document.getElementById('dateFrom').value;
                     ReportByDates();
                 });
-                $(document).on('change', '#dateTo', function() {
+                $(document).on('change', '#dateTo', function () {
                     dateTo = document.getElementById('dateTo').value;
                     ReportByDates();
                 });
@@ -173,16 +174,16 @@ function checkReportType() {
             document.getElementById("botHR").style.display = "block";
         } else if (FeeRepostType == "bySchool") {
             document.getElementById('feeSessionDiv').style.display = "block";
-            document.getElementById("feeSessionDiv").className = "col-md-5";
             document.getElementById('filterImg').style.display = "none";
             document.getElementById('receiptIdBox').style.display = "none";
+            document.getElementById('filterImg').style.display = "block";
             document.getElementById('receiptGoBox').style.display = "none";
             document.getElementById('FeeReportHolder').innerHTML = ``;
             document.getElementById("errorMessage").style.display = "none";
             document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
                                                               </div>
                                                               <div class="col-md-1">
-                                                                <button id="printBtn" style="float:right; `+CSSbtnPrimary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                                <button id="printBtn" style="float:right; `+ CSSbtnPrimary + `" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                               </div>`;
             document.getElementById("errorMessage").style.display = "none";
 
@@ -190,16 +191,15 @@ function checkReportType() {
                 reportBySchool();
             }
         } else if (FeeRepostType == "byMonth") {
-            document.getElementById("feeSessionDiv").className = "col-md-5";
-            document.getElementById('filterImg').style.display = "none";
             document.getElementById('receiptIdBox').style.display = "none";
+            document.getElementById('filterImg').style.display = "block";
             document.getElementById('receiptGoBox').style.display = "none";
             document.getElementById('feeSessionDiv').style.display = "block";
             document.getElementById('FeeReportHolder').innerHTML = ``;
             document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
                                                               </div>
                                                               <div class="col-md-1">
-                                                                <button id="printBtn" style="float:right; `+CSSbtnPrimary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                                <button id="printBtn" style="float:right; `+ CSSbtnPrimary + `" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                               </div>`;
             document.getElementById("errorMessage").style.display = "none";
 
@@ -207,9 +207,8 @@ function checkReportType() {
                 getMonthWiseReport();
             }
         } else if (FeeRepostType == "classSummeryReport") {
-            document.getElementById("feeSessionDiv").className = "col-md-4";
-            document.getElementById('filterImg').style.display = "block";
             document.getElementById('feeSessionDiv').style.display = "block";
+            document.getElementById('filterImg').style.display = "block";
             document.getElementById('receiptIdBox').style.display = "none";
             document.getElementById('receiptGoBox').style.display = "none";
             document.getElementById('FeeReportHolder').innerHTML = ``;
@@ -229,8 +228,7 @@ function checkReportType() {
             document.getElementById('receiptIdBox').style.display = "block";
             document.getElementById('receiptGoBox').style.display = "block";
             document.getElementById("errorMessage").style.display = "none";
-        } else if(FeeRepostType == "deletedReceipt"){
-            document.getElementById("feeSessionDiv").className = "col-md-5";
+        } else if (FeeRepostType == "deletedReceipt") {
             document.getElementById('filterImg').style.display = "none";
             document.getElementById('receiptIdBox').style.display = "none";
             document.getElementById('receiptGoBox').style.display = "none";
@@ -239,7 +237,7 @@ function checkReportType() {
             document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
                                                               </div>
                                                               <div class="col-md-1">
-                                                                <button id="printBtn" style="float:right; `+CSSbtnPrimary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                                <button id="printBtn" style="float:right; `+ CSSbtnPrimary + `" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                               </div>`;
             document.getElementById("errorMessage").style.display = "none";
             getDeletedReceiptReport();
@@ -249,46 +247,62 @@ function checkReportType() {
     }
 }
 
-function getDeletedReceiptReport(){
-    document.getElementById("new_loader").style.display = "block";   
-    var deletedReceiptReq = $.post(baseUrl +"/apis/receiptStuff.php",{
-       type: "getDeletedReceiptList",
-       uid: me_data.uid 
+function getDeletedReceiptReport() {
+    document.getElementById("new_loader").style.display = "block";
+    var deletedReceiptReq = $.post(baseUrl + "/apis/receiptStuff.php", {
+        type: "getDeletedReceiptList",
+        uid: me_data.uid
     });
 
-    deletedReceiptReq.done(function(data){
+    deletedReceiptReq.done(function (data) {
         try {
-        let receiptArray = JSON.parse(data);
-        document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
-        $("#jsGrid").jsGrid({
-            width: "100%",
-            inserting: false,
-            editing: false,
-            sorting: true,
-            paging: true,
-            pageSize: 100,
-            data: receiptArray,
-            fields: [
-                { name: "receiptNo", type: "number", width: 80 },
-                { name: "receiptDate", type: "text", width: 80, validate: "required" },
-                { name: "remarkCreation", type: "text", width: 80 },
-                { name: "deletionRemark", type: "text", width: 80 },
-                { name: "deletedBy", type: "text", width: 80 },
-                { name: "createdBy", type: "text", width: 80 }
-            ]
-        });
-        document.getElementById('jsGrid').style.display = "block";
-        document.getElementById("new_loader").style.display = "none";
-        document.getElementById('printBtn').disabled = false;
+            let receiptArray = JSON.parse(data);
+            document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
+            $("#jsGrid").jsGrid({
+                width: "100%",
+                inserting: false,
+                editing: false,
+                sorting: true,
+                paging: true,
+                pageSize: 100,
+                data: receiptArray,
+                fields: [
+                    { name: "receiptNo", type: "number", width: 80 },
+                    { name: "receiptDate", type: "text", width: 80, validate: "required" },
+                    { name: "remarkCreation", type: "text", width: 80 },
+                    { name: "deletionRemark", type: "text", width: 80 },
+                    { name: "deletedBy", type: "text", width: 80 },
+                    { name: "createdBy", type: "text", width: 80 }
+                ]
+            });
+            document.getElementById('jsGrid').style.display = "block";
+            document.getElementById("new_loader").style.display = "none";
+            document.getElementById('printBtn').disabled = false;
         }
-        catch(e){
+        catch (e) {
             showNotification("Error", "Failed to get data", "danger");
         }
     });
-    deletedReceiptReq.fail(function(jqXHR, textStatus) {
+    deletedReceiptReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
+}
+
+function filterTypeChangeListener() {
+    let type = document.getElementById("filterType").value;
+    if (type == 0) {
+        document.getElementById("filterSchoolDiv").style.display = "none";
+        document.getElementById("classNSectionFilterDiv").style.display = "none";
+    }
+    else if (type == 1) {
+        document.getElementById("filterSchoolDiv").style.display = "none";
+        document.getElementById("classNSectionFilterDiv").style.display = "block";
+    }
+    else if (type == 2) {
+        document.getElementById("filterSchoolDiv").style.display = "block";
+        document.getElementById("classNSectionFilterDiv").style.display = "none";
+    }
 }
 
 function classSummeryReport() {
@@ -300,7 +314,7 @@ function classSummeryReport() {
         section: document.getElementById("filterSection").value,
         sessionName: FeeSessionSelect
     });
-    classSummeryReportReq.done(function(responseReport) {
+    classSummeryReportReq.done(function (responseReport) {
         try {
             var reportJSON = JSON.parse(responseReport);
 
@@ -310,7 +324,7 @@ function classSummeryReport() {
             document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
             </div>
             <div class="col-md-1">
-              <button id="printBtn" style="float:right; `+CSSbtnPrimary+`" class="btn btn-secondary" onclick="printReport()">Print</button>
+              <button id="printBtn" style="float:right; `+ CSSbtnPrimary + `" class="btn btn-secondary" onclick="printReport()">Print</button>
             </div>`;
             document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
             $("#jsGrid").jsGrid({
@@ -337,7 +351,7 @@ function classSummeryReport() {
         }
     });
 
-    classSummeryReportReq.fail(function(jqXHR, textStatus) {
+    classSummeryReportReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -467,9 +481,13 @@ function ReportByDates() {
             uid: me_data.uid,
             dateFrom: document.getElementById("dateFrom").value,
             dateTo: document.getElementById("dateTo").value,
+            searchType: document.getElementById("filterType").value,
+            schoolId: document.getElementById("filterSchool").value,
+            classId: document.getElementById("filterClass").value,
+            sectionId: document.getElementById("filterSection").value
         });
 
-        reportByDateReq.done(function(reportRes) {
+        reportByDateReq.done(function (reportRes) {
             try {
                 var report = JSON.parse(reportRes);
                 buildFeeReport(report, "ByDate");
@@ -479,7 +497,7 @@ function ReportByDates() {
             document.getElementById("new_loader").style.display = "none";
         });
 
-        reportByDateReq.fail(function(jqXHR, textStatus) {
+        reportByDateReq.fail(function (jqXHR, textStatus) {
             document.getElementById("new_loader").style.display = "none";
             handleNetworkIssues(textStatus)
         });
@@ -491,11 +509,15 @@ function getMonthWiseReport() {
     var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
         type: "byMonth",
         uid: me_data.uid,
-        sessionName: FeeSessionSelect
+        sessionName: FeeSessionSelect,
+        searchType: document.getElementById("filterType").value,
+        schoolId: document.getElementById("filterSchool").value,
+        classId: document.getElementById("filterClass").value,
+        sectionId: document.getElementById("filterSection").value
     });
 
-    monthWiseReportReq.done(function(reportRes) {
-
+    monthWiseReportReq.done(function (reportRes) {
+        console.log(reportRes);
         try {
             buildFeeReport(JSON.parse(reportRes), "ByMonth");
         } catch (e) {
@@ -504,7 +526,7 @@ function getMonthWiseReport() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    monthWiseReportReq.fail(function(jqXHR, textStatus) {
+    monthWiseReportReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -517,7 +539,7 @@ function reportBySchool() {
         uid: me_data.uid,
         sessionName: FeeSessionSelect
     });
-    monthWiseReportReq.done(function(reportRes) {
+    monthWiseReportReq.done(function (reportRes) {
         try {
             buildFeeReport(JSON.parse(reportRes), "BySchool");
         } catch (e) {
@@ -526,7 +548,7 @@ function reportBySchool() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    monthWiseReportReq.fail(function(jqXHR, textStatus) {
+    monthWiseReportReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -547,7 +569,7 @@ function UpdateFilter() {
 }
 
 function showFilters() {
-    $.when(loadClassForSelectId("filterClass", "filterSection")).then(function() {
+    $.when(loadClassForSelectId("filterClass", "filterSection"), setValuesInSchoolListSelect("filterSchool")).then(function () {
         $("#filterModal").modal({ backdrop: 'static', keyboard: false });
     });
 }
@@ -559,9 +581,9 @@ function clearFilter() {
 
 
 function printReport() {
-var prtContent = document.getElementById("jsGrid");
-var WinPrint = window.open('', '', 'left=0,top=0,width='+screen.width+',height='+screen.height+',toolbar=0,scrollbars=0,status=0');
-var initHTML = `<html lang="en">
+    var prtContent = document.getElementById("jsGrid");
+    var WinPrint = window.open('', '', 'left=0,top=0,width=' + screen.width + ',height=' + screen.height + ',toolbar=0,scrollbars=0,status=0');
+    var initHTML = `<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>School | Home</title>
@@ -574,14 +596,14 @@ var initHTML = `<html lang="en">
 }
 </style></head>
 <body>`
-var printJS = `
+    var printJS = `
 <script>
 window.onload = function() {
     window.print();
     window.close();
   };
   </script>`
-WinPrint.document.write(initHTML+prtContent.innerHTML+printJS+"</body></html>");
-WinPrint.document.close();
-WinPrint.focus();
+    WinPrint.document.write(initHTML + prtContent.innerHTML + printJS + "</body></html>");
+    WinPrint.document.close();
+    WinPrint.focus();
 }
