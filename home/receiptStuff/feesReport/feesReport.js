@@ -176,7 +176,6 @@ function checkReportType() {
             document.getElementById('feeSessionDiv').style.display = "block";
             document.getElementById('filterImg').style.display = "none";
             document.getElementById('receiptIdBox').style.display = "none";
-            document.getElementById('filterImg').style.display = "block";
             document.getElementById('receiptGoBox').style.display = "none";
             document.getElementById('FeeReportHolder').innerHTML = ``;
             document.getElementById("errorMessage").style.display = "none";
