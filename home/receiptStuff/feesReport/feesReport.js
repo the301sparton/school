@@ -295,11 +295,11 @@ function filterTypeChangeListener() {
         document.getElementById("filterSchoolDiv").style.display = "none";
         document.getElementById("classNSectionFilterDiv").style.display = "none";
     }
-    else if (type == 1) {
+    else if (type == 2) {
         document.getElementById("filterSchoolDiv").style.display = "none";
         document.getElementById("classNSectionFilterDiv").style.display = "block";
     }
-    else if (type == 2) {
+    else if (type == 1) {
         document.getElementById("filterSchoolDiv").style.display = "block";
         document.getElementById("classNSectionFilterDiv").style.display = "none";
     }
@@ -317,10 +317,20 @@ function classSummeryReport() {
     classSummeryReportReq.done(function (responseReport) {
         try {
             var reportJSON = JSON.parse(responseReport);
-
+            var tFee = 0, bFee = 0, pFee = 0;
             for (var itr in reportJSON) {
                 reportJSON[itr].balenceFees = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
+                tFee += parseInt(reportJSON[itr].totalFees, 10);
+                pFee += parseInt(reportJSON[itr].paidFees, 10);
+                bFee += reportJSON[itr].balenceFees;
             }
+            var obj = new Object();
+            obj.fullname = "Total";
+            obj.totalFees = tFee;
+            obj.balenceFees = bFee;
+            obj.paidFees = pFee;
+            reportJSON.push(obj);
+
             document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
             </div>
             <div class="col-md-1">
@@ -337,7 +347,6 @@ function classSummeryReport() {
                 data: reportJSON,
 
                 fields: [
-                    { name: "studentId", type: "number", width: 80 },
                     { name: "fullname", type: "text", width: 150, validate: "required" },
                     { name: "totalFees", type: "number", width: 80 },
                     { name: "paidFees", type: "number", width: 80 },
@@ -488,6 +497,7 @@ function ReportByDates() {
         });
 
         reportByDateReq.done(function (reportRes) {
+            console.log(reportRes);
             try {
                 var report = JSON.parse(reportRes);
                 buildFeeReport(report, "ByDate");
@@ -563,8 +573,9 @@ function UpdateFilter() {
             classSummeryReport();
         }
 
-    } else {
-
+    }
+    else if (FeeRepostType == "byMonth") {
+        getMonthWiseReport();
     }
 }
 

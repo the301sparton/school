@@ -17,8 +17,12 @@ else{
         $schoolId = $_POST["schoolId"];
         $classId = $_POST["classId"];
         $sectionId = $_POST["sectionId"];
+         if($schoolId == ""){
+            $schoolId = 0;
+        }
         $sql = "CALL get_datewise_headwise_list('$dateFrom', '$dateTo', '$searchType', '$schoolId', '$classId', '$sectionId')";
         getOutputFromQueary($sql,$uid,$reqType);
+        //echo $sql;
     }
     else if($type == "byMonth"){
         $sessionName = $_POST['sessionName'];
@@ -30,8 +34,8 @@ else{
             $schoolId = 0;
         }
         $sql = "CALL get_monthwise_headwise_list('$sessionName', '$searchType', '$schoolId', '$classId', '$sectionId')";
-        //getOutputFromQueary($sql,$uid,$reqType);
-        echo $sql;
+        getOutputFromQueary($sql,$uid,$reqType);
+        //echo $sql;
     }
 
     else if($type == "bySchool"){
