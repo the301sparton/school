@@ -21,7 +21,7 @@ function manageClassList() {
     document.getElementById('adminActionHolder').innerHTML = manageClassListHTML;
 
     getClassListToShow();
-    setValuesInSchoolListSelect();
+    setValuesInSchoolListSelect("newSchoolId");
 
 }
 
@@ -113,7 +113,7 @@ function setValuesInClassTeacherSelect(teacherList) {
     }
 }
 
-function setValuesInSchoolListSelect() {
+function setValuesInSchoolListSelect(viewId) {
     document.getElementById("new_loader").style.display = "block";
     let schoolreq = $.post(baseUrl + "/apis/classList.php", {
         type: "getAllSchools",
@@ -122,15 +122,15 @@ function setValuesInSchoolListSelect() {
 
     schoolreq.done(function (responce) {
         let schoolArray = JSON.parse(responce);
-        $('#newSchoolId').empty();
-        $('#newSchoolId').append($('<option>', {
+        $('#'.concat(viewId)).empty();
+        $('#'.concat(viewId)).append($('<option>', {
             value: "",
             text: "Select School",
             selected: true,
             disabled: true
         }, '</option>'));
         for (var index in schoolArray) {
-            $('#newSchoolId')
+            $('#'.concat(viewId))
                 .append($('<option>', {
                     value: schoolArray[index].schoolId,
                     text: schoolArray[index].schoolName,
@@ -194,6 +194,7 @@ function createOrUpdateClass() {
             });
 
             insertClassReq.done(function (responce) {
+                console.log(responce);
                 if (responce == 200) {
                     showNotification("Success!", "Class Created Successfully", "success");
                     getClassListToShow();
@@ -275,35 +276,38 @@ function makeViewForFeeHeads() {
     });
 
     getAllfeeData.done(function (responce) {
-        try{
+        try {
             let feeData = JSON.parse(responce);
+            let fieldsArr = [], i = 0;
+            console.log(feeData);
+            for (itr in feeData[0]) {
+                if (itr != "headId") {
+                    if (itr.length > 10) {
+                        fieldsArr[i] = { name: itr, type: "number", width: 160 };
+                    }
+                    else {
+                        if (itr == "headName") {
+                            fieldsArr[i] = { name: itr, type: "text", width: 120 };
+                        }
+                        else {
+                            fieldsArr[i] = { name: itr, type: "number", width: 120 };
+                        }
+                    }
+                    i++;
+                }
+            }
+            fieldsArr[i] = { type: "control", width: 60 };
+
             $("#jsGrid").jsGrid({
                 width: "100%",
                 inserting: false,
                 editing: true,
                 sorting: false,
                 paging: true,
-    
+
                 data: feeData,
-    
-                fields: [
-                    { name: "headName", type: "text", width: 140 },
-                    { name: "amount_KG1", type: "number", width: 120 },
-                    { name: "amount_KG2", type: "number", width: 120 },
-                    { name: "amount_Nursery", type: "number", width: 160 },
-                    { name: "amount_1st", type: "number", width: 120 },
-                    { name: "amount_2nd", type: "number", width: 120 },
-                    { name: "amount_3rd", type: "number", width: 120 },
-                    { name: "amount_4th", type: "number", width: 120 },
-                    { name: "amount_5th", type: "number", width: 120 },
-                    { name: "amount_6th", type: "number", width: 120 },
-                    { name: "amount_7th", type: "number", width: 120 },
-                    { name: "amount_8th", type: "number", width: 120 },
-                    { name: "amount_9th", type: "number", width: 120 },
-                    { name: "amount_10th", type: "number", width: 120 },
-                    { type: "control", width: 60 }
-                ],
-    
+                fields: fieldsArr,
+
                 onItemUpdating: function (args) {
                     // cancel update of the item with empty 'name' field
                     if (args.item.headName === "") {
@@ -313,21 +317,21 @@ function makeViewForFeeHeads() {
                     else {
                         updateFeeHeadDetails(args.item);
                     }
-    
+
                 }
             });
         }
-        catch(e){
-             showNotification("Error", "Failed to get data", "danger");
+        catch (e) {
+            showNotification("Error", "Failed to get data", "danger");
         }
-        
 
-        
+
+
         document.getElementById('jsGrid').style.display = "block";
         document.getElementById("new_loader").style.display = "none";
     });
 
-    getAllfeeData.fail(function(jqXHR, textStatus){
+    getAllfeeData.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -335,42 +339,30 @@ function makeViewForFeeHeads() {
 
 function updateFeeHeadDetails(FeeHeadItem) {
     document.getElementById("new_loader").style.display = "block";
-        let updateHeadItemReq = $.post(baseUrl + "/apis/feesHeads.php", {
-            type: "updateById",
-            uid: me_data.uid,
-            id: FeeHeadItem.headId,
-            headName: FeeHeadItem.headName,
-            amount_KG1: FeeHeadItem.amount_KG1,
-            amount_KG2: FeeHeadItem.amount_KG2,
-            amount_Nursery: FeeHeadItem.amount_Nursery,
-            amount_1st: FeeHeadItem.amount_1st,
-            amount_2nd: FeeHeadItem.amount_2nd,
-            amount_3rd: FeeHeadItem.amount_3rd,
-            amount_4th: FeeHeadItem.amount_4th,
-            amount_5th: FeeHeadItem.amount_5th,
-            amount_6th: FeeHeadItem.amount_6th,
-            amount_7th: FeeHeadItem.amount_7th,
-            amount_8th: FeeHeadItem.amount_8th,
-            amount_9th: FeeHeadItem.amount_9th,
-            amount_10th: FeeHeadItem.amount_10th
-        });
+    let updateHeadItemReq = $.post(baseUrl + "/apis/feesHeads.php", {
+        type: "updateById",
+        uid: me_data.uid,
+        id: FeeHeadItem.headId,
+        FeeHeadItem: FeeHeadItem
+    });
 
-        updateHeadItemReq.done(function (responce) {
-            if (responce != 200) {
-                // if failed -> get old view
-                showNotification("<strong>Error</strong>", "Failed. loading old data", "danger");
-                makeViewForFeeHeads();
-            }
-            else{
-                showNotification("<strong>Success</strong>", "Fees Head Updated", "success");
-            }
-            document.getElementById("new_loader").style.display = "none";
-        });
+    updateHeadItemReq.done(function (responce) {
+        console.log(responce);
+        if (responce != 200) {
+            // if failed -> get old view
+            showNotification("<strong>Error</strong>", "Failed. loading old data", "danger");
+            makeViewForFeeHeads();
+        }
+        else {
+            showNotification("<strong>Success</strong>", "Fees Head Updated", "success");
+        }
+        document.getElementById("new_loader").style.display = "none";
+    });
 
-        updateHeadItemReq.fail(function(jqXHR, textStatus){
-            document.getElementById("new_loader").style.display = "none";
-            handleNetworkIssues(textStatus)
-        });
+    updateHeadItemReq.fail(function (jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
 };function manageRoles() {
     setActiveColorsAdminTasks("manageRoles");
     let userRoleHTML = `<div class="container">
@@ -1309,6 +1301,7 @@ function feesReport() {
     FeeSessionSelect = "";
     isFirstDateReportView = true;
     isClassAndSectionFirst = true;
+    document.getElementById("filterType").value = "0";
 
 
     setActiveColorsfees("feesReport");
@@ -1317,12 +1310,14 @@ function feesReport() {
       <h4 id="searchHeading">Fees Report</h4>
       <hr>
     </div>
+    
     <div class="row" id="typeHolder">
     <div class="col-md-2" style="text-align:right"><label for="FeeRepostType">Report Type: </label></div>
       <div class="col-md-4">
         <select class="form-control" id="FeeRepostType" onchange="FeeRepostTypehangeFun()">
           <option selected disabled value="">Select Report Type</option>
           <option value="receiptById">Get Receipt By Id</option>
+          <option value="deletedReceipt">Get Deleted Receipts</option>
           <option value="byDate">By Date</option>
           <option value="byMonth">By Month</option>
           <option value="bySchool">By School</option>
@@ -1344,7 +1339,7 @@ function feesReport() {
         <input type = "number" placeholder = "Receipt Id" class = "form-control" id = "receiptIdToGet"> 
       </div>
       <div class="col-md-2" id="receiptGoBox" style = "display:none">
-        <button class= "btn btn-secondary" style="`+CSSbtnPrimary+`" onclick="viewReceipt(this.parentNode.parentNode.childNodes[9].childNodes[1].value)">GO</button> 
+        <button class= "btn btn-secondary" style="`+ CSSbtnPrimary + `" onclick="viewReceipt(this.parentNode.parentNode.childNodes[9].childNodes[1].value)">GO</button> 
       </div>
     </div>
 
@@ -1392,7 +1387,7 @@ function loadAllSessionsAndSetListeners() {
         uid: me_data.uid
     });
 
-    allSessionReq.done(function(allSessions) {
+    allSessionReq.done(function (allSessions) {
         try {
             allSessions = JSON.parse(allSessions);
             for (var index in allSessions) {
@@ -1409,7 +1404,7 @@ function loadAllSessionsAndSetListeners() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    allSessionReq.fail(function(jqXHR, textStatus) {
+    allSessionReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -1424,8 +1419,7 @@ function checkReportType() {
 
         if (FeeRepostType == "byDate") {
             document.getElementById('feeSessionDiv').style.display = "block";
-            document.getElementById("feeSessionDiv").className = "col-md-5";
-            document.getElementById('filterImg').style.display = "none";
+            document.getElementById('filterImg').style.display = "block";
             document.getElementById('receiptIdBox').style.display = "none";
             document.getElementById('receiptGoBox').style.display = "none";
             document.getElementById('FeeReportHolder').innerHTML = ``;
@@ -1442,15 +1436,15 @@ function checkReportType() {
                                                           </div>
 
                                                           <div class="col-md-1">
-                                                          <button id="printBtn" style="float:right; `+CSSbtnSecondary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                          <button id="printBtn" style="float:right; `+ CSSbtnPrimary + `" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                           </div>
                                                          `;
             if (isFirstDateReportView) {
-                $(document).on('change', '#dateFrom', function() {
+                $(document).on('change', '#dateFrom', function () {
                     dateFrom = document.getElementById('dateFrom').value;
                     ReportByDates();
                 });
-                $(document).on('change', '#dateTo', function() {
+                $(document).on('change', '#dateTo', function () {
                     dateTo = document.getElementById('dateTo').value;
                     ReportByDates();
                 });
@@ -1459,7 +1453,6 @@ function checkReportType() {
             document.getElementById("botHR").style.display = "block";
         } else if (FeeRepostType == "bySchool") {
             document.getElementById('feeSessionDiv').style.display = "block";
-            document.getElementById("feeSessionDiv").className = "col-md-5";
             document.getElementById('filterImg').style.display = "none";
             document.getElementById('receiptIdBox').style.display = "none";
             document.getElementById('receiptGoBox').style.display = "none";
@@ -1468,7 +1461,7 @@ function checkReportType() {
             document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
                                                               </div>
                                                               <div class="col-md-1">
-                                                                <button id="printBtn" style="float:right; `+CSSbtnSecondary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                                <button id="printBtn" style="float:right; `+ CSSbtnPrimary + `" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                               </div>`;
             document.getElementById("errorMessage").style.display = "none";
 
@@ -1476,26 +1469,23 @@ function checkReportType() {
                 reportBySchool();
             }
         } else if (FeeRepostType == "byMonth") {
-            document.getElementById("feeSessionDiv").className = "col-md-5";
-            document.getElementById('filterImg').style.display = "none";
             document.getElementById('receiptIdBox').style.display = "none";
+            document.getElementById('filterImg').style.display = "block";
             document.getElementById('receiptGoBox').style.display = "none";
             document.getElementById('feeSessionDiv').style.display = "block";
             document.getElementById('FeeReportHolder').innerHTML = ``;
             document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
                                                               </div>
                                                               <div class="col-md-1">
-                                                                <button id="printBtn" style="float:right; `+CSSbtnPrimary+`" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                                <button id="printBtn" style="float:right; `+ CSSbtnPrimary + `" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                               </div>`;
             document.getElementById("errorMessage").style.display = "none";
-
             if (FeeSessionSelect != "") {
                 getMonthWiseReport();
             }
         } else if (FeeRepostType == "classSummeryReport") {
-            document.getElementById("feeSessionDiv").className = "col-md-4";
-            document.getElementById('filterImg').style.display = "block";
             document.getElementById('feeSessionDiv').style.display = "block";
+            document.getElementById('filterImg').style.display = "block";
             document.getElementById('receiptIdBox').style.display = "none";
             document.getElementById('receiptGoBox').style.display = "none";
             document.getElementById('FeeReportHolder').innerHTML = ``;
@@ -1515,11 +1505,80 @@ function checkReportType() {
             document.getElementById('receiptIdBox').style.display = "block";
             document.getElementById('receiptGoBox').style.display = "block";
             document.getElementById("errorMessage").style.display = "none";
-        } else {
-
+        } else if (FeeRepostType == "deletedReceipt") {
+            document.getElementById('filterImg').style.display = "none";
+            document.getElementById('receiptIdBox').style.display = "none";
+            document.getElementById('receiptGoBox').style.display = "none";
+            document.getElementById('feeSessionDiv').style.display = "block";
+            document.getElementById('FeeReportHolder').innerHTML = ``;
+            document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
+                                                              </div>
+                                                              <div class="col-md-1">
+                                                                <button id="printBtn" style="float:right; `+ CSSbtnPrimary + `" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
+                                                              </div>`;
+            document.getElementById("errorMessage").style.display = "none";
+            getDeletedReceiptReport();
         }
 
 
+    }
+}
+
+function getDeletedReceiptReport() {
+    document.getElementById("new_loader").style.display = "block";
+    var deletedReceiptReq = $.post(baseUrl + "/apis/receiptStuff.php", {
+        type: "getDeletedReceiptList",
+        uid: me_data.uid
+    });
+
+    deletedReceiptReq.done(function (data) {
+        try {
+            let receiptArray = JSON.parse(data);
+            document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
+            $("#jsGrid").jsGrid({
+                width: "100%",
+                inserting: false,
+                editing: false,
+                sorting: true,
+                paging: true,
+                pageSize: 100,
+                data: receiptArray,
+                fields: [
+                    { name: "receiptNo", type: "number", width: 80 },
+                    { name: "receiptDate", type: "text", width: 80, validate: "required" },
+                    { name: "remarkCreation", type: "text", width: 80 },
+                    { name: "deletionRemark", type: "text", width: 80 },
+                    { name: "deletedBy", type: "text", width: 80 },
+                    { name: "createdBy", type: "text", width: 80 }
+                ]
+            });
+            document.getElementById('jsGrid').style.display = "block";
+            document.getElementById("new_loader").style.display = "none";
+            document.getElementById('printBtn').disabled = false;
+        }
+        catch (e) {
+            showNotification("Error", "Failed to get data", "danger");
+        }
+    });
+    deletedReceiptReq.fail(function (jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
+}
+
+function filterTypeChangeListener() {
+    let type = document.getElementById("filterType").value;
+    if (type == 0) {
+        document.getElementById("filterSchoolDiv").style.display = "none";
+        document.getElementById("classNSectionFilterDiv").style.display = "none";
+    }
+    else if (type == 2) {
+        document.getElementById("filterSchoolDiv").style.display = "none";
+        document.getElementById("classNSectionFilterDiv").style.display = "block";
+    }
+    else if (type == 1) {
+        document.getElementById("filterSchoolDiv").style.display = "block";
+        document.getElementById("classNSectionFilterDiv").style.display = "none";
     }
 }
 
@@ -1532,14 +1591,28 @@ function classSummeryReport() {
         section: document.getElementById("filterSection").value,
         sessionName: FeeSessionSelect
     });
-    classSummeryReportReq.done(function(responseReport) {
+    classSummeryReportReq.done(function (responseReport) {
         try {
             var reportJSON = JSON.parse(responseReport);
-
+            var tFee = 0, bFee = 0, pFee = 0;
             for (var itr in reportJSON) {
                 reportJSON[itr].balenceFees = parseInt(reportJSON[itr].totalFees, 10) - parseInt(reportJSON[itr].paidFees, 10);
+                tFee += parseInt(reportJSON[itr].totalFees, 10);
+                pFee += parseInt(reportJSON[itr].paidFees, 10);
+                bFee += reportJSON[itr].balenceFees;
             }
+            var obj = new Object();
+            obj.fullname = "Total";
+            obj.totalFees = tFee;
+            obj.balenceFees = bFee;
+            obj.paidFees = pFee;
+            reportJSON.push(obj);
 
+            document.getElementById("feeInfoHolder").innerHTML = `<div class="col-md-10" style="text-align: end">
+            </div>
+            <div class="col-md-1">
+              <button id="printBtn" style="float:right; `+ CSSbtnPrimary + `" class="btn btn-secondary" onclick="printReport()">Print</button>
+            </div>`;
             document.getElementById('FeeReportHolder').innerHTML = `<div id="jsGrid" style = "display:none"></div>`;
             $("#jsGrid").jsGrid({
                 width: "100%",
@@ -1547,11 +1620,10 @@ function classSummeryReport() {
                 editing: false,
                 sorting: true,
                 paging: true,
-
+                pageSize: 100,
                 data: reportJSON,
 
                 fields: [
-                    { name: "studentId", type: "number", width: 80 },
                     { name: "fullname", type: "text", width: 150, validate: "required" },
                     { name: "totalFees", type: "number", width: 80 },
                     { name: "paidFees", type: "number", width: 80 },
@@ -1565,7 +1637,7 @@ function classSummeryReport() {
         }
     });
 
-    classSummeryReportReq.fail(function(jqXHR, textStatus) {
+    classSummeryReportReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -1679,6 +1751,7 @@ function buildFeeReport(report, type) {
         sorting: true,
         paging: true,
         data: report,
+        pageSize: 1000,
         fields: fieldsArr
     });
     document.getElementById('jsGrid').style.display = "block";
@@ -1694,9 +1767,14 @@ function ReportByDates() {
             uid: me_data.uid,
             dateFrom: document.getElementById("dateFrom").value,
             dateTo: document.getElementById("dateTo").value,
+            searchType: document.getElementById("filterType").value,
+            schoolId: document.getElementById("filterSchool").value,
+            classId: document.getElementById("filterClass").value,
+            sectionId: document.getElementById("filterSection").value
         });
 
-        reportByDateReq.done(function(reportRes) {
+        reportByDateReq.done(function (reportRes) {
+            console.log(reportRes);
             try {
                 var report = JSON.parse(reportRes);
                 buildFeeReport(report, "ByDate");
@@ -1706,7 +1784,7 @@ function ReportByDates() {
             document.getElementById("new_loader").style.display = "none";
         });
 
-        reportByDateReq.fail(function(jqXHR, textStatus) {
+        reportByDateReq.fail(function (jqXHR, textStatus) {
             document.getElementById("new_loader").style.display = "none";
             handleNetworkIssues(textStatus)
         });
@@ -1718,11 +1796,15 @@ function getMonthWiseReport() {
     var monthWiseReportReq = $.post(baseUrl + "/apis/feesReport.php", {
         type: "byMonth",
         uid: me_data.uid,
-        sessionName: FeeSessionSelect
+        sessionName: FeeSessionSelect,
+        searchType: document.getElementById("filterType").value,
+        schoolId: document.getElementById("filterSchool").value,
+        classId: document.getElementById("filterClass").value,
+        sectionId: document.getElementById("filterSection").value
     });
 
-    monthWiseReportReq.done(function(reportRes) {
-
+    monthWiseReportReq.done(function (reportRes) {
+        console.log(reportRes);
         try {
             buildFeeReport(JSON.parse(reportRes), "ByMonth");
         } catch (e) {
@@ -1731,7 +1813,7 @@ function getMonthWiseReport() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    monthWiseReportReq.fail(function(jqXHR, textStatus) {
+    monthWiseReportReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -1744,7 +1826,7 @@ function reportBySchool() {
         uid: me_data.uid,
         sessionName: FeeSessionSelect
     });
-    monthWiseReportReq.done(function(reportRes) {
+    monthWiseReportReq.done(function (reportRes) {
         try {
             buildFeeReport(JSON.parse(reportRes), "BySchool");
         } catch (e) {
@@ -1753,7 +1835,7 @@ function reportBySchool() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    monthWiseReportReq.fail(function(jqXHR, textStatus) {
+    monthWiseReportReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
@@ -1768,13 +1850,14 @@ function UpdateFilter() {
             classSummeryReport();
         }
 
-    } else {
-
+    }
+    else if (FeeRepostType == "byMonth") {
+        getMonthWiseReport();
     }
 }
 
 function showFilters() {
-    $.when(loadClassForSelectId("filterClass", "filterSection")).then(function() {
+    $.when(loadClassForSelectId("filterClass", "filterSection"), setValuesInSchoolListSelect("filterSchool")).then(function () {
         $("#filterModal").modal({ backdrop: 'static', keyboard: false });
     });
 }
@@ -1786,9 +1869,31 @@ function clearFilter() {
 
 
 function printReport() {
-    document.body.innerHTML = document.getElementById("jsGrid").innerHTML;
+    var prtContent = document.getElementById("jsGrid");
+    var WinPrint = window.open('', '', 'left=0,top=0,width=' + screen.width + ',height=' + screen.height + ',toolbar=0,scrollbars=0,status=0');
+    var initHTML = `<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>School | Home</title>
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+  <style type="text/css" media="print">
+@page {
+    size: auto;   /* auto is the initial value */
+    margin: 0;  /* this affects the margin in the printer settings */
+}
+</style></head>
+<body>`
+    var printJS = `
+<script>
+window.onload = function() {
     window.print();
-    document.location.reload();
+    window.close();
+  };
+  </script>`
+    WinPrint.document.write(initHTML + prtContent.innerHTML + printJS + "</body></html>");
+    WinPrint.document.close();
+    WinPrint.focus();
 };let searchBarViewReceipt;
 let feeHeads;
 let ReceiptForStudentId;
@@ -1850,7 +1955,7 @@ function getFeesDetails(studentId, classId) {
 </div>`;
     document.getElementById("new_loader").style.display = "block";
     document.getElementById("feeInfoHolder").innerHTML = feesDetailHTML;
-    $.when(setAmountPaid(studentId), setTotalFees(studentId)).then(function() {
+    $.when(setAmountPaid(studentId), setTotalFees(studentId)).then(function () {
         document.getElementById("new_loader").style.display = "none";
     });
 
@@ -1864,14 +1969,14 @@ function setAmountPaid(studentId) {
         sessionName: sessionSelect
     });
 
-    AmountRequest.done(function(amount) {
+    AmountRequest.done(function (amount) {
         if (amount != "E500") {
             document.getElementById('feesPaidValue').innerText = amount + " ₹";
         }
 
     });
 
-    AmountRequest.fail(function(jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    AmountRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 function setTotalFees(studentId) {
@@ -1882,13 +1987,13 @@ function setTotalFees(studentId) {
         sessionName: sessionSelect
     });
 
-    AmountRequest.done(function(amount) {
+    AmountRequest.done(function (amount) {
         if (amount != null) {
             document.getElementById('totalFeesValue').innerText = amount + " ₹";
         }
     });
 
-    AmountRequest.fail(function(jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    AmountRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 function newReceiptView() {
@@ -1901,7 +2006,7 @@ function newReceiptView() {
         studentId: ReceiptForStudentId
     });
 
-    getHeadsReq.done(function(HeadList) {
+    getHeadsReq.done(function (HeadList) {
         document.getElementById('headHolder').innerHTML = '';
         document.getElementById('totalFees').value = 0;
         var today = new Date();
@@ -1937,14 +2042,14 @@ function newReceiptView() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    getHeadsReq.fail(function(jqXHR, textStatus) {
+    getHeadsReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
 
 }
 
-$('#newReceiptForm').submit(function(event) {
+$('#newReceiptForm').submit(function (event) {
     event.preventDefault();
     $('#newReceiptModal').modal('toggle');
     let shouldSendReq = false;
@@ -1976,7 +2081,7 @@ $('#newReceiptForm').submit(function(event) {
             receiptRemark: document.getElementById('receiptRemark').value
         });
 
-        newReceiptRequest.done(function(newReceiptRes) {
+        newReceiptRequest.done(function (newReceiptRes) {
             try {
                 var resjson = JSON.parse(newReceiptRes);
                 if (resjson.resCode == 200) {
@@ -1991,7 +2096,7 @@ $('#newReceiptForm').submit(function(event) {
             document.getElementById("new_loader").style.display = "none";
         });
 
-        newReceiptRequest.fail(function(jqXHR, textStatus) {
+        newReceiptRequest.fail(function (jqXHR, textStatus) {
             document.getElementById("new_loader").style.display = "none";
             //handleNetworkIssues(textStatus)
         });
@@ -2018,15 +2123,15 @@ function showReceiptList() {
         studentId: ReceiptForStudentId,
         sessionName: sessionSelect
     });
-    getReceiptListReq.done(function(receiptListData) {
+    getReceiptListReq.done(function (receiptListData) {
         try {
             let receiptListJSON = JSON.parse(receiptListData);
             for (itr in receiptListJSON) {
-                let receiptListHTML = `<div class="row button button4" style="margin:1%" onclick="viewReceiptFromList(this)">
-                <div class="col-rmd-6" id="receiptIdforList` + itr + `">
+                let receiptListHTML = `<div class="row button button3" style="margin:1%; background:var(--btnColor2)" onclick="viewReceiptFromList(this)">
+                <div class="col-rmd-5" style="background:var(--btnColor2)" id="receiptIdforList` + itr + `">
                 </div>
-                <div class="col-rmd-6" id="amountforList` + itr + `">
-                </div>          
+                <div class="col-rmd-6" style="background:var(--btnColor2)" id="amountforList` + itr + `"></div>
+                <div class="col-rmd-1" style="background:var(--btnColor2)"><i class="fa fa-trash" style="background:var(--btnColor2)" onclick="deleteReceiptModal(event, this.parentNode.parentNode)"></i></div>    
                 </div>`;
 
                 document.getElementById("receiptHolder").innerHTML += receiptListHTML;
@@ -2040,10 +2145,44 @@ function showReceiptList() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    getReceiptListReq.fail(function(jqXHR, textStatus) {
+    getReceiptListReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
+}
+
+var idForReceiptToDelete = 0;
+
+function deleteReceiptModal(e, view) {
+    e.stopPropagation();
+    idForReceiptToDelete = view.childNodes[1].innerText.split(": ")[1];
+    $("#deleteReceiptModal").modal();
+}
+
+function deleteReceipt() {
+    let remark = document.getElementById("deleteionRemark").value;
+    if (idForReceiptToDelete != 0 && remark != "") {
+        document.getElementById("new_loader").style.display = "block";
+        var deleteReceiptReq = $.post(baseUrl + "/apis/receiptStuff.php", {
+            type: "deleteReceiptById",
+            uid: me_data.uid,
+            id: idForReceiptToDelete,
+            remark: remark
+        });
+        deleteReceiptReq.done(function (res) {
+            console.log(res);
+            if (res == 200) {
+                showNotification("Success!", "Receipt Deleted Successfully..!", "success");
+                showReceiptList();
+            } else {
+                showNotification("<strong>Error</strong>", "Failed to delete receipt", "danger");
+            }
+            document.getElementById("new_loader").style.display = "none";
+        });
+    }
+    else {
+        showNotification("<strong>Error</strong>", "Please Enter Remark", "danger");
+    }
 }
 
 function viewReceiptFromList(div) {
@@ -2892,13 +3031,13 @@ stepTwoHTML = `<div class="row">
 
       <div class="row" style="margin-top: 2%">
           <div class="col-md-4">
-            <input id="guardianName" type="text" placeholder="Guardian's Name" class="form-control">
+            <input id="guardianName" type="text" placeholder="Parent's Name" class="form-control">
           </div>
           <div class="col-md-4">
-            <input id="guardianPhone" type="text" placeholder="Guardian's Phone" class="form-control" maxlength="10" pattern="[789][0-9]{9}">
+            <input id="guardianPhone" type="text" placeholder="Parent's Phone" class="form-control" maxlength="10" pattern="[789][0-9]{9}">
           </div>
           <div class="col-md-4">
-            <input id="guardianEmail" type="email" placeholder="Guardian's Email-id" class="form-control">
+            <input id="guardianEmail" type="email" placeholder="Parent's Email-id" class="form-control">
           </div>
         </div>
 

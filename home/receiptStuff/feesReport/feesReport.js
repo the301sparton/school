@@ -201,7 +201,6 @@ function checkReportType() {
                                                                 <button id="printBtn" style="float:right; `+ CSSbtnPrimary + `" class="btn btn-secondary" onclick="printReport()" disabled>Print</button>
                                                               </div>`;
             document.getElementById("errorMessage").style.display = "none";
-
             if (FeeSessionSelect != "") {
                 getMonthWiseReport();
             }
