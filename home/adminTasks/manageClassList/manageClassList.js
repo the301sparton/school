@@ -21,7 +21,7 @@ function manageClassList() {
     document.getElementById('adminActionHolder').innerHTML = manageClassListHTML;
 
     getClassListToShow();
-    setValuesInSchoolListSelect();
+    setValuesInSchoolListSelect("newSchoolId");
 
 }
 
@@ -113,7 +113,7 @@ function setValuesInClassTeacherSelect(teacherList) {
     }
 }
 
-function setValuesInSchoolListSelect() {
+function setValuesInSchoolListSelect(viewId) {
     document.getElementById("new_loader").style.display = "block";
     let schoolreq = $.post(baseUrl + "/apis/classList.php", {
         type: "getAllSchools",
@@ -122,15 +122,15 @@ function setValuesInSchoolListSelect() {
 
     schoolreq.done(function (responce) {
         let schoolArray = JSON.parse(responce);
-        $('#newSchoolId').empty();
-        $('#newSchoolId').append($('<option>', {
+        $('#'.concat(viewId)).empty();
+        $('#'.concat(viewId)).append($('<option>', {
             value: "",
             text: "Select School",
             selected: true,
             disabled: true
         }, '</option>'));
         for (var index in schoolArray) {
-            $('#newSchoolId')
+            $('#'.concat(viewId))
                 .append($('<option>', {
                     value: schoolArray[index].schoolId,
                     text: schoolArray[index].schoolName,
@@ -194,6 +194,7 @@ function createOrUpdateClass() {
             });
 
             insertClassReq.done(function (responce) {
+                console.log(responce);
                 if (responce == 200) {
                     showNotification("Success!", "Class Created Successfully", "success");
                     getClassListToShow();

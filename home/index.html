@@ -204,12 +204,40 @@
         <div class="modal-body">
           <div class="container">
 
-            <div class="row" style="margin-top: 3%">
+            <div class="row" style="margin-top: 3%" id="filterReportDiv">
               <div class="col-md-4">
-                <label for="filterClass">Class of student</label>
+                <label for="filterType">Filter Type : </label>
               </div>
               <div class="col-md-8">
-                <Select id="filterClass" class="form-control">
+                <Select id="filterType" style="background-color: var(--colorPrimary);" class="form-control" onchange="filterTypeChangeListener()">
+                    <option selected value="0">All</option>
+                    <option value="2">By Class & Section</option>
+                    <option value="1">By School</option>
+                </Select>
+              </div>
+            </div>
+
+            <div id="filterSchoolDiv" style="display: none;">
+            <div class="row" style="margin-top: 3%" >
+              <div class="col-md-4">
+                <label for="filterSchool">Select School : </label>
+              </div>
+              <div class="col-md-8">
+                <Select id="filterSchool" style="background-color: var(--colorPrimary);" class="form-control">
+                    
+                </Select>
+              </div>
+            </div>
+          </div>
+
+
+            <div id="classNSectionFilterDiv" style="display: none;">
+            <div class="row" style="margin-top: 3%">
+              <div class="col-md-4">
+                <label for="filterClass">Select Class : </label>
+              </div>
+              <div class="col-md-8">
+                <Select id="filterClass" style="background-color: var(--colorPrimary);" class="form-control">
 
                 </Select>
               </div>
@@ -217,15 +245,15 @@
 
             <div class="row" style="margin-top: 3%">
               <div class="col-md-4">
-                <label for="filterSection">Section of student</label>
+                <label for="filterSection">Select Section : </label>
               </div>
               <div class="col-md-8">
-                <Select id="filterSection" class="form-control">
+                <Select id="filterSection" style="background-color: var(--colorPrimary);" class="form-control">
 
                 </Select>
               </div>
             </div>
-
+          </div>
           </div>
         </div>
 
@@ -260,6 +288,33 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Delete Receipt Modal -->
+  <div class="modal" id="deleteReceiptModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Are you sure..?</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p>This will delete the receipt permanently.</p>
+          <textarea class="form-control" placeholder="Enter deletion remark" style="background-color: var(--colorPrimary);" id="deleteionRemark"></textarea>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteReceipt()">Yes</button>
         </div>
 
       </div>

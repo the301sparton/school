@@ -59,7 +59,7 @@ function getFeesDetails(studentId, classId) {
 </div>`;
     document.getElementById("new_loader").style.display = "block";
     document.getElementById("feeInfoHolder").innerHTML = feesDetailHTML;
-    $.when(setAmountPaid(studentId), setTotalFees(studentId)).then(function() {
+    $.when(setAmountPaid(studentId), setTotalFees(studentId)).then(function () {
         document.getElementById("new_loader").style.display = "none";
     });
 
@@ -73,14 +73,14 @@ function setAmountPaid(studentId) {
         sessionName: sessionSelect
     });
 
-    AmountRequest.done(function(amount) {
+    AmountRequest.done(function (amount) {
         if (amount != "E500") {
             document.getElementById('feesPaidValue').innerText = amount + " ₹";
         }
 
     });
 
-    AmountRequest.fail(function(jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    AmountRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 function setTotalFees(studentId) {
@@ -91,13 +91,13 @@ function setTotalFees(studentId) {
         sessionName: sessionSelect
     });
 
-    AmountRequest.done(function(amount) {
+    AmountRequest.done(function (amount) {
         if (amount != null) {
             document.getElementById('totalFeesValue').innerText = amount + " ₹";
         }
     });
 
-    AmountRequest.fail(function(jqXHR, textStatus) { handleNetworkIssues(textStatus) });
+    AmountRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
 function newReceiptView() {
@@ -110,7 +110,7 @@ function newReceiptView() {
         studentId: ReceiptForStudentId
     });
 
-    getHeadsReq.done(function(HeadList) {
+    getHeadsReq.done(function (HeadList) {
         document.getElementById('headHolder').innerHTML = '';
         document.getElementById('totalFees').value = 0;
         var today = new Date();
@@ -146,14 +146,14 @@ function newReceiptView() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    getHeadsReq.fail(function(jqXHR, textStatus) {
+    getHeadsReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
 
 }
 
-$('#newReceiptForm').submit(function(event) {
+$('#newReceiptForm').submit(function (event) {
     event.preventDefault();
     $('#newReceiptModal').modal('toggle');
     let shouldSendReq = false;
@@ -185,7 +185,7 @@ $('#newReceiptForm').submit(function(event) {
             receiptRemark: document.getElementById('receiptRemark').value
         });
 
-        newReceiptRequest.done(function(newReceiptRes) {
+        newReceiptRequest.done(function (newReceiptRes) {
             try {
                 var resjson = JSON.parse(newReceiptRes);
                 if (resjson.resCode == 200) {
@@ -200,7 +200,7 @@ $('#newReceiptForm').submit(function(event) {
             document.getElementById("new_loader").style.display = "none";
         });
 
-        newReceiptRequest.fail(function(jqXHR, textStatus) {
+        newReceiptRequest.fail(function (jqXHR, textStatus) {
             document.getElementById("new_loader").style.display = "none";
             //handleNetworkIssues(textStatus)
         });
@@ -227,15 +227,15 @@ function showReceiptList() {
         studentId: ReceiptForStudentId,
         sessionName: sessionSelect
     });
-    getReceiptListReq.done(function(receiptListData) {
+    getReceiptListReq.done(function (receiptListData) {
         try {
             let receiptListJSON = JSON.parse(receiptListData);
             for (itr in receiptListJSON) {
-                let receiptListHTML = `<div class="row button button4" style="margin:1%" onclick="viewReceiptFromList(this)">
-                <div class="col-rmd-6" id="receiptIdforList` + itr + `">
+                let receiptListHTML = `<div class="row button button3" style="margin:1%; background:var(--btnColor2)" onclick="viewReceiptFromList(this)">
+                <div class="col-rmd-5" style="background:var(--btnColor2)" id="receiptIdforList` + itr + `">
                 </div>
-                <div class="col-rmd-6" id="amountforList` + itr + `">
-                </div>          
+                <div class="col-rmd-6" style="background:var(--btnColor2)" id="amountforList` + itr + `"></div>
+                <div class="col-rmd-1" style="background:var(--btnColor2)"><i class="fa fa-trash" style="background:var(--btnColor2)" onclick="deleteReceiptModal(event, this.parentNode.parentNode)"></i></div>    
                 </div>`;
 
                 document.getElementById("receiptHolder").innerHTML += receiptListHTML;
@@ -249,10 +249,44 @@ function showReceiptList() {
         document.getElementById("new_loader").style.display = "none";
     });
 
-    getReceiptListReq.fail(function(jqXHR, textStatus) {
+    getReceiptListReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
+}
+
+var idForReceiptToDelete = 0;
+
+function deleteReceiptModal(e, view) {
+    e.stopPropagation();
+    idForReceiptToDelete = view.childNodes[1].innerText.split(": ")[1];
+    $("#deleteReceiptModal").modal();
+}
+
+function deleteReceipt() {
+    let remark = document.getElementById("deleteionRemark").value;
+    if (idForReceiptToDelete != 0 && remark != "") {
+        document.getElementById("new_loader").style.display = "block";
+        var deleteReceiptReq = $.post(baseUrl + "/apis/receiptStuff.php", {
+            type: "deleteReceiptById",
+            uid: me_data.uid,
+            id: idForReceiptToDelete,
+            remark: remark
+        });
+        deleteReceiptReq.done(function (res) {
+            console.log(res);
+            if (res == 200) {
+                showNotification("Success!", "Receipt Deleted Successfully..!", "success");
+                showReceiptList();
+            } else {
+                showNotification("<strong>Error</strong>", "Failed to delete receipt", "danger");
+            }
+            document.getElementById("new_loader").style.display = "none";
+        });
+    }
+    else {
+        showNotification("<strong>Error</strong>", "Please Enter Remark", "danger");
+    }
 }
 
 function viewReceiptFromList(div) {
