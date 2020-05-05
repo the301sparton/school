@@ -549,6 +549,7 @@ function reportBySchool() {
         sessionName: FeeSessionSelect
     });
     monthWiseReportReq.done(function (reportRes) {
+        console.log(reportRes);
         try {
             buildFeeReport(JSON.parse(reportRes), "BySchool");
         } catch (e) {
