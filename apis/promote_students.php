@@ -9,10 +9,11 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } else {
-    if ($type == "iAmUltraSure") {
+    $password = $_POST['password'];
+    if ($type == "iAmUltraSure"&& $password == "lol3m4nd9sn4m0-dm4nvnsa-sdans") {
         $NextsessionName = $_POST["NextsessionName"];
         $sessionName = $_POST["sessionName"];
-        $sql = "INSERT INTO `sessionlist`(`sessionName`) VALUES ('$sessionName')";
+        $sql = "INSERT INTO `sessionlist`(`sessionName`) VALUES ('$NextsessionName')";
         if ($conn->query($sql) == TRUE) {
             logRequest($uid, $type, $sql, "WRITE_SUCCESS");
             $flag = true;
@@ -40,5 +41,8 @@ if ($conn->connect_error) {
             logRequest($uid, $type, $sql, "WRITE_FAILED");
             echo 500;
         }
+    }
+    else{
+        echo 501;
     }
 }

@@ -10,7 +10,7 @@
   <meta content="" name="keywords">
   <meta content="" name="description">
   <!-- Favicons -->
-  
+
   <link href="../img/favicon.png" rel="icon">
   <link href="../img/apple-touch-icon.png" rel="apple-touch-icon">
 
@@ -56,14 +56,14 @@
   <header id="header">
 
     <div id="topbar">
-      
+
       <div class="container">
         <div class="social-links">
-         
-            <div class="switch">Dark mode:
-              <span class="inner-switch" id="darkModeSwitch">OFF</span>
-            </div>
-          
+
+          <div class="switch">Dark mode:
+            <span class="inner-switch" id="darkModeSwitch">OFF</span>
+          </div>
+
           <a href="#" class="twitter" id="header_twitterLink"><i class="fa fa-twitter"></i></a>
           <a href="#" class="facebook" id="header_facebookLink"><i class="fa fa-facebook"></i></a>
           <a href="#" class="linkedin" id="header_linkedinLink"><i class="fa fa-linkedin"></i></a>
@@ -88,7 +88,7 @@
           <li id="fees"><a href="#feesHTML" onclick="feesOptionView()">Fees</a></li>
           <li id="admin"><a href="#adminHTML" onclick="adminTasksView()">Admin Tasks</a></li>
 
-         
+
 
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" id="toggleNav"><img
                 id="me_img" style="all:unset; border-radius: 50%; height: 40px; width: 40px" src="../img/me.png">
@@ -143,10 +143,12 @@
             <div class="row">
 
               <div class="col-md-6">
-                <input class="form-control" style="background-color: var(--colorPrimary);" id="receiptDate" type="date" required>
+                <input class="form-control" style="background-color: var(--colorPrimary);" id="receiptDate" type="date"
+                  required>
               </div>
               <div class="col-md-6">
-                <input class="form-control" style="background-color: var(--colorPrimary);" id="receiptRemark" placeholder="Remark" type="text">
+                <input class="form-control" style="background-color: var(--colorPrimary);" id="receiptRemark"
+                  placeholder="Remark" type="text">
               </div>
 
             </div>
@@ -209,51 +211,52 @@
                 <label for="filterType">Filter Type : </label>
               </div>
               <div class="col-md-8">
-                <Select id="filterType" style="background-color: var(--colorPrimary);" class="form-control" onchange="filterTypeChangeListener()">
-                    <option selected value="0">All</option>
-                    <option value="2">By Class & Section</option>
-                    <option value="1">By School</option>
+                <Select id="filterType" style="background-color: var(--colorPrimary);" class="form-control"
+                  onchange="filterTypeChangeListener()">
+                  <option selected value="0">All</option>
+                  <option value="2">By Class & Section</option>
+                  <option value="1">By School</option>
                 </Select>
               </div>
             </div>
 
             <div id="filterSchoolDiv" style="display: none;">
-            <div class="row" style="margin-top: 3%" >
-              <div class="col-md-4">
-                <label for="filterSchool">Select School : </label>
-              </div>
-              <div class="col-md-8">
-                <Select id="filterSchool" style="background-color: var(--colorPrimary);" class="form-control">
-                    
-                </Select>
+              <div class="row" style="margin-top: 3%">
+                <div class="col-md-4">
+                  <label for="filterSchool">Select School : </label>
+                </div>
+                <div class="col-md-8">
+                  <Select id="filterSchool" style="background-color: var(--colorPrimary);" class="form-control">
+
+                  </Select>
+                </div>
               </div>
             </div>
-          </div>
 
 
             <div id="classNSectionFilterDiv" style="display: none;">
-            <div class="row" style="margin-top: 3%">
-              <div class="col-md-4">
-                <label for="filterClass">Select Class : </label>
-              </div>
-              <div class="col-md-8">
-                <Select id="filterClass" style="background-color: var(--colorPrimary);" class="form-control">
+              <div class="row" style="margin-top: 3%">
+                <div class="col-md-4">
+                  <label for="filterClass">Select Class : </label>
+                </div>
+                <div class="col-md-8">
+                  <Select id="filterClass" style="background-color: var(--colorPrimary);" class="form-control">
 
-                </Select>
+                  </Select>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 3%">
+                <div class="col-md-4">
+                  <label for="filterSection">Select Section : </label>
+                </div>
+                <div class="col-md-8">
+                  <Select id="filterSection" style="background-color: var(--colorPrimary);" class="form-control">
+
+                  </Select>
+                </div>
               </div>
             </div>
-
-            <div class="row" style="margin-top: 3%">
-              <div class="col-md-4">
-                <label for="filterSection">Select Section : </label>
-              </div>
-              <div class="col-md-8">
-                <Select id="filterSection" style="background-color: var(--colorPrimary);" class="form-control">
-
-                </Select>
-              </div>
-            </div>
-          </div>
           </div>
         </div>
 
@@ -282,12 +285,26 @@
 
         <!-- Modal body -->
         <div class="modal-body">
-          are you sure about starting a new accedamic year..?
+          <div class="row" style="padding: 2%;">
+            <p>are you sure about starting a new accedamic year..?</p>
+          </div>
+
+          <div class="row" style="margin-top: 2%;">
+            <div class="col-md-6"><label for="superPassword">Enter Next Year</label></div>
+            <div class="col-md-6"><input style="background-color: var(--colorPrimary);" class="form-control" type="text" placeholder="Next Accadamic Year" id="nextYear">
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 2%;">
+            <div class="col-md-6"><label for="superPassword">Enter Super Password</label></div>
+            <div class="col-md-6"><input style="background-color: var(--colorPrimary);" class="form-control" type="password" placeholder="Super Password" id="superPassword">
+            </div>
+          </div>
         </div>
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
+          <button type="button" onclick="newAccYearAllActions()" class="btn btn-danger" data-dismiss="modal">Yes</button>
         </div>
 
       </div>
@@ -309,7 +326,8 @@
         <!-- Modal body -->
         <div class="modal-body">
           <p>This will delete the receipt permanently.</p>
-          <textarea class="form-control" placeholder="Enter deletion remark" style="background-color: var(--colorPrimary);" id="deleteionRemark"></textarea>
+          <textarea class="form-control" placeholder="Enter deletion remark"
+            style="background-color: var(--colorPrimary);" id="deleteionRemark"></textarea>
         </div>
 
         <!-- Modal footer -->
@@ -366,7 +384,8 @@
               <h5 style="text-align: center">Group Name</h5>
             </div>
             <div class="col-md-8">
-              <input style="background-color: var(--colorPrimary);" class="form-control" type="text" id="newUserGroupName">
+              <input style="background-color: var(--colorPrimary);" class="form-control" type="text"
+                id="newUserGroupName">
             </div>
           </div>
           <hr>
@@ -501,14 +520,16 @@
                 <label for="newClassName">Class Name</label>
               </div>
               <div class="col-md-3">
-                <input style="background-color: var(--colorPrimary);" type="text" class="form-control" id="newClassName">
+                <input style="background-color: var(--colorPrimary);" type="text" class="form-control"
+                  id="newClassName">
               </div>
 
               <div class="col-md-3">
                 <label for="newClassSection">Section Name</label>
               </div>
               <div class="col-md-3">
-                <input style="background-color: var(--colorPrimary);" type="text" class="form-control" id="newClassSection">
+                <input style="background-color: var(--colorPrimary);" type="text" class="form-control"
+                  id="newClassSection">
               </div>
             </div>
 
@@ -518,7 +539,8 @@
                 <label for="newClassSection">Class Teacher</label>
               </div>
               <div class="col-md-3">
-                <Select style="background-color: var(--colorPrimary);" class="form-control" id="newClassTeacher"></Select>
+                <Select style="background-color: var(--colorPrimary);" class="form-control"
+                  id="newClassTeacher"></Select>
               </div>
 
               <div class="col-md-3">
@@ -560,13 +582,14 @@
         <div class="modal-body" style="padding:2%">
           <div class="row" style="margin:3%">
             <div class="col-md-6">
-              <select id="noticeScopeSelect" class="form-control" style="background-color: var(--colorPrimany);" onchange="loadClassOrSchoolList(this)">
+              <select id="noticeScopeSelect" class="form-control" style="background-color: var(--colorPrimany);"
+                onchange="loadClassOrSchoolList(this)">
                 <option selected disabled value="">Select scope</option>
                 <option value="1">For a school</option>
                 <option value="2">For a class</option>
               </select>
             </div>
-            
+
             <div class="col-md-6">
               <select class="form-control" style="background-color: var(--colorPrimany);" id="classorschoolselect">
                 <option selected disabled value="">Select school / class</option>
@@ -576,16 +599,18 @@
 
           <div class="row" style="margin:3%">
             <div class="col-md-12">
-              <input class="form-control" style="background-color: var(--colorPrimany);" id="noticeTitle" placeholder="Notice Title.">
+              <input class="form-control" style="background-color: var(--colorPrimany);" id="noticeTitle"
+                placeholder="Notice Title.">
             </div>
           </div>
 
           <div class="row" style="margin:3%">
             <div class="col-md-12">
-              <textarea class="form-control" style="background-color: var(--colorPrimany);" id="noticeMessage" placeholder="Message.."></textarea>
+              <textarea class="form-control" style="background-color: var(--colorPrimany);" id="noticeMessage"
+                placeholder="Message.."></textarea>
             </div>
           </div>
-          
+
         </div>
 
         <!-- Modal footer -->
@@ -658,23 +683,27 @@
                 as soon as possible.</p>
               <form class="contactForm" id="contactForm">
                 <div class="form-group">
-                  <input style="background-color: var(--colorPrimary);" type="text" name="name" class="form-control" id="feedbackName" placeholder="Your Name"
-                    data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <input style="background-color: var(--colorPrimary);" type="text" name="name" class="form-control"
+                    id="feedbackName" placeholder="Your Name" data-rule="minlen:4"
+                    data-msg="Please enter at least 4 chars" />
                   <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                  <input style="background-color: var(--colorPrimary);" type="email" class="form-control" name="email" id="feedbackEmail" placeholder="Your Email"
-                    data-rule="email" data-msg="Please enter a valid email" />
+                  <input style="background-color: var(--colorPrimary);" type="email" class="form-control" name="email"
+                    id="feedbackEmail" placeholder="Your Email" data-rule="email"
+                    data-msg="Please enter a valid email" />
                   <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                  <input style="background-color: var(--colorPrimary);" type="text" class="form-control" name="subject" id="feedbackSubject" placeholder="Subject"
-                    data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <input style="background-color: var(--colorPrimary);" type="text" class="form-control" name="subject"
+                    id="feedbackSubject" placeholder="Subject" data-rule="minlen:4"
+                    data-msg="Please enter at least 8 chars of subject" />
                   <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                  <textarea style="background-color: var(--colorPrimary);" class="form-control" name="message" id="feedbackMessgae" rows="5" data-rule="required"
-                    data-msg="Please write something for us" placeholder="Message"></textarea>
+                  <textarea style="background-color: var(--colorPrimary);" class="form-control" name="message"
+                    id="feedbackMessgae" rows="5" data-rule="required" data-msg="Please write something for us"
+                    placeholder="Message"></textarea>
                   <div class="validation"></div>
                 </div>
 
