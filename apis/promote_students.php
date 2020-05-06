@@ -26,13 +26,19 @@ if ($conn->connect_error) {
                 $sql = "INSERT into studentdetails (sessionName,studentId,isDisabled,class,section,medium,totalFees) SELECT '$NextsessionName' as sessionName,studentId,isDisabled,'$nextClass' as class,'$nextSection' as section,medium,0 as totalFees FROM `studentdetails` where sessionName='$sessionName' and isDisabled=0 and class='$currentClass' and section='$currentSection'";
                 if ($conn->query($sql) != TRUE) {
                     $flag = false;
+                break;
                 }
             }
 
-            echo $flag;
+            if($flag){
+                echo 200;
+            }
+            else{
+                echo 500;
+            }
         } else {
             logRequest($uid, $type, $sql, "WRITE_FAILED");
-            echo $sql;
+            echo 500;
         }
     }
 }
