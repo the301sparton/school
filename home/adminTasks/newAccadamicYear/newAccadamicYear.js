@@ -35,3 +35,33 @@ function setNextAccedamicYearMessage() {
 function newAccedamicYearContinue(){
     $("#modalNewAccedamicYear").modal();
 }
+
+function newAccYearAllActions(){
+    if(document.getElementById("superPassword").value != "" && document.getElementById("nextYear").value != ""){
+      var nextYrReq = $.post(baseUrl + "/apis/promote_students.php",{
+        type: "iAmUltraSure",
+        uid: me_data.uid,
+        NextsessionName: document.getElementById("nextYear").value,
+        sessionName: currentSession,
+        password: document.getElementById("superPassword").value
+      });
+
+      nextYrReq.done(function(data){
+        console.log(data);
+        if(data == 501){
+          showNotification("Error", "Wrong Password", "danger");
+        }
+        else if(data == 500){
+          showNotification("Error", "Something went Wrong", "danger");
+        }
+        else if(data == 200){
+          showNotification("Success", "Students Promoted", "danger");
+        }
+      });
+
+      nextYrReq.fail(function (jqXHR, textStatus) {
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
+    });
+    }
+}
