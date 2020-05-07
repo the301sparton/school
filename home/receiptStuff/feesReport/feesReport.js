@@ -314,6 +314,7 @@ function classSummeryReport() {
         sessionName: FeeSessionSelect
     });
     classSummeryReportReq.done(function (responseReport) {
+        console.log(responseReport);
         try {
             var reportJSON = JSON.parse(responseReport);
             var tFee = 0, bFee = 0, pFee = 0;
@@ -346,7 +347,7 @@ function classSummeryReport() {
                 data: reportJSON,
 
                 fields: [
-                    { name: "fullname", type: "text", width: 150, validate: "required" },
+                    { name: "fullName", type: "text", width: 150, validate: "required" },
                     { name: "totalFees", type: "number", width: 80 },
                     { name: "paidFees", type: "number", width: 80 },
                     { name: "balenceFees", type: "number", width: 80 }
