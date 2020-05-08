@@ -17,7 +17,6 @@ if ($conn->connect_error) {
         $sessionName = $_POST['sessionName'];
 
         $sql1 = "SELECT receiptId FROM receiptslist WHERE studentId = '$studentId' AND sessionName = '$sessionName'";
-
         $result1 = mysqli_query($conn, $sql1);
         if ($result1 != null) {
             while ($r1 = mysqli_fetch_assoc($result1)) {
@@ -63,19 +62,17 @@ if ($conn->connect_error) {
                 echo 500;
             }
         }
-    } 
-    else if($type == "getDeletedReceiptList"){
+    } else if ($type == "getDeletedReceiptList") {
         $sql = "SELECT * FROM `deleted_receipts_details`";
         getOutputFromQueary($sql, $uid, $reqType);
-    }
-    else if ($type == "getTotalFees") {
-        $studentId = $_POST['studentId'];
+    } else if ($type == "getTotalFees") {
+        $className = $_POST['className'];
         $sessionName = $_POST['sessionName'];
-        $tblName = "studentdetails";
-        $sql = "SELECT totalFees FROM `$tblName` WHERE studentId = $studentId AND sessionName = '$sessionName'";
+        $className = "amount_" . $className;
+        $sql = "SELECT sum($className) as 'fees' FROM `feesheads` WHERE sessionName = '$sessionName'";
         $result = mysqli_query($conn, $sql);
         $r = mysqli_fetch_assoc($result);
-        echo $r['totalFees'];
+        echo $r["fees"];
     } else if ($type == "getReceipt") {
         $receiptId = $_POST['receiptId'];
         $sql = "SELECT * FROM receiptslist WHERE receiptId = $receiptId";
@@ -176,8 +173,21 @@ if ($conn->connect_error) {
         $class = $_POST['class'];
         $section = $_POST['section'];
         $sessionName = $_POST['sessionName'];
-        $sql = "SELECT studentId, fullname, totalFees, paidFees FROM studentfees WHERE class = '$class' AND section = '$section'";
-        getOutputFromQueary($sql, $uid, $reqType);
+
+        $className = "amount_" . $class;
+        $sql = "SELECT sum($className) as 'fees' FROM `feesheads` WHERE sessionName = '$sessionName'";
+        $result = mysqli_query($conn, $sql);
+        $r = mysqli_fetch_assoc($result);
+        $TotalFee = $r["fees"];
+
+        $sql = "SELECT * FROM studentfees WHERE class = '$class' AND section = '$section' AND sessionName = '$sessionName'";
+        $rows = array();
+        $result = mysqli_query($conn, $sql);
+        while ($r = mysqli_fetch_assoc($result)) {
+            $r["totalFees"] = $TotalFee;
+            $rows[] = $r;
+        }
+        print json_encode($rows);
     } else if ($type == "headWiseSumm") {
         $sql = "SELECT * from headwisesumm";
         getOutputFromQueary($sql, $uid, $reqType);
