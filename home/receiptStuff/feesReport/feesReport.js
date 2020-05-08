@@ -241,7 +241,6 @@ function checkReportType() {
             getDeletedReceiptReport();
         }
 
-
     }
 }
 

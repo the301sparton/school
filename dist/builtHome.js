@@ -1550,7 +1550,6 @@ function checkReportType() {
             getDeletedReceiptReport();
         }
 
-
     }
 }
 
@@ -1622,6 +1621,7 @@ function classSummeryReport() {
         sessionName: FeeSessionSelect
     });
     classSummeryReportReq.done(function (responseReport) {
+        console.log(responseReport);
         try {
             var reportJSON = JSON.parse(responseReport);
             var tFee = 0, bFee = 0, pFee = 0;
@@ -1654,7 +1654,7 @@ function classSummeryReport() {
                 data: reportJSON,
 
                 fields: [
-                    { name: "fullname", type: "text", width: 150, validate: "required" },
+                    { name: "fullName", type: "text", width: 150, validate: "required" },
                     { name: "totalFees", type: "number", width: 80 },
                     { name: "paidFees", type: "number", width: 80 },
                     { name: "balenceFees", type: "number", width: 80 }
@@ -1986,7 +1986,7 @@ function getFeesDetails(studentId, classId) {
 </div>`;
     document.getElementById("new_loader").style.display = "block";
     document.getElementById("feeInfoHolder").innerHTML = feesDetailHTML;
-    $.when(setAmountPaid(studentId), setTotalFees(studentId)).then(function () {
+    $.when(setAmountPaid(studentId), setTotalFees(ReceiptClassId)).then(function () {
         document.getElementById("new_loader").style.display = "none";
     });
 
@@ -2010,11 +2010,11 @@ function setAmountPaid(studentId) {
     AmountRequest.fail(function (jqXHR, textStatus) { handleNetworkIssues(textStatus) });
 }
 
-function setTotalFees(studentId) {
+function setTotalFees(className) {
     var AmountRequest = $.post(baseUrl + "/apis/receiptStuff.php", {
         type: "getTotalFees",
         uid: me_data.uid,
-        studentId: studentId,
+        className: className,
         sessionName: sessionSelect
     });
 
