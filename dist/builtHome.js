@@ -1632,7 +1632,7 @@ function classSummeryReport() {
                 bFee += reportJSON[itr].balenceFees;
             }
             var obj = new Object();
-            obj.fullname = "Total";
+            obj.fullName = "Total";
             obj.totalFees = tFee;
             obj.balenceFees = bFee;
             obj.paidFees = pFee;
@@ -2086,7 +2086,6 @@ $('#newReceiptForm').submit(function (event) {
     let shouldSendReq = false;
     let superBreaksOFF = true;
 
-
     feesHeadVal = [];
     for (var itr in feeHeads) {
         if (document.getElementById('headValue' + itr).value != 0) {
@@ -2111,12 +2110,12 @@ $('#newReceiptForm').submit(function (event) {
             receiptDate: document.getElementById('receiptDate').value,
             receiptRemark: document.getElementById('receiptRemark').value
         });
-
         newReceiptRequest.done(function (newReceiptRes) {
+            console.log(newReceiptRes);
             try {
                 var resjson = JSON.parse(newReceiptRes);
                 if (resjson.resCode == 200) {
-                    getFeesDetails(ReceiptForStudentId);
+                    //getFeesDetails(ReceiptForStudentId);
                     viewReceipt(resjson.id, ReceiptForStudentId, sessionSelect);
                 } else {
                     showNotification("<strong>Error</strong>", "Failed to generate receipt", "danger");

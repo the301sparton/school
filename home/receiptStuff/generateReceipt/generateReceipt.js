@@ -183,7 +183,6 @@ $('#newReceiptForm').submit(function (event) {
             receiptDate: document.getElementById('receiptDate').value,
             receiptRemark: document.getElementById('receiptRemark').value
         });
-
         newReceiptRequest.done(function (newReceiptRes) {
             console.log(newReceiptRes);
             try {
