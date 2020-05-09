@@ -323,7 +323,7 @@ function classSummeryReport() {
                 bFee += reportJSON[itr].balenceFees;
             }
             var obj = new Object();
-            obj.fullname = "Total";
+            obj.fullName = "Total";
             obj.totalFees = tFee;
             obj.balenceFees = bFee;
             obj.paidFees = pFee;

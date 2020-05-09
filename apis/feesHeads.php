@@ -17,7 +17,7 @@ else{
         $sessionName = $_POST['sessionName'];
 
         $class = "amount_".$classId;
-        $sql = "SELECT  headId, headName, `$class` FROM feesheads WHERE `$class` > 0 ORDER BY headId";
+        $sql = "SELECT  headId, headName, `$class` FROM feesheads WHERE `$class` > 0 AND sessionName = '$sessionName' ORDER BY headId";
         $result=mysqli_query($conn,$sql);
         $rows = array();    
         while($r = mysqli_fetch_assoc($result)) {

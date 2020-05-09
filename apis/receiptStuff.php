@@ -106,7 +106,7 @@ if ($conn->connect_error) {
         $r = mysqli_fetch_assoc($result);
         $receiptId = $r[$sqlNewReceipt];
 
-        $sqlForHeads = "SELECT  headId, headName, `$class` FROM feesheads WHERE `$class` > 0 ORDER BY headId";
+        $sqlForHeads = "SELECT  headId, headName, `$class` FROM feesheads WHERE `$class` > 0 AND sessionName = '$sessionName' ORDER BY headId";
         $result = mysqli_query($conn, $sqlForHeads);
 
         $itr = 0;
