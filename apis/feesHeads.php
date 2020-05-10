@@ -50,6 +50,7 @@ else{
     else if($type == "updateById"){
         $id = $_POST['id'];
         $FeeHeadItem = $_POST['FeeHeadItem'];
+        $sessionName = $FeeHeadItem['sessionName'];
         $sql = "UPDATE `feesheads` SET ";
         $i = 0;
         foreach($FeeHeadItem as $item){
@@ -64,7 +65,7 @@ else{
             }            
             $i++;
         }
-        $sql = $sql."WHERE headId = '$id'";
+        $sql = $sql."WHERE headId = '$id' AND sessionName = '$sessionName'";
         get200AsYes($sql,$uid,$reqType);
     }
 

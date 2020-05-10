@@ -166,7 +166,9 @@ function deleteUser(deleteUserBtn) {
     });
 
     userDeleteReq.done(function (responce) {
+      console.log(responce);
       if (responce == 200) {
+        showNotification("<strong>Success</strong>", "User deleted successfully!", "success");
         document.getElementById("userDetailsHolder").innerHTML = "";
         document.getElementById("allUserHolder").removeChild(deleteUserBtn.parentNode.parentNode.parentNode.parentNode);
       }
