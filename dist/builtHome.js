@@ -315,6 +315,7 @@ function makeViewForFeeHeads() {
                         showNotification("<strong>Error!</strong>", "Enter fees head name.", "warning");
                     }
                     else {
+                        console.log(args.item);
                         updateFeeHeadDetails(args.item);
                     }
 
@@ -339,13 +340,21 @@ function makeViewForFeeHeads() {
 
 function updateFeeHeadDetails(FeeHeadItem) {
     document.getElementById("new_loader").style.display = "block";
+    headList = new Array();
+    for(itr in FeeHeadItem){
+        if(itr != "sessionName"){
+            headList.push(itr);
+        }
+    }
     let updateHeadItemReq = $.post(baseUrl + "/apis/feesHeads.php", {
         type: "updateById",
         uid: me_data.uid,
         id: FeeHeadItem.headId,
+        headList: headList,
         FeeHeadItem: FeeHeadItem
     });
 
+    
     updateHeadItemReq.done(function (responce) {
         console.log(responce);
         if (responce != 200) {
@@ -354,7 +363,7 @@ function updateFeeHeadDetails(FeeHeadItem) {
             makeViewForFeeHeads();
         }
         else {
-            showNotification("<strong>Success</strong>", "Fees Head Updated", "success");
+            showNotification("<strong>Success</strong>", "Fees Head Updated.!", "success");
         }
         document.getElementById("new_loader").style.display = "none";
     });

@@ -102,6 +102,7 @@ function updateFeeHeadDetails(FeeHeadItem) {
         FeeHeadItem: FeeHeadItem
     });
 
+    
     updateHeadItemReq.done(function (responce) {
         console.log(responce);
         if (responce != 200) {
