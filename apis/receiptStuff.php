@@ -176,7 +176,7 @@ if ($conn->connect_error) {
         $sessionName = $_POST['sessionName'];
 
         $className = "amount_" . $class;
-        $sql = "SELECT sum($className) as 'fees' FROM `feesheads` WHERE sessionName = '$sessionName'";
+        $sql = "SELECT sum($className) as 'fees' FROM `feesheads` WHERE sessionName = '$sessionName' and isDiabled = 0";
         $result = mysqli_query($conn, $sql);
         $r = mysqli_fetch_assoc($result);
         $TotalFee = $r["fees"];
