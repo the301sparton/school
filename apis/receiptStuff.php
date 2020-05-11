@@ -69,10 +69,11 @@ if ($conn->connect_error) {
         $className = $_POST['className'];
         $sessionName = $_POST['sessionName'];
         $className = "amount_" . $className;
-        $sql = "SELECT sum($className) as 'fees' FROM `feesheads` WHERE sessionName = '$sessionName'";
-        $result = mysqli_query($conn, $sql);
-        $r = mysqli_fetch_assoc($result);
-        echo $r["fees"];
+        $sql = "SELECT sum(`$className`) as 'fees' FROM `feesheads` WHERE sessionName = '$sessionName'";
+        echo $sql;
+        // $result = mysqli_query($conn, $sql);
+        // $r = mysqli_fetch_assoc($result);
+        // echo $r["fees"];
     } else if ($type == "getReceipt") {
         $receiptId = $_POST['receiptId'];
         $sql = "SELECT * FROM receiptslist WHERE receiptId = $receiptId";
