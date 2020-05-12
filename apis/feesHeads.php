@@ -50,7 +50,7 @@ if ($conn->connect_error) {
         $sql = "UPDATE `feesheads` SET ";
         $i = 0;
         foreach ($headList as $item) {
-            if ($i != 0) {
+            if ($item != "sessionName" && $item !="headId" && "headName") {
                 $val = $FeeHeadItem[$item];
                 if ($i != count($headList) - 1) {
                     $sql = $sql . "`" . $item . "` = '" . $val . "', ";
