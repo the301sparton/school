@@ -176,12 +176,12 @@ if ($conn->connect_error) {
         $sessionName = $_POST['sessionName'];
 
         $className = "amount_" . $class;
-        $sql = "SELECT sum(`$className`) as 'fees' FROM `feesheads` WHERE sessionName = '$sessionName' and isDiabled = 0";
+        $sql = "SELECT sum(`$className`) as 'fees' FROM `feesheads` WHERE sessionName = '$sessionName'";
         $result = mysqli_query($conn, $sql);
         $r = mysqli_fetch_assoc($result);
         $TotalFee = $r["fees"];
 
-        $sql = "SELECT * FROM studentfees WHERE class = '$class' AND section = '$section' AND sessionName = '$sessionName'";
+        $sql = "SELECT * FROM studentfees WHERE class = '$class' AND section = '$section' AND sessionName = '$sessionName'  and isDisabled = 0";
         $rows = array();
         $result = mysqli_query($conn, $sql);
         while ($r = mysqli_fetch_assoc($result)) {
