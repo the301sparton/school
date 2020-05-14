@@ -2736,11 +2736,7 @@ function stepThree() {
         <input id="sessionMedium" class="form-control" type="text" placeholder="Study Medium" required>
       </div>
     </div>
-    <div class="row" style="margin-top:3%">
-        <div class="col-md-6">
-          <input id="sessionTotalFees" class="form-control" type="text" placeholder="Total Session Fees" required>
-        </div>
-    </div>
+   
 
     <div class="row" style="margin-top: 2%">
       <div class="col-md-8">
@@ -2849,7 +2845,6 @@ function setSessionEntry() {
           }
         });
         document.getElementById("sessionMedium").value = responce.medium;
-        document.getElementById("sessionTotalFees").value = responce.totalFees;
         if (responce.photo != "") {
           document.getElementById("studentImg").src = "data:image/png;base64, " + responce.photo;
         }
@@ -2882,6 +2877,7 @@ function updateSessionEntry(toReturn) {
   else {
     imgBaseEncode = imgBase;
   }
+  
   document.getElementById("new_loader").style.display = "block";
   var newSessionEntryReq = $.post(baseUrl + "/apis/studentSessionDetail.php", {
     type: "updateSessionDetailsById",
@@ -2890,7 +2886,7 @@ function updateSessionEntry(toReturn) {
     class: document.getElementById("sessionClass").value,
     section: document.getElementById("sessionSection").value,
     medium: document.getElementById("sessionMedium").value,
-    totalFees: document.getElementById("sessionTotalFees").value,
+    totalFees: "0",
     photo: imgBaseEncode
   });
   newSessionEntryReq.done(function (newSessionEntryRes) {

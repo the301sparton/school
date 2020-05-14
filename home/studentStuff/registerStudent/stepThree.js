@@ -183,6 +183,7 @@ function updateSessionEntry(toReturn) {
   else {
     imgBaseEncode = imgBase;
   }
+  
   document.getElementById("new_loader").style.display = "block";
   var newSessionEntryReq = $.post(baseUrl + "/apis/studentSessionDetail.php", {
     type: "updateSessionDetailsById",
