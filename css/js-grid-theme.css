@@ -125,7 +125,7 @@
 }
 
 .jsgrid-edit-row > .jsgrid-cell {
-    background: #fdffe3;
+    background: var(--primaryColor);
 }
 
 .jsgrid-selected-row > .jsgrid-cell {
