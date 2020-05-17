@@ -40,7 +40,8 @@ if ($conn->connect_error) {
         print json_encode($rows);
         logRequest($uid, $type, $sql, json_encode($rows));
     } else if ($type == "getAllHeads") {
-        $sql = "SELECT * FROM `feesheads`";
+        $sessionName = $_POST["sessionName"];
+        $sql = "SELECT * FROM `feesheads` WHERE sessionName = '$sessionName'";
         getOutputFromQueary($sql, $uid, $reqType);
     } else if ($type == "updateById") {
         $id = $_POST['id'];

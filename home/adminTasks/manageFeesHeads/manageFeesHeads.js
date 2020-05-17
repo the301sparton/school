@@ -9,17 +9,66 @@ function manageFeesHeads() {
     
     <div class="container" id="manageHeadsHolder">
     </div>
+
+    <div class="row">
+        <div class="col-md-10"></div>
+        <div class="col-md-2">
+        <select class="form-control" id="sessionSelect" onchange="makeViewForFeeHeads()">
+        <option selected disabled value="">Select Accedamic Year</option>
+
+      </select>
+        </div>
+    </div>
+
+    <div class="row" style = "margin-top: 2%">
     <div id="jsGrid" style = "display:none"></div>
+    </div>
     </div>`;
 
     document.getElementById('adminActionHolder').innerHTML = manageFeesHeadsHTML;
-    makeViewForFeeHeads();
+    loadAllSessionsForFeeHeads();
+    
 }
+
+
+function loadAllSessionsForFeeHeads() {
+    document.getElementById("new_loader").style.display = "block";
+    var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
+      type: "getAllSessions",
+      uid: me_data.uid
+    });
+  
+    allSessionReq.done(function (allSessions) {
+      try {
+        allSessions = JSON.parse(allSessions);
+        for (var index in allSessions) {
+  
+          $('#sessionSelect')
+            .append($('<option>', { value: allSessions[index].sessionName })
+              .text(allSessions[index].sessionName
+              ));
+        }
+  
+        document.getElementById("sessionSelect").value = currentSession;
+        makeViewForFeeHeads();
+      }
+      catch (e) {
+        showNotification("Error", "Failed to get data", "danger");
+      }
+      document.getElementById("new_loader").style.display = "none";
+    });
+  
+    allSessionReq.fail(function (jqXHR, textStatus) {
+      document.getElementById("new_loader").style.display = "none";
+      handleNetworkIssues(textStatus)
+    });
+  }
 
 function makeViewForFeeHeads() {
     document.getElementById("new_loader").style.display = "block";
     let getAllfeeData = $.post(baseUrl + "/apis/feesHeads.php", {
         type: "getAllHeads",
+        sessionName: document.getElementById("sessionSelect").value,
         uid: me_data.uid
     });
 
@@ -31,11 +80,16 @@ function makeViewForFeeHeads() {
             for (itr in feeData[0]) {
                 if (itr != "headId") {
                     if (itr.length > 10) {
+                        if ( itr == "sessionName") {
+                            fieldsArr[i] = { name: itr, type: "text", width: 120, editing: false };
+                        }
+                        else{
                         fieldsArr[i] = { name: itr, type: "number", width: 160 };
+                        }
                     }
                     else {
                         if (itr == "headName") {
-                            fieldsArr[i] = { name: itr, type: "text", width: 120 };
+                            fieldsArr[i] = { name: itr, type: "text", width: 120, editing: false };
                         }
                         else {
                             fieldsArr[i] = { name: itr, type: "number", width: 120 };
@@ -52,7 +106,7 @@ function makeViewForFeeHeads() {
                 editing: true,
                 sorting: false,
                 paging: true,
-
+                pageSize: 5,
                 data: feeData,
                 fields: fieldsArr,
 
