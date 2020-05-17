@@ -74,7 +74,7 @@ function feesReport() {
       </div>
       
     </div>
-    
+
     <div class="row" id="feeInfoHolder" style="text-align:center">
     
     </div>
