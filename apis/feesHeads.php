@@ -28,10 +28,11 @@ if ($conn->connect_error) {
             $resultReceipt = mysqli_query($conn, $sqlReceipt);
             while ($rReceipt = mysqli_fetch_assoc($resultReceipt)) {
                 $receiptId = $rReceipt["receiptId"];
-                $sqlHead = "SELECT sum(`amount`) AS amount FROM feesdetails WHERE receiptId = '$receiptId' AND headId = '$headId'";
-                $resultPaid=mysqli_query($GLOBALS['conn'],$sql);
-                $rPaid = mysqli_fetch_assoc($result);
-                $headAmount = $rPaid["amount"];
+                $sqlHead = "SELECT amount FROM feesdetails WHERE receiptId = '$receiptId' AND headId = '$headId'";
+                $resultHead = mysqli_query($conn, $sqlHead);
+                while ($rHead = mysqli_fetch_assoc($resultHead)) {
+                    $headAmount = $headAmount + $rHead["amount"];
+                }
             }
             $r = array_merge($r, array($headAmount));
             $rows[] = $r;
