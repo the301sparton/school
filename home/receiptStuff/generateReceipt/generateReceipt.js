@@ -8,6 +8,7 @@ function generateReceipt() {
     searchNEdit(true);
 }
 
+
 function getFeesDetails(studentId, classId) {
     ReceiptForStudentId = studentId;
     ReceiptClassId = classId;

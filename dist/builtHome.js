@@ -1378,6 +1378,7 @@ let FeeSessionSelect;
 let isFirstDateReportView = true;
 let isClassAndSectionFirst = true;
 let dateFrom, dateTo;
+var printType = "";
 
 function FeeRepostTypehangeFun() {
     FeeRepostType = document.getElementById('FeeRepostType').value;
@@ -1562,7 +1563,7 @@ function checkReportType() {
             document.getElementById("errorMessage").style.display = "none";
 
             if (FeeSessionSelect != "") {
-                reportBySchool();
+               reportBySchool();
             }
         } else if (FeeRepostType == "byMonth") {
             document.getElementById('receiptIdBox').style.display = "none";
@@ -1577,7 +1578,7 @@ function checkReportType() {
                                                               </div>`;
             document.getElementById("errorMessage").style.display = "none";
             if (FeeSessionSelect != "") {
-                getMonthWiseReport();
+                 getMonthWiseReport();
             }
         } else if (FeeRepostType == "classSummeryReport") {
             document.getElementById('feeSessionDiv').style.display = "block";
@@ -1943,7 +1944,6 @@ function UpdateFilter() {
         ReportByDates();
     } else if (FeeRepostType == "classSummeryReport") {
         if (document.getElementById("filterClass").value != "" && document.getElementById("filterClass").value != null && document.getElementById("filterSection").value != "" && document.getElementById("filterSection").value != null) {
-            document.getElementById("errorMessage").style.display = "none";
             classSummeryReport();
         }
 
@@ -1966,6 +1966,33 @@ function clearFilter() {
 
 
 function printReport() {
+    
+    var type = "Fees Report By: " + $( "#FeeRepostType option:selected" ).text();
+    var filter = "";
+    var dateStr = ""
+    if(type != ""){
+        let school = $( "#filterSchool option:selected" ).text();
+        let className = $( "#filterClass option:selected" ).text();
+        let sectionName = $( "#filterSection option:selected" ).text();
+        if(document.getElementById("filterType").value == 1){
+            filter = "For: "+ school;
+        }
+        else if(document.getElementById("filterType").value == 2){
+            filter = "For Class: "+ className+ " Section: "+sectionName;
+        }
+        else{
+            filter = "No Filter";
+        }
+
+        if(FeeRepostType == "byDate"){
+            filter += ", From: " + dateFrom + " - To: " +dateTo;
+        }
+
+        let temp = new Date();
+        dateStr = temp.toUTCString();
+    }
+
+
     var prtContent = document.getElementById("jsGrid");
     var WinPrint = window.open('', '', 'left=0,top=0,width=' + screen.width + ',height=' + screen.height + ',toolbar=0,scrollbars=0,status=0');
     var initHTML = `<html lang="en">
@@ -1980,7 +2007,12 @@ function printReport() {
     margin: 0;  /* this affects the margin in the printer settings */
 }
 </style></head>
-<body>`
+<body>
+<div class="row"><h3 style="text-align:center">`+type+`</h3></div>
+<div class="row"><h5 style="text-align:center">`+filter+`</h5></div>
+<div class="row"><h5 style="text-align:center">`+dateStr+`</h5></div>
+
+`
     var printJS = `
 <script>
 window.onload = function() {
@@ -2000,6 +2032,7 @@ function generateReceipt() {
     setActiveColorsfees("generateReceipt");
     searchNEdit(true);
 }
+
 
 function getFeesDetails(studentId, classId) {
     ReceiptForStudentId = studentId;
@@ -2154,8 +2187,10 @@ $('#newReceiptForm').submit(function (event) {
 
     feesHeadVal = [];
     for (var itr in feeHeads) {
+        console.log(feeHeads[itr])
         if (document.getElementById('headValue' + itr).value != 0) {
-            if (document.getElementById('headValue' + itr).value == "" || document.getElementById('headValue' + itr).value == null) {
+            if (document.getElementById('headValue' + itr).value == "" || document.getElementById('headValue' + itr).value == null 
+            || document.getElementById('headValue' + itr).value < 0 || document.getElementById('headValue' + itr).value > ( parseInt(feeHeads[itr]["amount_" + ReceiptClassId], 10) - (feeHeads[itr][0]))) {
                 superBreaksOFF = false;
                 break;
             }
