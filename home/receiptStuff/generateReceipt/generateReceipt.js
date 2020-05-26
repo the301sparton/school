@@ -161,8 +161,10 @@ $('#newReceiptForm').submit(function (event) {
 
     feesHeadVal = [];
     for (var itr in feeHeads) {
+        console.log(feeHeads[itr])
         if (document.getElementById('headValue' + itr).value != 0) {
-            if (document.getElementById('headValue' + itr).value == "" || document.getElementById('headValue' + itr).value == null) {
+            if (document.getElementById('headValue' + itr).value == "" || document.getElementById('headValue' + itr).value == null 
+            || document.getElementById('headValue' + itr).value < 0 || document.getElementById('headValue' + itr).value > ( parseInt(feeHeads[itr]["amount_" + ReceiptClassId], 10) - (feeHeads[itr][0]))) {
                 superBreaksOFF = false;
                 break;
             }
