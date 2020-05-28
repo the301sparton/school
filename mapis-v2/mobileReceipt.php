@@ -21,7 +21,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //Auth Success!
 
                 $studentId = $decoded_array["studentId"];
+                $className = $decoded_array["className"];
+                
                 $sessionName = $decoded_array["sessionName"];
+                $className = $conn->real_escape_string($className);
                 $studentId = $conn->real_escape_string($studentId);
                 $sessionName = $conn->real_escape_string($sessionName);
 
