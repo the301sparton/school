@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $className = $conn->real_escape_string($className);
                 $studentId = $conn->real_escape_string($studentId);
                 $sessionName = $conn->real_escape_string($sessionName);
-
+                $className = "amount_".$className;
                 $sql = "SELECT `receiptId`, `recamt` from vreceiptamount WHERE `studentId` = '$studentId' AND `sessionName` = '$sessionName'";
                 $result=mysqli_query($GLOBALS['conn'],$sql);  
                 $toPrint = array();       
