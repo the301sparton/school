@@ -38,9 +38,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $itr = $itr + 1;
                 }
             
-                $sql = "SELECT totalFees, paidFees FROM studentfees where studentId = '$studentId' AND sessionName = '$sessionName'";
-                $result2 = mysqli_query($conn,$sql);            
+                $sql = "SELECT paidFees FROM studentfees where studentId = '$studentId' AND sessionName = '$sessionName'";
+                $result2 = mysqli_query($conn,$sql); 
                 $r2 = mysqli_fetch_assoc($result2);
+                $sql = "SELECT sum(`$className`) as 'fees' FROM `feesheads` WHERE sessionName = '$sessionName'";
+                $result3 = mysqli_query($conn,$sql);
+                $r3 = mysqli_fetch_assoc($result3);
+                $r2["totalFees"] = $r3["fees"];
                 $toPrint["details"] = $r2;
                 
                 $r = array_merge($r,$r1);
