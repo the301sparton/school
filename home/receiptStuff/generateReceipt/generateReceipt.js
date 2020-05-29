@@ -129,7 +129,7 @@ function newReceiptView() {
                   <label id = "headId` + itr + `"></label>
                 </div>
                 <div class="col-md-6">
-                  <input style = "background: var(--colorPrimary)" class="form-control" type="number" id="headValue` + itr + `" onchange="setSum(this.value)" value="0">
+                  <input style = "background: var(--colorPrimary)" class="form-control" type="number" id="headValue` + itr + `" onchange="setSum()" value="0">
                 </div>
               </div>`;
 
@@ -211,8 +211,17 @@ $('#newReceiptForm').submit(function (event) {
     }
 });
 
-function setSum(value) {
-    document.getElementById('totalFees').value = parseInt(value, 10) + parseInt(document.getElementById('totalFees').value, 10);
+function setSum() {
+    var currentSum = 0
+    for(itr in feeHeads){
+        headValuevalue = document.getElementById("headValue"+ itr).value;
+        if(parseInt(headValuevalue, 10)){
+            currentSum = currentSum + parseInt(headValuevalue, 10);
+            document.getElementById('totalFees').value = currentSum;
+        }
+    }
+    
+   
 }
 
 function viewReceipt(receiptId) {
