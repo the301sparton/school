@@ -245,8 +245,8 @@ else{
         $result=mysqli_query($conn,$sql);
         $r = mysqli_fetch_assoc($result);
 
-        $tbl_name = "studentdetails";
-        $sql1 = "SELECT class, section FROM `$tbl_name` WHERE studentId = $studentId AND sessionName = '$sessionName'";
+        $tbl_name = "schoolwisestudents";
+        $sql1 = "SELECT className, section, schoolId FROM `$tbl_name` WHERE studentId = $studentId AND sessionName = '$sessionName'";
         $result1=mysqli_query($conn,$sql1);
         $r1 = mysqli_fetch_assoc($result1);
         echo json_encode(array_merge($r, $r1));
