@@ -211,6 +211,7 @@ $('#newReceiptForm').submit(function (event) {
     }
 });
 
+
 function setSum() {
     var currentSum = 0
     for(itr in feeHeads){
