@@ -65,4 +65,12 @@ if ($conn->connect_error) {
         get200AsYes($sql,$uid,$reqType);
         //echo $sql;
     }
+
+    else if($type == "feeHeadsForClass"){
+        $className = $_POST["className"];
+        $sessionName = $_POST["sessionName"];
+        $class = "amount_".$className;
+        $sql = "SELECT  headId, headName, `$class` FROM feesheads WHERE `$class` > 0 AND sessionName = '$sessionName' ORDER BY headId";
+        getOutputFromQueary($sql, $uid, $reqType);
+    }
 }
