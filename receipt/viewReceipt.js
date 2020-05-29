@@ -1,3 +1,4 @@
+
 let user;
 let me_data;
 let receiptId;
