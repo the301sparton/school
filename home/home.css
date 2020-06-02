@@ -174,30 +174,35 @@
 }
 
 .button1 {
+    padding: 1%;
     background-color: var(--btnColor0);
     border: 2px solid var(--btnColor0);
     cursor: pointer;
 }
 
 .button2 {
+    padding: 1%;
     background-color: var(--btnColor1);
     border: 2px solid var(--btnColor1);
     cursor: pointer;
 }
 
 .button3 {
+    padding: 1%;
     background-color: var(--btnColor2);
     border: 2px solid var(--btnColor2);
     cursor: pointer;
 }
 
 .button4 {
+    padding: 1%;
     background-color: var(--btnColor3);
     border: 2px solid var(--btnColor3);
     cursor: pointer;
 }
 
 .button5 {
+    padding: 1%;
     background-color: var(--btnColor4);
     border: 2px solid var(--btnColor4);
     cursor: pointer;
