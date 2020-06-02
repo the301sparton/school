@@ -1,11 +1,10 @@
-.dark,
-.dark * {
+.dark, .dark * {
     /* background-color: #222; */
     color: #e6e6e6;
     border-color: #e6e6e6;
     --primaryColor: rgb(34, 34, 34);
     --textColor: #e6e6e6;
-    --colorHighlight:#34495e;
+    --colorHighlight: #34495e;
     --textSecondary: #f7f7;
     --btnColor0: #1b2631;
     --btnColor1: #222c36;
@@ -13,9 +12,7 @@
     --btnColor3: #37434e;
     --btnColor4: #0f2466;
     --btnColor5: #503433;
-
-    --checkMark:#222c36;
-
+    --checkMark: #222c36;
     --colorSuccess: #152b1a;
     --colorDanger: #aa3941;
     --colorWarning: #443d26;
@@ -29,19 +26,50 @@
     background: var(--btnColor1);
 }
 
-.elementDefiner *{
+.elementDefiner * {
     background: var(--btnColor2);
 }
 
+@media only screen and (max-device-width: 640px) {
+    /* Styles */
+    .image {
+        height: 30px;
+        width: 30px;
+    }
+    .iStyle {
+        padding: 5%;
+    }
+}
 
-.light,
-.light * {
+@media only screen and (max-device-width: 768px) {
+    /* Styles */
+    .image {
+        height: 30px;
+        width: 30px;
+    }
+    .iStyle {
+        padding: 5%;
+    }
+}
+
+@media only screen and (min-device-width: 768px) {
+    /* Styles */
+    .image {
+        height: 50px;
+        width: 50px;
+    }
+    .iStyle {
+        padding: 30%;
+    }
+}
+
+.light, .light * {
     /* background-color: #fff; */
     /* /* color: #1b2631; */
     /* border-color: #1b2631;  */
-    --primaryColor:  #ffffff;
+    --primaryColor: #ffffff;
     --textColor: #1b2631;
-    --colorHighlight:#aed6f1;
+    --colorHighlight: #aed6f1;
     --textSecondary: #581845;
     --btnColor0: #D6E2E7;
     --btnColor1: #E0E3EB;
@@ -49,9 +77,7 @@
     --btnColor3: #EFF3FC;
     --btnColor4: #F4ECF7;
     --btnColor5: #aed6f1;
-
     --checkMark: #007bff;
-
     --colorSuccess: #28a745;
     --colorDanger: #f8d7da;
     --colorWarning: #fff3cd;
@@ -126,13 +152,13 @@
 .button {
     border-radius: 15px;
     cursor: pointer;
-    padding: 1%;
     border: none;
     color: var(--textColor);
     text-decoration: none;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
 }
+
 .button:hover {
     background-color: var(--primaryColor);
     color: var(--textColor);
@@ -158,21 +184,25 @@
     border: 2px solid var(--btnColor1);
     cursor: pointer;
 }
+
 .button3 {
     background-color: var(--btnColor2);
     border: 2px solid var(--btnColor2);
     cursor: pointer;
 }
+
 .button4 {
     background-color: var(--btnColor3);
     border: 2px solid var(--btnColor3);
     cursor: pointer;
 }
+
 .button5 {
     background-color: var(--btnColor4);
     border: 2px solid var(--btnColor4);
     cursor: pointer;
 }
+
 .button6 {
     background-color: var(--btnColor5);
     border: 2px solid var(--btnColor5);
@@ -191,7 +221,6 @@
     user-select: none;
 }
 
-
 /* Hide the browser's default checkbox */
 
 .checklabel input {
@@ -202,13 +231,12 @@
     width: 0;
 }
 
-
 /* Create a custom checkbox */
 
 .checkmark {
     position: absolute;
     border-radius: 25%;
-    border:1px solid;
+    border: 1px solid;
     top: 0;
     left: 0;
     height: 25px;
@@ -216,24 +244,22 @@
     background-color: var(--primaryColor);
 }
 
-
 /* On mouse-over, add a grey background color */
 
 .checklabel:hover input~.checkmark {
-    background-color: var(--checkMark);;
+    background-color: var(--checkMark);
+    ;
     border-radius: 25%;
-    border:1px solid;
+    border: 1px solid;
 }
-
 
 /* When the checkbox is checked, add a blue background */
 
 .checklabel input:checked~.checkmark {
     background-color: var(--checkMark);
-    border:1px solid;
+    border: 1px solid;
     border-radius: 25%;
 }
-
 
 /* Create the checkmark/indicator (hidden when not checked) */
 
@@ -243,13 +269,11 @@
     display: none;
 }
 
-
 /* Show the checkmark when checked */
 
 .checklabel input:checked~.checkmark:after {
     display: block;
 }
-
 
 /* Style the checkmark/indicator */
 
@@ -269,7 +293,7 @@
     padding: 10px;
     background-color: var(--btnColor1);
     color: white;
-    border:1px solid;
+    border: 1px solid;
     border-radius: 6px;
 }
 

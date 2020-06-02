@@ -200,9 +200,10 @@ function createResultView(searchResult, searchStr) {
         <div style="display: none;" id="studID`+ itr + `"></div>
         <div style="display: none;" id="studClassId`+ itr + `"></div>
            <div class="col-rmd-1" style="background:var(--btnColor1)">
-             <img style="width: 50px; height: 50px; border-radius: 50%" id="studentImg`+ itr + `">
+             <img class="image" style="border-radius: 50%" id="studentImg`+ itr + `">
            </div>
            <div class="col-rmd-11" style="background:var(--btnColor1)">
+           <div class="container">
              <div class="row" style="font-size: 18px">
                <div class="col-rmd-8" id="studentName`+ itr + `" style="background:var(--btnColor1)">
                  
@@ -212,9 +213,10 @@ function createResultView(searchResult, searchStr) {
                </div>
              </div>
              <div class="row" style="background:var(--btnColor1)">
-               <div class="col-rmd-1" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `" ></div>
-               <div class="col-rmd-2" style="background:var(--btnColor1)" id="isDisabled`+ itr + `" ></div>
+               <div class="col-rmd-6" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `" ></div>
+               <div class="col-rmd-6" style="background:var(--btnColor1); text-align:end" id="isDisabled`+ itr + `" ></div>
               
+             </div>
              </div>
            </div> 
         </div>
@@ -224,31 +226,32 @@ function createResultView(searchResult, searchStr) {
       }
       else if(forReceipt && searchResult[itr].isDisabled == 0){
         resultView = `<div class="row collapsible" onclick="selectedStudent(this)">
-      <div style="display: none;" id="studID`+ itr + `"></div>
-      <div style="display: none;" id="studClassId`+ itr + `"></div>
-         <div class="col-rmd-1" style="background:var(--btnColor1)">
-           <img style="width: 50px; height: 50px; border-radius: 50%" id="studentImg`+ itr + `">
-         </div>
-         <div class="col-rmd-11" style="background:var(--btnColor1)">
-           <div class="row" style="font-size: 18px">
-             <div class="col-rmd-8" id="studentName`+ itr + `" style="background:var(--btnColor1)">
-               
-             </div>
-             <div class="col-rmd-4" style="background:var(--btnColor1);text-align: right; padding-right:1%" id="studentClassNSection`+ itr + `">
-              
-             </div>
+        <div style="display: none;" id="studID`+ itr + `"></div>
+        <div style="display: none;" id="studClassId`+ itr + `"></div>
+           <div class="col-rmd-1" style="background:var(--btnColor1)">
+             <img class="image" style="border-radius: 50%" id="studentImg`+ itr + `">
            </div>
-           <div class="row" style="background:var(--btnColor1)">
-             <div class="col-rmd-1" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `">
-             <div class="col-rmd-2" style="background:var(--btnColor1)" id="isDisabled`+ itr + `" >
+           <div class="col-rmd-11" style="background:var(--btnColor1)">
+           <div class="container">
+             <div class="row" style="font-size: 18px">
+               <div class="col-rmd-8" id="studentName`+ itr + `" style="background:var(--btnColor1)">
+                 
+               </div>
+               <div class="col-rmd-4" style="background:var(--btnColor1); text-align: right; padding-right:1%" id="studentClassNSection`+ itr + `">
+                
+               </div>
              </div>
+             <div class="row" style="background:var(--btnColor1)">
+             <div class="col-rmd-6" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `" ></div>
+             <div class="col-rmd-6" style="background:var(--btnColor1); text-align:end" id="isDisabled`+ itr + `" ></div>
             
-           </div>
-         </div> 
-      </div>
-      <div class="row content" id="searchContent`+ itr + `">
-         
-      </div>`;
+             </div>
+             </div>
+           </div> 
+        </div>
+        <div class="row content" id="searchContent`+ itr + `">
+           
+        </div>`;
       }
       else{
         continue;

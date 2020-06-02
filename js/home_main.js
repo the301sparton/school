@@ -270,7 +270,7 @@ function getlimitAdminTasks() {
 function studentOptionsView() {
     var StudentOptionHTML = ``;
     if (canRegisterStudent == 1 && canSearchNEdit == 1) {
-        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
+        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               <div class="col-rmd-5 button button1" id="registerStudent" onclick="registerStudent()">Register Student</div>
@@ -280,7 +280,7 @@ function studentOptionsView() {
               <div class="col-rmd-5 button button2" id="searchNEdit" onclick="searchNEdit()">Search & Edit</div>
           </div>`;
     } else if (canRegisterStudent == 1 && canSearchNEdit == 0) {
-        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
+        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               
@@ -291,7 +291,7 @@ function studentOptionsView() {
               </div> 
           `;
     } else if (canRegisterStudent == 0 && canSearchNEdit == 1) {
-        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
+        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               
@@ -302,7 +302,7 @@ function studentOptionsView() {
           </div> 
           `;
     } else {
-        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
+        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding:5%">
     <div class="text-center">`;
     }
     if (canStudentAttendence == 0 && canStudentReport == 0) {
@@ -356,7 +356,7 @@ function studentOptionsView() {
 function feesOptionView() {
     FeesOptionHTML = ``;
     if (canGenerateReceipt == 1 && canFeesReport == 1) {
-        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding-top:5%">
+        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding:5%">
           <div class="text-center">
             <div class="row" id="studentOptionsRow1"style="margin-top:3%">
                 <div class="col-rmd-5 button button1" id="generateReceipt" onclick="generateReceipt()">Generate Receipt</div>
@@ -366,7 +366,7 @@ function feesOptionView() {
                 <div class="col-rmd-5 button button2" id="feesReport" onclick="feesReport()">Fees Report</div>
             </div>`;
     } else if (canGenerateReceipt == 1 && canFeesReport == 0) {
-        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding-top:5%">
+        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding:5%">
           <div class="text-center">
             <div class="row" id="studentOptionsRow1"style="margin-top:3%">
                 
@@ -377,7 +377,7 @@ function feesOptionView() {
                 </div> 
             `;
     } else if (canGenerateReceipt == 0 && canFeesReport == 1) {
-        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding-top:5%">
+        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding:5%">
           <div class="text-center">
             <div class="row" id="studentOptionsRow1"style="margin-top:3%">
                 
@@ -404,7 +404,7 @@ function adminTasksView() {
 
     var AdminOptionHTML = ``;
     if (canManageUsers == 1 && canManageRoles == 1) {
-        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               <div class="col-rmd-5 button button1" id="manageUsers" onclick="manageUsers()">Manage Users</div>
@@ -414,7 +414,7 @@ function adminTasksView() {
               <div class="col-rmd-5 button button2" id="manageRoles" onclick="manageRoles()">Manage User Groups</div>
           </div>`;
     } else if (canManageUsers == 1 && canManageRoles == 0) {
-        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               
@@ -425,7 +425,7 @@ function adminTasksView() {
               </div> 
           `;
     } else if (canManageUsers == 0 && canManageRoles == 1) {
-        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               
@@ -436,7 +436,7 @@ function adminTasksView() {
           </div> 
           `;
     } else {
-        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding:5%">
     <div class="text-center">`;
     }
 

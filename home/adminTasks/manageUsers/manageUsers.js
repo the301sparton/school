@@ -113,9 +113,10 @@ function makeUserView(allUserArray) {
     for (var itr in allUserArray) {
       userItemHtml = `<div class="row collapsible" onclick="getUserDetails(this)">
                <div class="col-rmd-1" style="background:var(--btnColor1)">
-                 <img style="width: 50px; height: 50px; border-radius: 50%" id="userImg`+ itr + `">
+                 <img class="image" style="border-radius: 50%" id="userImg`+ itr + `">
                </div>
                <div class="col-rmd-11" style="background:var(--btnColor1)">
+               <div class="container" style="background:var(--btnColor1)" >
                  <div class="row" style="font-size: 18px">
                    <div class="col-rmd-8" style="background:var(--btnColor1)" id="displayName`+ itr + `">
                    </div>
@@ -123,10 +124,11 @@ function makeUserView(allUserArray) {
                    </div>
                  </div>
                  <div class="row" style="margin-top:1%">
-                   <div class="col-rmd-10" style="background:var(--btnColor1)" id="emailId`+ itr + `">
+                   <div class="col-rmd-12" style="background:var(--btnColor1)" id="emailId`+ itr + `">
                    </div>
                    <div style="display: none;" id="userId`+ itr + `"></div>
-                   <div class="col-md-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteUser(this)"></i></div>
+                   <div class="col-md-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer; background:var(--btnColor1)" onclick="deleteUser(this)"></i></div>
+                 </div>
                  </div>
                </div> 
             </div>`;
@@ -220,7 +222,7 @@ function getUserDetails(usersView) {
       }
       document.getElementById('userDetailsHolder').innerHTML += `<div class="row" style="margin-top:2%; margin-bottom:2%">
         <div class="col-md-11"></div>
-        <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="addUserGroup(this)"></i>
+        <div class="col-md-1"> <i class="iStyle fa fa-plus button button5" style="border-radius:50%;" onclick="addUserGroup(this)"></i>
         </div>
         </div>`;
     }

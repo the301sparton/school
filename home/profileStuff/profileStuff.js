@@ -4,7 +4,7 @@ let imageDataChanged = false;
 
 function profileSettings() {
     $('#toggleNav').dropdown('toggle');
-    profileSettingsHTML = `<div class="backgroundDefiner container" id="profileSettingsHTML" style="background: var(--btnColor3); margin-top:3%; margin-bottom: 3%; width: 50%; border-radius: 15px; padding: 1%">
+    profileSettingsHTML = `<div class="container" id="profileSettingsHTML" style="background: var(--btnColor3); margin-top:3%; margin-bottom: 3%; border-radius: 15px; padding: 5%">
   <form id="profileUpdateForm">  
   <div class="row" style="margin-top:3%">
       <div class="col-rmd-2"></div>
@@ -36,7 +36,7 @@ function profileSettings() {
     <div class="row" >
     <div class="col-rmd-2"></div>
     <div class="col-rmd-8">
-        <input type="text" class="form-control" id="up_displayName">
+        <input style="background-color: var(--colorPrimary);" type="text" class="form-control" id="up_displayName">
       </div>
     </div>
 
@@ -49,7 +49,7 @@ function profileSettings() {
     <div class="row" >
     <div class="col-rmd-2"></div>
     <div class="col-rmd-8">
-        <input type="text" class="form-control" id="up_mobileNumber" maxlength="10" pattern="[789][0-9]{9}" required>
+        <input style="background-color: var(--colorPrimary);" type="text" class="form-control" id="up_mobileNumber" maxlength="10" pattern="[789][0-9]{9}" required>
       </div>
     </div>
 
@@ -62,7 +62,7 @@ function profileSettings() {
     <div class="row" >
     <div class="col-rmd-2"></div>
     <div class="col-rmd-8">
-        <input type="email" class="form-control" id="up_emailId">
+        <input style="background-color: var(--colorPrimary);" type="email" class="form-control" id="up_emailId">
       </div>
     </div>
     <div class="row" style="margin-top:2%">
