@@ -10,6 +10,7 @@ function profileSettings() {
       <div class="col-rmd-2"></div>
       <div class="col-rmd-8" style="text-align: center">
         <h4>Profile Settings</h4>
+        <hr>
       </div>
     </div>
 

@@ -389,7 +389,7 @@ function feesOptionView() {
             `;
     } else {}
     FeesOptionHTML += `<div class="row" style="margin-top:3%;margin-bottom:3%">
-                    <div class="col backgroundDefiner" id="feesActionHolder" style="background: var(--btnColor3); border-radius:10px; padding-top:2%">
+                    <div class="col backgroundDefiner" id="feesActionHolder" style="background: var(--btnColor3); border-radius:10px; padding:2%">
                         <h5 id="StudentSelectionHeading">Select one of above operations</h5>
                     </div>                  
                     </div>

@@ -52,7 +52,7 @@ function feesReport() {
         </select>
       </div>
       <div class="col-md-1" id="filterImg">
-      <img src="../img/filter.png" style="width:25px; height:25px;cursor: pointer;" onclick="showFilters()"></img>
+      <img src="../img/filter.png" style="width:25px; height:25px;cursor: pointer; margin: 3%;" onclick="showFilters()"></img>
       </div>
 
 
