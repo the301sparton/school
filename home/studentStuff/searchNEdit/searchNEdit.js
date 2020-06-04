@@ -199,10 +199,10 @@ function createResultView(searchResult, searchStr) {
         resultView = `<div class="row collapsible" onclick="viewStudent(this)">
         <div style="display: none;" id="studID`+ itr + `"></div>
         <div style="display: none;" id="studClassId`+ itr + `"></div>
-           <div class="col-rmd-1" style="background:var(--btnColor1)">
+           <div class="col-md-1" style="background:var(--btnColor1)">
              <img class="image" style="border-radius: 50%" id="studentImg`+ itr + `">
            </div>
-           <div class="col-rmd-11" style="background:var(--btnColor1)">
+           <div class="col-md-11" style="background:var(--btnColor1)">
            <div class="container">
              <div class="row" style="font-size: 18px">
                <div class="col-rmd-8" id="studentName`+ itr + `" style="background:var(--btnColor1)">
@@ -228,10 +228,10 @@ function createResultView(searchResult, searchStr) {
         resultView = `<div class="row collapsible" onclick="selectedStudent(this)">
         <div style="display: none;" id="studID`+ itr + `"></div>
         <div style="display: none;" id="studClassId`+ itr + `"></div>
-           <div class="col-rmd-1" style="background:var(--btnColor1)">
+           <div class="col-md-1" style="background:var(--btnColor1)">
              <img class="image" style="border-radius: 50%" id="studentImg`+ itr + `">
            </div>
-           <div class="col-rmd-11" style="background:var(--btnColor1)">
+           <div class="col-md-11" style="background:var(--btnColor1)">
            <div class="container">
              <div class="row" style="font-size: 18px">
                <div class="col-rmd-8" id="studentName`+ itr + `" style="background:var(--btnColor1)">
