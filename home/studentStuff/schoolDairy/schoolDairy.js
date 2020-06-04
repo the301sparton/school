@@ -9,11 +9,11 @@ function schoolDiary() {
   </div>
   
   <div class="row" style = "text-align: center; padding: 1%">
-      <div class="col-rmd-2"></div>
-      <div class="col-rmd-3 button button2" style = "margin: auto; border-radius: 8px" onclick="createNotice()" id="createNotice">Create Notice</div>
-      <div class="col-rmd-2"></div>
-      <div class="col-rmd-3 button button3" style = "margin: auto; border-radius: 8px" onclick="enterMarks()" id="enterMarks">Enter Marks</div>
-      <div class="col-rmd-2"></div>
+      <div class="col-md-2"></div>
+      <div class="col-md-3 button button2" style = "margin: 1%; border-radius: 8px" onclick="createNotice()" id="createNotice">Create Notice</div>
+      <div class="col-md-2"></div>
+      <div class="col-md-3 button button3" style = "margin: 1%; border-radius: 8px" onclick="enterMarks()" id="enterMarks">Enter Marks</div>
+      <div class="col-md-2"></div>
   </div>
 
   <hr>

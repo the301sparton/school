@@ -312,7 +312,7 @@ function studentOptionsView() {
         <div class="col-rmd-4">
               
         </div>
-          <div class="col-rmd-4 button button3" id="studentAttendence" onclick="studentAttendence()">Student Attendence</div>             
+          <div class="col-rmd-4 button button3" id="studentAttendence" onclick="studentAttendence()">Attendence</div>             
       </div>`;
     } else if (canStudentAttendence == 0 && canStudentReport == 1) {
         StudentOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
@@ -320,15 +320,15 @@ function studentOptionsView() {
         <div class="col-rmd-4">
             
         </div>
-        <div class="col-rmd-4 button button4" id="studentReport" onclick="studentReport()">Student Report</div>
+        <div class="col-rmd-4 button button4" id="studentReport" onclick="studentReport()">Student Reports</div>
     </div>`;
     } else if (canStudentAttendence == 1 && canStudentReport == 1) {
         StudentOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
-        <div class="col-rmd-5 button button3" id="studentAttendence" onclick="studentAttendence()">Student Attendence</div>
+        <div class="col-rmd-5 button button3" id="studentAttendence" onclick="studentAttendence()">Attendence</div>
         <div class="col-rmd-2">
             
         </div>
-        <div class="col-rmd-5 button button4" id="studentReport" onclick="studentReport()">Student Report</div>
+        <div class="col-rmd-5 button button4" id="studentReport" onclick="studentReport()">Student Reports</div>
       </div>`;
     }
 
