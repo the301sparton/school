@@ -36,10 +36,12 @@ function getClassListToShow() {
         document.getElementById('jsGrid').style.display = "block";
         $("#jsGrid").jsGrid({
             width: "100%",
-            inserting: false,
-            editing: false,
-            sorting: false,
+            filtering: true,
+            editing: true,
+            sorting: true,
             paging: true,
+            autoload: true,
+            pageSize: 8,
             fields: [{ name: "schoolName", title: "School Name", type: "text", width: 120 },
             { name: "className", title: "Class Name", type: "text", width: 140 },
             { name: "section", title: "Section", type: "text", width: 120 },
@@ -48,7 +50,56 @@ function getClassListToShow() {
             rowClick: function (args) {
                 showClassListDetailsDialog(args.item, true);
             },
-            data: JSON.parse(responce)
+            controller: {
+                loadData: function (filter) {
+                    var toReturn = $.Deferred();
+                    let data = JSON.parse(responce)
+                    var result = [];
+                    if (filter.schoolName !== "") {
+                        data.forEach(function (element) {
+                            if (element.schoolName.indexOf(filter.schoolName) > -1) {
+                                result.push(element);
+                            }
+                        }, this);
+                        data = result;
+                    }
+                    else result = data;
+
+                    if (filter.className !== "") {
+                        result = [];
+                        data.forEach(function (element) {
+                            if (element.className.indexOf(filter.className) > -1)
+                                result.push(element);
+                        }, this);
+                        data = result;
+                    }
+                    else result = data;
+
+                    if (filter.section !== "") {
+                        result = [];
+                        data.forEach(function (element) {
+                            if (element.section.indexOf(filter.section) > -1)
+                                result.push(element);
+                        }, this);
+                        data = result;
+                    }
+                    else result = data;
+
+                    if (filter.displayName !== "") {
+                        result = [];
+                        data.forEach(function (element) {
+                            if (element.displayName.indexOf(filter.displayName) > -1)
+                                result.push(element);
+                        }, this);
+                        data = result;
+                    }
+                    else result = data;
+
+
+                    toReturn.resolve(result);
+                    return toReturn.promise();
+                },
+            }
         });
         document.getElementById("new_loader").style.display = "none";
     });
@@ -136,7 +187,7 @@ function setValuesInSchoolListSelect(viewId) {
                     text: schoolArray[index].schoolName,
                 }, '</option>'));
         }
-        document.getElementById("new_loader").style.display = "none";           
+        document.getElementById("new_loader").style.display = "none";
     });
 
     schoolreq.fail(function (jqXHR, textStatus) {
