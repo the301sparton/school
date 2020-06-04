@@ -223,8 +223,8 @@ function getUserDetails(usersView) {
         }
       }
       document.getElementById('userDetailsHolder').innerHTML += `<div class="row" style="margin-top:2%; margin-bottom:2%">
-        <div class="col-rmd-11"></div>
-        <div class="col-rmd-1"> <i class="iStyle fa fa-plus button button5" style="border-radius:50%;" onclick="addUserGroup(this)"></i>
+        <div class="col-md-11"></div>
+        <div class="col-md-1"> <i class="iStyle fa fa-plus button button6" style="border-radius:50%;" onclick="addUserGroup(this)"></i>
         </div>
         </div>`;
     }
