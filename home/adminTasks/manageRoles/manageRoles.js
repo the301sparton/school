@@ -61,28 +61,28 @@ function makeRoleEditView(roleArray) {
                    <hr>
                    <div class="row" style="padding:2%">
                         <div class="col-md-3">
-                        <label for="manageUsers` + itr + `" class="checklabel">Manage Users
+                        <label for="manageUsers` + itr + `" class="checklabel" style="padding-left:30px">Manage Users
                             <input type="checkbox" id="manageUsers` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="manageRoles` + itr + `" class="checklabel">Manage Role Groups
+                        <label for="manageRoles` + itr + `" class="checklabel" style="padding-left:30px">Manage Role Groups
                             <input type="checkbox" id="manageRoles` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="manageFeesHeads` + itr + `" class="checklabel">Manage Fees
-                            <input type="checkbox" id="manageFeesHeads` + itr + `">
+                        <label for="manageFeesHeads` + itr + `" class="checklabel" style="padding-left:30px">Manage Fees
+                            <input type="checkbox" id="manageFeesHeads` + itr + `" >
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="newAccadamicYear` + itr + `" class="checklabel">Start New Accadamic Year
+                        <label for="newAccadamicYear` + itr + `" class="checklabel" style="padding-left:30px">Start New Accadamic Year
                             <input type="checkbox" id="newAccadamicYear` + itr + `">
                             <span class="checkmark"></span>
                          </label>
@@ -91,28 +91,28 @@ function makeRoleEditView(roleArray) {
 
                    <div class="row" style="padding:2%">
                         <div class="col-md-3">
-                        <label for="registerStudent` + itr + `" class="checklabel">Register Student
+                        <label for="registerStudent` + itr + `" class="checklabel" style="padding-left:30px">Register Student
                             <input type="checkbox" id="registerStudent` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="searchNEdit` + itr + `" class="checklabel">Search and edit student data
+                        <label for="searchNEdit` + itr + `" class="checklabel" style="padding-left:30px">Search and edit student data
                             <input type="checkbox" id="searchNEdit` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="manageClass` + itr + `" class="checklabel">Manage Class List
+                        <label for="manageClass` + itr + `" class="checklabel" style="padding-left:30px">Manage Class List
                             <input type="checkbox" id="manageClass` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="schoolDiary` + itr + `" class="checklabel">School Diary
+                        <label for="schoolDiary` + itr + `" class="checklabel" style="padding-left:30px">School Diary
                             <input type="checkbox" id="schoolDiary` + itr + `">
                             <span class="checkmark"></span>
                         </label>
@@ -122,28 +122,28 @@ function makeRoleEditView(roleArray) {
 
                    <div class="row" style="padding:2%">
                         <div class="col-md-3">
-                        <label for="generateReceipt` + itr + `" class="checklabel">Generate Receipt
+                        <label for="generateReceipt` + itr + `" class="checklabel" style="padding-left:30px">Generate Receipt
                             <input type="checkbox" id="generateReceipt` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="feesReport` + itr + `" class="checklabel">View Fees Reports
+                        <label for="feesReport` + itr + `" class="checklabel" style="padding-left:30px">View Fees Reports
                             <input type="checkbox" id="feesReport` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="studentAttendence` + itr + `" class="checklabel">Enter Student Attendence
+                        <label for="studentAttendence` + itr + `" class="checklabel" style="padding-left:30px">Enter Student Attendence
                             <input type="checkbox" id="studentAttendence` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="studentReport` + itr + `" class="checklabel">Student Report
+                        <label for="studentReport` + itr + `" class="checklabel" style="padding-left:30px">Student Report
                             <input type="checkbox" id="studentReport` + itr + `">
                             <span class="checkmark"></span>
                         </label>
