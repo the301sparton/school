@@ -106,7 +106,7 @@ function makeViewForFeeHeads() {
                 editing: true,
                 sorting: false,
                 paging: true,
-                pageSize: 5,
+                pageSize: 8,
                 data: feeData,
                 fields: fieldsArr,
 
