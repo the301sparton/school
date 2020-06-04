@@ -27,42 +27,42 @@ function manageFeesHeads() {
 
     document.getElementById('adminActionHolder').innerHTML = manageFeesHeadsHTML;
     loadAllSessionsForFeeHeads();
-    
+
 }
 
 
 function loadAllSessionsForFeeHeads() {
     document.getElementById("new_loader").style.display = "block";
     var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
-      type: "getAllSessions",
-      uid: me_data.uid
+        type: "getAllSessions",
+        uid: me_data.uid
     });
-  
+
     allSessionReq.done(function (allSessions) {
-      try {
-        allSessions = JSON.parse(allSessions);
-        for (var index in allSessions) {
-  
-          $('#sessionSelect')
-            .append($('<option>', { value: allSessions[index].sessionName })
-              .text(allSessions[index].sessionName
-              ));
+        try {
+            allSessions = JSON.parse(allSessions);
+            for (var index in allSessions) {
+
+                $('#sessionSelect')
+                    .append($('<option>', { value: allSessions[index].sessionName })
+                        .text(allSessions[index].sessionName
+                        ));
+            }
+
+            document.getElementById("sessionSelect").value = currentSession;
+            makeViewForFeeHeads();
         }
-  
-        document.getElementById("sessionSelect").value = currentSession;
-        makeViewForFeeHeads();
-      }
-      catch (e) {
-        showNotification("Error", "Failed to get data", "danger");
-      }
-      document.getElementById("new_loader").style.display = "none";
+        catch (e) {
+            showNotification("Error", "Failed to get data", "danger");
+        }
+        document.getElementById("new_loader").style.display = "none";
     });
-  
+
     allSessionReq.fail(function (jqXHR, textStatus) {
-      document.getElementById("new_loader").style.display = "none";
-      handleNetworkIssues(textStatus)
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
     });
-  }
+}
 
 function makeViewForFeeHeads() {
     document.getElementById("new_loader").style.display = "block";
@@ -80,19 +80,19 @@ function makeViewForFeeHeads() {
             for (itr in feeData[0]) {
                 if (itr != "headId") {
                     if (itr.length > 10) {
-                        if ( itr == "sessionName") {
-                            fieldsArr[i] = { name: itr, type: "text", width: 120, editing: false };
+                        if (itr == "sessionName") {
+                            fieldsArr[i] = { name: itr, type: "text", width: 120, editing: false, filtering: false };
                         }
-                        else{
-                        fieldsArr[i] = { name: itr, type: "number", width: 160 };
+                        else {
+                            fieldsArr[i] = { name: itr, type: "number", width: 160, filtering: false };
                         }
                     }
                     else {
                         if (itr == "headName") {
-                            fieldsArr[i] = { name: itr, type: "text", width: 120, editing: false };
+                            fieldsArr[i] = { name: itr, type: "text", width: 160, editing: false, filtering: true  };
                         }
                         else {
-                            fieldsArr[i] = { name: itr, type: "number", width: 120 };
+                            fieldsArr[i] = { name: itr, type: "number", width: 120, filtering: false  };
                         }
                     }
                     i++;
@@ -102,13 +102,32 @@ function makeViewForFeeHeads() {
 
             $("#jsGrid").jsGrid({
                 width: "100%",
-                inserting: false,
+                filtering: true,
                 editing: true,
-                sorting: false,
+                sorting: true,
                 paging: true,
+                autoload: true,
                 pageSize: 8,
-                data: feeData,
                 fields: fieldsArr,
+                controller: {
+                    loadData: function (filter) {
+                        var toReturn = $.Deferred();
+                        let data = JSON.parse(responce);
+                        var result = [];
+                        if (filter.headName !== "") {
+                            data.forEach(function (element) {
+                                if (element.headName.indexOf(filter.headName) > -1) {
+                                    result.push(element);
+                                }
+                            }, this);
+                            data = result;
+                        }
+                        else result = data;
+
+                        toReturn.resolve(result);
+                        return toReturn.promise();
+                    },
+                },
 
                 onItemUpdating: function (args) {
                     // cancel update of the item with empty 'name' field
@@ -143,8 +162,8 @@ function makeViewForFeeHeads() {
 function updateFeeHeadDetails(FeeHeadItem) {
     document.getElementById("new_loader").style.display = "block";
     headList = new Array();
-    for(itr in FeeHeadItem){
-        if(itr != "sessionName"){
+    for (itr in FeeHeadItem) {
+        if (itr != "sessionName") {
             headList.push(itr);
         }
     }
