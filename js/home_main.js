@@ -390,16 +390,24 @@ function feesOptionView() {
             </div> 
             `;
     } else {
-    FeesOptionHTML +=`<div class="container" id="adminHTML" style="padding:5%">
+    FeesOptionHTML +=`<div class="container" id="feesHTML" style="padding:5%">
     <div class="text-center">
     <div class="row" style="margin-top:3%;margin-bottom:3%">
-    <div class="col backgroundDefiner" id="studentActionHolder" style="background: var(--btnColor3); border-radius:10px; padding-top:2%">
+    <div class="col backgroundDefiner" id="feesActionHolder" style="background: var(--btnColor3); border-radius:10px; padding-top:2%">
         <h5 id="StudentSelectionHeading">Select one of above operations</h5>
     </div>                  
     </div>
 
     </div>`;
     }
+
+    FeesOptionHTML += ` <div class="row" style="margin-top:3%;margin-bottom:3%">
+  <div class="col backgroundDefiner" id="feesActionHolder" style="background:var(--btnColor3); border-radius:10px; padding-top:2%">
+      <h5 id="StudentSelectionHeading">Select one of above operations</h5>
+  </div>                  
+  </div>
+  </div>  
+  <div>`;
     document.getElementById(currentUprMenu).className = "";
     document.getElementById("fees").className = "active";
     document.getElementById("section_main").innerHTML = FeesOptionHTML;
