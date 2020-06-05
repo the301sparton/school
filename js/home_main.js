@@ -57,6 +57,7 @@ $(document).ready(function() {
                                     temp += " & ";
                                 }
                                 temp += currentRole.userType;
+                                console.log(currentRole)
                                 setPermissions(currentRole);
                             }
                             temp += " powers.";
@@ -99,6 +100,7 @@ function setMyImage(myImgBase) {
 }
 
 function setPermissions(currentRole) {
+    console.log(currentRole);
     if (currentRole.registerStudent == 1) {
         canRegisterStudent = 1;
     } else if (canRegisterStudent == null) {
@@ -166,7 +168,7 @@ function setPermissions(currentRole) {
 
     if (currentRole.schoolDairy == 1) {
         canSchoolDiary = 1;
-    } else if (canNewAccadamicYear == null) {
+    } else if (canSchoolDiary == null) {
         canSchoolDiary = 0;
     }
 }
@@ -387,14 +389,17 @@ function feesOptionView() {
                 <div class="col-rmd-4 button button2" id="feesReport" onclick="feesReport()">Fees Report</div>
             </div> 
             `;
-    } else {}
-    FeesOptionHTML += `<div class="row" style="margin-top:3%;margin-bottom:3%">
-                    <div class="col backgroundDefiner" id="feesActionHolder" style="background: var(--btnColor3); border-radius:10px; padding:2%">
-                        <h5 id="StudentSelectionHeading">Select one of above operations</h5>
-                    </div>                  
-                    </div>
-                    </div>  
-                    <div>`;
+    } else {
+    FeesOptionHTML +=`<div class="container" id="adminHTML" style="padding:5%">
+    <div class="text-center">
+    <div class="row" style="margin-top:3%;margin-bottom:3%">
+    <div class="col backgroundDefiner" id="studentActionHolder" style="background: var(--btnColor3); border-radius:10px; padding-top:2%">
+        <h5 id="StudentSelectionHeading">Select one of above operations</h5>
+    </div>                  
+    </div>
+
+    </div>`;
+    }
     document.getElementById(currentUprMenu).className = "";
     document.getElementById("fees").className = "active";
     document.getElementById("section_main").innerHTML = FeesOptionHTML;
@@ -442,8 +447,14 @@ function adminTasksView() {
 
 
 
-    if (canManageFeesHeads == 0 && canNewAccadamicYear == 0) {
-        AdminOptionHTML += ``;
+    if (canManageFeesHeads == 1 && canNewAccadamicYear == 1) {
+        AdminOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
+        <div class="col-rmd-5 button button3" id="manageFeesHeads" onclick="manageFeesHeads()">Manage Fees Heads</div>
+        <div class="col-rmd-2">
+            
+        </div>
+        <div class="col-rmd-5 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
+      </div>`;
     } else if (canManageFeesHeads == 1 && canNewAccadamicYear == 0) {
         AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow2">
         <div class="col-rmd-4">
@@ -460,13 +471,7 @@ function adminTasksView() {
         <div class="col-rmd-4 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
     </div>`;
     } else {
-        AdminOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
-        <div class="col-rmd-5 button button3" id="manageFeesHeads" onclick="manageFeesHeads()">Manage Fees Heads</div>
-        <div class="col-rmd-2">
-            
-        </div>
-        <div class="col-rmd-5 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
-      </div>`;
+        AdminOptionHTML += ``;
     }
 
 
