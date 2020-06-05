@@ -66,7 +66,7 @@ function createNotice(){
   <div class="container" style = "margin:2%">
     <div class="row">
       <div class="col-md-11"></div>
-      <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="triggerNewNoticeModal()"></i></div>
+      <div class="col-md-1"> <i class="iStyle fa fa-plus button button6" style="border-radius:50%;" onclick="triggerNewNoticeModal()"></i></div>
     </div>    
   </div>`;
 
@@ -106,7 +106,7 @@ function makeStudentDiaryGetCall() {
       else {
         for (itr in resArray) {
           resultView = `<div class="container">
-            <div class="container collapsible" style="padding:2%" id="item` + itr + `" data-toggle="collapse" data-target="#data` + itr + `">
+            <div class="container collapsible" id="item` + itr + `" data-toggle="collapse" data-target="#data` + itr + `">
             <div class = "row">
                 <div class="col-md-10" style="background:var(--btnColor1); text-align:left; font-size:large" id="noticeTitle` + itr + `"></div>
                 <div class="col-md-2" style="background:var(--btnColor1); text-align:right" id="noticeDate` + itr + `"></div>
@@ -411,7 +411,8 @@ function getMarkList(){
         }
         
         document.getElementById("myListHolder").innerHTML += `<div class = "row" style="margin-bottom:2%; padding:2%"> 
-      <div class="col-md-11"><Button class="btn btn-primary" style="position: relative; left:60%; `+CSSbtnPrimary+`" onclick="saveResultRecords()">SAVE</Button></div></div>`;
+        <div class="col-md-11"></div>
+        <div class="col-md-1"><Button class="btn btn-primary" style="`+CSSbtnPrimary+`" onclick="saveResultRecords()">SAVE</Button></div></div>`;
         }
           document.getElementById("new_loader").style.display = "none";
           for (itr in studList) {
