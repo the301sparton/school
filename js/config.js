@@ -1,10 +1,11 @@
-let verName = "1.6.0";
+let verName = "1.7.0";
 let baseUrl = "";
 let logOutUrl = "www.besgondia.org";
 let websiteTitle = "BES Gondia";
 let websiteDesc = "Best in class education for your children.";
 let TOSLink = "";
 let PPLink = "";
+
 let facebookLink = "";
 let twitterLink = "";
 let linkedinLink = "";

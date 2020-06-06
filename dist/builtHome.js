@@ -12,7 +12,7 @@ function manageClassList() {
     <div id="jsGrid" style = "display:none;" ></div>
     <div class="row" style="margin-top:2%">
     <div class="col-md-11"></div>
-    <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="showClassListDetailsDialog()"></i>
+    <div class="col-md-1"> <i class="iStyle fa fa-plus button button6" style="border-radius:50%;" onclick="showClassListDetailsDialog()"></i>
    
     </div>
     </div>
@@ -36,10 +36,12 @@ function getClassListToShow() {
         document.getElementById('jsGrid').style.display = "block";
         $("#jsGrid").jsGrid({
             width: "100%",
-            inserting: false,
-            editing: false,
-            sorting: false,
+            filtering: true,
+            editing: true,
+            sorting: true,
             paging: true,
+            autoload: true,
+            pageSize: 8,
             fields: [{ name: "schoolName", title: "School Name", type: "text", width: 120 },
             { name: "className", title: "Class Name", type: "text", width: 140 },
             { name: "section", title: "Section", type: "text", width: 120 },
@@ -48,7 +50,56 @@ function getClassListToShow() {
             rowClick: function (args) {
                 showClassListDetailsDialog(args.item, true);
             },
-            data: JSON.parse(responce)
+            controller: {
+                loadData: function (filter) {
+                    var toReturn = $.Deferred();
+                    let data = JSON.parse(responce)
+                    var result = [];
+                    if (filter.schoolName !== "") {
+                        data.forEach(function (element) {
+                            if (element.schoolName.indexOf(filter.schoolName) > -1) {
+                                result.push(element);
+                            }
+                        }, this);
+                        data = result;
+                    }
+                    else result = data;
+
+                    if (filter.className !== "") {
+                        result = [];
+                        data.forEach(function (element) {
+                            if (element.className.indexOf(filter.className) > -1)
+                                result.push(element);
+                        }, this);
+                        data = result;
+                    }
+                    else result = data;
+
+                    if (filter.section !== "") {
+                        result = [];
+                        data.forEach(function (element) {
+                            if (element.section.indexOf(filter.section) > -1)
+                                result.push(element);
+                        }, this);
+                        data = result;
+                    }
+                    else result = data;
+
+                    if (filter.displayName !== "") {
+                        result = [];
+                        data.forEach(function (element) {
+                            if (element.displayName.indexOf(filter.displayName) > -1)
+                                result.push(element);
+                        }, this);
+                        data = result;
+                    }
+                    else result = data;
+
+
+                    toReturn.resolve(result);
+                    return toReturn.promise();
+                },
+            }
         });
         document.getElementById("new_loader").style.display = "none";
     });
@@ -136,7 +187,7 @@ function setValuesInSchoolListSelect(viewId) {
                     text: schoolArray[index].schoolName,
                 }, '</option>'));
         }
-        document.getElementById("new_loader").style.display = "none";           
+        document.getElementById("new_loader").style.display = "none";
     });
 
     schoolreq.fail(function (jqXHR, textStatus) {
@@ -279,42 +330,42 @@ function createOrUpdateClass() {
 
     document.getElementById('adminActionHolder').innerHTML = manageFeesHeadsHTML;
     loadAllSessionsForFeeHeads();
-    
+
 }
 
 
 function loadAllSessionsForFeeHeads() {
     document.getElementById("new_loader").style.display = "block";
     var allSessionReq = $.post(baseUrl + "/apis/academicSession.php", {
-      type: "getAllSessions",
-      uid: me_data.uid
+        type: "getAllSessions",
+        uid: me_data.uid
     });
-  
+
     allSessionReq.done(function (allSessions) {
-      try {
-        allSessions = JSON.parse(allSessions);
-        for (var index in allSessions) {
-  
-          $('#sessionSelect')
-            .append($('<option>', { value: allSessions[index].sessionName })
-              .text(allSessions[index].sessionName
-              ));
+        try {
+            allSessions = JSON.parse(allSessions);
+            for (var index in allSessions) {
+
+                $('#sessionSelect')
+                    .append($('<option>', { value: allSessions[index].sessionName })
+                        .text(allSessions[index].sessionName
+                        ));
+            }
+
+            document.getElementById("sessionSelect").value = currentSession;
+            makeViewForFeeHeads();
         }
-  
-        document.getElementById("sessionSelect").value = currentSession;
-        makeViewForFeeHeads();
-      }
-      catch (e) {
-        showNotification("Error", "Failed to get data", "danger");
-      }
-      document.getElementById("new_loader").style.display = "none";
+        catch (e) {
+            showNotification("Error", "Failed to get data", "danger");
+        }
+        document.getElementById("new_loader").style.display = "none";
     });
-  
+
     allSessionReq.fail(function (jqXHR, textStatus) {
-      document.getElementById("new_loader").style.display = "none";
-      handleNetworkIssues(textStatus)
+        document.getElementById("new_loader").style.display = "none";
+        handleNetworkIssues(textStatus)
     });
-  }
+}
 
 function makeViewForFeeHeads() {
     document.getElementById("new_loader").style.display = "block";
@@ -332,19 +383,19 @@ function makeViewForFeeHeads() {
             for (itr in feeData[0]) {
                 if (itr != "headId") {
                     if (itr.length > 10) {
-                        if ( itr == "sessionName") {
-                            fieldsArr[i] = { name: itr, type: "text", width: 120, editing: false };
+                        if (itr == "sessionName") {
+                            fieldsArr[i] = { name: itr, type: "text", width: 120, editing: false, filtering: false };
                         }
-                        else{
-                        fieldsArr[i] = { name: itr, type: "number", width: 160 };
+                        else {
+                            fieldsArr[i] = { name: itr, type: "number", width: 160, filtering: false };
                         }
                     }
                     else {
                         if (itr == "headName") {
-                            fieldsArr[i] = { name: itr, type: "text", width: 120, editing: false };
+                            fieldsArr[i] = { name: itr, type: "text", width: 160, editing: false, filtering: true  };
                         }
                         else {
-                            fieldsArr[i] = { name: itr, type: "number", width: 120 };
+                            fieldsArr[i] = { name: itr, type: "number", width: 120, filtering: false  };
                         }
                     }
                     i++;
@@ -354,13 +405,32 @@ function makeViewForFeeHeads() {
 
             $("#jsGrid").jsGrid({
                 width: "100%",
-                inserting: false,
+                filtering: true,
                 editing: true,
-                sorting: false,
+                sorting: true,
                 paging: true,
-                pageSize: 5,
-                data: feeData,
+                autoload: true,
+                pageSize: 8,
                 fields: fieldsArr,
+                controller: {
+                    loadData: function (filter) {
+                        var toReturn = $.Deferred();
+                        let data = JSON.parse(responce);
+                        var result = [];
+                        if (filter.headName !== "") {
+                            data.forEach(function (element) {
+                                if (element.headName.indexOf(filter.headName) > -1) {
+                                    result.push(element);
+                                }
+                            }, this);
+                            data = result;
+                        }
+                        else result = data;
+
+                        toReturn.resolve(result);
+                        return toReturn.promise();
+                    },
+                },
 
                 onItemUpdating: function (args) {
                     // cancel update of the item with empty 'name' field
@@ -395,8 +465,8 @@ function makeViewForFeeHeads() {
 function updateFeeHeadDetails(FeeHeadItem) {
     document.getElementById("new_loader").style.display = "block";
     headList = new Array();
-    for(itr in FeeHeadItem){
-        if(itr != "sessionName"){
+    for (itr in FeeHeadItem) {
+        if (itr != "sessionName") {
             headList.push(itr);
         }
     }
@@ -439,7 +509,7 @@ function updateFeeHeadDetails(FeeHeadItem) {
     <div class="container" style = "margin:2%">
     <div class="row">
     <div class="col-md-11"></div>
-    <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="createUserGroupView()"></i>
+    <div class="col-md-1"> <i class="iStyle fa fa-plus button button6" style="border-radius:50%;" onclick="createUserGroupView()"></i>
    
     </div>
     </div>
@@ -489,28 +559,28 @@ function makeRoleEditView(roleArray) {
                    <hr>
                    <div class="row" style="padding:2%">
                         <div class="col-md-3">
-                        <label for="manageUsers` + itr + `" class="checklabel">Manage Users
+                        <label for="manageUsers` + itr + `" class="checklabel" style="padding-left:30px">Manage Users
                             <input type="checkbox" id="manageUsers` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="manageRoles` + itr + `" class="checklabel">Manage Role Groups
+                        <label for="manageRoles` + itr + `" class="checklabel" style="padding-left:30px">Manage Role Groups
                             <input type="checkbox" id="manageRoles` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="manageFeesHeads` + itr + `" class="checklabel">Manage Fees
-                            <input type="checkbox" id="manageFeesHeads` + itr + `">
+                        <label for="manageFeesHeads` + itr + `" class="checklabel" style="padding-left:30px">Manage Fees
+                            <input type="checkbox" id="manageFeesHeads` + itr + `" >
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="newAccadamicYear` + itr + `" class="checklabel">Start New Accadamic Year
+                        <label for="newAccadamicYear` + itr + `" class="checklabel" style="padding-left:30px">Start New Accadamic Year
                             <input type="checkbox" id="newAccadamicYear` + itr + `">
                             <span class="checkmark"></span>
                          </label>
@@ -519,28 +589,28 @@ function makeRoleEditView(roleArray) {
 
                    <div class="row" style="padding:2%">
                         <div class="col-md-3">
-                        <label for="registerStudent` + itr + `" class="checklabel">Register Student
+                        <label for="registerStudent` + itr + `" class="checklabel" style="padding-left:30px">Register Student
                             <input type="checkbox" id="registerStudent` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="searchNEdit` + itr + `" class="checklabel">Search and edit student data
+                        <label for="searchNEdit` + itr + `" class="checklabel" style="padding-left:30px">Search and edit student data
                             <input type="checkbox" id="searchNEdit` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="manageClass` + itr + `" class="checklabel">Manage Class List
+                        <label for="manageClass` + itr + `" class="checklabel" style="padding-left:30px">Manage Class List
                             <input type="checkbox" id="manageClass` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="schoolDiary` + itr + `" class="checklabel">School Diary
+                        <label for="schoolDiary` + itr + `" class="checklabel" style="padding-left:30px">School Diary
                             <input type="checkbox" id="schoolDiary` + itr + `">
                             <span class="checkmark"></span>
                         </label>
@@ -550,28 +620,28 @@ function makeRoleEditView(roleArray) {
 
                    <div class="row" style="padding:2%">
                         <div class="col-md-3">
-                        <label for="generateReceipt` + itr + `" class="checklabel">Generate Receipt
+                        <label for="generateReceipt` + itr + `" class="checklabel" style="padding-left:30px">Generate Receipt
                             <input type="checkbox" id="generateReceipt` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="feesReport` + itr + `" class="checklabel">View Fees Reports
+                        <label for="feesReport` + itr + `" class="checklabel" style="padding-left:30px">View Fees Reports
                             <input type="checkbox" id="feesReport` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="studentAttendence` + itr + `" class="checklabel">Enter Student Attendence
+                        <label for="studentAttendence` + itr + `" class="checklabel" style="padding-left:30px">Enter Student Attendence
                             <input type="checkbox" id="studentAttendence` + itr + `">
                             <span class="checkmark"></span>
                         </label>
                         </div>
 
                         <div class="col-md-3">
-                        <label for="studentReport` + itr + `" class="checklabel">Student Report
+                        <label for="studentReport` + itr + `" class="checklabel" style="padding-left:30px">Student Report
                             <input type="checkbox" id="studentReport` + itr + `">
                             <span class="checkmark"></span>
                         </label>
@@ -937,21 +1007,23 @@ function makeUserView(allUserArray) {
   if (allUserArray.length > 0) {
     for (var itr in allUserArray) {
       userItemHtml = `<div class="row collapsible" onclick="getUserDetails(this)">
-               <div class="col-rmd-1" style="background:var(--btnColor1)">
-                 <img style="width: 50px; height: 50px; border-radius: 50%" id="userImg`+ itr + `">
+               <div class="col-md-1" style="background:var(--btnColor1)">
+                 <img class="image" style="border-radius: 50%" id="userImg`+ itr + `">
                </div>
-               <div class="col-rmd-11" style="background:var(--btnColor1)">
-                 <div class="row" style="font-size: 18px">
+               <div class="col-md-11" style="background:var(--btnColor1)">
+               <div class="container" style="background:var(--btnColor1)" >
+                 <div class="row" style="font-size: 18px; background:var(--btnColor1)">
                    <div class="col-rmd-8" style="background:var(--btnColor1)" id="displayName`+ itr + `">
                    </div>
-                   <div class="col-rmd-4" style="background:var(--btnColor1)" style="text-align: right; padding-right:1%" id="mobileNumber`+ itr + `"> 
+                   <div class="col-rmd-4" style="background:var(--btnColor1); text-align: end; padding-right:1%" id="mobileNumber`+ itr + `"> 
                    </div>
                  </div>
-                 <div class="row" style="margin-top:1%">
+                 <div class="row" style="margin-top:1%; background:var(--btnColor1)">
                    <div class="col-rmd-10" style="background:var(--btnColor1)" id="emailId`+ itr + `">
                    </div>
                    <div style="display: none;" id="userId`+ itr + `"></div>
-                   <div class="col-md-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteUser(this)"></i></div>
+                   <div class="col-rmd-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer; background:var(--btnColor1)" onclick="deleteUser(this)"></i></div>
+                 </div>
                  </div>
                </div> 
             </div>`;
@@ -1014,7 +1086,8 @@ function deleteUser(deleteUserBtn) {
 function getUserDetails(usersView) {
 
   removeOtherUserViews(usersView);  //remove other users from view
-  let uidForThis = usersView.childNodes[3].childNodes[3].childNodes[3].innerText; //get userId from view
+  console.log(usersView.childNodes[3].childNodes[1].childNodes[3].childNodes[3].innerText);
+  let uidForThis = usersView.childNodes[3].childNodes[1].childNodes[3].childNodes[3].innerText; //get userId from view
 
   //get usertypes for selected user
   document.getElementById("new_loader").style.display = "block";
@@ -1024,6 +1097,7 @@ function getUserDetails(usersView) {
   });
 
   myRolesListReq.done(function (myRoleList) {
+    console.log(myRoleList);
     try {
       let myRoleListArray = JSON.parse(myRoleList);
       document.getElementById('userDetailsHolder').innerHTML = `<div class="text-center">
@@ -1035,8 +1109,8 @@ function getUserDetails(usersView) {
         for (var itr in myRoleListArray) {
           let roleItemHTML = `<div class="row collapsible" style="cursor:default">
             <div class="col" id="roleId`+ itr + `" style="display:none"></div>
-            <div class="col-md-10" style="background:var(--btnColor1)" id="roleName`+ itr + `"></div>
-            <div class="col-md-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
+            <div class="col-rmd-10" style="background:var(--btnColor1)" id="roleName`+ itr + `"></div>
+            <div class="col-rmd-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
             </div>`;
           document.getElementById('userDetailsHolder').innerHTML += roleItemHTML;
           document.getElementById('roleId' + itr).innerText = myRoleListArray[itr].id;
@@ -1045,7 +1119,7 @@ function getUserDetails(usersView) {
       }
       document.getElementById('userDetailsHolder').innerHTML += `<div class="row" style="margin-top:2%; margin-bottom:2%">
         <div class="col-md-11"></div>
-        <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="addUserGroup(this)"></i>
+        <div class="col-md-1"> <i class="iStyle fa fa-plus button button6" style="border-radius:50%;" onclick="addUserGroup(this)"></i>
         </div>
         </div>`;
     }
@@ -1062,7 +1136,8 @@ function getUserDetails(usersView) {
 }
 
 function addUserGroup(addBtnView) {
-  let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[3].childNodes[3].innerText;
+  console.log(document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[1].childNodes[3].childNodes[3].innerText)
+  let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[1].childNodes[3].childNodes[3].innerText
   document.getElementById("new_loader").style.display = "block";
   var getUserGroupsToAdd = $.post(baseUrl + "/apis/userGroup.php", {
     type: "getUserGroupsToAdd",
@@ -1103,7 +1178,7 @@ function addUserGroup(addBtnView) {
 }
 
 function addNewRoleConfirm() {
-  let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[3].childNodes[3].innerText;
+  let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[1].childNodes[3].childNodes[3].innerText
   let viewArray = document.getElementById("addRoleBody").childNodes;
   let userTypeArray = [];
   for (itr = 0; itr < viewArray.length; itr++) {
@@ -1240,12 +1315,13 @@ let imageDataChanged = false;
 
 function profileSettings() {
     $('#toggleNav').dropdown('toggle');
-    profileSettingsHTML = `<div class="backgroundDefiner container" id="profileSettingsHTML" style="background: var(--btnColor3); margin-top:3%; margin-bottom: 3%; width: 50%; border-radius: 15px; padding: 1%">
+    profileSettingsHTML = `<div class="container" id="profileSettingsHTML" style="background: var(--btnColor3); margin-top:3%; margin-bottom: 3%; border-radius: 15px; padding: 5%">
   <form id="profileUpdateForm">  
   <div class="row" style="margin-top:3%">
       <div class="col-rmd-2"></div>
       <div class="col-rmd-8" style="text-align: center">
         <h4>Profile Settings</h4>
+        <hr>
       </div>
     </div>
 
@@ -1272,7 +1348,7 @@ function profileSettings() {
     <div class="row" >
     <div class="col-rmd-2"></div>
     <div class="col-rmd-8">
-        <input type="text" class="form-control" id="up_displayName">
+        <input style="background-color: var(--colorPrimary);" type="text" class="form-control" id="up_displayName">
       </div>
     </div>
 
@@ -1285,7 +1361,7 @@ function profileSettings() {
     <div class="row" >
     <div class="col-rmd-2"></div>
     <div class="col-rmd-8">
-        <input type="text" class="form-control" id="up_mobileNumber" maxlength="10" pattern="[789][0-9]{9}" required>
+        <input style="background-color: var(--colorPrimary);" type="text" class="form-control" id="up_mobileNumber" maxlength="10" pattern="[789][0-9]{9}" required>
       </div>
     </div>
 
@@ -1298,7 +1374,7 @@ function profileSettings() {
     <div class="row" >
     <div class="col-rmd-2"></div>
     <div class="col-rmd-8">
-        <input type="email" class="form-control" id="up_emailId">
+        <input style="background-color: var(--colorPrimary);" type="email" class="form-control" id="up_emailId">
       </div>
     </div>
     <div class="row" style="margin-top:2%">
@@ -1427,7 +1503,7 @@ function feesReport() {
         </select>
       </div>
       <div class="col-md-1" id="filterImg">
-      <img src="../img/filter.png" style="width:25px; height:25px;cursor: pointer;" onclick="showFilters()"></img>
+      <img src="../img/filter.png" style="width:25px; height:25px;cursor: pointer; margin: 3%;" onclick="showFilters()"></img>
       </div>
 
 
@@ -2039,18 +2115,18 @@ function getFeesDetails(studentId, classId) {
     ReceiptClassId = classId;
     let feesDetailHTML = ` <div class="container backgroundDefiner" style="background:var(--btnColor3); border-radius: 15px; padding: 1%; margin-bottom: 2%">
     <div class="row">
-      <div class="col-md-5" style="text-align: start">
+      <div class="col-rmd-5" style="text-align: start">
        <h5 style="margin-bottom: 10px">Total Fees</h5> 
       </div>
-      <div class="col-md-2" style="text-align: center" onclick="showReceiptList()">
+      <div class="col-rmd-2" style="text-align: center" onclick="showReceiptList()">
        <h6 style="margin-bottom: 10px;" class="myLink">Show Receipt List</h6> 
       </div>
-      <div class="col-md-5" style="text-align: end">
+      <div class="col-rmd-5" style="text-align: end">
           <h5 style="margin-bottom: 10px">Fees Paid</h5> 
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6" style="text-align: start">
+      <div class="col-rmd-6" style="text-align: start">
         <strong>
           <h4 style="margin-bottom: 5px" id="totalFeesValue">
 
@@ -2059,7 +2135,7 @@ function getFeesDetails(studentId, classId) {
         </strong>
        
       </div>
-      <div class="col-md-6" style="text-align: end">
+      <div class="col-rmd-6" style="text-align: end">
           <h4 style="margin-bottom: 5px" id="feesPaidValue" >
                
           </h4>
@@ -2077,7 +2153,7 @@ function getFeesDetails(studentId, classId) {
 
     <div class="row" style="margin-top:2%;">
     <div class="col-md-11"></div>
-    <div class="col-md-1"> <i class="fa fa-plus button button6" style="border:1px solid; border-radius:50%; padding:20%" onclick="newReceiptView()"></i>
+    <div class="col-md-1"> <i class="iStyle fa fa-plus button button6" style="border:1px solid; border-radius:50%;" onclick="newReceiptView()"></i>
     </div>
    
     </div>
@@ -2268,11 +2344,11 @@ function showReceiptList() {
         try {
             let receiptListJSON = JSON.parse(receiptListData);
             for (itr in receiptListJSON) {
-                let receiptListHTML = `<div class="row button button3" style="margin:1%; background:var(--btnColor2)" onclick="viewReceiptFromList(this)">
-                <div class="col-rmd-5" style="background:var(--btnColor2)" id="receiptIdforList` + itr + `">
+                let receiptListHTML = `<div class="row button button3" style="margin:1%; margin-top:2%; padding:1%; background:var(--btnColor2)" onclick="viewReceiptFromList(this)">
+                <div class="col-md-5" style="background:var(--btnColor2)" id="receiptIdforList` + itr + `">
                 </div>
-                <div class="col-rmd-6" style="background:var(--btnColor2)" id="amountforList` + itr + `"></div>
-                <div class="col-rmd-1" style="background:var(--btnColor2)"><i class="fa fa-trash" style="background:var(--btnColor2)" onclick="deleteReceiptModal(event, this.parentNode.parentNode)"></i></div>    
+                <div class="col-md-6" style="background:var(--btnColor2)" id="amountforList` + itr + `"></div>
+                <div class="col-md-1" style="background:var(--btnColor2)"><i class="fa fa-trash" style="background:var(--btnColor2)" onclick="deleteReceiptModal(event, this.parentNode.parentNode)"></i></div>    
                 </div>`;
 
                 document.getElementById("receiptHolder").innerHTML += receiptListHTML;
@@ -3316,11 +3392,11 @@ function contactDetailBack() {
   </div>
   
   <div class="row" style = "text-align: center; padding: 1%">
-      <div class="col-rmd-2"></div>
-      <div class="col-rmd-3 button button2" style = "margin: auto; border-radius: 8px" onclick="createNotice()" id="createNotice">Create Notice</div>
-      <div class="col-rmd-2"></div>
-      <div class="col-rmd-3 button button3" style = "margin: auto; border-radius: 8px" onclick="enterMarks()" id="enterMarks">Enter Marks</div>
-      <div class="col-rmd-2"></div>
+      <div class="col-md-2"></div>
+      <div class="col-md-3 button button2" style = "margin: 1%; border-radius: 8px" onclick="createNotice()" id="createNotice">Create Notice</div>
+      <div class="col-md-2"></div>
+      <div class="col-md-3 button button3" style = "margin: 1%; border-radius: 8px" onclick="enterMarks()" id="enterMarks">Enter Marks</div>
+      <div class="col-md-2"></div>
   </div>
 
   <hr>
@@ -3373,7 +3449,7 @@ function createNotice(){
   <div class="container" style = "margin:2%">
     <div class="row">
       <div class="col-md-11"></div>
-      <div class="col-md-1"> <i class="fa fa-plus button button6" style="border-radius:50%; padding:20%" onclick="triggerNewNoticeModal()"></i></div>
+      <div class="col-md-1"> <i class="iStyle fa fa-plus button button6" style="border-radius:50%;" onclick="triggerNewNoticeModal()"></i></div>
     </div>    
   </div>`;
 
@@ -3413,7 +3489,7 @@ function makeStudentDiaryGetCall() {
       else {
         for (itr in resArray) {
           resultView = `<div class="container">
-            <div class="container collapsible" style="padding:2%" id="item` + itr + `" data-toggle="collapse" data-target="#data` + itr + `">
+            <div class="container collapsible" id="item` + itr + `" data-toggle="collapse" data-target="#data` + itr + `">
             <div class = "row">
                 <div class="col-md-10" style="background:var(--btnColor1); text-align:left; font-size:large" id="noticeTitle` + itr + `"></div>
                 <div class="col-md-2" style="background:var(--btnColor1); text-align:right" id="noticeDate` + itr + `"></div>
@@ -3717,7 +3793,8 @@ function getMarkList(){
         }
         
         document.getElementById("myListHolder").innerHTML += `<div class = "row" style="margin-bottom:2%; padding:2%"> 
-      <div class="col-md-11"><Button class="btn btn-primary" style="position: relative; left:60%; `+CSSbtnPrimary+`" onclick="saveResultRecords()">SAVE</Button></div></div>`;
+        <div class="col-md-11"></div>
+        <div class="col-md-1"><Button class="btn btn-primary" style="`+CSSbtnPrimary+`" onclick="saveResultRecords()">SAVE</Button></div></div>`;
         }
           document.getElementById("new_loader").style.display = "none";
           for (itr in studList) {
@@ -3983,10 +4060,11 @@ function createResultView(searchResult, searchStr) {
         resultView = `<div class="row collapsible" onclick="viewStudent(this)">
         <div style="display: none;" id="studID`+ itr + `"></div>
         <div style="display: none;" id="studClassId`+ itr + `"></div>
-           <div class="col-rmd-1" style="background:var(--btnColor1)">
-             <img style="width: 50px; height: 50px; border-radius: 50%" id="studentImg`+ itr + `">
+           <div class="col-md-1" style="background:var(--btnColor1)">
+             <img class="image" style="border-radius: 50%" id="studentImg`+ itr + `">
            </div>
-           <div class="col-rmd-11" style="background:var(--btnColor1)">
+           <div class="col-md-11" style="background:var(--btnColor1)">
+           <div class="container">
              <div class="row" style="font-size: 18px">
                <div class="col-rmd-8" id="studentName`+ itr + `" style="background:var(--btnColor1)">
                  
@@ -3996,9 +4074,10 @@ function createResultView(searchResult, searchStr) {
                </div>
              </div>
              <div class="row" style="background:var(--btnColor1)">
-               <div class="col-rmd-1" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `" ></div>
-               <div class="col-rmd-2" style="background:var(--btnColor1)" id="isDisabled`+ itr + `" ></div>
+               <div class="col-rmd-6" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `" ></div>
+               <div class="col-rmd-6" style="background:var(--btnColor1); text-align:end" id="isDisabled`+ itr + `" ></div>
               
+             </div>
              </div>
            </div> 
         </div>
@@ -4008,31 +4087,32 @@ function createResultView(searchResult, searchStr) {
       }
       else if(forReceipt && searchResult[itr].isDisabled == 0){
         resultView = `<div class="row collapsible" onclick="selectedStudent(this)">
-      <div style="display: none;" id="studID`+ itr + `"></div>
-      <div style="display: none;" id="studClassId`+ itr + `"></div>
-         <div class="col-rmd-1" style="background:var(--btnColor1)">
-           <img style="width: 50px; height: 50px; border-radius: 50%" id="studentImg`+ itr + `">
-         </div>
-         <div class="col-rmd-11" style="background:var(--btnColor1)">
-           <div class="row" style="font-size: 18px">
-             <div class="col-rmd-8" id="studentName`+ itr + `" style="background:var(--btnColor1)">
-               
-             </div>
-             <div class="col-rmd-4" style="background:var(--btnColor1);text-align: right; padding-right:1%" id="studentClassNSection`+ itr + `">
-              
-             </div>
+        <div style="display: none;" id="studID`+ itr + `"></div>
+        <div style="display: none;" id="studClassId`+ itr + `"></div>
+           <div class="col-md-1" style="background:var(--btnColor1)">
+             <img class="image" style="border-radius: 50%" id="studentImg`+ itr + `">
            </div>
-           <div class="row" style="background:var(--btnColor1)">
-             <div class="col-rmd-1" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `">
-             <div class="col-rmd-2" style="background:var(--btnColor1)" id="isDisabled`+ itr + `" >
+           <div class="col-md-11" style="background:var(--btnColor1)">
+           <div class="container">
+             <div class="row" style="font-size: 18px">
+               <div class="col-rmd-8" id="studentName`+ itr + `" style="background:var(--btnColor1)">
+                 
+               </div>
+               <div class="col-rmd-4" style="background:var(--btnColor1); text-align: right; padding-right:1%" id="studentClassNSection`+ itr + `">
+                
+               </div>
              </div>
+             <div class="row" style="background:var(--btnColor1)">
+             <div class="col-rmd-6" style="background:var(--btnColor1)" id="admissionNumber`+ itr + `" ></div>
+             <div class="col-rmd-6" style="background:var(--btnColor1); text-align:end" id="isDisabled`+ itr + `" ></div>
             
-           </div>
-         </div> 
-      </div>
-      <div class="row content" id="searchContent`+ itr + `">
-         
-      </div>`;
+             </div>
+             </div>
+           </div> 
+        </div>
+        <div class="row content" id="searchContent`+ itr + `">
+           
+        </div>`;
       }
       else{
         continue;
@@ -4375,38 +4455,45 @@ function showAttendenceReport(){
 function generateTC(){
     setActiveColorsStudentReport("generateTC");
 };
-function showSchoolReport(){
+function showSchoolReport() {
     setActiveColorsStudentReport("showSchoolReport");
     document.getElementById("new_loader").style.display = "block";
     document.getElementById("studentReportHolder").innerHTML = `
-    <div class="row">
-        <div class="col-md-12">
-            <canvas id="myChart" height="350px" width="550px"></canvas>
-        </div>
-    </div>`;
+            <canvas id="myChart" width="100%"></canvas>
+            <div class="row" style = "padding:3%">
+                <div id="jsGrid" style = "display:none; margin-top:2%" ></div>
+            </div>
+   `;
 
     var ctx = document.getElementById('myChart').getContext('2d');
 
-    let schoolStudentCountReq = $.post(baseUrl + "/apis/studentReports.php",{
+    let schoolStudentCountReq = $.post(baseUrl + "/apis/studentReports.php", {
         type: "getSchoolStudentCOunt",
         uid: me_data.uid
     });
 
-    schoolStudentCountReq.done(function(responseReport) {
-           var reportJSON = JSON.parse(responseReport);
-           var schoolNames = new Array();
-           var studentCounts = new Array();
-           for(itr in reportJSON){
-                schoolNames.push(reportJSON[itr].schoolName);
-                studentCounts.push(reportJSON[itr].studentCount);
-           }
-           
-           var myChart = new Chart(ctx, {
-            type: 'bar',            
+    schoolStudentCountReq.done(function (responseReport) {
+        var reportJSON = JSON.parse(responseReport);
+        var schoolNames = new Array();
+        var studentCounts = new Array();
+        var jsgridVal = new Array();
+        var i = 0;
+        for (itr in reportJSON) {
+            schoolNames.push(reportJSON[itr].schoolName);
+            studentCounts.push(reportJSON[itr].studentCount);
+            var obj = new Object();
+            obj.schoolName = reportJSON[itr].schoolName;
+            obj.studentCount = reportJSON[itr].studentCount;
+            jsgridVal.push(obj);
+            i++;
+        }
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
             data: {
                 labels: schoolNames,
-                datasets: [{   
-                    label: "Student Count By School",                 
+                datasets: [{
+                    label: "Student Count By School",
                     barPercentage: 0.5,
                     barThickness: 20,
                     maxBarThickness: 20,
@@ -4415,14 +4502,26 @@ function showSchoolReport(){
                 }]
             }
         });
+
+        $("#jsGrid").jsGrid({
+            width: "100%",
+            inserting: false,
+            editing: false,
+            sorting: false,
+            paging: true,
+            fields: [{ title: "School Name", type: "text", width: 120, name: "schoolName" },
+            { title: "Student Count", type: "number", width: 120 , name: "studentCount"}],
+            data: jsgridVal
+        });
+        document.getElementById("jsGrid").style.display = "block";
         document.getElementById("new_loader").style.display = "none";
     });
 
-    schoolStudentCountReq.fail(function(jqXHR, textStatus) {
+    schoolStudentCountReq.fail(function (jqXHR, textStatus) {
         document.getElementById("new_loader").style.display = "none";
         handleNetworkIssues(textStatus)
     });
-           
+
 };function studentReport(){
     currentStudentOption = "studentReport";
     setActiveColorsStudent("studentReport");
@@ -4433,11 +4532,11 @@ function showSchoolReport(){
     </div>
     
     <div class="row" style = "text-align: center; padding: 1%">
-        <div class="col-rmd-3 button button1" style = "margin: auto; border-radius: 8px" onclick="showSchoolReport()" id="showSchoolReport">School Report</div>
-        <div class="col-rmd-1"></div>
-        <div class="col-rmd-3 button button2" style = "margin: auto; border-radius: 8px" onclick="showAttendenceReport()" id="showAttendenceReport">Attendence Report</div>
-        <div class="col-rmd-1"></div>
-        <div class="col-rmd-3 button button3" style = "margin: auto; border-radius: 8px" onclick="generateTC()" id="generateTC">Generate TC</div>
+        <div class="col-md-3 button button1" style = "margin: 1%; border-radius: 8px" onclick="showSchoolReport()" id="showSchoolReport">School Report</div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3 button button2" style = "margin: 1%; border-radius: 8px" onclick="showAttendenceReport()" id="showAttendenceReport">Attendence Report</div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3 button button3" style = "margin: 1%; border-radius: 8px" onclick="generateTC()" id="generateTC">Generate TC</div>
     </div>
 
     <hr>
@@ -4583,6 +4682,7 @@ $(document).ready(function() {
                                     temp += " & ";
                                 }
                                 temp += currentRole.userType;
+                                console.log(currentRole)
                                 setPermissions(currentRole);
                             }
                             temp += " powers.";
@@ -4625,6 +4725,7 @@ function setMyImage(myImgBase) {
 }
 
 function setPermissions(currentRole) {
+    console.log(currentRole);
     if (currentRole.registerStudent == 1) {
         canRegisterStudent = 1;
     } else if (canRegisterStudent == null) {
@@ -4692,7 +4793,7 @@ function setPermissions(currentRole) {
 
     if (currentRole.schoolDairy == 1) {
         canSchoolDiary = 1;
-    } else if (canNewAccadamicYear == null) {
+    } else if (canSchoolDiary == null) {
         canSchoolDiary = 0;
     }
 }
@@ -4796,7 +4897,7 @@ function getlimitAdminTasks() {
 function studentOptionsView() {
     var StudentOptionHTML = ``;
     if (canRegisterStudent == 1 && canSearchNEdit == 1) {
-        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
+        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               <div class="col-rmd-5 button button1" id="registerStudent" onclick="registerStudent()">Register Student</div>
@@ -4806,7 +4907,7 @@ function studentOptionsView() {
               <div class="col-rmd-5 button button2" id="searchNEdit" onclick="searchNEdit()">Search & Edit</div>
           </div>`;
     } else if (canRegisterStudent == 1 && canSearchNEdit == 0) {
-        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
+        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               
@@ -4817,7 +4918,7 @@ function studentOptionsView() {
               </div> 
           `;
     } else if (canRegisterStudent == 0 && canSearchNEdit == 1) {
-        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
+        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               
@@ -4828,7 +4929,7 @@ function studentOptionsView() {
           </div> 
           `;
     } else {
-        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding-top:5%">
+        StudentOptionHTML += `<div class="container" id="studentHTML" style="padding:5%">
     <div class="text-center">`;
     }
     if (canStudentAttendence == 0 && canStudentReport == 0) {
@@ -4838,7 +4939,7 @@ function studentOptionsView() {
         <div class="col-rmd-4">
               
         </div>
-          <div class="col-rmd-4 button button3" id="studentAttendence" onclick="studentAttendence()">Student Attendence</div>             
+          <div class="col-rmd-4 button button3" id="studentAttendence" onclick="studentAttendence()">Attendence</div>             
       </div>`;
     } else if (canStudentAttendence == 0 && canStudentReport == 1) {
         StudentOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow1">
@@ -4846,15 +4947,15 @@ function studentOptionsView() {
         <div class="col-rmd-4">
             
         </div>
-        <div class="col-rmd-4 button button4" id="studentReport" onclick="studentReport()">Student Report</div>
+        <div class="col-rmd-4 button button4" id="studentReport" onclick="studentReport()">Student Reports</div>
     </div>`;
     } else if (canStudentAttendence == 1 && canStudentReport == 1) {
         StudentOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
-        <div class="col-rmd-5 button button3" id="studentAttendence" onclick="studentAttendence()">Student Attendence</div>
+        <div class="col-rmd-5 button button3" id="studentAttendence" onclick="studentAttendence()">Attendence</div>
         <div class="col-rmd-2">
             
         </div>
-        <div class="col-rmd-5 button button4" id="studentReport" onclick="studentReport()">Student Report</div>
+        <div class="col-rmd-5 button button4" id="studentReport" onclick="studentReport()">Student Reports</div>
       </div>`;
     }
 
@@ -4882,7 +4983,7 @@ function studentOptionsView() {
 function feesOptionView() {
     FeesOptionHTML = ``;
     if (canGenerateReceipt == 1 && canFeesReport == 1) {
-        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding-top:5%">
+        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding:5%">
           <div class="text-center">
             <div class="row" id="studentOptionsRow1"style="margin-top:3%">
                 <div class="col-rmd-5 button button1" id="generateReceipt" onclick="generateReceipt()">Generate Receipt</div>
@@ -4892,7 +4993,7 @@ function feesOptionView() {
                 <div class="col-rmd-5 button button2" id="feesReport" onclick="feesReport()">Fees Report</div>
             </div>`;
     } else if (canGenerateReceipt == 1 && canFeesReport == 0) {
-        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding-top:5%">
+        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding:5%">
           <div class="text-center">
             <div class="row" id="studentOptionsRow1"style="margin-top:3%">
                 
@@ -4903,7 +5004,7 @@ function feesOptionView() {
                 </div> 
             `;
     } else if (canGenerateReceipt == 0 && canFeesReport == 1) {
-        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding-top:5%">
+        FeesOptionHTML += `<div class="container" id="feesHTML" style="padding:5%">
           <div class="text-center">
             <div class="row" id="studentOptionsRow1"style="margin-top:3%">
                 
@@ -4913,14 +5014,25 @@ function feesOptionView() {
                 <div class="col-rmd-4 button button2" id="feesReport" onclick="feesReport()">Fees Report</div>
             </div> 
             `;
-    } else {}
-    FeesOptionHTML += `<div class="row" style="margin-top:3%;margin-bottom:3%">
-                    <div class="col backgroundDefiner" id="feesActionHolder" style="background: var(--btnColor3); border-radius:10px; padding-top:2%">
-                        <h5 id="StudentSelectionHeading">Select one of above operations</h5>
-                    </div>                  
-                    </div>
-                    </div>  
-                    <div>`;
+    } else {
+    FeesOptionHTML +=`<div class="container" id="feesHTML" style="padding:5%">
+    <div class="text-center">
+    <div class="row" style="margin-top:3%;margin-bottom:3%">
+    <div class="col backgroundDefiner" id="feesActionHolder" style="background: var(--btnColor3); border-radius:10px; padding-top:2%">
+        <h5 id="StudentSelectionHeading">Select one of above operations</h5>
+    </div>                  
+    </div>
+
+    </div>`;
+    }
+
+    FeesOptionHTML += ` <div class="row" style="margin-top:3%;margin-bottom:3%">
+  <div class="col backgroundDefiner" id="feesActionHolder" style="background:var(--btnColor3); border-radius:10px; padding-top:2%">
+      <h5 id="StudentSelectionHeading">Select one of above operations</h5>
+  </div>                  
+  </div>
+  </div>  
+  <div>`;
     document.getElementById(currentUprMenu).className = "";
     document.getElementById("fees").className = "active";
     document.getElementById("section_main").innerHTML = FeesOptionHTML;
@@ -4930,7 +5042,7 @@ function adminTasksView() {
 
     var AdminOptionHTML = ``;
     if (canManageUsers == 1 && canManageRoles == 1) {
-        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               <div class="col-rmd-5 button button1" id="manageUsers" onclick="manageUsers()">Manage Users</div>
@@ -4940,7 +5052,7 @@ function adminTasksView() {
               <div class="col-rmd-5 button button2" id="manageRoles" onclick="manageRoles()">Manage User Groups</div>
           </div>`;
     } else if (canManageUsers == 1 && canManageRoles == 0) {
-        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               
@@ -4951,7 +5063,7 @@ function adminTasksView() {
               </div> 
           `;
     } else if (canManageUsers == 0 && canManageRoles == 1) {
-        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding:5%">
         <div class="text-center">
           <div class="row" id="studentOptionsRow1"style="margin-top:3%">
               
@@ -4962,14 +5074,20 @@ function adminTasksView() {
           </div> 
           `;
     } else {
-        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding-top:5%">
+        AdminOptionHTML += `<div class="container" id="adminHTML" style="padding:5%">
     <div class="text-center">`;
     }
 
 
 
-    if (canManageFeesHeads == 0 && canNewAccadamicYear == 0) {
-        AdminOptionHTML += ``;
+    if (canManageFeesHeads == 1 && canNewAccadamicYear == 1) {
+        AdminOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
+        <div class="col-rmd-5 button button3" id="manageFeesHeads" onclick="manageFeesHeads()">Manage Fees Heads</div>
+        <div class="col-rmd-2">
+            
+        </div>
+        <div class="col-rmd-5 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
+      </div>`;
     } else if (canManageFeesHeads == 1 && canNewAccadamicYear == 0) {
         AdminOptionHTML += `<div class="row" style="margin-top:3%" id="studentOptionsRow2">
         <div class="col-rmd-4">
@@ -4986,13 +5104,7 @@ function adminTasksView() {
         <div class="col-rmd-4 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
     </div>`;
     } else {
-        AdminOptionHTML += `<div class="row" style="margin-top:3%;" id="studentOptionsRow1">
-        <div class="col-rmd-5 button button3" id="manageFeesHeads" onclick="manageFeesHeads()">Manage Fees Heads</div>
-        <div class="col-rmd-2">
-            
-        </div>
-        <div class="col-rmd-5 button button4" id="newAccadamicYear" onclick="newAccadamicYear()">Start New Accedamic Year</div>
-      </div>`;
+        AdminOptionHTML += ``;
     }
 
 
