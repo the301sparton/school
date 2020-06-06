@@ -14,12 +14,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 die("Connection failed: " . $conn->connect_error);
             }
             else{
+                //get secret for user from DB
                 $secret = getSecretForToken($jwt,$conn);
+
+                //try decoding the TOKEN
                 $decoded = JWT::decode($jwt, $secret,array('HS256'));
                 $decoded_array = (array) $decoded;
 
                 $studentId = $decoded_array["studentId"];
                 $sessionName = $decoded_array["sessionName"];
+
+                //Escape the values for preventing injection
                 $studentId = $conn->real_escape_string($studentId);
                 $sessionName = $conn->real_escape_string($sessionName);
 

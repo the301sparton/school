@@ -8,11 +8,11 @@ function studentReport(){
     </div>
     
     <div class="row" style = "text-align: center; padding: 1%">
-        <div class="col-rmd-3 button button1" style = "margin: auto; border-radius: 8px" onclick="showSchoolReport()" id="showSchoolReport">School Report</div>
-        <div class="col-rmd-1"></div>
-        <div class="col-rmd-3 button button2" style = "margin: auto; border-radius: 8px" onclick="showAttendenceReport()" id="showAttendenceReport">Attendence Report</div>
-        <div class="col-rmd-1"></div>
-        <div class="col-rmd-3 button button3" style = "margin: auto; border-radius: 8px" onclick="generateTC()" id="generateTC">Generate TC</div>
+        <div class="col-md-3 button button1" style = "margin: 1%; border-radius: 8px" onclick="showSchoolReport()" id="showSchoolReport">School Report</div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3 button button2" style = "margin: 1%; border-radius: 8px" onclick="showAttendenceReport()" id="showAttendenceReport">Attendence Report</div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3 button button3" style = "margin: 1%; border-radius: 8px" onclick="generateTC()" id="generateTC">Generate TC</div>
     </div>
 
     <hr>

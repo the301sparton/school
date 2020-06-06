@@ -94,7 +94,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } 
         }
         } catch (Exception $e) {
-            echo "Session Expired";
             header('HTTP/1.0 401 Unauthorized');
         }
     } else {

@@ -14,18 +14,18 @@ function getFeesDetails(studentId, classId) {
     ReceiptClassId = classId;
     let feesDetailHTML = ` <div class="container backgroundDefiner" style="background:var(--btnColor3); border-radius: 15px; padding: 1%; margin-bottom: 2%">
     <div class="row">
-      <div class="col-md-5" style="text-align: start">
+      <div class="col-rmd-5" style="text-align: start">
        <h5 style="margin-bottom: 10px">Total Fees</h5> 
       </div>
-      <div class="col-md-2" style="text-align: center" onclick="showReceiptList()">
+      <div class="col-rmd-2" style="text-align: center" onclick="showReceiptList()">
        <h6 style="margin-bottom: 10px;" class="myLink">Show Receipt List</h6> 
       </div>
-      <div class="col-md-5" style="text-align: end">
+      <div class="col-rmd-5" style="text-align: end">
           <h5 style="margin-bottom: 10px">Fees Paid</h5> 
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6" style="text-align: start">
+      <div class="col-rmd-6" style="text-align: start">
         <strong>
           <h4 style="margin-bottom: 5px" id="totalFeesValue">
 
@@ -34,7 +34,7 @@ function getFeesDetails(studentId, classId) {
         </strong>
        
       </div>
-      <div class="col-md-6" style="text-align: end">
+      <div class="col-rmd-6" style="text-align: end">
           <h4 style="margin-bottom: 5px" id="feesPaidValue" >
                
           </h4>
@@ -52,7 +52,7 @@ function getFeesDetails(studentId, classId) {
 
     <div class="row" style="margin-top:2%;">
     <div class="col-md-11"></div>
-    <div class="col-md-1"> <i class="fa fa-plus button button6" style="border:1px solid; border-radius:50%; padding:20%" onclick="newReceiptView()"></i>
+    <div class="col-md-1"> <i class="iStyle fa fa-plus button button6" style="border:1px solid; border-radius:50%;" onclick="newReceiptView()"></i>
     </div>
    
     </div>
@@ -243,11 +243,11 @@ function showReceiptList() {
         try {
             let receiptListJSON = JSON.parse(receiptListData);
             for (itr in receiptListJSON) {
-                let receiptListHTML = `<div class="row button button3" style="margin:1%; background:var(--btnColor2)" onclick="viewReceiptFromList(this)">
-                <div class="col-rmd-5" style="background:var(--btnColor2)" id="receiptIdforList` + itr + `">
+                let receiptListHTML = `<div class="row button button3" style="margin:1%; margin-top:2%; padding:1%; background:var(--btnColor2)" onclick="viewReceiptFromList(this)">
+                <div class="col-md-5" style="background:var(--btnColor2)" id="receiptIdforList` + itr + `">
                 </div>
-                <div class="col-rmd-6" style="background:var(--btnColor2)" id="amountforList` + itr + `"></div>
-                <div class="col-rmd-1" style="background:var(--btnColor2)"><i class="fa fa-trash" style="background:var(--btnColor2)" onclick="deleteReceiptModal(event, this.parentNode.parentNode)"></i></div>    
+                <div class="col-md-6" style="background:var(--btnColor2)" id="amountforList` + itr + `"></div>
+                <div class="col-md-1" style="background:var(--btnColor2)"><i class="fa fa-trash" style="background:var(--btnColor2)" onclick="deleteReceiptModal(event, this.parentNode.parentNode)"></i></div>    
                 </div>`;
 
                 document.getElementById("receiptHolder").innerHTML += receiptListHTML;

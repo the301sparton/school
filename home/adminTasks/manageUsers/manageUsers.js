@@ -113,21 +113,23 @@ function makeUserView(allUserArray) {
   if (allUserArray.length > 0) {
     for (var itr in allUserArray) {
       userItemHtml = `<div class="row collapsible" onclick="getUserDetails(this)">
-               <div class="col-rmd-1" style="background:var(--btnColor1)">
-                 <img style="width: 50px; height: 50px; border-radius: 50%" id="userImg`+ itr + `">
+               <div class="col-md-1" style="background:var(--btnColor1)">
+                 <img class="image" style="border-radius: 50%" id="userImg`+ itr + `">
                </div>
-               <div class="col-rmd-11" style="background:var(--btnColor1)">
-                 <div class="row" style="font-size: 18px">
+               <div class="col-md-11" style="background:var(--btnColor1)">
+               <div class="container" style="background:var(--btnColor1)" >
+                 <div class="row" style="font-size: 18px; background:var(--btnColor1)">
                    <div class="col-rmd-8" style="background:var(--btnColor1)" id="displayName`+ itr + `">
                    </div>
-                   <div class="col-rmd-4" style="background:var(--btnColor1)" style="text-align: right; padding-right:1%" id="mobileNumber`+ itr + `"> 
+                   <div class="col-rmd-4" style="background:var(--btnColor1); text-align: end; padding-right:1%" id="mobileNumber`+ itr + `"> 
                    </div>
                  </div>
-                 <div class="row" style="margin-top:1%">
+                 <div class="row" style="margin-top:1%; background:var(--btnColor1)">
                    <div class="col-rmd-10" style="background:var(--btnColor1)" id="emailId`+ itr + `">
                    </div>
                    <div style="display: none;" id="userId`+ itr + `"></div>
-                   <div class="col-md-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteUser(this)"></i></div>
+                   <div class="col-rmd-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer; background:var(--btnColor1)" onclick="deleteUser(this)"></i></div>
+                 </div>
                  </div>
                </div> 
             </div>`;
@@ -190,7 +192,8 @@ function deleteUser(deleteUserBtn) {
 function getUserDetails(usersView) {
 
   removeOtherUserViews(usersView);  //remove other users from view
-  let uidForThis = usersView.childNodes[3].childNodes[3].childNodes[3].innerText; //get userId from view
+  console.log(usersView.childNodes[3].childNodes[1].childNodes[3].childNodes[3].innerText);
+  let uidForThis = usersView.childNodes[3].childNodes[1].childNodes[3].childNodes[3].innerText; //get userId from view
 
   //get usertypes for selected user
   document.getElementById("new_loader").style.display = "block";
@@ -200,6 +203,7 @@ function getUserDetails(usersView) {
   });
 
   myRolesListReq.done(function (myRoleList) {
+    console.log(myRoleList);
     try {
       let myRoleListArray = JSON.parse(myRoleList);
       document.getElementById('userDetailsHolder').innerHTML = `<div class="text-center">
@@ -211,8 +215,8 @@ function getUserDetails(usersView) {
         for (var itr in myRoleListArray) {
           let roleItemHTML = `<div class="row collapsible" style="cursor:default">
             <div class="col" id="roleId`+ itr + `" style="display:none"></div>
-            <div class="col-md-10" style="background:var(--btnColor1)" id="roleName`+ itr + `"></div>
-            <div class="col-md-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
+            <div class="col-rmd-10" style="background:var(--btnColor1)" id="roleName`+ itr + `"></div>
+            <div class="col-rmd-2" style="background:var(--btnColor1)"><i class="fa fa-trash" style="float:right; cursor:pointer" onclick="deleteRoleItem(this)"></i></div>
             </div>`;
           document.getElementById('userDetailsHolder').innerHTML += roleItemHTML;
           document.getElementById('roleId' + itr).innerText = myRoleListArray[itr].id;
@@ -221,7 +225,7 @@ function getUserDetails(usersView) {
       }
       document.getElementById('userDetailsHolder').innerHTML += `<div class="row" style="margin-top:2%; margin-bottom:2%">
         <div class="col-md-11"></div>
-        <div class="col-md-1"> <i class="fa fa-plus button button5" style="border-radius:50%; padding:20%" onclick="addUserGroup(this)"></i>
+        <div class="col-md-1"> <i class="iStyle fa fa-plus button button6" style="border-radius:50%;" onclick="addUserGroup(this)"></i>
         </div>
         </div>`;
     }
@@ -238,7 +242,8 @@ function getUserDetails(usersView) {
 }
 
 function addUserGroup(addBtnView) {
-  let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[3].childNodes[3].innerText;
+  console.log(document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[1].childNodes[3].childNodes[3].innerText)
+  let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[1].childNodes[3].childNodes[3].innerText
   document.getElementById("new_loader").style.display = "block";
   var getUserGroupsToAdd = $.post(baseUrl + "/apis/userGroup.php", {
     type: "getUserGroupsToAdd",
@@ -279,7 +284,7 @@ function addUserGroup(addBtnView) {
 }
 
 function addNewRoleConfirm() {
-  let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[3].childNodes[3].innerText;
+  let uid = document.getElementById('allUserHolder').childNodes[0].childNodes[3].childNodes[1].childNodes[3].childNodes[3].innerText
   let viewArray = document.getElementById("addRoleBody").childNodes;
   let userTypeArray = [];
   for (itr = 0; itr < viewArray.length; itr++) {
